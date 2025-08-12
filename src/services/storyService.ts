@@ -3,10 +3,13 @@ import {
   Story, 
   Chapter, 
   Message, 
+  Category,
   CreateStoryRequest, 
   UpdateStoryRequest, 
   CreateChapterRequest, 
   UpdateChapterRequest,
+  CreateCategoryRequest,
+  UpdateCategoryRequest,
   CreateMessageRequest 
 } from '../types/story';
 
@@ -85,6 +88,34 @@ export const storyService = {
   // Delete a chapter (requires authentication)
   async deleteChapter(id: string): Promise<{ message: string }> {
     return apiRequest(`/api/chapters/${id}`, {
+      method: 'DELETE',
+    });
+  },
+
+  // Get all categories
+  async getCategories(): Promise<{ categories: Category[]; count: number }> {
+    return apiRequest('/api/categories');
+  },
+
+  // Create a new category (requires authentication)
+  async createCategory(categoryData: CreateCategoryRequest): Promise<{ message: string; category: Category }> {
+    return apiRequest('/api/categories', {
+      method: 'POST',
+      body: JSON.stringify(categoryData),
+    });
+  },
+
+  // Update a category (requires authentication)
+  async updateCategory(id: string, categoryData: UpdateCategoryRequest): Promise<{ message: string; category: Category }> {
+    return apiRequest(`/api/categories/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(categoryData),
+    });
+  },
+
+  // Delete a category (requires authentication)
+  async deleteCategory(id: string): Promise<{ message: string }> {
+    return apiRequest(`/api/categories/${id}`, {
       method: 'DELETE',
     });
   },

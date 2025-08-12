@@ -5,16 +5,17 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '../../contexts/AuthContext';
 import { storyService } from '../../services/storyService';
-import { Story, Chapter } from '../../types/story';
+import { Story, Chapter, Category } from '../../types/story';
 
 export default function AdminDashboard() {
   const { user, isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
   const [stories, setStories] = useState<Story[]>([]);
   const [chapters, setChapters] = useState<Chapter[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
-  const [deleteConfirm, setDeleteConfirm] = useState<{ type: 'story' | 'chapter'; id: string; title: string } | null>(null);
+  const [deleteConfirm, setDeleteConfirm] = useState<{ type: 'story' | 'chapter' | 'category'; id: string; title: string } | null>(null);
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -31,13 +32,15 @@ export default function AdminDashboard() {
   const loadDashboardData = async () => {
     try {
       setIsLoadingData(true);
-      const [storiesResponse, chaptersResponse] = await Promise.all([
+      const [storiesResponse, chaptersResponse, categoriesResponse] = await Promise.all([
         storyService.getStories(),
-        storyService.getAllChapters()
+        storyService.getAllChapters(),
+        storyService.getCategories()
       ]);
       
       setStories(storiesResponse.stories);
       setChapters(chaptersResponse.chapters);
+      setCategories(categoriesResponse.categories);
     } catch (err) {
       console.error('Failed to load dashboard data:', err);
     } finally {
@@ -53,6 +56,10 @@ export default function AdminDashboard() {
     setDeleteConfirm({ type: 'chapter', id: chapterId, title: chapterTitle });
   };
 
+  const handleDeleteCategory = async (categoryId: string, categoryName: string) => {
+    setDeleteConfirm({ type: 'category', id: categoryId, title: categoryName });
+  };
+
   const confirmDelete = async () => {
     if (!deleteConfirm) return;
 
@@ -61,8 +68,13 @@ export default function AdminDashboard() {
       
       if (deleteConfirm.type === 'story') {
         await storyService.deleteStory(deleteConfirm.id);
-      } else {
+        alert('Đã xóa truyện và tất cả chương liên quan thành công!');
+      } else if (deleteConfirm.type === 'chapter') {
         await storyService.deleteChapter(deleteConfirm.id);
+        alert('Đã xóa chương thành công!');
+      } else if (deleteConfirm.type === 'category') {
+        await storyService.deleteCategory(deleteConfirm.id);
+        alert('Đã xóa thể loại thành công!');
       }
       
       // Reload data after deletion
@@ -70,7 +82,8 @@ export default function AdminDashboard() {
       setDeleteConfirm(null);
     } catch (err) {
       console.error('Failed to delete:', err);
-      alert('Có lỗi xảy ra khi xóa');
+      const errorMessage = err instanceof Error ? err.message : 'Có lỗi xảy ra khi xóa';
+      alert(`Lỗi: ${errorMessage}`);
     } finally {
       setIsDeleting(null);
     }
@@ -78,6 +91,13 @@ export default function AdminDashboard() {
 
   const cancelDelete = () => {
     setDeleteConfirm(null);
+  };
+
+  const getCategoryNames = (categoryIds: string[]) => {
+    return categoryIds.map(id => {
+      const category = categories.find(c => c._id === id);
+      return category ? category.name : id;
+    }).join(', ');
   };
 
   if (isLoading || !isAuthenticated) {
@@ -122,7 +142,7 @@ export default function AdminDashboard() {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
           <div className="bg-white rounded-lg shadow p-6">
             <div className="text-sm font-medium text-gray-500">Tổng Số Truyện</div>
             <div className="text-3xl font-bold text-gray-900">{stories.length}</div>
@@ -142,6 +162,10 @@ export default function AdminDashboard() {
           <div className="bg-white rounded-lg shadow p-6">
             <div className="text-sm font-medium text-gray-500">Tổng Số Chương</div>
             <div className="text-3xl font-bold text-blue-600">{chapters.length}</div>
+          </div>
+          <div className="bg-white rounded-lg shadow p-6">
+            <div className="text-sm font-medium text-gray-500">Thể Loại</div>
+            <div className="text-3xl font-bold text-purple-600">{categories.length}</div>
           </div>
         </div>
 
@@ -192,6 +216,9 @@ export default function AdminDashboard() {
                       Tiêu Đề
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Thể Loại
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Trạng Thái
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -216,6 +243,29 @@ export default function AdminDashboard() {
                             }
                           </div>
                         )}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex flex-wrap gap-1">
+                          {story.category.map((catId, index) => {
+                            const category = categories.find(c => c._id === catId);
+                            return category ? (
+                              <span
+                                key={catId}
+                                className="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
+                                style={{ 
+                                  backgroundColor: `${category.color}20`, 
+                                  color: category.color 
+                                }}
+                              >
+                                {category.name}
+                              </span>
+                            ) : (
+                              <span key={catId} className="text-xs text-gray-500">
+                                {catId}
+                              </span>
+                            );
+                          })}
+                        </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
@@ -245,6 +295,78 @@ export default function AdminDashboard() {
                             title="Xóa truyện"
                           >
                             {isDeleting === story._id ? 'Đang xóa...' : '🗑️ Xóa'}
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+        </div>
+
+        {/* Categories Table */}
+        <div className="bg-white rounded-lg shadow mb-8">
+          <div className="px-6 py-4 border-b border-gray-200">
+            <h2 className="text-lg font-medium text-gray-900">Thể Loại</h2>
+          </div>
+          <div className="overflow-x-auto">
+            {categories.length === 0 ? (
+              <div className="p-6 text-center text-gray-500">
+                Chưa có thể loại nào. Hãy tạo thể loại đầu tiên!
+              </div>
+            ) : (
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Tên
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Mô Tả
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Màu Sắc
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Ngày Tạo
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Thao Tác
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {categories.map((category) => (
+                    <tr key={category._id}>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm font-medium text-gray-900">{category.name}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {category.description || 'Không có mô tả'}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center space-x-2">
+                          <div
+                            className="w-6 h-6 rounded border border-gray-300"
+                            style={{ backgroundColor: category.color }}
+                          ></div>
+                          <span className="text-sm text-gray-600">{category.color}</span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {new Date(category.createdAt).toLocaleDateString('vi-VN')}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <div className="flex space-x-2">
+                          <button
+                            onClick={() => handleDeleteCategory(category._id, category.name)}
+                            className="text-red-600 hover:text-red-900 hover:bg-red-50 px-2 py-1 rounded transition-colors duration-200"
+                            disabled={isDeleting === category._id}
+                            title="Xóa thể loại"
+                          >
+                            {isDeleting === category._id ? 'Đang xóa...' : '🗑️ Xóa'}
                           </button>
                         </div>
                       </td>
@@ -298,8 +420,8 @@ export default function AdminDashboard() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {typeof chapter.storyId === 'string' 
-                          ? chapter.storyId 
-                          : chapter.storyId.title
+                          ? 'Truyện đã bị xóa'
+                          : chapter.storyId?.title || 'Truyện đã bị xóa'
                         }
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">

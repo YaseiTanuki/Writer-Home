@@ -7,6 +7,7 @@ import { useAuth } from '../../../contexts/AuthContext';
 import { storyService } from '../../../services/storyService';
 import { CreateStoryRequest } from '../../../types/story';
 import TiptapEditor from '../../../component/TiptapEditor';
+import CategorySelector from '../../../component/CategorySelector';
 
 export default function NewStoryPage() {
   const { user, isAuthenticated, isLoading } = useAuth();
@@ -17,7 +18,7 @@ export default function NewStoryPage() {
   const [formData, setFormData] = useState<CreateStoryRequest>({
     title: '',
     description: '',
-    category: '',
+    category: [],
     coverImage: '',
     status: 'draft'
   });
@@ -45,18 +46,13 @@ export default function NewStoryPage() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    if (name === 'category') {
-      // Store category as raw string, will process on submit
-      setFormData(prev => ({ ...prev, [name]: value }));
-    } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
-    }
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.title || !formData.description || !formData.category || !formData.coverImage || !storyContent.trim()) {
+    if (!formData.title || !formData.description || formData.category.length === 0 || !formData.coverImage || !storyContent.trim()) {
       setError('Vui lòng điền đầy đủ thông tin bắt buộc');
       return;
     }
@@ -65,17 +61,9 @@ export default function NewStoryPage() {
       setIsSubmitting(true);
       setError('');
       
-      // Process category string into array
-      const categories = formData.category.split(',').map(c => c.trim()).filter(c => c);
-      if (categories.length === 0) {
-        setError('Vui lòng nhập ít nhất một thể loại');
-        return;
-      }
-      
       // Combine form data with story content
       const storyData = {
         ...formData,
-        category: categories,
         content: storyContent
       };
       
@@ -159,25 +147,11 @@ export default function NewStoryPage() {
               />
             </div>
 
-            {/* Category */}
-            <div>
-              <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-2">
-                Thể loại * (phân cách bằng dấu phẩy)
-              </label>
-              <input
-                type="text"
-                id="category"
-                name="category"
-                value={formData.category || ''}
-                onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black"
-                placeholder="Ví dụ: Hành động, Phiêu lưu, Tình cảm"
-                required
-              />
-              <p className="mt-1 text-sm text-gray-500">
-                Nhập các thể loại, phân cách bằng dấu phẩy
-              </p>
-            </div>
+            {/* Category Selector */}
+            <CategorySelector
+              selectedCategories={formData.category}
+              onChange={(categories: string[]) => setFormData(prev => ({ ...prev, category: categories }))}
+            />
 
             {/* Cover Image */}
             <div>
@@ -219,7 +193,7 @@ export default function NewStoryPage() {
             {/* Story Content with TipTap Editor */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Nội dung truyện * (Chương đầu tiên)
+                Nội dung truyện *
               </label>
               <TiptapEditor
                 content={storyContent}
@@ -228,8 +202,7 @@ export default function NewStoryPage() {
                 className="w-full"
               />
               <p className="mt-1 text-sm text-gray-500">
-                Sử dụng thanh công cụ để định dạng văn bản, thêm liên kết, và tùy chỉnh giao diện. 
-                <span className="font-medium text-blue-600"> Chương đầu tiên sẽ được tạo tự động với nội dung này.</span>
+                Sử dụng thanh công cụ để định dạng văn bản, thêm liên kết, và tùy chỉnh giao diện
               </p>
             </div>
 

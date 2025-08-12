@@ -20,6 +20,15 @@ export interface Chapter {
   updatedAt: string;
 }
 
+export interface Category {
+  _id: string;
+  name: string;
+  description?: string;
+  color?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface Message {
   _id: string;
   name: string;
@@ -31,7 +40,6 @@ export interface Message {
 export interface CreateStoryRequest {
   title: string;
   description: string;
-  content: string;
   category: string[];
   coverImage: string;
   status?: 'draft' | 'public';
@@ -57,6 +65,18 @@ export interface UpdateChapterRequest {
   title?: string;
   content?: string;
   chapterNumber?: number;
+}
+
+export interface CreateCategoryRequest {
+  name: string;
+  description?: string;
+  color?: string;
+}
+
+export interface UpdateCategoryRequest {
+  name?: string;
+  description?: string;
+  color?: string;
 }
 
 export interface CreateMessageRequest {

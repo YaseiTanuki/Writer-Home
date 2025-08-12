@@ -6,16 +6,17 @@ import Link from 'next/link';
 import { useAuth } from '../../../../../contexts/AuthContext';
 import { storyService } from '../../../../../services/storyService';
 import { Story, UpdateStoryRequest } from '../../../../../types/story';
+import TiptapEditor from '../../../../../component/TiptapEditor';
+import CategorySelector from '../../../../../component/CategorySelector';
 
 interface EditStoryFormData {
   title: string;
   description: string;
   content: string;
-  category: string;
+  category: string[];
   coverImage: string;
   status: 'draft' | 'public';
 }
-import TiptapEditor from '../../../../../component/TiptapEditor';
 
 export default function EditStoryPage() {
   const { user, isAuthenticated, isLoading } = useAuth();
@@ -32,7 +33,7 @@ export default function EditStoryPage() {
     title: '',
     description: '',
     content: '',
-    category: '',
+    category: [],
     coverImage: '',
     status: 'draft'
   });
@@ -58,7 +59,7 @@ export default function EditStoryPage() {
         title: response.story.title,
         description: response.story.description,
         content: response.story.content || '',
-        category: response.story.category.join(', '),
+        category: response.story.category,
         coverImage: response.story.coverImage,
         status: response.story.status
       });
@@ -100,18 +101,13 @@ export default function EditStoryPage() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    if (name === 'category') {
-      // Store category as raw string, will process on submit
-      setFormData(prev => ({ ...prev, [name]: value }));
-    } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
-    }
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.title || !formData.description || !formData.category || !formData.coverImage || !formData.content?.trim()) {
+    if (!formData.title || !formData.description || formData.category.length === 0 || !formData.coverImage || !formData.content?.trim()) {
       setError('Vui lòng điền đầy đủ thông tin bắt buộc');
       return;
     }
@@ -120,17 +116,9 @@ export default function EditStoryPage() {
       setIsSubmitting(true);
       setError('');
       
-      // Process category string into array
-      const categories = formData.category.split(',').map(c => c.trim()).filter(c => c);
-      if (categories.length === 0) {
-        setError('Vui lòng nhập ít nhất một thể loại');
-        return;
-      }
-      
       // Convert form data to UpdateStoryRequest format
       const updateData: UpdateStoryRequest = {
-        ...formData,
-        category: categories
+        ...formData
       };
       
       await storyService.updateStory(storyId, updateData);
@@ -217,25 +205,11 @@ export default function EditStoryPage() {
               />
             </div>
 
-            {/* Category */}
-            <div>
-              <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-2">
-                Thể loại * (phân cách bằng dấu phẩy)
-              </label>
-              <input
-                type="text"
-                id="category"
-                name="category"
-                value={formData.category || ''}
-                onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black"
-                placeholder="Ví dụ: Hành động, Phiêu lưu, Tình cảm"
-                required
-              />
-              <p className="mt-1 text-sm text-gray-500">
-                Nhập các thể loại, phân cách bằng dấu phẩy
-              </p>
-            </div>
+            {/* Category Selector */}
+            <CategorySelector
+              selectedCategories={formData.category}
+              onChange={(categories: string[]) => setFormData(prev => ({ ...prev, category: categories }))}
+            />
 
             {/* Cover Image */}
             <div>
