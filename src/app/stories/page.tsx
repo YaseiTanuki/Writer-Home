@@ -100,23 +100,33 @@ export default function StoriesPage() {
       <Navigation />
       
       {/* Main Content */}
-      <div className="pt-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="pt-16 max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-6 sm:py-8">
         {/* Page Title */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 text-center sm:text-left">
-            📚 Thư Viện Truyện
-          </h1>
-          <p className="mt-2 text-gray-600 text-center sm:text-left">
-            Khám phá những câu chuyện thú vị từ các tác giả tài năng
-          </p>
+        <div className="mb-6 sm:mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="text-center sm:text-left">
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+                📚 Thư Viện Truyện
+              </h1>
+              <p className="text-sm sm:text-base text-gray-600">
+                Khám phá những câu chuyện thú vị từ các tác giả tài năng
+              </p>
+            </div>
+            <Link
+              href="/"
+              className="inline-flex items-center justify-center px-4 sm:px-6 py-2 sm:py-3 border border-transparent text-sm sm:text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
+            >
+              🏠 Trang Chủ
+            </Link>
+          </div>
         </div>
 
         {/* Filters */}
-        <div className="bg-white rounded-lg shadow p-4 sm:p-6 mb-8">
-          <h2 className="text-lg font-medium text-gray-900 mb-4">🔍 Bộ Lọc</h2>
+        <div className="bg-white rounded-lg shadow p-3 sm:p-4 lg:p-6 mb-6 sm:mb-8">
+          <h2 className="text-base sm:text-lg font-medium text-gray-900 mb-3 sm:mb-4">🔍 Bộ Lọc</h2>
           
           {/* Search */}
-          <div className="mb-4">
+          <div className="mb-3 sm:mb-4">
             <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-2">
               Tìm kiếm
             </label>
@@ -126,12 +136,12 @@ export default function StoriesPage() {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Tìm kiếm theo tên truyện hoặc mô tả..."
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
             />
           </div>
 
           {/* Categories Filter */}
-          <div className="mb-4">
+          <div className="mb-3 sm:mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Thể loại
             </label>
@@ -140,7 +150,7 @@ export default function StoriesPage() {
                 <button
                   key={category._id}
                   onClick={() => handleCategoryToggle(category._id)}
-                  className={`px-3 py-1 rounded-full text-sm font-medium transition-colors duration-200 ${
+                  className={`px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium transition-colors duration-200 ${
                     selectedCategories.includes(category._id)
                       ? 'bg-blue-600 text-white'
                       : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -167,8 +177,8 @@ export default function StoriesPage() {
         </div>
 
         {/* Results Count */}
-        <div className="mb-6">
-          <p className="text-gray-600 text-center sm:text-left">
+        <div className="mb-4 sm:mb-6">
+          <p className="text-sm sm:text-base text-gray-600 text-center sm:text-left">
             Tìm thấy <span className="font-semibold text-blue-600">{filteredStories.length}</span> truyện
             {selectedCategories.length > 0 && (
               <span> trong thể loại đã chọn</span>
@@ -178,13 +188,13 @@ export default function StoriesPage() {
 
         {/* Stories Grid */}
         {filteredStories.length === 0 ? (
-          <div className="text-center py-12">
-            <div className="text-gray-500 text-lg">
+          <div className="text-center py-8 sm:py-12">
+            <div className="text-gray-500 text-base sm:text-lg">
               {stories.length === 0 ? 'Chưa có truyện nào được xuất bản.' : 'Không tìm thấy truyện phù hợp với bộ lọc.'}
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
             {filteredStories.map((story) => (
               <Link
                 key={story._id}
@@ -197,33 +207,33 @@ export default function StoriesPage() {
                     <img
                       src={story.coverImage}
                       alt={story.title}
-                      className="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-200"
+                      className="w-full h-32 sm:h-40 lg:h-48 xl:h-56 object-cover group-hover:scale-105 transition-transform duration-200"
                     />
                   ) : (
-                    <div className="w-full h-48 sm:h-56 bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
-                      <span className="text-white text-2xl sm:text-3xl font-medium">📚</span>
+                    <div className="w-full h-32 sm:h-40 lg:h-48 xl:h-56 bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
+                      <span className="text-white text-xl sm:text-2xl lg:text-3xl font-medium">📚</span>
                     </div>
                   )}
                 </div>
 
                 {/* Story Info */}
-                <div className="p-3 sm:p-4">
-                  <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors duration-200">
+                <div className="p-2 sm:p-3 lg:p-4">
+                  <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors duration-200 leading-tight">
                     {story.title}
                   </h3>
                   
-                  <p className="text-gray-600 text-xs sm:text-sm mb-3 line-clamp-3">
+                  <p className="text-gray-600 text-xs sm:text-sm mb-2 sm:mb-3 line-clamp-3 leading-relaxed">
                     {story.description}
                   </p>
 
                   {/* Categories */}
-                  <div className="flex flex-wrap gap-1 mb-3">
+                  <div className="flex flex-wrap gap-1 mb-2 sm:mb-3">
                     {story.category.slice(0, 2).map((catId) => {
                       const category = categories.find(c => c._id === catId);
                       return category ? (
                         <span
                           key={catId}
-                          className="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
+                          className="inline-flex px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-semibold rounded-full"
                           style={{ 
                             backgroundColor: `${category.color}20`, 
                             color: category.color 
@@ -241,8 +251,8 @@ export default function StoriesPage() {
                   </div>
 
                   {/* Status Badge */}
-                  <div className="flex justify-between items-center">
-                    <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-0">
+                    <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 w-fit">
                       ✅ Đã xuất bản
                     </span>
                     <span className="text-xs text-gray-500">

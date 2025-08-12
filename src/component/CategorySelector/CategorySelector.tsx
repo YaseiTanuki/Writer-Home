@@ -99,134 +99,138 @@ export default function CategorySelector({
         
         {/* Selected Categories Display */}
         {selectedCategories.length > 0 && (
-          <div className="mb-3 flex flex-wrap gap-2">
-            {selectedCategories.map(categoryId => (
-              <span
-                key={categoryId}
-                className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800"
-              >
-                {getCategoryName(categoryId)}
-                <button
-                  type="button"
-                  onClick={() => handleCategoryToggle(categoryId)}
-                  className="ml-2 inline-flex items-center justify-center w-4 h-4 rounded-full text-blue-400 hover:bg-blue-200 hover:text-blue-500 focus:outline-none"
-                >
-                  ×
-                </button>
-              </span>
-            ))}
+          <div className="mb-3 p-2 sm:p-3 bg-blue-50 border border-blue-200 rounded-md">
+            <div className="text-xs sm:text-sm text-blue-700 mb-2">Thể loại đã chọn:</div>
+            <div className="flex flex-wrap gap-1 sm:gap-2">
+              {selectedCategories.map((catId) => {
+                const category = categories.find(c => c._id === catId);
+                return category ? (
+                  <span
+                    key={catId}
+                    className="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800"
+                  >
+                    {category.name}
+                    <button
+                      type="button"
+                      onClick={() => handleCategoryToggle(catId)}
+                      className="ml-1 text-blue-600 hover:text-blue-800"
+                    >
+                      ×
+                    </button>
+                  </span>
+                ) : null;
+              })}
+            </div>
           </div>
         )}
 
-        {/* Category Selection */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-3">
-          {categories.map(category => (
-            <label
-              key={category._id}
-              className={`flex items-center p-2 border rounded-lg cursor-pointer transition-colors ${
-                selectedCategories.includes(category._id)
-                  ? 'border-blue-500 bg-blue-50'
-                  : 'border-gray-300 hover:border-gray-400'
-              }`}
-            >
-              <input
-                type="checkbox"
-                checked={selectedCategories.includes(category._id)}
-                onChange={() => handleCategoryToggle(category._id)}
-                className="mr-2 text-blue-600 focus:ring-blue-500"
-              />
-              <span className="text-sm">{category.name}</span>
-            </label>
-          ))}
-        </div>
-
-        {/* Create New Category Button */}
-        <button
-          type="button"
-          onClick={() => setShowCreateForm(!showCreateForm)}
-          className="text-blue-600 hover:text-blue-700 text-sm font-medium"
-        >
-          {showCreateForm ? 'Hủy tạo mới' : '+ Tạo thể loại mới'}
-        </button>
-      </div>
-
-      {/* Create Category Form */}
-      {showCreateForm && (
-        <div className="border border-gray-300 rounded-lg p-4 bg-gray-50 mb-4">
-          <h4 className="text-sm font-medium text-gray-700 mb-3">Tạo thể loại mới</h4>
-          
-          {error && (
-            <div className="mb-3 p-2 bg-red-100 text-red-700 text-sm rounded">
-              {error}
-            </div>
-          )}
-
-          <div className="space-y-3">
-            <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">
-                Tên thể loại *
-              </label>
-              <input
-                type="text"
-                value={newCategory.name}
-                onChange={(e) => setNewCategory(prev => ({ ...prev, name: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Nhập tên thể loại"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">
-                Mô tả (tùy chọn)
-              </label>
-              <input
-                type="text"
-                value={newCategory.description}
-                onChange={(e) => setNewCategory(prev => ({ ...prev, description: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Mô tả ngắn về thể loại"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">
-                Màu sắc
-              </label>
-              <input
-                type="color"
-                value={newCategory.color}
-                onChange={(e) => setNewCategory(prev => ({ ...prev, color: e.target.value }))}
-                className="w-full h-10 border border-gray-300 rounded-md cursor-pointer"
-              />
-            </div>
-
-            <div className="flex gap-2">
+        {/* Available Categories */}
+        <div className="mb-3">
+          <div className="text-xs sm:text-sm text-gray-600 mb-2">Chọn từ danh sách có sẵn:</div>
+          <div className="flex flex-wrap gap-1.5 sm:gap-2">
+            {categories.map((category) => (
               <button
+                key={category._id}
                 type="button"
-                onClick={handleCreateCategory}
-                disabled={isCreating}
-                className="px-4 py-2 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                onClick={() => handleCategoryToggle(category._id)}
+                className={`px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium transition-colors duration-200 ${
+                  selectedCategories.includes(category._id)
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                }`}
+                style={{
+                  border: selectedCategories.includes(category._id) ? 'none' : `2px solid ${category.color}`
+                }}
               >
-                {isCreating ? 'Đang tạo...' : 'Tạo thể loại'}
+                {category.name}
               </button>
-              <button
-                type="button"
-                onClick={() => setShowCreateForm(false)}
-                className="px-4 py-2 bg-gray-300 text-gray-700 text-sm rounded-md hover:bg-gray-400"
-              >
-                Hủy
-              </button>
-            </div>
+            ))}
           </div>
         </div>
-      )}
 
-      {selectedCategories.length === 0 && (
-        <p className="text-sm text-gray-500">
-          Chưa có thể loại nào được chọn
-        </p>
-      )}
+        {/* Create New Category */}
+        <div className="border-t border-gray-200 pt-3">
+          <button
+            type="button"
+            onClick={() => setShowCreateForm(!showCreateForm)}
+            className="text-sm text-blue-600 hover:text-blue-800 font-medium"
+          >
+            {showCreateForm ? '✕ Hủy' : '+ Tạo thể loại mới'}
+          </button>
+          
+          {showCreateForm && (
+            <div className="mt-3 p-3 sm:p-4 bg-gray-50 rounded-md">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">
+                    Tên thể loại *
+                  </label>
+                  <input
+                    type="text"
+                    value={newCategory.name}
+                    onChange={(e) => setNewCategory(prev => ({ ...prev, name: e.target.value }))}
+                    className="w-full px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-300 rounded-md text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Nhập tên thể loại..."
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">
+                    Màu sắc
+                  </label>
+                  <input
+                    type="color"
+                    value={newCategory.color}
+                    onChange={(e) => setNewCategory(prev => ({ ...prev, color: e.target.value }))}
+                    className="w-full h-8 sm:h-10 border border-gray-300 rounded-md cursor-pointer"
+                  />
+                </div>
+              </div>
+              
+              <div className="mt-3">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">
+                  Mô tả
+                </label>
+                <textarea
+                  value={newCategory.description}
+                  onChange={(e) => setNewCategory(prev => ({ ...prev, description: e.target.value }))}
+                  rows={2}
+                  className="w-full px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-300 rounded-md text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Mô tả ngắn gọn về thể loại..."
+                />
+              </div>
+              
+              {error && (
+                <div className="mt-2 text-xs sm:text-sm text-red-600">
+                  {error}
+                </div>
+              )}
+              
+              <div className="mt-3 flex flex-col sm:flex-row gap-2 sm:gap-3">
+                <button
+                  type="button"
+                  onClick={handleCreateCategory}
+                  disabled={isCreating || !newCategory.name.trim()}
+                  className="flex-1 sm:flex-none bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-colors duration-200 disabled:cursor-not-allowed"
+                >
+                  {isCreating ? 'Đang tạo...' : '✨ Tạo Thể Loại'}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowCreateForm(false);
+                    setNewCategory({ name: '', description: '', color: '#3B82F6' });
+                    setError('');
+                  }}
+                  className="flex-1 sm:flex-none bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 sm:px-4 py-1.5 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-colors duration-200"
+                >
+                  Hủy
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
