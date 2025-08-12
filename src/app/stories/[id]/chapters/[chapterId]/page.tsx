@@ -135,6 +135,12 @@ export default function ChapterReaderPage() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-4">
               <Link 
+                href="/" 
+                className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+              >
+                🏠 Trang Chủ
+              </Link>
+              <Link 
                 href={`/stories/${storyId}`}
                 className="text-blue-600 hover:text-blue-700 px-3 py-2 rounded-md text-sm font-medium"
               >
