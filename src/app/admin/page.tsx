@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useAuth } from '../../contexts/AuthContext';
 import { storyService } from '../../services/storyService';
 import { Story, Chapter, Category } from '../../types/story';
+import Navigation from '../../component/Navigation';
 
 export default function AdminDashboard() {
   const { user, isAuthenticated, isLoading } = useAuth();
@@ -134,57 +135,45 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Admin Header */}
-      <div className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <h1 className="text-2xl font-bold text-gray-900">Bảng Điều Khiển Quản Trị</h1>
-            <div className="flex items-center space-x-4">
-              <span className="text-gray-600">Xin chào, {user?.username}!</span>
-              <Link 
-                href="/" 
-                className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
-              >
-                Xem Trang Web
-              </Link>
-              <Link
-                href="/login"
-                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium"
-              >
-                Đăng xuất
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      <Navigation />
+      
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="pt-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Page Title */}
+        <div className="mb-8 text-center sm:text-left">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            ⚙️ Bảng Điều Khiển Quản Trị
+          </h1>
+          <p className="text-gray-600 text-sm sm:text-base">
+            Quản lý truyện, chương và thể loại
+          </p>
+        </div>
+
         {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="text-sm font-medium text-gray-500">Tổng Số Truyện</div>
-            <div className="text-3xl font-bold text-gray-900">{stories.length}</div>
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 sm:gap-6 mb-8">
+          <div className="bg-blue-50 rounded-lg p-4 text-center">
+            <div className="text-2xl sm:text-3xl font-bold text-blue-600">{stories.length}</div>
+            <div className="text-sm text-blue-700">📚 Truyện</div>
           </div>
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="text-sm font-medium text-gray-500">Đã Xuất Bản</div>
-            <div className="text-3xl font-bold text-green-600">
+          <div className="bg-green-50 rounded-lg p-4 text-center">
+            <div className="text-2xl sm:text-3xl font-bold text-green-600">{chapters.length}</div>
+            <div className="text-sm text-green-700">📖 Chương</div>
+          </div>
+          <div className="bg-purple-50 rounded-lg p-4 text-center">
+            <div className="text-2xl sm:text-3xl font-bold text-purple-600">{categories.length}</div>
+            <div className="text-sm text-purple-700">🏷️ Thể Loại</div>
+          </div>
+          <div className="bg-yellow-50 rounded-lg p-4 text-center">
+            <div className="text-2xl sm:text-3xl font-bold text-yellow-600">
               {stories.filter(s => s.status === 'public').length}
             </div>
+            <div className="text-sm text-yellow-700">✅ Đã Xuất Bản</div>
           </div>
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="text-sm font-medium text-gray-500">Bản Thảo</div>
-            <div className="text-3xl font-bold text-yellow-600">
+          <div className="bg-red-50 rounded-lg p-4 text-center">
+            <div className="text-2xl sm:text-3xl font-bold text-red-600">
               {stories.filter(s => s.status === 'draft').length}
             </div>
-          </div>
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="text-sm font-medium text-gray-500">Tổng Số Chương</div>
-            <div className="text-3xl font-bold text-blue-600">{chapters.length}</div>
-          </div>
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="text-sm font-medium text-gray-500">Thể Loại</div>
-            <div className="text-3xl font-bold text-purple-600">{categories.length}</div>
+            <div className="text-sm text-red-700">📝 Bản Thảo</div>
           </div>
         </div>
 
@@ -219,257 +208,281 @@ export default function AdminDashboard() {
 
         {/* Stories Table */}
         <div className="bg-white rounded-lg shadow mb-8">
-          <div className="px-6 py-4 border-b border-gray-200">
-            <h2 className="text-lg font-medium text-gray-900">Truyện Gần Đây</h2>
+          <div className="px-4 sm:px-6 py-4 border-b border-gray-200">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <h2 className="text-lg font-medium text-gray-900">📚 Danh Sách Truyện</h2>
+              <Link
+                href="/admin/new-story"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full sm:w-auto justify-center"
+              >
+                ✨ Tạo Truyện Mới
+              </Link>
+            </div>
           </div>
+          
           <div className="overflow-x-auto">
-            {stories.length === 0 ? (
-              <div className="p-6 text-center text-gray-500">
-                Chưa có truyện nào. Hãy tạo truyện đầu tiên!
-              </div>
-            ) : (
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Tiêu Đề
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Thể Loại
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Trạng Thái
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Ngày Tạo
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Thao Tác
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {stories.slice(0, 5).map((story) => (
-                    <tr key={story._id}>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900">{story.title}</div>
-                        <div className="text-sm text-gray-500">{story.description}</div>
-                        {story.content && (
-                          <div className="text-xs text-gray-400 mt-1">
-                            {story.content.length > 100 
-                              ? `${story.content.substring(0, 100)}...` 
-                              : story.content
-                            }
-                          </div>
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Truyện
+                  </th>
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Thể Loại
+                  </th>
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Trạng Thái
+                  </th>
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Ngày Tạo
+                  </th>
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Thao Tác
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {stories.map((story) => (
+                  <tr key={story._id} className="hover:bg-gray-50">
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center">
+                        <div className="flex-shrink-0 h-10 w-10">
+                          {story.coverImage ? (
+                            <img className="h-10 w-10 rounded-full object-cover" src={story.coverImage} alt={story.title} />
+                          ) : (
+                            <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
+                              <span className="text-white text-sm font-medium">📚</span>
+                            </div>
+                          )}
+                        </div>
+                        <div className="ml-3">
+                          <div className="text-sm font-medium text-gray-900 line-clamp-1">{story.title}</div>
+                          <div className="text-sm text-gray-500 line-clamp-1">{story.description}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
+                      <div className="flex flex-wrap gap-1">
+                        {story.category.slice(0, 2).map((catId) => {
+                          const category = categories.find(c => c._id === catId);
+                          return category ? (
+                            <span
+                              key={catId}
+                              className="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
+                              style={{ 
+                                backgroundColor: `${category.color}20`, 
+                                color: category.color 
+                              }}
+                            >
+                              {category.name}
+                            </span>
+                          ) : null;
+                        })}
+                        {story.category.length > 2 && (
+                          <span className="text-xs text-gray-500">
+                            +{story.category.length - 2}
+                          </span>
                         )}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex flex-wrap gap-1">
-                          {story.category.map((catId, index) => {
-                            const category = categories.find(c => c._id === catId);
-                            return category ? (
-                              <span
-                                key={catId}
-                                className="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
-                                style={{ 
-                                  backgroundColor: `${category.color}20`, 
-                                  color: category.color 
-                                }}
-                              >
-                                {category.name}
-                              </span>
-                            ) : (
-                              <span key={catId} className="text-xs text-gray-500">
-                                {catId}
-                              </span>
-                            );
-                          })}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                          story.status === 'public' 
-                            ? 'bg-green-100 text-green-800' 
-                            : 'bg-yellow-100 text-yellow-800'
-                        }`}>
-                          {story.status === 'public' ? 'Công khai' : 'Bản thảo'}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {new Date(story.createdAt).toLocaleDateString('vi-VN')}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <div className="flex space-x-2">
-                          <Link
-                            href={`/admin/stories/${story._id}/edit`}
-                            className="text-blue-600 hover:text-blue-900 hover:bg-blue-50 px-2 py-1 rounded transition-colors duration-200"
-                            title="Sửa truyện"
-                          >
-                            ✏️ Sửa
-                          </Link>
-                          <button
-                            onClick={() => handleDeleteStory(story._id, story.title)}
-                            className="text-red-600 hover:text-red-900 hover:bg-red-50 px-2 py-1 rounded transition-colors duration-200"
-                            disabled={isDeleting === story._id}
-                            title="Xóa truyện"
-                          >
-                            {isDeleting === story._id ? 'Đang xóa...' : '🗑️ Xóa'}
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
+                      </div>
+                    </td>
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
+                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                        story.status === 'public' 
+                          ? 'bg-green-100 text-green-800' 
+                          : 'bg-yellow-100 text-yellow-800'
+                      }`}>
+                        {story.status === 'public' ? '✅ Đã xuất bản' : '📝 Bản thảo'}
+                      </span>
+                    </td>
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {new Date(story.createdAt).toLocaleDateString('vi-VN')}
+                    </td>
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm font-medium">
+                      <div className="flex flex-col sm:flex-row gap-2">
+                        <Link
+                          href={`/admin/stories/${story._id}/edit`}
+                          className="text-blue-600 hover:text-blue-900 px-2 py-1 rounded hover:bg-blue-50 transition-colors duration-200"
+                        >
+                          ✏️ Sửa
+                        </Link>
+                        <button
+                          onClick={() => handleDeleteStory(story._id, story.title)}
+                          className="text-red-600 hover:text-red-900 px-2 py-1 rounded hover:bg-red-50 transition-colors duration-200"
+                          disabled={isDeleting === story._id}
+                        >
+                          {isDeleting === story._id ? 'Đang xóa...' : '🗑️ Xóa'}
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
 
         {/* Categories Table */}
-        <div className="bg-white rounded-lg shadow mb-8">
-          <div className="px-6 py-4 border-b border-gray-200">
-            <h2 className="text-lg font-medium text-gray-900">Thể Loại</h2>
+        <div className="bg-white rounded-lg shadow">
+          <div className="px-4 sm:px-6 py-4 border-b border-gray-200">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <h2 className="text-lg font-medium text-gray-900">🏷️ Danh Sách Thể Loại</h2>
+              <Link
+                href="/admin/new-category"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 w-full sm:w-auto justify-center"
+              >
+                ✨ Tạo Thể Loại Mới
+              </Link>
+            </div>
           </div>
+          
           <div className="overflow-x-auto">
-            {categories.length === 0 ? (
-              <div className="p-6 text-center text-gray-500">
-                Chưa có thể loại nào. Hãy tạo thể loại đầu tiên!
-              </div>
-            ) : (
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Tên
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Mô Tả
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Màu Sắc
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Ngày Tạo
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Thao Tác
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {categories.map((category) => (
-                    <tr key={category._id}>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900">{category.name}</div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {category.description || 'Không có mô tả'}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center space-x-2">
-                          <div
-                            className="w-6 h-6 rounded border border-gray-300"
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Thể Loại
+                  </th>
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Mô Tả
+                  </th>
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Số Truyện
+                  </th>
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Thao Tác
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {categories.map((category) => {
+                  const storyCount = stories.filter(story => 
+                    story.category.includes(category._id)
+                  ).length;
+                  
+                  return (
+                    <tr key={category._id} className="hover:bg-gray-50">
+                      <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center">
+                          <div 
+                            className="w-4 h-4 rounded-full mr-3"
                             style={{ backgroundColor: category.color }}
                           ></div>
-                          <span className="text-sm text-gray-600">{category.color}</span>
+                          <div className="text-sm font-medium text-gray-900">{category.name}</div>
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {new Date(category.createdAt).toLocaleDateString('vi-VN')}
+                      <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {category.description || 'Không có mô tả'}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <div className="flex space-x-2">
+                      <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                          {storyCount} truyện
+                        </span>
+                      </td>
+                      <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <div className="flex flex-col sm:flex-row gap-2">
+                          <Link
+                            href={`/admin/categories/${category._id}/edit`}
+                            className="text-blue-600 hover:text-blue-900 px-2 py-1 rounded hover:bg-blue-50 transition-colors duration-200"
+                          >
+                            ✏️ Sửa
+                          </Link>
                           <button
                             onClick={() => handleDeleteCategory(category._id, category.name)}
-                            className="text-red-600 hover:text-red-900 hover:bg-red-50 px-2 py-1 rounded transition-colors duration-200"
+                            className="text-red-600 hover:text-red-900 px-2 py-1 rounded hover:bg-red-50 transition-colors duration-200"
                             disabled={isDeleting === category._id}
-                            title="Xóa thể loại"
                           >
                             {isDeleting === category._id ? 'Đang xóa...' : '🗑️ Xóa'}
                           </button>
                         </div>
                       </td>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
         </div>
 
         {/* Chapters Table */}
-        <div className="bg-white rounded-lg shadow">
-          <div className="px-6 py-4 border-b border-gray-200">
-            <h2 className="text-lg font-medium text-gray-900">Chương Gần Đây</h2>
+        <div className="bg-white rounded-lg shadow mb-8">
+          <div className="px-4 sm:px-6 py-4 border-b border-gray-200">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <h2 className="text-lg font-medium text-gray-900">📖 Danh Sách Chương</h2>
+              <Link
+                href="/admin/new-chapter"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 w-full sm:w-auto justify-center"
+              >
+                ✨ Tạo Chương Mới
+              </Link>
+            </div>
           </div>
+          
           <div className="overflow-x-auto">
-            {chapters.length === 0 ? (
-              <div className="p-6 text-center text-gray-500">
-                Chưa có chương nào. Hãy tạo chương đầu tiên!
-              </div>
-            ) : (
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Chương
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Tiêu Đề
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Truyện
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Ngày Tạo
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Thao Tác
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {chapters.slice(0, 5).map((chapter) => (
-                    <tr key={chapter._id}>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900">Chương {chapter.chapterNumber}</div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">{chapter.title}</div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {typeof chapter.storyId === 'string' 
-                          ? 'Truyện đã bị xóa'
-                          : chapter.storyId?.title || 'Truyện đã bị xóa'
-                        }
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {new Date(chapter.createdAt).toLocaleDateString('vi-VN')}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <div className="flex space-x-2">
-                          <Link
-                            href={`/admin/chapters/${chapter._id}/edit`}
-                            className="text-blue-600 hover:text-blue-900 hover:bg-blue-50 px-2 py-1 rounded transition-colors duration-200"
-                            title="Sửa chương"
-                          >
-                            ✏️ Sửa
-                          </Link>
-                          <button
-                            onClick={() => handleDeleteChapter(chapter._id, chapter.title)}
-                            className="text-red-600 hover:text-red-900 hover:bg-red-50 px-2 py-1 rounded transition-colors duration-200"
-                            disabled={isDeleting === chapter._id}
-                            title="Xóa chương"
-                          >
-                            {isDeleting === chapter._id ? 'Đang xóa...' : '🗑️ Xóa'}
-                          </button>
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Chương
+                  </th>
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Truyện
+                  </th>
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Ngày Tạo
+                  </th>
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Thao Tác
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {chapters.map((chapter) => (
+                  <tr key={chapter._id} className="hover:bg-gray-50">
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center">
+                        <span className="inline-flex items-center justify-center w-8 h-8 bg-blue-100 text-blue-800 text-sm font-medium rounded-full mr-3">
+                          {chapter.chapterNumber}
+                        </span>
+                        <div>
+                          <div className="text-sm font-medium text-gray-900">{chapter.title}</div>
+                          {chapter.content && (
+                            <div className="text-xs text-gray-500">
+                              {Math.ceil(chapter.content.length / 1000)} nghìn từ
+                            </div>
+                          )}
                         </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
+                      </div>
+                    </td>
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {typeof chapter.storyId === 'string'
+                        ? 'Truyện đã bị xóa'
+                        : chapter.storyId?.title || 'Truyện đã bị xóa'
+                      }
+                    </td>
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {new Date(chapter.createdAt).toLocaleDateString('vi-VN')}
+                    </td>
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm font-medium">
+                      <div className="flex flex-col sm:flex-row gap-2">
+                        <Link
+                          href={`/admin/chapters/${chapter._id}/edit`}
+                          className="text-blue-600 hover:text-blue-900 px-2 py-1 rounded hover:bg-blue-50 transition-colors duration-200"
+                        >
+                          ✏️ Sửa
+                        </Link>
+                        <button
+                          onClick={() => handleDeleteChapter(chapter._id, chapter.title)}
+                          className="text-red-600 hover:text-red-900 px-2 py-1 rounded hover:bg-red-50 transition-colors duration-200"
+                          disabled={isDeleting === chapter._id}
+                        >
+                          {isDeleting === chapter._id ? 'Đang xóa...' : '🗑️ Xóa'}
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -513,45 +526,39 @@ export default function AdminDashboard() {
         </div>
       )}
 
-      {/* Success/Error Notification Toast */}
+      {/* Notification Toast */}
       {notification && (
-        <div className="fixed top-4 right-4 z-50 animate-bounce">
-          <div className={`max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden transform transition-all duration-300 ease-in-out ${
-            notification.type === 'success' ? 'border-l-4 border-green-500' : 'border-l-4 border-red-500'
+        <div className={`fixed top-20 left-4 right-4 sm:left-auto sm:right-4 z-50 max-w-sm mx-auto sm:mx-0`}>
+          <div className={`rounded-lg shadow-lg p-4 ${
+            notification.type === 'success' 
+              ? 'bg-green-50 border border-green-200 text-green-800' 
+              : 'bg-red-50 border border-red-200 text-red-800'
           }`}>
-            <div className="p-4">
-              <div className="flex items-start">
-                <div className="flex-shrink-0">
-                  {notification.type === 'success' ? (
-                    <svg className="h-6 w-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  ) : (
-                    <svg className="h-6 w-6 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  )}
-                </div>
-                <div className="ml-3 w-0 flex-1 pt-0.5">
-                  <p className={`text-sm font-medium ${
-                    notification.type === 'success' ? 'text-green-800' : 'text-red-800'
-                  }`}>
-                    {notification.message}
-                  </p>
-                </div>
-                <div className="ml-4 flex-shrink-0 flex">
-                  <button
-                    onClick={() => setNotification(null)}
-                    className={`bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
-                      notification.type === 'success' ? 'focus:ring-green-500' : 'focus:ring-red-500'
-                    }`}
-                  >
-                    <span className="sr-only">Đóng</span>
-                    <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-                    </svg>
-                  </button>
-                </div>
+            <div className="flex items-start">
+              <div className="flex-shrink-0">
+                {notification.type === 'success' ? (
+                  <span className="text-green-400 text-lg">✅</span>
+                ) : (
+                  <span className="text-red-400 text-lg">❌</span>
+                )}
+              </div>
+              <div className="ml-3 flex-1">
+                <p className="text-sm font-medium">{notification.message}</p>
+              </div>
+              <div className="ml-4 flex-shrink-0">
+                <button
+                  onClick={() => setNotification(null)}
+                  className={`inline-flex rounded-md p-1.5 ${
+                    notification.type === 'success' 
+                      ? 'text-green-400 hover:bg-green-100' 
+                      : 'text-red-400 hover:bg-red-100'
+                  } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-green-50 focus:ring-green-600`}
+                >
+                  <span className="sr-only">Đóng</span>
+                  <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </button>
               </div>
             </div>
           </div>

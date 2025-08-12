@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Navigation from '../../component/Navigation';
 import { storyService } from '../../services/storyService';
 import { Story, Category } from '../../types/story';
 
@@ -82,7 +83,8 @@ export default function StoriesPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gray-50 pt-16">
+        <Navigation />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
@@ -95,34 +97,23 @@ export default function StoriesPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <h1 className="text-2xl font-bold text-gray-900">Thư Viện Truyện</h1>
-            <div className="flex items-center space-x-4">
-              <Link 
-                href="/" 
-                className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
-              >
-                🏠 Trang Chủ
-              </Link>
-              <Link 
-                href="/admin" 
-                className="text-blue-600 hover:text-blue-700 px-4 py-2 rounded-md text-sm font-medium"
-              >
-                Quản Trị
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      <Navigation />
+      
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="pt-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Page Title */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 text-center sm:text-left">
+            📚 Thư Viện Truyện
+          </h1>
+          <p className="mt-2 text-gray-600 text-center sm:text-left">
+            Khám phá những câu chuyện thú vị từ các tác giả tài năng
+          </p>
+        </div>
+
         {/* Filters */}
-        <div className="bg-white rounded-lg shadow p-6 mb-8">
-          <h2 className="text-lg font-medium text-gray-900 mb-4">Bộ Lọc</h2>
+        <div className="bg-white rounded-lg shadow p-4 sm:p-6 mb-8">
+          <h2 className="text-lg font-medium text-gray-900 mb-4">🔍 Bộ Lọc</h2>
           
           {/* Search */}
           <div className="mb-4">
@@ -170,15 +161,15 @@ export default function StoriesPage() {
               onClick={clearFilters}
               className="text-blue-600 hover:text-blue-700 text-sm font-medium"
             >
-              Xóa bộ lọc
+              🗑️ Xóa bộ lọc
             </button>
           )}
         </div>
 
         {/* Results Count */}
         <div className="mb-6">
-          <p className="text-gray-600">
-            Tìm thấy <span className="font-semibold">{filteredStories.length}</span> truyện
+          <p className="text-gray-600 text-center sm:text-left">
+            Tìm thấy <span className="font-semibold text-blue-600">{filteredStories.length}</span> truyện
             {selectedCategories.length > 0 && (
               <span> trong thể loại đã chọn</span>
             )}
@@ -193,12 +184,12 @@ export default function StoriesPage() {
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {filteredStories.map((story) => (
               <Link
                 key={story._id}
                 href={`/stories/${story._id}`}
-                className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200"
+                className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200 group"
               >
                 {/* Cover Image */}
                 <div className="aspect-w-3 aspect-h-4 bg-gray-200">
@@ -206,28 +197,28 @@ export default function StoriesPage() {
                     <img
                       src={story.coverImage}
                       alt={story.title}
-                      className="w-full h-48 object-cover"
+                      className="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-200"
                     />
                   ) : (
-                    <div className="w-full h-48 bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
-                      <span className="text-white text-lg font-medium">📚</span>
+                    <div className="w-full h-48 sm:h-56 bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
+                      <span className="text-white text-2xl sm:text-3xl font-medium">📚</span>
                     </div>
                   )}
                 </div>
 
                 {/* Story Info */}
-                <div className="p-4">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
+                <div className="p-3 sm:p-4">
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors duration-200">
                     {story.title}
                   </h3>
                   
-                  <p className="text-gray-600 text-sm mb-3 line-clamp-3">
+                  <p className="text-gray-600 text-xs sm:text-sm mb-3 line-clamp-3">
                     {story.description}
                   </p>
 
                   {/* Categories */}
                   <div className="flex flex-wrap gap-1 mb-3">
-                    {story.category.slice(0, 3).map((catId) => {
+                    {story.category.slice(0, 2).map((catId) => {
                       const category = categories.find(c => c._id === catId);
                       return category ? (
                         <span
@@ -242,9 +233,9 @@ export default function StoriesPage() {
                         </span>
                       ) : null;
                     })}
-                    {story.category.length > 3 && (
+                    {story.category.length > 2 && (
                       <span className="text-xs text-gray-500">
-                        +{story.category.length - 3} thể loại khác
+                        +{story.category.length - 2} thể loại khác
                       </span>
                     )}
                   </div>
@@ -252,7 +243,7 @@ export default function StoriesPage() {
                   {/* Status Badge */}
                   <div className="flex justify-between items-center">
                     <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
-                      Đã xuất bản
+                      ✅ Đã xuất bản
                     </span>
                     <span className="text-xs text-gray-500">
                       {new Date(story.createdAt).toLocaleDateString('vi-VN')}

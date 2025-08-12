@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { storyService } from '../../../../../services/storyService';
 import { Story, Chapter } from '../../../../../types/story';
+import Navigation from '../../../../../component/Navigation';
 
 export default function ChapterReaderPage() {
   const params = useParams();
@@ -129,97 +130,33 @@ export default function ChapterReaderPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white shadow sticky top-0 z-40">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-4">
-              <Link 
-                href="/" 
-                className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
-              >
-                🏠 Trang Chủ
-              </Link>
-              <Link 
-                href={`/stories/${storyId}`}
-                className="text-blue-600 hover:text-blue-700 px-3 py-2 rounded-md text-sm font-medium"
-              >
-                ← Quay lại truyện
-              </Link>
-              <div className="text-sm text-gray-600">
-                <span className="font-medium">{story.title}</span>
-                <span className="mx-2">•</span>
-                <span>Chương {chapter.chapterNumber}</span>
-              </div>
-            </div>
-            
-            {/* Reading Controls */}
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
-                <button
-                  onClick={decreaseFontSize}
-                  className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded"
-                  title="Giảm cỡ chữ"
-                >
-                  A-
-                </button>
-                <span className="text-sm text-gray-600 w-8 text-center">{fontSize}px</span>
-                <button
-                  onClick={increaseFontSize}
-                  className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded"
-                  title="Tăng cỡ chữ"
-                >
-                  A+
-                </button>
-              </div>
-              
-              <div className="flex items-center space-x-2">
-                <button
-                  onClick={decreaseLineHeight}
-                  className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded"
-                  title="Giảm khoảng cách dòng"
-                >
-                  ↓
-                </button>
-                <span className="text-sm text-gray-600 w-8 text-center">{lineHeight.toFixed(1)}</span>
-                <button
-                  onClick={increaseLineHeight}
-                  className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded"
-                  title="Tăng khoảng cách dòng"
-                >
-                  ↑
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      <Navigation />
+      
       {/* Main Content */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="pt-16 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Chapter Header */}
-        <div className="bg-white rounded-lg shadow p-6 mb-8">
-          <div className="text-center mb-6">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+        <div className="bg-white rounded-lg shadow p-4 sm:p-6 mb-6 sm:mb-8">
+          <div className="text-center mb-4 sm:mb-6">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
               Chương {chapter.chapterNumber}: {chapter.title}
             </h1>
-            <div className="text-gray-600">
-              <span>{new Date(chapter.createdAt).toLocaleDateString('vi-VN')}</span>
+            <div className="text-gray-600 text-sm sm:text-base">
+              <span>📅 {new Date(chapter.createdAt).toLocaleDateString('vi-VN')}</span>
               {chapter.content && (
                 <>
                   <span className="mx-2">•</span>
-                  <span>{Math.ceil(chapter.content.length / 1000)} nghìn từ</span>
+                  <span>📝 {Math.ceil(chapter.content.length / 1000)} nghìn từ</span>
                 </>
               )}
             </div>
           </div>
 
           {/* Chapter Navigation */}
-          <div className="flex justify-between items-center pt-4 border-t border-gray-200">
+          <div className="flex flex-col sm:flex-row justify-between items-center pt-4 border-t border-gray-200 gap-3">
             {previousChapter ? (
               <button
                 onClick={() => navigateToChapter(previousChapter._id)}
-                className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                className="inline-flex items-center px-3 sm:px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full sm:w-auto justify-center"
               >
                 ← Chương {previousChapter.chapterNumber}: {previousChapter.title}
               </button>
@@ -230,7 +167,7 @@ export default function ChapterReaderPage() {
             {nextChapter ? (
               <button
                 onClick={() => navigateToChapter(nextChapter._id)}
-                className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                className="inline-flex items-center px-3 sm:px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full sm:w-auto justify-center"
               >
                 Chương {nextChapter.chapterNumber}: {nextChapter.title} →
               </button>
@@ -241,10 +178,52 @@ export default function ChapterReaderPage() {
         </div>
 
         {/* Chapter Content */}
-        <div className="bg-white rounded-lg shadow p-8 mb-8">
+        <div className="bg-white rounded-lg shadow p-6 sm:p-8 mb-6 sm:mb-8">
+          {/* Reading Controls */}
+          <div className="mb-6 p-4 bg-gray-50 rounded-lg">
+            <h3 className="text-sm font-medium text-gray-700 mb-3">🎛️ Điều chỉnh đọc</h3>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={decreaseFontSize}
+                  className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded transition-colors duration-200"
+                  title="Giảm cỡ chữ"
+                >
+                  A-
+                </button>
+                <span className="text-sm text-gray-600 w-12 text-center font-medium">{fontSize}px</span>
+                <button
+                  onClick={increaseFontSize}
+                  className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded transition-colors duration-200"
+                  title="Tăng cỡ chữ"
+                >
+                  A+
+                </button>
+              </div>
+              
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={decreaseLineHeight}
+                  className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded transition-colors duration-200"
+                  title="Giảm khoảng cách dòng"
+                >
+                  ↓
+                </button>
+                <span className="text-sm text-gray-600 w-12 text-center font-medium">{lineHeight.toFixed(1)}</span>
+                <button
+                  onClick={increaseLineHeight}
+                  className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded transition-colors duration-200"
+                  title="Tăng khoảng cách dòng"
+                >
+                  ↑
+                </button>
+              </div>
+            </div>
+          </div>
+
           {chapter.content ? (
             <div 
-              className="prose prose-lg max-w-none"
+              className="prose prose-sm sm:prose-lg max-w-none"
               style={{ 
                 fontSize: `${fontSize}px`,
                 lineHeight: lineHeight
@@ -261,12 +240,12 @@ export default function ChapterReaderPage() {
         </div>
 
         {/* Chapter Navigation Bottom */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <div className="flex justify-between items-center">
+        <div className="bg-white rounded-lg shadow p-4 sm:p-6">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-3">
             {previousChapter ? (
               <button
                 onClick={() => navigateToChapter(previousChapter._id)}
-                className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                className="inline-flex items-center justify-center px-4 sm:px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full sm:w-auto"
               >
                 ← Chương trước
               </button>
@@ -276,15 +255,15 @@ export default function ChapterReaderPage() {
             
             <Link
               href={`/stories/${storyId}`}
-              className="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="inline-flex items-center justify-center px-4 sm:px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full sm:w-auto"
             >
-              Danh sách chương
+              📚 Danh sách chương
             </Link>
             
             {nextChapter ? (
               <button
                 onClick={() => navigateToChapter(nextChapter._id)}
-                className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                className="inline-flex items-center justify-center px-4 sm:px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full sm:w-auto"
               >
                 Chương tiếp →
               </button>
