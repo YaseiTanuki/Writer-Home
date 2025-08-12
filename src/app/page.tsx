@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
-      <main className="pt-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+      <main className="pt-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-18">
         <div className="text-center">
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 leading-tight">
             Chào mừng đến với Góc Truyện của Tôi

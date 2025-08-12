@@ -7,6 +7,7 @@ import { useAuth } from '../../../../../contexts/AuthContext';
 import { storyService } from '../../../../../services/storyService';
 import { Chapter, UpdateChapterRequest } from '../../../../../types/story';
 import TiptapEditor from '../../../../../component/TiptapEditor';
+import Navigation from '../../../../../component/Navigation';
 
 export default function EditChapterPage() {
   const { user, isAuthenticated, isLoading } = useAuth();
@@ -58,7 +59,8 @@ export default function EditChapterPage() {
   if (isLoading || isLoadingChapter) {
     return (
       <div className="min-h-screen bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <Navigation />
+        <div className="pt-24 lg:pt-32 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
             <p className="mt-4 text-gray-600">Đang tải...</p>
@@ -71,7 +73,8 @@ export default function EditChapterPage() {
   if (!chapter) {
     return (
       <div className="min-h-screen bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <Navigation />
+        <div className="pt-24 lg:pt-32 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
             <p className="text-red-600">Không tìm thấy chương</p>
             <Link href="/admin" className="text-blue-600 hover:underline mt-4 block">
@@ -117,37 +120,10 @@ export default function EditChapterPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <div className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <h1 className="text-2xl font-bold text-gray-900">Chỉnh Sửa Chương</h1>
-            <div className="flex items-center space-x-4">
-              <Link 
-                href="/admin" 
-                className="inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm"
-              >
-                ⬅️ Quay Lại Dashboard
-              </Link>
-              <Link 
-                href="/stories" 
-                className="inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm"
-              >
-                👁️ Xem Trang Web
-              </Link>
-              <Link 
-                href="/" 
-                className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm"
-              >
-                🏠 Trang Chủ
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      <Navigation />
+      
       {/* Main Content */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="pt-24 lg:pt-32 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-white rounded-lg shadow p-6">
           <div className="mb-6 p-4 rounded-md bg-blue-100 text-blue-800">
             <p className="font-medium">Đang chỉnh sửa chương: {chapter.title}</p>

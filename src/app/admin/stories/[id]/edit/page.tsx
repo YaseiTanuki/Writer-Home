@@ -8,6 +8,7 @@ import { storyService } from '../../../../../services/storyService';
 import { Story, UpdateStoryRequest } from '../../../../../types/story';
 import TiptapEditor from '../../../../../component/TiptapEditor';
 import CategorySelector from '../../../../../component/CategorySelector';
+import Navigation from '../../../../../component/Navigation';
 
 interface EditStoryFormData {
   title: string;
@@ -74,7 +75,8 @@ export default function EditStoryPage() {
   if (isLoading || isLoadingStory) {
     return (
       <div className="min-h-screen bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <Navigation />
+        <div className="pt-24 lg:pt-32 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
             <p className="mt-4 text-gray-600">Đang tải...</p>
@@ -87,7 +89,8 @@ export default function EditStoryPage() {
   if (!story) {
     return (
       <div className="min-h-screen bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <Navigation />
+        <div className="pt-24 lg:pt-32 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
             <p className="text-red-600">Không tìm thấy truyện</p>
             <Link href="/admin" className="text-blue-600 hover:underline mt-4 block">
@@ -134,44 +137,51 @@ export default function EditStoryPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <div className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <h1 className="text-2xl font-bold text-gray-900">Chỉnh Sửa Truyện</h1>
-            <div className="flex items-center space-x-4">
+      <Navigation />
+      
+      {/* Main Content */}
+      <div className="pt-24 lg:pt-32 max-w-4xl mx-auto px-3 sm:px-4 lg:px-8 py-6 sm:py-8">
+        {/* Page Title */}
+        <div className="mb-6 sm:mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="text-center sm:text-left">
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 leading-tight">
+                ✏️ Chỉnh Sửa Truyện
+              </h1>
+              <p className="text-sm sm:text-base text-gray-600">
+                Cập nhật thông tin truyện của bạn
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 w-full sm:w-auto">
               <Link 
                 href="/admin" 
-                className="inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm"
+                className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
               >
                 ⬅️ Quay Lại Dashboard
               </Link>
               <Link 
                 href="/stories" 
-                className="inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm"
+                className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
               >
                 👁️ Xem Trang Web
               </Link>
               <Link 
                 href="/" 
-                className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm"
+                className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
               >
                 🏠 Trang Chủ
               </Link>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Main Content */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-white rounded-lg shadow p-6">
-          <div className="mb-6 p-4 rounded-md bg-blue-100 text-blue-800">
+        <div className="bg-white rounded-lg shadow p-3 sm:p-4 lg:p-6">
+          <div className="mb-6 p-3 sm:p-4 rounded-md bg-blue-100 text-blue-800">
             <p className="font-medium">Đang chỉnh sửa truyện: {story.title}</p>
           </div>
 
           {error && (
-            <div className="mb-6 p-4 rounded-md bg-red-100 text-red-800">
+            <div className="mb-6 p-3 sm:p-4 rounded-md bg-red-100 text-red-800">
               {error}
             </div>
           )}
@@ -188,8 +198,8 @@ export default function EditStoryPage() {
                 name="title"
                 value={formData.title}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black"
-                placeholder="Nhập tiêu đề truyện"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
+                placeholder="Nhập tiêu đề truyện..."
                 required
               />
             </div>
@@ -204,23 +214,28 @@ export default function EditStoryPage() {
                 name="description"
                 value={formData.description}
                 onChange={handleInputChange}
-                rows={4}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black"
-                placeholder="Nhập mô tả truyện"
+                rows={3}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
+                placeholder="Nhập mô tả ngắn gọn về truyện..."
                 required
               />
             </div>
 
-            {/* Category Selector */}
-            <CategorySelector
-              selectedCategories={formData.category}
-              onChange={(categories: string[]) => setFormData(prev => ({ ...prev, category: categories }))}
-            />
+            {/* Categories */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Thể loại *
+              </label>
+              <CategorySelector
+                selectedCategories={formData.category}
+                onChange={(categories: string[]) => setFormData(prev => ({ ...prev, category: categories }))}
+              />
+            </div>
 
             {/* Cover Image */}
             <div>
               <label htmlFor="coverImage" className="block text-sm font-medium text-gray-700 mb-2">
-                URL ảnh bìa *
+                Ảnh bìa *
               </label>
               <input
                 type="url"
@@ -228,13 +243,10 @@ export default function EditStoryPage() {
                 name="coverImage"
                 value={formData.coverImage}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black"
-                placeholder="https://example.com/image.jpg"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
+                placeholder="Nhập URL ảnh bìa..."
                 required
               />
-              <p className="mt-1 text-sm text-gray-500">
-                Nhập URL của ảnh bìa truyện
-              </p>
             </div>
 
             {/* Status */}
@@ -247,45 +259,42 @@ export default function EditStoryPage() {
                 name="status"
                 value={formData.status}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
               >
                 <option value="draft">Bản thảo</option>
-                <option value="public">Công khai</option>
+                <option value="public">Xuất bản</option>
               </select>
             </div>
 
-            {/* Story Content with TipTap Editor */}
+            {/* Story Content */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Nội dung truyện *
               </label>
-              <TiptapEditor
-                content={formData.content || ''}
-                onChange={(content) => setFormData(prev => ({ ...prev, content }))}
-                placeholder="Bắt đầu viết truyện của bạn ở đây..."
-                className="w-full"
-              />
-              <p className="mt-1 text-sm text-gray-500">
-                Sử dụng thanh công cụ để định dạng văn bản, thêm liên kết, và tùy chỉnh giao diện
-              </p>
+              <div className="border border-gray-300 rounded-md">
+                <TiptapEditor
+                  content={formData.content}
+                  onChange={(content) => setFormData(prev => ({ ...prev, content }))}
+                  placeholder="Viết nội dung truyện của bạn..."
+                />
+              </div>
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex justify-between pt-6 border-t border-gray-200">
-              <Link
-                href="/admin"
-                className="px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md font-medium transition-colors duration-200"
-              >
-                Hủy
-              </Link>
-              
+            {/* Submit Button */}
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-md font-medium transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 sm:flex-none bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-6 py-3 rounded-md font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:cursor-not-allowed"
               >
-                {isSubmitting ? 'Đang cập nhật...' : 'Cập Nhật Truyện'}
+                {isSubmitting ? 'Đang cập nhật...' : '💾 Cập Nhật Truyện'}
               </button>
+              <Link
+                href="/admin"
+                className="flex-1 sm:flex-none bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 rounded-md font-medium transition-colors duration-200 text-center"
+              >
+                Hủy
+              </Link>
             </div>
           </form>
         </div>

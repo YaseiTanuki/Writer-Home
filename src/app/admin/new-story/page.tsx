@@ -8,6 +8,7 @@ import { storyService } from '../../../services/storyService';
 import { CreateStoryRequest } from '../../../types/story';
 import TiptapEditor from '../../../component/TiptapEditor';
 import CategorySelector from '../../../component/CategorySelector';
+import Navigation from '../../../component/Navigation';
 
 export default function NewStoryPage() {
   const { user, isAuthenticated, isLoading } = useAuth();
@@ -80,37 +81,41 @@ export default function NewStoryPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <div className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
-          <div className="flex flex-col sm:flex-row justify-between items-center py-4 sm:h-16 gap-3 sm:gap-0">
-            <h1 className="text-xl sm:text-2xl font-bold text-gray-900 text-center sm:text-left">Viết Truyện Mới</h1>
-            <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 w-full sm:w-auto">
+      <Navigation />
+      
+      {/* Main Content */}
+      <div className="pt-24 lg:pt-32 max-w-4xl mx-auto px-3 sm:px-4 lg:px-8 py-6 sm:py-8">
+        {/* Page Title */}
+        <div className="mb-6 sm:mb-8 mt-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="text-center sm:text-left">
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 leading-tight">
+                ✨ Viết Truyện Mới
+              </h1>
+            </div>
+            <div className="flex flex-row items-center gap-2 sm:gap-3 w-full sm:w-auto justify-center sm:justify-end">
               <Link 
                 href="/admin" 
-                className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
+                className="inline-flex items-center justify-center px-2 sm:px-3 py-2 border border-gray-300 text-xs sm:text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm"
               >
-                ⬅️ Quay Lại Dashboard
+                ⬅️ Dashboard
               </Link>
               <Link 
                 href="/stories" 
-                className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
+                className="inline-flex items-center justify-center px-2 sm:px-3 py-2 border border-gray-300 text-xs sm:text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm"
               >
-                👁️ Xem Trang Web
+                👁️ Xem Web
               </Link>
               <Link 
                 href="/" 
-                className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
+                className="inline-flex items-center justify-center px-2 sm:px-3 py-2 border border-transparent text-xs sm:text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm"
               >
                 🏠 Trang Chủ
               </Link>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Main Content */}
-      <div className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-8 py-6 sm:py-8">
         <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
           {/* Error Display */}
           {error && (
@@ -207,7 +212,6 @@ export default function NewStoryPage() {
               <TiptapEditor
                 content={storyContent}
                 onChange={setStoryContent}
-                placeholder="Viết nội dung truyện của bạn..."
               />
             </div>
           </div>

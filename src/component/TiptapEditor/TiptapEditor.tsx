@@ -21,7 +21,7 @@ interface TiptapEditorProps {
 export default function TiptapEditor({ 
   content, 
   onChange, 
-  placeholder = 'Bắt đầu viết truyện của bạn ở đây...',
+  placeholder,
   className = ''
 }: TiptapEditorProps) {
   const [isMounted, setIsMounted] = useState(false);
@@ -86,11 +86,6 @@ export default function TiptapEditor({
           padding: '1rem',
         }}
       />
-      {!editor?.getText() && (
-        <div className="absolute top-16 left-4 text-gray-400 pointer-events-none">
-          {placeholder}
-        </div>
-      )}
       
       {/* Word and Character Count */}
       <div className="border-t border-gray-200 bg-white px-4 py-2 text-sm text-gray-600 flex justify-between">
