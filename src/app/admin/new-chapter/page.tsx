@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useAuth } from '../../../contexts/AuthContext';
 import { storyService } from '../../../services/storyService';
 import { CreateChapterRequest, Story } from '../../../types/story';
+import TiptapEditor from '../../../component/TiptapEditor';
 
 export default function NewChapterPage() {
   const { user, isAuthenticated, isLoading } = useAuth();
@@ -43,6 +44,28 @@ export default function NewChapterPage() {
       console.error('Failed to load stories:', err);
     } finally {
       setIsLoadingStories(false);
+    }
+  };
+
+  // Auto-calculate chapter number when story is selected
+  const handleStoryChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const storyId = e.target.value;
+    setFormData(prev => ({ ...prev, storyId }));
+    
+    if (storyId) {
+      try {
+        // Get chapters for the selected story to calculate next chapter number
+        const chaptersResponse = await storyService.getChapters(storyId);
+        const nextChapterNumber = chaptersResponse.chapters.length > 0 
+          ? Math.max(...chaptersResponse.chapters.map(c => c.chapterNumber)) + 1
+          : 1;
+        
+        setFormData(prev => ({ ...prev, chapterNumber: nextChapterNumber }));
+      } catch (err) {
+        console.error('Failed to load chapters:', err);
+        // Fallback to chapter 1 if there's an error
+        setFormData(prev => ({ ...prev, chapterNumber: 1 }));
+      }
     }
   };
 
@@ -117,7 +140,7 @@ export default function NewChapterPage() {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-white rounded-lg shadow p-6">
           {error && (
             <div className="mb-6 p-4 rounded-md bg-red-100 text-red-800">
@@ -135,7 +158,7 @@ export default function NewChapterPage() {
                 id="storyId"
                 name="storyId"
                 value={formData.storyId}
-                onChange={handleInputChange}
+                onChange={handleStoryChange}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black"
                 required
               >
@@ -153,10 +176,10 @@ export default function NewChapterPage() {
               )}
             </div>
 
-            {/* Chapter Number */}
+            {/* Chapter Number - Auto-calculated */}
             <div>
               <label htmlFor="chapterNumber" className="block text-sm font-medium text-gray-700 mb-2">
-                Số chương *
+                Số chương * (Tự động tính)
               </label>
               <input
                 type="number"
@@ -165,9 +188,13 @@ export default function NewChapterPage() {
                 value={formData.chapterNumber}
                 onChange={handleInputChange}
                 min="1"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black bg-gray-50"
                 required
+                readOnly
               />
+              <p className="mt-1 text-sm text-gray-500">
+                Số chương được tự động tính dựa trên số chương hiện có của truyện
+              </p>
             </div>
 
             {/* Title */}
@@ -187,23 +214,19 @@ export default function NewChapterPage() {
               />
             </div>
 
-            {/* Content */}
+            {/* Content with TipTap Editor */}
             <div>
-              <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Nội dung chương *
               </label>
-              <textarea
-                id="content"
-                name="content"
-                value={formData.content}
-                onChange={handleInputChange}
-                rows={15}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black"
-                placeholder="Nhập nội dung chương..."
-                required
+              <TiptapEditor
+                content={formData.content}
+                onChange={(content) => setFormData(prev => ({ ...prev, content }))}
+                placeholder="Bắt đầu viết nội dung chương của bạn ở đây..."
+                className="w-full"
               />
               <p className="mt-1 text-sm text-gray-500">
-                Bạn có thể sử dụng HTML tags để định dạng văn bản
+                Sử dụng thanh công cụ để định dạng văn bản, thêm liên kết, và tùy chỉnh giao diện
               </p>
             </div>
 

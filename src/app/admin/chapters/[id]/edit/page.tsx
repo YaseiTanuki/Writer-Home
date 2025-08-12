@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useAuth } from '../../../../../contexts/AuthContext';
 import { storyService } from '../../../../../services/storyService';
 import { Chapter, UpdateChapterRequest } from '../../../../../types/story';
+import TiptapEditor from '../../../../../component/TiptapEditor';
 
 export default function EditChapterPage() {
   const { user, isAuthenticated, isLoading } = useAuth();
@@ -140,7 +141,7 @@ export default function EditChapterPage() {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-white rounded-lg shadow p-6">
           <div className="mb-6 p-4 rounded-md bg-blue-100 text-blue-800">
             <p className="font-medium">Đang chỉnh sửa chương: {chapter.title}</p>
@@ -187,23 +188,19 @@ export default function EditChapterPage() {
               />
             </div>
 
-            {/* Content */}
+            {/* Content with TipTap Editor */}
             <div>
-              <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Nội dung chương *
               </label>
-              <textarea
-                id="content"
-                name="content"
-                value={formData.content}
-                onChange={handleInputChange}
-                rows={15}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black"
+              <TiptapEditor
+                content={formData.content || ''}
+                onChange={(content) => setFormData(prev => ({ ...prev, content }))}
                 placeholder="Nhập nội dung chương..."
-                required
+                className="w-full"
               />
               <p className="mt-1 text-sm text-gray-500">
-                Bạn có thể sử dụng HTML tags để định dạng văn bản
+                Sử dụng thanh công cụ để định dạng văn bản, thêm liên kết, và tùy chỉnh giao diện
               </p>
             </div>
 

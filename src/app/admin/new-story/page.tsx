@@ -219,7 +219,7 @@ export default function NewStoryPage() {
             {/* Story Content with TipTap Editor */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Nội dung truyện *
+                Nội dung truyện * (Chương đầu tiên)
               </label>
               <TiptapEditor
                 content={storyContent}
@@ -228,7 +228,8 @@ export default function NewStoryPage() {
                 className="w-full"
               />
               <p className="mt-1 text-sm text-gray-500">
-                Sử dụng thanh công cụ để định dạng văn bản, thêm liên kết, và tùy chỉnh giao diện
+                Sử dụng thanh công cụ để định dạng văn bản, thêm liên kết, và tùy chỉnh giao diện. 
+                <span className="font-medium text-blue-600"> Chương đầu tiên sẽ được tạo tự động với nội dung này.</span>
               </p>
             </div>
 

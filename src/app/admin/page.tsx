@@ -13,6 +13,8 @@ export default function AdminDashboard() {
   const [stories, setStories] = useState<Story[]>([]);
   const [chapters, setChapters] = useState<Chapter[]>([]);
   const [isLoadingData, setIsLoadingData] = useState(true);
+  const [isDeleting, setIsDeleting] = useState<string | null>(null);
+  const [deleteConfirm, setDeleteConfirm] = useState<{ type: 'story' | 'chapter'; id: string; title: string } | null>(null);
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -41,6 +43,41 @@ export default function AdminDashboard() {
     } finally {
       setIsLoadingData(false);
     }
+  };
+
+  const handleDeleteStory = async (storyId: string, storyTitle: string) => {
+    setDeleteConfirm({ type: 'story', id: storyId, title: storyTitle });
+  };
+
+  const handleDeleteChapter = async (chapterId: string, chapterTitle: string) => {
+    setDeleteConfirm({ type: 'chapter', id: chapterId, title: chapterTitle });
+  };
+
+  const confirmDelete = async () => {
+    if (!deleteConfirm) return;
+
+    try {
+      setIsDeleting(deleteConfirm.id);
+      
+      if (deleteConfirm.type === 'story') {
+        await storyService.deleteStory(deleteConfirm.id);
+      } else {
+        await storyService.deleteChapter(deleteConfirm.id);
+      }
+      
+      // Reload data after deletion
+      await loadDashboardData();
+      setDeleteConfirm(null);
+    } catch (err) {
+      console.error('Failed to delete:', err);
+      alert('Có lỗi xảy ra khi xóa');
+    } finally {
+      setIsDeleting(null);
+    }
+  };
+
+  const cancelDelete = () => {
+    setDeleteConfirm(null);
   };
 
   if (isLoading || !isAuthenticated) {
@@ -196,10 +233,19 @@ export default function AdminDashboard() {
                         <div className="flex space-x-2">
                           <Link
                             href={`/admin/stories/${story._id}/edit`}
-                            className="text-blue-600 hover:text-blue-900"
+                            className="text-blue-600 hover:text-blue-900 hover:bg-blue-50 px-2 py-1 rounded transition-colors duration-200"
+                            title="Sửa truyện"
                           >
-                            Sửa
+                            ✏️ Sửa
                           </Link>
+                          <button
+                            onClick={() => handleDeleteStory(story._id, story.title)}
+                            className="text-red-600 hover:text-red-900 hover:bg-red-50 px-2 py-1 rounded transition-colors duration-200"
+                            disabled={isDeleting === story._id}
+                            title="Xóa truyện"
+                          >
+                            {isDeleting === story._id ? 'Đang xóa...' : '🗑️ Xóa'}
+                          </button>
                         </div>
                       </td>
                     </tr>
@@ -251,7 +297,10 @@ export default function AdminDashboard() {
                         <div className="text-sm text-gray-900">{chapter.title}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {chapter.storyId}
+                        {typeof chapter.storyId === 'string' 
+                          ? chapter.storyId 
+                          : chapter.storyId.title
+                        }
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {new Date(chapter.createdAt).toLocaleDateString('vi-VN')}
@@ -260,10 +309,19 @@ export default function AdminDashboard() {
                         <div className="flex space-x-2">
                           <Link
                             href={`/admin/chapters/${chapter._id}/edit`}
-                            className="text-blue-600 hover:text-blue-900"
+                            className="text-blue-600 hover:text-blue-900 hover:bg-blue-50 px-2 py-1 rounded transition-colors duration-200"
+                            title="Sửa chương"
                           >
-                            Sửa
+                            ✏️ Sửa
                           </Link>
+                          <button
+                            onClick={() => handleDeleteChapter(chapter._id, chapter.title)}
+                            className="text-red-600 hover:text-red-900 hover:bg-red-50 px-2 py-1 rounded transition-colors duration-200"
+                            disabled={isDeleting === chapter._id}
+                            title="Xóa chương"
+                          >
+                            {isDeleting === chapter._id ? 'Đang xóa...' : '🗑️ Xóa'}
+                          </button>
                         </div>
                       </td>
                     </tr>
@@ -274,6 +332,40 @@ export default function AdminDashboard() {
           </div>
         </div>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {deleteConfirm && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50">
+          <div className="relative p-8 border w-full max-w-md max-h-full">
+            <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+              <div className="p-6 text-center">
+                <svg className="mx-auto mb-4 text-red-500 w-12 h-12 dark:text-red-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 5v10a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3h.08a3 3 0 0 0 2.92 2h2.08a3 3 0 0 0 2.92-2H15a3 3 0 0 1 3 3Z" />
+                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 11V6a3 3 0 1 1 6 0v5a3 3 0 1 1-6 0Z" />
+                </svg>
+                <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                  Bạn có chắc chắn muốn xóa "{deleteConfirm.title}" không?
+                </h3>
+                <div className="flex justify-center gap-4">
+                  <button
+                    onClick={confirmDelete}
+                    className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                    disabled={isDeleting === deleteConfirm.id}
+                  >
+                    {isDeleting === deleteConfirm.id ? 'Đang xóa...' : 'Xóa'}
+                  </button>
+                  <button
+                    onClick={cancelDelete}
+                    className="text-gray-500 bg-gray-200 hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-800"
+                  >
+                    Hủy
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

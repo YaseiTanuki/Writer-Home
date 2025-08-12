@@ -12,7 +12,7 @@ export interface Story {
 
 export interface Chapter {
   _id: string;
-  storyId: string;
+  storyId: string | { _id: string; title: string };
   title: string;
   content: string;
   chapterNumber: number;
