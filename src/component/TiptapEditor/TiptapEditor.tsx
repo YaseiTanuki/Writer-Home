@@ -8,6 +8,7 @@ import Link from '@tiptap/extension-link';
 import Color from '@tiptap/extension-color';
 import { TextStyle } from '@tiptap/extension-text-style';
 import Highlight from '@tiptap/extension-highlight';
+import HorizontalRule from '@tiptap/extension-horizontal-rule';
 import TiptapToolbar from '../TiptapToolbar';
 import { useEffect, useState } from 'react';
 
@@ -49,6 +50,7 @@ export default function TiptapEditor({
       Highlight.configure({
         multicolor: true,
       }),
+      HorizontalRule,
     ],
     content: content,
     onUpdate: ({ editor }) => {
@@ -76,7 +78,7 @@ export default function TiptapEditor({
   }
 
   return (
-    <div className={`border border-gray-300 rounded-md overflow-hidden ${className}`}>
+    <div className={`overflow-hidden ${className}`}>
       <TiptapToolbar editor={editor} />
       <EditorContent 
         editor={editor} 
@@ -86,6 +88,20 @@ export default function TiptapEditor({
           padding: '1rem',
         }}
       />
+      
+      {/* Custom styles for horizontal rule */}
+      <style jsx>{`
+        .ProseMirror hr {
+          border: none;
+          border-top: 2px solid #e5e7eb;
+          margin: 1.5rem 0;
+          width: 100%;
+        }
+        
+        .ProseMirror hr:hover {
+          border-top-color: #9ca3af;
+        }
+      `}</style>
       
       {/* Word and Character Count */}
       <div className="border-t border-gray-200 bg-white px-4 py-2 text-sm text-gray-600 flex justify-between">

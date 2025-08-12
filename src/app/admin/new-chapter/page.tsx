@@ -6,7 +6,6 @@ import Link from 'next/link';
 import { useAuth } from '../../../contexts/AuthContext';
 import { storyService } from '../../../services/storyService';
 import { CreateChapterRequest, Story } from '../../../types/story';
-import TiptapEditor from '../../../component/TiptapEditor';
 import Navigation from '../../../component/Navigation';
 
 export default function NewChapterPage() {
@@ -93,10 +92,10 @@ export default function NewChapterPage() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleNext = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.storyId || !formData.title || !formData.content || !formData.chapterNumber) {
+    if (!formData.storyId || !formData.title || !formData.chapterNumber) {
       setError('Vui lòng điền đầy đủ thông tin bắt buộc');
       return;
     }
@@ -105,12 +104,21 @@ export default function NewChapterPage() {
       setIsSubmitting(true);
       setError('');
       
-      const response = await storyService.createChapter(formData);
+      // Create a temporary chapter with basic info
+      const tempChapter = {
+        storyId: formData.storyId,
+        title: formData.title,
+        chapterNumber: formData.chapterNumber,
+        content: '' // Will be filled in the next step
+      };
       
-      // Redirect to admin dashboard on success
-      router.push('/admin');
+      // Store in localStorage for the next step
+      localStorage.setItem('tempChapter', JSON.stringify(tempChapter));
+      
+      // Navigate to content writing page
+      router.push(`/admin/new-chapter/content`);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Có lỗi xảy ra khi tạo chương');
+      setError(err instanceof Error ? err.message : 'Có lỗi xảy ra');
     } finally {
       setIsSubmitting(false);
     }
@@ -130,7 +138,7 @@ export default function NewChapterPage() {
                 ✨ Tạo Chương Mới
               </h1>
               <p className="text-sm sm:text-base text-gray-600">
-                Thêm chương mới vào truyện của bạn
+                Bước 1: Nhập thông tin cơ bản
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
@@ -163,7 +171,7 @@ export default function NewChapterPage() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleNext} className="space-y-6">
             {/* Story Selection */}
             <div>
               <label htmlFor="storyId" className="block text-sm font-medium text-gray-700 mb-2">
@@ -226,20 +234,6 @@ export default function NewChapterPage() {
               />
             </div>
 
-            {/* Chapter Content */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Nội dung chương *
-              </label>
-              <div className="border border-gray-300 rounded-md">
-                <TiptapEditor
-                  content={formData.content}
-                  onChange={(content) => setFormData(prev => ({ ...prev, content }))}
-                  placeholder="Viết nội dung chương của bạn..."
-                />
-              </div>
-            </div>
-
             {/* Submit Button */}
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               <button
@@ -247,7 +241,7 @@ export default function NewChapterPage() {
                 disabled={isSubmitting}
                 className="flex-1 sm:flex-none bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-6 py-3 rounded-md font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:cursor-not-allowed"
               >
-                {isSubmitting ? 'Đang tạo...' : '✨ Tạo Chương'}
+                {isSubmitting ? 'Đang xử lý...' : '➡️ Tiếp Theo'}
               </button>
               <Link
                 href="/admin"
