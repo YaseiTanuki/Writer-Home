@@ -16,6 +16,7 @@ export default function AdminDashboard() {
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState<{ type: 'story' | 'chapter' | 'category'; id: string; title: string } | null>(null);
+  const [notification, setNotification] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -68,22 +69,40 @@ export default function AdminDashboard() {
       
       if (deleteConfirm.type === 'story') {
         await storyService.deleteStory(deleteConfirm.id);
-        alert('Đã xóa truyện và tất cả chương liên quan thành công!');
+        setNotification({ 
+          type: 'success', 
+          message: 'Đã xóa truyện và tất cả chương liên quan thành công!' 
+        });
       } else if (deleteConfirm.type === 'chapter') {
         await storyService.deleteChapter(deleteConfirm.id);
-        alert('Đã xóa chương thành công!');
+        setNotification({ 
+          type: 'success', 
+          message: 'Đã xóa chương thành công!' 
+        });
       } else if (deleteConfirm.type === 'category') {
         await storyService.deleteCategory(deleteConfirm.id);
-        alert('Đã xóa thể loại thành công!');
+        setNotification({ 
+          type: 'success', 
+          message: 'Đã xóa thể loại thành công!' 
+        });
       }
       
       // Reload data after deletion
       await loadDashboardData();
       setDeleteConfirm(null);
+      
+      // Auto hide notification after 3 seconds
+      setTimeout(() => setNotification(null), 3000);
     } catch (err) {
       console.error('Failed to delete:', err);
       const errorMessage = err instanceof Error ? err.message : 'Có lỗi xảy ra khi xóa';
-      alert(`Lỗi: ${errorMessage}`);
+      setNotification({ 
+        type: 'error', 
+        message: `Lỗi: ${errorMessage}` 
+      });
+      
+      // Auto hide error notification after 5 seconds
+      setTimeout(() => setNotification(null), 5000);
     } finally {
       setIsDeleting(null);
     }
@@ -468,6 +487,11 @@ export default function AdminDashboard() {
                 <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
                   Bạn có chắc chắn muốn xóa "{deleteConfirm.title}" không?
                 </h3>
+                {deleteConfirm.type === 'story' && (
+                  <p className="mb-4 text-sm text-red-600 bg-red-50 p-3 rounded-md">
+                    ⚠️ <strong>Lưu ý:</strong> Khi xóa truyện này, tất cả các chương liên quan cũng sẽ bị xóa vĩnh viễn!
+                  </p>
+                )}
                 <div className="flex justify-center gap-4">
                   <button
                     onClick={confirmDelete}
@@ -481,6 +505,51 @@ export default function AdminDashboard() {
                     className="text-gray-500 bg-gray-200 hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-800"
                   >
                     Hủy
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Success/Error Notification Toast */}
+      {notification && (
+        <div className="fixed top-4 right-4 z-50 animate-bounce">
+          <div className={`max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden transform transition-all duration-300 ease-in-out ${
+            notification.type === 'success' ? 'border-l-4 border-green-500' : 'border-l-4 border-red-500'
+          }`}>
+            <div className="p-4">
+              <div className="flex items-start">
+                <div className="flex-shrink-0">
+                  {notification.type === 'success' ? (
+                    <svg className="h-6 w-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  ) : (
+                    <svg className="h-6 w-6 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  )}
+                </div>
+                <div className="ml-3 w-0 flex-1 pt-0.5">
+                  <p className={`text-sm font-medium ${
+                    notification.type === 'success' ? 'text-green-800' : 'text-red-800'
+                  }`}>
+                    {notification.message}
+                  </p>
+                </div>
+                <div className="ml-4 flex-shrink-0 flex">
+                  <button
+                    onClick={() => setNotification(null)}
+                    className={`bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+                      notification.type === 'success' ? 'focus:ring-green-500' : 'focus:ring-red-500'
+                    }`}
+                  >
+                    <span className="sr-only">Đóng</span>
+                    <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
                   </button>
                 </div>
               </div>
