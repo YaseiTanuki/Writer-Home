@@ -69,8 +69,8 @@ export default function TiptapEditor({
 
   if (!isMounted) {
     return (
-      <div className={`border border-gray-300 rounded-md overflow-hidden ${className}`}>
-        <div className="p-4 text-center text-gray-500">
+      <div className={`border border-gray-600 rounded-md overflow-hidden ${className}`}>
+        <div className="p-4 text-center text-gray-400">
           Đang tải trình soạn thảo...
         </div>
       </div>
@@ -82,10 +82,12 @@ export default function TiptapEditor({
       <TiptapToolbar editor={editor} />
       <EditorContent 
         editor={editor} 
-        className="min-h-[400px] p-4 focus:outline-none prose prose-sm max-w-none"
+        className="min-h-[400px] p-4 focus:outline-none prose prose-sm max-w-none bg-gray-900 text-white"
         style={{
           minHeight: '400px',
           padding: '1rem',
+          backgroundColor: '#111827',
+          color: '#ffffff',
         }}
       />
       
@@ -93,18 +95,18 @@ export default function TiptapEditor({
       <style jsx>{`
         .ProseMirror hr {
           border: none;
-          border-top: 2px solid #e5e7eb;
+          border-top: 2px solid #4b5563;
           margin: 1.5rem 0;
           width: 100%;
         }
         
         .ProseMirror hr:hover {
-          border-top-color: #9ca3af;
+          border-top-color: #6b7280;
         }
       `}</style>
       
       {/* Word and Character Count */}
-      <div className="border-t border-gray-200 bg-white px-4 py-2 text-sm text-gray-600 flex justify-between">
+      <div className="border-t border-gray-800 bg-gray-800 px-4 py-2 text-sm text-gray-300 flex justify-between">
         <span>Từ: {wordCount}</span>
         <span>Ký tự: {charCount}</span>
       </div>

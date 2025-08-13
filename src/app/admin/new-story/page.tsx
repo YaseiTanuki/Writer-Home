@@ -205,10 +205,10 @@ export default function NewStoryPage() {
 
           {/* Story Content */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
               Nội dung truyện *
             </label>
-            <div className="border border-gray-300 rounded-md">
+            <div className="border border-gray-600 rounded-md">
               <TiptapEditor
                 content={storyContent}
                 onChange={setStoryContent}
@@ -225,12 +225,12 @@ export default function NewStoryPage() {
             >
               {isSubmitting ? 'Đang tạo...' : '✨ Tạo Truyện'}
             </button>
-            <Link
-              href="/admin"
-              className="flex-1 sm:flex-none bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 rounded-md font-medium transition-colors duration-200 text-center"
-            >
-              Hủy
-            </Link>
+                         <Link
+               href="/admin"
+               className="flex-1 sm:flex-none bg-gray-800 hover:bg-gray-700 text-gray-300 px-6 py-3 rounded-md font-medium transition-colors duration-200 text-center border border-gray-600"
+             >
+               Hủy
+             </Link>
           </div>
         </form>
       </div>

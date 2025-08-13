@@ -264,14 +264,14 @@ export default function TiptapToolbar({ editor }: TiptapToolbarProps) {
   }, [featuresPerPage]);
 
   return (
-    <div className="border-b border-gray-200 bg-white p-2" ref={containerRef}>
+    <div className="border-b border-gray-800 bg-gray-800 p-2" ref={containerRef}>
       {/* Features Container with Navigation */}
       <div className="flex items-center gap-1 justify-center">
         {/* Previous Page Button */}
         <button
           onClick={prevPage}
           disabled={totalPages <= 1}
-          className="p-2 rounded hover:bg-gray-100 transition-colors text-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="p-2 rounded hover:bg-gray-700 transition-colors text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
           title="Trang trước"
         >
           <ChevronLeft size={16} />
@@ -283,8 +283,8 @@ export default function TiptapToolbar({ editor }: TiptapToolbarProps) {
             key={startIndex + index}
             onClick={feature.onClick}
             disabled={!feature.canExecute}
-            className={`p-2 rounded hover:bg-gray-100 transition-colors ${
-              feature.isActive ? 'bg-blue-100 text-blue-600' : 'text-gray-600'
+            className={`p-2 rounded hover:bg-gray-700 transition-colors ${
+              feature.isActive ? 'bg-blue-900/20 text-blue-400 border border-blue-700' : 'text-gray-300'
             } disabled:opacity-50 disabled:cursor-not-allowed`}
             title={feature.title}
           >
@@ -296,7 +296,7 @@ export default function TiptapToolbar({ editor }: TiptapToolbarProps) {
         <button
           onClick={nextPage}
           disabled={totalPages <= 1}
-          className="p-2 rounded hover:bg-gray-100 transition-colors text-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="p-2 rounded hover:bg-gray-700 transition-colors text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
           title="Trang sau"
         >
           <ChevronRight size={16} />
