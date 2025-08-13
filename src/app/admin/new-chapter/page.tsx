@@ -71,12 +71,12 @@ export default function NewChapterPage() {
 
   if (isLoading || isLoadingStories) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-black">
         <Navigation />
         <div className="pt-24 lg:pt-32 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-            <p className="mt-4 text-gray-600">Đang tải...</p>
+            <p className="mt-4 text-gray-300">Đang tải...</p>
           </div>
         </div>
       </div>
@@ -125,7 +125,7 @@ export default function NewChapterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-black">
       <Navigation />
       
       {/* Main Content */}
@@ -134,23 +134,23 @@ export default function NewChapterPage() {
         <div className="mb-6 sm:mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="text-center sm:text-left">
-              <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 leading-tight">
+              <h1 className="text-xl sm:text-2xl font-bold text-white mb-2 leading-tight">
                 ✨ Tạo Chương Mới
               </h1>
-              <p className="text-sm sm:text-base text-gray-600">
+              <p className="text-sm sm:text-base text-gray-300">
                 Bước 1: Nhập thông tin cơ bản
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
               <Link 
                 href="/admin" 
-                className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
+                className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-gray-600 text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
               >
                 ⬅️ Quay Lại Dashboard
               </Link>
               <Link 
                 href="/stories" 
-                className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
+                className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-gray-600 text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
               >
                 👁️ Xem Trang Web
               </Link>
@@ -164,9 +164,9 @@ export default function NewChapterPage() {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow p-3 sm:p-4 lg:p-6">
+        <div className="bg-gray-900 rounded-lg shadow p-3 sm:p-4 lg:p-6 border border-gray-800">
           {error && (
-            <div className="mb-6 p-3 sm:p-4 rounded-md bg-red-100 text-red-800">
+            <div className="mb-6 p-3 sm:p-4 rounded-md bg-red-900/20 text-red-400 border border-red-700">
               {error}
             </div>
           )}
@@ -174,7 +174,7 @@ export default function NewChapterPage() {
           <form onSubmit={handleNext} className="space-y-6">
             {/* Story Selection */}
             <div>
-              <label htmlFor="storyId" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="storyId" className="block text-sm font-medium text-gray-300 mb-2">
                 Chọn truyện *
               </label>
               <select
@@ -182,7 +182,7 @@ export default function NewChapterPage() {
                 name="storyId"
                 value={formData.storyId}
                 onChange={handleStoryChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
+                className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base bg-gray-800 text-white"
                 required
               >
                 <option value="">-- Chọn truyện --</option>
@@ -193,15 +193,15 @@ export default function NewChapterPage() {
                 ))}
               </select>
               {stories.length === 0 && (
-                <p className="mt-1 text-sm text-red-600">
-                  Chưa có truyện nào. Vui lòng <Link href="/admin/new-story" className="text-blue-600 hover:underline">tạo truyện trước</Link>.
+                <p className="mt-1 text-sm text-red-400">
+                  Chưa có truyện nào. Vui lòng <Link href="/admin/new-story" className="text-blue-400 hover:underline">tạo truyện trước</Link>.
                 </p>
               )}
             </div>
 
             {/* Chapter Number - Auto-calculated */}
             <div>
-              <label htmlFor="chapterNumber" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="chapterNumber" className="block text-sm font-medium text-gray-300 mb-2">
                 Số chương * (Tự động tính)
               </label>
               <input
@@ -211,7 +211,7 @@ export default function NewChapterPage() {
                 value={formData.chapterNumber}
                 onChange={handleInputChange}
                 min="1"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base bg-gray-50"
+                className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base bg-gray-800 text-white"
                 required
                 readOnly
               />
@@ -219,7 +219,7 @@ export default function NewChapterPage() {
 
             {/* Chapter Title */}
             <div>
-              <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="title" className="block text-sm font-medium text-gray-300 mb-2">
                 Tiêu đề chương *
               </label>
               <input
@@ -228,7 +228,7 @@ export default function NewChapterPage() {
                 name="title"
                 value={formData.title}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
+                className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base bg-gray-800 text-white placeholder-gray-400"
                 placeholder="Nhập tiêu đề chương..."
                 required
               />
@@ -245,7 +245,7 @@ export default function NewChapterPage() {
               </button>
               <Link
                 href="/admin"
-                className="flex-1 sm:flex-none bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 rounded-md font-medium transition-colors duration-200 text-center"
+                className="flex-1 sm:flex-none bg-gray-800 hover:bg-gray-700 text-gray-300 px-6 py-3 rounded-md font-medium transition-colors duration-200 text-center border border-gray-600"
               >
                 Hủy
               </Link>

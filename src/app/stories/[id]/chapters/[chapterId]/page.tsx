@@ -74,11 +74,11 @@ export default function ChapterReaderPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-black">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-            <p className="mt-4 text-gray-600">Đang tải...</p>
+            <p className="mt-4 text-gray-300">Đang tải...</p>
           </div>
         </div>
       </div>
@@ -87,10 +87,10 @@ export default function ChapterReaderPage() {
 
   if (error || !story || !chapter) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-black">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
+            <div className="bg-red-900/20 border border-red-700 text-red-400 px-4 py-3 rounded">
               {error || 'Không tìm thấy chương'}
             </div>
             <button 
@@ -107,10 +107,10 @@ export default function ChapterReaderPage() {
 
   if (story.status !== 'public') {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-black">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
-            <div className="bg-yellow-50 border border-yellow-200 text-yellow-700 px-4 py-3 rounded">
+            <div className="bg-yellow-900/20 border border-yellow-700 text-yellow-400 px-4 py-3 rounded">
               Truyện này chưa được xuất bản
             </div>
             <button 
@@ -129,18 +129,18 @@ export default function ChapterReaderPage() {
   const nextChapter = getNextChapter();
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-black">
       <Navigation />
       
       {/* Main Content */}
       <div className="pt-24 max-w-4xl mx-auto px-3 sm:px-4 lg:px-8 py-6 sm:py-8">
         {/* Chapter Header */}
-        <div className="bg-white rounded-lg shadow p-3 sm:p-4 lg:p-6 mb-4 sm:mb-6 lg:mb-8">
+        <div className="bg-gray-900 rounded-lg shadow p-3 sm:p-4 lg:p-6 mb-4 sm:mb-6 lg:mb-8 border border-gray-800">
           <div className="text-center mb-3 sm:mb-4 lg:mb-6">
-            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2 leading-tight">
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2 leading-tight">
               Chương {chapter.chapterNumber}: {chapter.title}
             </h1>
-            <div className="text-gray-600 text-xs sm:text-sm lg:text-base">
+            <div className="text-gray-300 text-xs sm:text-sm lg:text-base">
               <span>📅 {new Date(chapter.createdAt).toLocaleDateString('vi-VN')}</span>
               {chapter.content && (
                 <>
@@ -152,11 +152,11 @@ export default function ChapterReaderPage() {
           </div>
 
           {/* Chapter Navigation */}
-          <div className="flex flex-col sm:flex-row justify-between items-center pt-3 sm:pt-4 border-t border-gray-200 gap-2 sm:gap-3">
+          <div className="flex flex-col sm:flex-row justify-between items-center pt-3 sm:pt-4 border-t border-gray-800 gap-2 sm:gap-3">
             {previousChapter ? (
               <button
                 onClick={() => navigateToChapter(previousChapter._id)}
-                className="inline-flex items-center px-2 sm:px-3 lg:px-4 py-2 border border-gray-300 text-xs sm:text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full sm:w-auto justify-center transition-colors duration-200"
+                className="inline-flex items-center px-2 sm:px-3 lg:px-4 py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full sm:w-auto justify-center transition-colors duration-200"
               >
                 ← Chương {previousChapter.chapterNumber}
               </button>
@@ -167,7 +167,7 @@ export default function ChapterReaderPage() {
             {nextChapter ? (
               <button
                 onClick={() => navigateToChapter(nextChapter._id)}
-                className="inline-flex items-center px-2 sm:px-3 lg:px-4 py-2 border border-gray-300 text-xs sm:text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full sm:w-auto justify-center transition-colors duration-200"
+                className="inline-flex items-center px-2 sm:px-3 lg:px-4 py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full sm:w-auto justify-center transition-colors duration-200"
               >
                 Chương {nextChapter.chapterNumber} →
               </button>
@@ -178,23 +178,23 @@ export default function ChapterReaderPage() {
         </div>
 
         {/* Chapter Content */}
-        <div className="bg-white rounded-lg shadow p-3 sm:p-4 lg:p-6 xl:p-8 mb-4 sm:mb-6 lg:mb-8">
+        <div className="bg-gray-900 rounded-lg shadow p-3 sm:p-4 lg:p-6 xl:p-8 mb-4 sm:mb-6 lg:mb-8 border border-gray-800">
           {/* Reading Controls */}
-          <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-gray-50 rounded-lg">
-            <h3 className="text-sm font-medium text-gray-700 mb-2 sm:mb-3">🎛️ Điều chỉnh đọc</h3>
+          <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-gray-800 rounded-lg border border-gray-700">
+            <h3 className="text-sm font-medium text-gray-300 mb-2 sm:mb-3">🎛️ Điều chỉnh đọc</h3>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
               <div className="flex items-center space-x-1 sm:space-x-2">
                 <button
                   onClick={decreaseFontSize}
-                  className="p-1.5 sm:p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded transition-colors duration-200 text-sm sm:text-base"
+                  className="p-1.5 sm:p-2 text-gray-300 hover:text-white hover:bg-gray-700 rounded transition-colors duration-200 text-sm sm:text-base"
                   title="Giảm cỡ chữ"
                 >
                   A-
                 </button>
-                <span className="text-xs sm:text-sm text-gray-600 w-8 sm:w-12 text-center font-medium">{fontSize}px</span>
+                <span className="text-xs sm:text-sm text-gray-300 w-8 sm:w-12 text-center font-medium">{fontSize}px</span>
                 <button
                   onClick={increaseFontSize}
-                  className="p-1.5 sm:p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded transition-colors duration-200 text-sm sm:text-base"
+                  className="p-1.5 sm:p-2 text-gray-300 hover:text-white hover:bg-gray-700 rounded transition-colors duration-200 text-sm sm:text-base"
                   title="Tăng cỡ chữ"
                 >
                   A+
@@ -204,15 +204,15 @@ export default function ChapterReaderPage() {
               <div className="flex items-center space-x-1 sm:space-x-2">
                 <button
                   onClick={decreaseLineHeight}
-                  className="p-1.5 sm:p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded transition-colors duration-200 text-sm sm:text-base"
+                  className="p-1.5 sm:p-2 text-gray-300 hover:text-white hover:bg-gray-700 rounded transition-colors duration-200 text-sm sm:text-base"
                   title="Giảm khoảng cách dòng"
                 >
                   ⬇️
                 </button>
-                <span className="text-xs sm:text-sm text-gray-600 w-8 sm:w-12 text-center font-medium">{lineHeight.toFixed(1)}</span>
+                <span className="text-xs sm:text-sm text-gray-300 w-8 sm:w-12 text-center font-medium">{lineHeight.toFixed(1)}</span>
                 <button
                   onClick={increaseLineHeight}
-                  className="p-1.5 sm:p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded transition-colors duration-200 text-sm sm:text-base"
+                  className="p-1.5 sm:p-2 text-gray-300 hover:text-white hover:bg-gray-700 rounded transition-colors duration-200 text-sm sm:text-base"
                   title="Tăng khoảng cách dòng"
                 >
                   ⬆️
@@ -223,7 +223,7 @@ export default function ChapterReaderPage() {
 
           {/* Chapter Text */}
           <div 
-            className="prose prose-sm sm:prose-base lg:prose-lg max-w-none"
+            className="prose prose-sm sm:prose-base lg:prose-lg max-w-none text-white"
             style={{ 
               fontSize: `${fontSize}px`, 
               lineHeight: lineHeight,
@@ -233,14 +233,14 @@ export default function ChapterReaderPage() {
             {chapter.content && (
               <div 
                 dangerouslySetInnerHTML={{ __html: chapter.content }}
-                className="leading-relaxed"
+                className="leading-relaxed text-white"
               />
             )}
           </div>
         </div>
 
         {/* Bottom Navigation */}
-        <div className="bg-white rounded-lg shadow p-3 sm:p-4 lg:p-6">
+        <div className="bg-gray-900 rounded-lg shadow p-3 sm:p-4 lg:p-6 border border-gray-800">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-3">
             {previousChapter ? (
               <button
@@ -256,13 +256,13 @@ export default function ChapterReaderPage() {
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
               <Link
                 href={`/stories/${storyId}`}
-                className="inline-flex items-center justify-center px-3 sm:px-4 lg:px-6 py-2 sm:py-3 border border-gray-300 text-sm sm:text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
+                className="inline-flex items-center justify-center px-3 sm:px-4 lg:px-6 py-2 sm:py-3 border border-gray-600 text-sm sm:text-base font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
               >
                 📚 Danh sách chương
               </Link>
               <Link
                 href="/stories"
-                className="inline-flex items-center justify-center px-3 sm:px-4 lg:px-6 py-2 sm:py-3 border border-gray-300 text-sm sm:text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
+                className="inline-flex items-center justify-center px-3 sm:px-4 lg:px-6 py-2 sm:py-3 border border-gray-600 text-sm sm:text-base font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
               >
                 📖 Thư Viện
               </Link>
