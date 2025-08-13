@@ -38,25 +38,25 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-black">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">Liên hệ với tôi</h1>
-          <p className="text-lg text-gray-600">
+          <h1 className="text-3xl font-bold text-white mb-4">Liên hệ với tôi</h1>
+          <p className="text-lg text-gray-300">
             Bạn có góp ý, câu hỏi hoặc muốn chia sẻ cảm nhận về truyện? Hãy để lại tin nhắn cho tôi!
           </p>
         </div>
 
-        <div className="bg-white shadow-lg rounded-lg p-8">
+        <div className="bg-gray-900 shadow-lg rounded-lg p-8 border border-gray-800">
           {submitStatus === 'success' && (
-            <div className="mb-6 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded">
+            <div className="mb-6 bg-green-900/20 border border-green-700 text-green-400 px-4 py-3 rounded">
               <p className="font-medium">Tin nhắn đã được gửi thành công!</p>
               <p className="text-sm mt-1">Cảm ơn bạn đã liên hệ. Tôi sẽ phản hồi sớm nhất có thể.</p>
             </div>
           )}
 
           {submitStatus === 'error' && (
-            <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
+            <div className="mb-6 bg-red-900/20 border border-red-700 text-red-400 px-4 py-3 rounded">
               <p className="font-medium">Không thể gửi tin nhắn</p>
               <p className="text-sm mt-1">{errorMessage}</p>
             </div>
@@ -64,8 +64,8 @@ export default function ContactPage() {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                Tên của bạn <span className="text-red-500">*</span>
+              <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
+                Tên của bạn <span className="text-red-400">*</span>
               </label>
               <input
                 type="text"
@@ -74,14 +74,14 @@ export default function ContactPage() {
                 required
                 value={formData.name}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-800 text-white placeholder-gray-400"
                 placeholder="Nhập tên của bạn"
               />
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                Email <span className="text-red-500">*</span>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+                Email <span className="text-red-400">*</span>
               </label>
               <input
                 type="email"
@@ -90,14 +90,14 @@ export default function ContactPage() {
                 required
                 value={formData.email}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-800 text-white placeholder-gray-400"
                 placeholder="your.email@example.com"
               />
             </div>
 
             <div>
-              <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-2">
-                Nội dung tin nhắn <span className="text-red-500">*</span>
+              <label htmlFor="content" className="block text-sm font-medium text-gray-300 mb-2">
+                Nội dung tin nhắn <span className="text-red-400">*</span>
               </label>
               <textarea
                 id="content"
@@ -106,7 +106,7 @@ export default function ContactPage() {
                 rows={6}
                 value={formData.content}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-800 text-white placeholder-gray-400"
                 placeholder="Viết tin nhắn của bạn ở đây..."
               />
             </div>
@@ -122,9 +122,9 @@ export default function ContactPage() {
             </div>
           </form>
 
-          <div className="mt-8 pt-6 border-t border-gray-200">
-            <h3 className="text-lg font-medium text-gray-900 mb-3">Thông tin liên hệ khác</h3>
-            <div className="text-gray-600 space-y-2">
+          <div className="mt-8 pt-6 border-t border-gray-800">
+            <h3 className="text-lg font-medium text-white mb-3">Thông tin liên hệ khác</h3>
+            <div className="text-gray-300 space-y-2">
               <p>• Bạn cũng có thể góp ý trực tiếp trong phần bình luận của từng chương</p>
               <p>• Tôi sẽ cố gắng phản hồi tất cả tin nhắn trong thời gian sớm nhất</p>
               <p>• Cảm ơn bạn đã dành thời gian đọc truyện của tôi!</p>

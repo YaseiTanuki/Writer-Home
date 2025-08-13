@@ -83,12 +83,12 @@ export default function StoriesPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 pt-24">
+      <div className="min-h-screen bg-black pt-24">
         <Navigation />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-            <p className="mt-4 text-gray-600">Đang tải...</p>
+            <p className="mt-4 text-gray-300">Đang tải...</p>
           </div>
         </div>
       </div>
@@ -96,7 +96,7 @@ export default function StoriesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-24">
+    <div className="min-h-screen bg-black pt-24">
       <Navigation />
       
       {/* Main Content */}
@@ -105,10 +105,10 @@ export default function StoriesPage() {
         <div className="mb-6 sm:mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="text-center sm:text-left">
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+              <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
                 📚 Thư Viện Truyện
               </h1>
-              <p className="text-sm sm:text-base text-gray-600">
+              <p className="text-sm sm:text-base text-gray-300">
                 Khám phá những câu chuyện thú vị từ các tác giả tài năng
               </p>
             </div>
@@ -122,12 +122,12 @@ export default function StoriesPage() {
         </div>
 
         {/* Filters */}
-        <div className="bg-white rounded-lg shadow p-3 sm:p-4 lg:p-6 mb-6 sm:mb-8">
-          <h2 className="text-base sm:text-lg font-medium text-gray-900 mb-3 sm:mb-4">🔍 Bộ Lọc</h2>
+        <div className="bg-gray-900 rounded-lg shadow p-3 sm:p-4 lg:p-6 mb-6 sm:mb-8 border border-gray-800">
+          <h2 className="text-base sm:text-lg font-medium text-white mb-3 sm:mb-4">🔍 Bộ Lọc</h2>
           
           {/* Search */}
           <div className="mb-3 sm:mb-4">
-            <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="search" className="block text-sm font-medium text-gray-300 mb-2">
               Tìm kiếm
             </label>
             <input
@@ -136,13 +136,13 @@ export default function StoriesPage() {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Tìm kiếm theo tên truyện hoặc mô tả..."
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
+              className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base bg-gray-800 text-white placeholder-gray-400"
             />
           </div>
 
           {/* Categories Filter */}
           <div className="mb-3 sm:mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
               Thể loại
             </label>
             <div className="flex flex-wrap gap-2">
@@ -153,7 +153,7 @@ export default function StoriesPage() {
                   className={`px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium transition-colors duration-200 ${
                     selectedCategories.includes(category._id)
                       ? 'bg-blue-600 text-white'
-                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                      : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
                   }`}
                   style={{
                     border: selectedCategories.includes(category._id) ? 'none' : `2px solid ${category.color}`
@@ -169,7 +169,7 @@ export default function StoriesPage() {
           {(selectedCategories.length > 0 || searchTerm.trim()) && (
             <button
               onClick={clearFilters}
-              className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+              className="text-blue-400 hover:text-blue-300 text-sm font-medium"
             >
               🗑️ Xóa bộ lọc
             </button>
@@ -178,8 +178,8 @@ export default function StoriesPage() {
 
         {/* Results Count */}
         <div className="mb-4 sm:mb-6">
-          <p className="text-sm sm:text-base text-gray-600 text-center sm:text-left">
-            Tìm thấy <span className="font-semibold text-blue-600">{filteredStories.length}</span> truyện
+          <p className="text-sm sm:text-base text-gray-300 text-center sm:text-left">
+            Tìm thấy <span className="font-semibold text-blue-400">{filteredStories.length}</span> truyện
             {selectedCategories.length > 0 && (
               <span> trong thể loại đã chọn</span>
             )}
@@ -189,7 +189,7 @@ export default function StoriesPage() {
         {/* Stories Grid */}
         {filteredStories.length === 0 ? (
           <div className="text-center py-8 sm:py-12">
-            <div className="text-gray-500 text-base sm:text-lg">
+            <div className="text-gray-400 text-base sm:text-lg">
               {stories.length === 0 ? 'Chưa có truyện nào được xuất bản.' : 'Không tìm thấy truyện phù hợp với bộ lọc.'}
             </div>
           </div>
@@ -199,7 +199,7 @@ export default function StoriesPage() {
               <Link
                 key={story._id}
                 href={`/stories/${story._id}`}
-                className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200 group"
+                className="bg-gray-900 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200 group border border-gray-800"
               >
                 {/* Cover Image */}
                 <div className="aspect-w-3 aspect-h-4 bg-gray-200">
@@ -218,11 +218,11 @@ export default function StoriesPage() {
 
                 {/* Story Info */}
                 <div className="p-2 sm:p-3 lg:p-4">
-                  <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors duration-200 leading-tight">
+                  <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-white mb-2 line-clamp-2 group-hover:text-blue-400 transition-colors duration-200 leading-tight">
                     {story.title}
                   </h3>
                   
-                  <p className="text-gray-600 text-xs sm:text-sm mb-2 sm:mb-3 line-clamp-3 leading-relaxed">
+                  <p className="text-gray-300 text-xs sm:text-sm mb-2 sm:mb-3 line-clamp-3 leading-relaxed">
                     {story.description}
                   </p>
 
@@ -244,7 +244,7 @@ export default function StoriesPage() {
                       ) : null;
                     })}
                     {story.category.length > 2 && (
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-gray-400">
                         +{story.category.length - 2} thể loại khác
                       </span>
                     )}
@@ -252,10 +252,10 @@ export default function StoriesPage() {
 
                   {/* Status Badge */}
                   <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-0">
-                    <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 w-fit">
+                    <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-900/20 text-green-400 w-fit border border-green-700">
                       ✅ Đã xuất bản
                     </span>
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs text-gray-400">
                       {new Date(story.createdAt).toLocaleDateString('vi-VN')}
                     </span>
                   </div>

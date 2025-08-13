@@ -122,11 +122,11 @@ export default function AdminDashboard() {
 
   if (isLoading || !isAuthenticated) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-            <p className="mt-4 text-gray-600">Đang tải...</p>
+            <p className="mt-4 text-gray-300">Đang tải...</p>
           </div>
         </div>
       </div>
@@ -134,7 +134,7 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-black">
       <Navigation />
       
       {/* Main Content */}
@@ -143,17 +143,17 @@ export default function AdminDashboard() {
         <div className="mb-6 sm:mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="text-center sm:text-left">
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 leading-tight">
+              <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2 leading-tight">
                 ⚙️ Bảng Điều Khiển Quản Trị
               </h1>
-              <p className="text-sm sm:text-base text-gray-600">
+              <p className="text-sm sm:text-base text-gray-300">
                 Quản lý truyện, chương và thể loại
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
               <Link
                 href="/stories"
-                className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
+                className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-gray-600 text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
               >
                 👁️ Xem Trang Web
               </Link>
@@ -169,36 +169,36 @@ export default function AdminDashboard() {
 
         {/* Quick Stats */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-3 sm:gap-4 lg:gap-6 mb-6 sm:mb-8">
-          <div className="bg-blue-50 rounded-lg p-3 sm:p-4 text-center">
-            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-600">{stories.length}</div>
-            <div className="text-xs sm:text-sm text-blue-700">📚 Truyện</div>
+          <div className="bg-blue-900/20 rounded-lg p-3 sm:p-4 text-center border border-blue-800">
+            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-400">{stories.length}</div>
+            <div className="text-xs sm:text-sm text-blue-300">📚 Truyện</div>
           </div>
-          <div className="bg-green-50 rounded-lg p-3 sm:p-4 text-center">
-            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-green-600">{chapters.length}</div>
-            <div className="text-xs sm:text-sm text-green-700">📖 Chương</div>
+          <div className="bg-green-900/20 rounded-lg p-3 sm:p-4 text-center border border-green-800">
+            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-green-400">{chapters.length}</div>
+            <div className="text-xs sm:text-sm text-green-300">📖 Chương</div>
           </div>
-          <div className="bg-purple-50 rounded-lg p-3 sm:p-4 text-center">
-            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-purple-600">{categories.length}</div>
-            <div className="text-xs sm:text-sm text-purple-700">🏷️ Thể Loại</div>
+          <div className="bg-purple-900/20 rounded-lg p-3 sm:p-4 text-center border border-purple-800">
+            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-purple-400">{categories.length}</div>
+            <div className="text-xs sm:text-sm text-purple-300">🏷️ Thể Loại</div>
           </div>
-          <div className="bg-yellow-50 rounded-lg p-3 sm:p-4 text-center">
-            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-yellow-600">
+          <div className="bg-yellow-900/20 rounded-lg p-3 sm:p-4 text-center border border-yellow-800">
+            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-yellow-400">
               {stories.filter(s => s.status === 'public').length}
             </div>
-            <div className="text-xs sm:text-sm text-yellow-700">✅ Đã Xuất Bản</div>
+            <div className="text-xs sm:text-sm text-yellow-300">✅ Đã Xuất Bản</div>
           </div>
-          <div className="bg-red-50 rounded-lg p-3 sm:p-4 text-center">
-            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-red-600">
+          <div className="bg-red-900/20 rounded-lg p-3 sm:p-4 text-center border border-red-800">
+            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-red-400">
               {stories.filter(s => s.status === 'draft').length}
             </div>
-            <div className="text-xs sm:text-sm text-red-700">📝 Bản Thảo</div>
+            <div className="text-xs sm:text-sm text-red-300">📝 Bản Thảo</div>
           </div>
         </div>
 
         {/* Actions */}
-        <div className="bg-white rounded-lg shadow mb-6 sm:mb-8">
-          <div className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 border-b border-gray-200">
-            <h2 className="text-lg font-medium text-gray-900">Thao Tác Nhanh</h2>
+        <div className="bg-gray-900 rounded-lg shadow mb-6 sm:mb-8 border border-gray-800">
+          <div className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 border-b border-gray-800">
+            <h2 className="text-lg font-medium text-white">Thao Tác Nhanh</h2>
           </div>
           <div className="p-3 sm:p-4 lg:p-6">
             <div className="flex flex-wrap gap-3 sm:gap-4">
