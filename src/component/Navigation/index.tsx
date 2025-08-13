@@ -3,10 +3,12 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useAuth } from '../../contexts/AuthContext';
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
+  const { user, isAuthenticated, logout } = useAuth();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -20,14 +22,19 @@ export default function Navigation() {
     return pathname === path;
   };
 
+  const handleLogout = () => {
+    logout();
+    closeMenu();
+  };
+
   return (
     <nav className="bg-white shadow-lg fixed top-0 left-0 right-0 z-50">
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
         <div className="flex justify-between items-center h-14 sm:h-16">
           {/* Logo/Brand */}
           <div className="flex items-center">
-            <Link href="/" className="text-lg sm:text-xl font-bold text-gray-900">
-              📚 Writer Home
+            <Link href="/" className="text-lg sm:text-xl font-bold text-blue-600">
+              📚 Góc Truyện
             </Link>
           </div>
 
@@ -54,15 +61,56 @@ export default function Navigation() {
               📖 Thư Viện
             </Link>
             <Link 
-              href="/admin" 
+              href="/about" 
               className={`px-2 sm:px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
-                pathname.startsWith('/admin')
+                isActive('/about')
                   ? 'text-blue-600 bg-blue-50' 
                   : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
               }`}
             >
-              ⚙️ Quản Trị
+              ℹ️ Về Tôi
             </Link>
+            <Link 
+              href="/contact" 
+              className={`px-2 sm:px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
+                isActive('/contact')
+                  ? 'text-blue-600 bg-blue-50' 
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+              }`}
+            >
+              📧 Liên Hệ
+            </Link>
+          </div>
+
+          {/* Authentication & Admin Section */}
+          <div className="hidden md:flex items-center space-x-3 sm:space-x-4">
+            {isAuthenticated ? (
+              <>
+                <Link 
+                  href="/admin" 
+                  className={`px-2 sm:px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
+                    pathname.startsWith('/admin')
+                      ? 'text-blue-600 bg-blue-50' 
+                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                  }`}
+                >
+                  ⚙️ Quản Trị
+                </Link>
+                <button
+                  onClick={logout}
+                  className="px-2 sm:px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 transition-colors duration-200"
+                >
+                  🚪 Đăng Xuất
+                </button>
+              </>
+            ) : (
+              <Link
+                href="/login"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+              >
+                🔑 Đăng Nhập
+              </Link>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -133,19 +181,63 @@ export default function Navigation() {
                 : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
             }`}
           >
-            📖 Thư Viện Truyện
+            📖 Thư Viện
           </Link>
           <Link
-            href="/admin"
+            href="/about"
             onClick={closeMenu}
             className={`block px-3 py-2.5 rounded-md text-base font-medium transition-colors duration-200 ${
-              pathname.startsWith('/admin')
+              isActive('/about')
                 ? 'text-blue-600 bg-blue-50'
                 : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
             }`}
           >
-            ⚙️ Quản Trị
+            ℹ️ Về Tôi
           </Link>
+          <Link
+            href="/contact"
+            onClick={closeMenu}
+            className={`block px-3 py-2.5 rounded-md text-base font-medium transition-colors duration-200 ${
+              isActive('/contact')
+                ? 'text-blue-600 bg-blue-50'
+                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+            }`}
+          >
+            📧 Liên Hệ
+          </Link>
+          
+          {/* Authentication section for mobile */}
+          <div className="pt-4 border-t border-gray-200">
+            {isAuthenticated ? (
+              <>
+                <Link
+                  href="/admin"
+                  onClick={closeMenu}
+                  className={`block px-3 py-2.5 rounded-md text-base font-medium transition-colors duration-200 ${
+                    pathname.startsWith('/admin')
+                      ? 'text-blue-600 bg-blue-50'
+                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                  }`}
+                >
+                  ⚙️ Quản Trị
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="w-full text-left px-3 py-2.5 rounded-md text-base font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 transition-colors duration-200"
+                >
+                  🚪 Đăng Xuất
+                </button>
+              </>
+            ) : (
+              <Link
+                href="/login"
+                onClick={closeMenu}
+                className="bg-blue-600 hover:bg-blue-700 text-white block w-full text-center px-4 py-2.5 rounded-md text-base font-medium transition-colors duration-200"
+              >
+                🔑 Đăng Nhập
+              </Link>
+            )}
+          </div>
         </div>
       </div>
     </nav>
