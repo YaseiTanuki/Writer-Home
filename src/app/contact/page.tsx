@@ -7,7 +7,7 @@ import { storyService } from '../../services/storyService';
 import { CreateMessageRequest } from '../../types/story';
 import { useGuest } from '../../contexts/GuestContext';
 import { useAuth } from '../../contexts/AuthContext';
-import { Mail, User, MessageSquare, Send, CheckCircle, AlertCircle, Info, LogIn } from 'lucide-react';
+import { Mail, User, MessageSquare, Send, CheckCircle, AlertCircle, Info, LogIn, Clock } from 'lucide-react';
 
 export default function ContactPage() {
   const router = useRouter();
@@ -73,7 +73,17 @@ export default function ContactPage() {
       setFormData({ name: '', email: '', content: '' });
     } catch (err) {
       setSubmitStatus('error');
-      setErrorMessage(err instanceof Error ? err.message : 'Failed to send message');
+      
+      // Handle specific error types
+      if (err instanceof Error) {
+        if (err.message.includes('Daily message limit exceeded') || err.message.includes('429')) {
+          setErrorMessage('Bạn đã đạt giới hạn 5 tin nhắn mỗi ngày. Vui lòng thử lại vào ngày mai.');
+        } else {
+          setErrorMessage(err.message);
+        }
+      } else {
+        setErrorMessage('Failed to send message');
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -116,6 +126,17 @@ export default function ContactPage() {
             </div>
           )}
 
+          {/* Daily Limit Notice for Guests */}
+          {isGuestAuthenticated && (
+            <div className="mb-6 bg-blue-900/20 border border-blue-700 text-blue-400 px-4 py-3 rounded flex items-center gap-3">
+              <Clock size={20} />
+              <div>
+                <p className="font-medium">Giới hạn tin nhắn hàng ngày</p>
+                <p className="text-sm mt-1">Mỗi tài khoản Google chỉ được gửi tối đa 5 tin nhắn mỗi ngày</p>
+              </div>
+            </div>
+          )}
+
           {submitStatus === 'success' && (
             <div className="mb-6 bg-green-900/20 border border-green-700 text-green-400 px-4 py-3 rounded flex items-center gap-3">
               <CheckCircle size={20} />
@@ -155,23 +176,37 @@ export default function ContactPage() {
               />
             </div>
 
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2 flex items-center gap-2">
-                <Mail size={16} />
-                Email <span className="text-red-400">*</span>
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                required
-                value={formData.email}
-                onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-800 text-white placeholder-gray-400"
-                placeholder="your.email@example.com"
-                disabled={!isAuthenticated}
-              />
-            </div>
+            {/* Email field - hidden for guests, shown for admins */}
+            {!isGuestAuthenticated && (
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2 flex items-center gap-2">
+                  <Mail size={16} />
+                  Email <span className="text-red-400">*</span>
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-800 text-white placeholder-gray-400"
+                  placeholder="your.email@example.com"
+                  disabled={!isAuthenticated}
+                />
+              </div>
+            )}
+
+            {/* Guest email info */}
+            {isGuestAuthenticated && (
+              <div className="bg-gray-800 border border-gray-700 rounded-md p-3">
+                <div className="flex items-center gap-2 text-sm text-gray-300">
+                  <Mail size={16} />
+                  <span>Email: <span className="text-blue-400">{guest?.email}</span></span>
+                </div>
+                <p className="text-xs text-gray-400 mt-1">Email sẽ được tự động lấy từ tài khoản Google của bạn</p>
+              </div>
+            )}
 
             <div>
               <label htmlFor="content" className="block text-sm font-medium text-gray-300 mb-2 flex items-center gap-2">
