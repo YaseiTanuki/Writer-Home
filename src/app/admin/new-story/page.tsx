@@ -34,11 +34,11 @@ export default function NewStoryPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-black">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-            <p className="mt-4 text-gray-600">Đang tải...</p>
+            <p className="mt-4 text-gray-300">Đang tải...</p>
           </div>
         </div>
       </div>
@@ -80,7 +80,7 @@ export default function NewStoryPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-black">
       <Navigation />
       
       {/* Main Content */}
@@ -89,20 +89,20 @@ export default function NewStoryPage() {
         <div className="mb-6 sm:mb-8 mt-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="text-center sm:text-left">
-              <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 leading-tight">
+              <h1 className="text-xl sm:text-2xl font-bold text-white mb-2 leading-tight">
                 ✨ Viết Truyện Mới
               </h1>
             </div>
             <div className="flex flex-row items-center gap-2 sm:gap-3 w-full sm:w-auto justify-center sm:justify-end">
               <Link 
                 href="/admin" 
-                className="inline-flex items-center justify-center px-2 sm:px-3 py-2 border border-gray-300 text-xs sm:text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm"
+                className="inline-flex items-center justify-center px-2 sm:px-3 py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm"
               >
                 ⬅️ Dashboard
               </Link>
               <Link 
                 href="/stories" 
-                className="inline-flex items-center justify-center px-2 sm:px-3 py-2 border border-gray-300 text-xs sm:text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm"
+                className="inline-flex items-center justify-center px-2 sm:px-3 py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm"
               >
                 👁️ Xem Web
               </Link>
@@ -119,14 +119,14 @@ export default function NewStoryPage() {
         <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
           {/* Error Display */}
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-3 sm:px-4 py-3 rounded-md">
+            <div className="bg-red-900/20 border border-red-700 text-red-400 px-3 sm:px-4 py-3 rounded-md">
               {error}
             </div>
           )}
 
           {/* Title */}
           <div>
-            <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="title" className="block text-sm font-medium text-gray-300 mb-2">
               Tiêu đề truyện *
             </label>
             <input
@@ -135,7 +135,7 @@ export default function NewStoryPage() {
               name="title"
               value={formData.title}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
+              className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base bg-gray-800 text-white placeholder-gray-400"
               placeholder="Nhập tiêu đề truyện..."
               required
             />
@@ -143,7 +143,7 @@ export default function NewStoryPage() {
 
           {/* Description */}
           <div>
-            <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="description" className="block text-sm font-medium text-gray-300 mb-2">
               Mô tả truyện *
             </label>
             <textarea
@@ -152,7 +152,7 @@ export default function NewStoryPage() {
               value={formData.description}
               onChange={handleInputChange}
               rows={3}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
+              className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base bg-gray-800 text-white placeholder-gray-400"
               placeholder="Nhập mô tả ngắn gọn về truyện..."
               required
             />
@@ -160,7 +160,7 @@ export default function NewStoryPage() {
 
           {/* Categories */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-300 mb-2">
               Thể loại *
             </label>
             <CategorySelector
@@ -171,7 +171,7 @@ export default function NewStoryPage() {
 
           {/* Cover Image */}
           <div>
-            <label htmlFor="coverImage" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="coverImage" className="block text-sm font-medium text-gray-300 mb-2">
               Ảnh bìa *
             </label>
             <input
@@ -180,7 +180,7 @@ export default function NewStoryPage() {
               name="coverImage"
               value={formData.coverImage}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
+              className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base bg-gray-800 text-white placeholder-gray-400"
               placeholder="Nhập URL ảnh bìa..."
               required
             />
@@ -188,7 +188,7 @@ export default function NewStoryPage() {
 
           {/* Status */}
           <div>
-            <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="status" className="block text-sm font-medium text-gray-300 mb-2">
               Trạng thái
             </label>
             <select
@@ -196,7 +196,7 @@ export default function NewStoryPage() {
               name="status"
               value={formData.status}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
+              className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base bg-gray-800 text-white"
             >
               <option value="draft">Bản thảo</option>
               <option value="public">Xuất bản</option>

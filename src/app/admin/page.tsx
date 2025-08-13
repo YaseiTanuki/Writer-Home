@@ -225,10 +225,10 @@ export default function AdminDashboard() {
         </div>
 
         {/* Stories Table */}
-        <div className="bg-white rounded-lg shadow mb-6 sm:mb-8">
-          <div className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 border-b border-gray-200">
+        <div className="bg-gray-900 rounded-lg shadow mb-6 sm:mb-8 border border-gray-800">
+          <div className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 border-b border-gray-800">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
-              <h2 className="text-lg font-medium text-gray-900">📚 Danh Sách Truyện</h2>
+              <h2 className="text-lg font-medium text-white">📚 Danh Sách Truyện</h2>
               <Link
                 href="/admin/new-story"
                 className="inline-flex items-center px-3 sm:px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full sm:w-auto justify-center"
@@ -239,29 +239,29 @@ export default function AdminDashboard() {
           </div>
           
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-gray-800">
+              <thead className="bg-gray-800">
                 <tr>
-                  <th className="px-2 sm:px-3 lg:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-2 sm:px-3 lg:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                     Truyện
                   </th>
-                  <th className="px-2 sm:px-3 lg:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">
+                  <th className="px-2 sm:px-3 lg:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider hidden sm:table-cell">
                     Thể Loại
                   </th>
-                  <th className="px-2 sm:px-3 lg:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-2 sm:px-3 lg:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                     Trạng Thái
                   </th>
-                  <th className="px-2 sm:px-3 lg:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">
+                  <th className="px-2 sm:px-3 lg:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider hidden sm:table-cell">
                     Ngày Tạo
                   </th>
-                  <th className="px-2 sm:px-3 lg:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-2 sm:px-3 lg:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                     Thao Tác
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-gray-900 divide-y divide-gray-800">
                 {stories.map((story) => (
-                  <tr key={story._id} className="hover:bg-gray-50">
+                  <tr key={story._id} className="hover:bg-gray-800">
                     <td className="px-2 sm:px-3 lg:px-6 py-3 sm:py-4">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-8 w-8 sm:h-10 sm:w-10">
@@ -274,8 +274,8 @@ export default function AdminDashboard() {
                           )}
                         </div>
                         <div className="ml-2 sm:ml-3 min-w-0 flex-1">
-                          <div className="text-xs sm:text-sm font-medium text-gray-900 truncate">{story.title}</div>
-                          <div className="text-xs sm:text-sm text-gray-500 truncate">{story.description}</div>
+                          <div className="text-xs sm:text-sm font-medium text-white truncate">{story.title}</div>
+                          <div className="text-xs sm:text-sm text-gray-300 truncate">{story.description}</div>
                         </div>
                       </div>
                     </td>
@@ -297,7 +297,7 @@ export default function AdminDashboard() {
                           ) : null;
                         })}
                         {story.category.length > 2 && (
-                          <span className="text-xs text-gray-500">
+                          <span className="text-xs text-gray-400">
                             +{story.category.length - 2}
                           </span>
                         )}
@@ -306,14 +306,14 @@ export default function AdminDashboard() {
                     <td className="px-2 sm:px-3 lg:px-6 py-3 sm:py-4">
                       <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
                         story.status === 'public' 
-                          ? 'bg-green-100 text-green-800' 
-                          : 'bg-yellow-100 text-yellow-800'
+                          ? 'bg-green-900/20 text-green-400 border border-green-700' 
+                          : 'bg-yellow-900/20 text-yellow-400 border border-yellow-700'
                       }`}>
                         {story.status === 'public' ? '✅ Đã xuất bản' : '📝 Bản thảo'}
                       </span>
                     </td>
                     <td className="px-2 sm:px-3 lg:px-6 py-3 sm:py-4 hidden sm:table-cell">
-                      <div className="text-xs sm:text-sm text-gray-500">
+                      <div className="text-xs sm:text-sm text-gray-300">
                         {new Date(story.createdAt).toLocaleDateString('vi-VN')}
                       </div>
                     </td>
@@ -321,13 +321,13 @@ export default function AdminDashboard() {
                       <div className="flex flex-col sm:flex-row gap-1 sm:gap-2">
                         <Link
                           href={`/admin/stories/${story._id}/edit`}
-                          className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-2 border border-gray-300 text-xs sm:text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+                          className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
                         >
                           ✏️ Sửa
                         </Link>
                         <button
                           onClick={() => handleDeleteStory(story._id, story.title)}
-                          className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-2 border border-red-300 text-xs sm:text-sm font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
+                          className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-2 border border-red-600 text-xs sm:text-sm font-medium rounded-md text-red-400 bg-gray-800 hover:bg-red-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
                         >
                           🗑️ Xóa
                         </button>
@@ -341,10 +341,10 @@ export default function AdminDashboard() {
         </div>
 
         {/* Categories Table */}
-        <div className="bg-white rounded-lg shadow mb-6 sm:mb-8">
-          <div className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 border-b border-gray-200">
+        <div className="bg-gray-900 rounded-lg shadow mb-6 sm:mb-8 border border-gray-800">
+          <div className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 border-b border-gray-800">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
-              <h2 className="text-lg font-medium text-gray-900">🏷️ Danh Sách Thể Loại</h2>
+              <h2 className="text-lg font-medium text-white">🏷️ Danh Sách Thể Loại</h2>
               <Link
                 href="/admin/new-category"
                 className="inline-flex items-center px-3 sm:px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 w-full sm:w-auto justify-center"
@@ -355,47 +355,47 @@ export default function AdminDashboard() {
           </div>
           
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-gray-800">
+              <thead className="bg-gray-800">
                 <tr>
-                  <th className="px-2 sm:px-3 lg:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-2 sm:px-3 lg:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                     Thể Loại
                   </th>
-                  <th className="px-2 sm:px-3 lg:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">
+                  <th className="px-2 sm:px-3 lg:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider hidden sm:table-cell">
                     Mô Tả
                   </th>
-                  <th className="px-2 sm:px-3 lg:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-2 sm:px-3 lg:px-6 py-2 sm:px-3 lg:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                     Số Truyện
                   </th>
-                  <th className="px-2 sm:px-3 lg:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-2 sm:px-3 lg:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                     Thao Tác
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-gray-900 divide-y divide-gray-800">
                 {categories.map((category) => {
                   const storyCount = stories.filter(story => 
                     story.category.includes(category._id)
                   ).length;
                   
                   return (
-                    <tr key={category._id} className="hover:bg-gray-50">
+                    <tr key={category._id} className="hover:bg-gray-800">
                       <td className="px-2 sm:px-3 lg:px-6 py-3 sm:py-4">
                         <div className="flex items-center">
                           <div 
                             className="w-3 h-3 sm:w-4 sm:h-4 rounded-full mr-2 sm:mr-3"
                             style={{ backgroundColor: category.color }}
                           ></div>
-                          <div className="text-xs sm:text-sm font-medium text-gray-900 truncate">{category.name}</div>
+                          <div className="text-xs sm:text-sm font-medium text-white truncate">{category.name}</div>
                         </div>
                       </td>
                       <td className="px-2 sm:px-3 lg:px-6 py-3 sm:py-4 hidden sm:table-cell">
-                        <div className="text-xs sm:text-sm text-gray-500 truncate">
+                        <div className="text-xs sm:text-sm text-gray-300 truncate">
                           {category.description || 'Không có mô tả'}
                         </div>
                       </td>
                       <td className="px-2 sm:px-3 lg:px-6 py-3 sm:py-4">
-                        <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                        <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-blue-900/20 text-blue-400 border border-blue-700">
                           {storyCount} truyện
                         </span>
                       </td>
@@ -403,7 +403,7 @@ export default function AdminDashboard() {
                         <div className="flex flex-col sm:flex-row gap-1 sm:gap-2">
                           <button
                             onClick={() => handleDeleteCategory(category._id, category.name)}
-                            className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-2 border border-red-300 text-xs sm:text-sm font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
+                            className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-2 border border-red-600 text-xs sm:text-sm font-medium rounded-md text-red-400 bg-gray-800 hover:bg-red-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
                           >
                             🗑️ Xóa
                           </button>
@@ -418,10 +418,10 @@ export default function AdminDashboard() {
         </div>
 
         {/* Chapters Table */}
-        <div className="bg-white rounded-lg shadow mb-6 sm:mb-8">
-          <div className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 border-b border-gray-200">
+        <div className="bg-gray-900 rounded-lg shadow mb-6 sm:mb-8 border border-gray-800">
+          <div className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 border-b border-gray-800">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
-              <h2 className="text-lg font-medium text-gray-900">📖 Danh Sách Chương</h2>
+              <h2 className="text-lg font-medium text-white">📖 Danh Sách Chương</h2>
               <Link
                 href="/admin/new-chapter"
                 className="inline-flex items-center px-3 sm:px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 w-full sm:w-auto justify-center"
@@ -432,35 +432,35 @@ export default function AdminDashboard() {
           </div>
           
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-gray-800">
+              <thead className="bg-gray-800">
                 <tr>
-                  <th className="px-2 sm:px-3 lg:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-2 sm:px-3 lg:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                     Chương
                   </th>
-                  <th className="px-2 sm:px-3 lg:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">
+                  <th className="px-2 sm:px-3 lg:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider hidden sm:table-cell">
                     Truyện
                   </th>
-                  <th className="px-2 sm:px-3 lg:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">
+                  <th className="px-2 sm:px-3 lg:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider hidden sm:table-cell">
                     Ngày Tạo
                   </th>
-                  <th className="px-2 sm:px-3 lg:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-2 sm:px-3 lg:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                     Thao Tác
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-gray-900 divide-y divide-gray-800">
                 {chapters.map((chapter) => (
-                  <tr key={chapter._id} className="hover:bg-gray-50">
+                  <tr key={chapter._id} className="hover:bg-gray-800">
                     <td className="px-2 sm:px-3 lg:px-6 py-3 sm:py-4">
                       <div className="flex items-center">
-                        <span className="inline-flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 bg-blue-100 text-blue-800 text-xs sm:text-sm font-medium rounded-full mr-2 sm:mr-3">
+                        <span className="inline-flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 bg-blue-900/20 text-blue-400 text-xs sm:text-sm font-medium rounded-full mr-2 sm:mr-3 border border-blue-700">
                           {chapter.chapterNumber}
                         </span>
                         <div className="min-w-0 flex-1">
-                          <div className="text-xs sm:text-sm font-medium text-gray-900 truncate">{chapter.title}</div>
+                          <div className="text-xs sm:text-sm font-medium text-white truncate">{chapter.title}</div>
                           {chapter.content && (
-                            <div className="text-xs text-gray-500">
+                            <div className="text-xs text-gray-300">
                               {Math.ceil(chapter.content.length / 1000)} nghìn từ
                             </div>
                           )}
@@ -468,7 +468,7 @@ export default function AdminDashboard() {
                       </div>
                     </td>
                     <td className="px-2 sm:px-3 lg:px-6 py-3 sm:py-4 hidden sm:table-cell">
-                      <div className="text-xs sm:text-sm text-gray-500 truncate">
+                      <div className="text-xs sm:text-sm text-gray-300 truncate">
                         {typeof chapter.storyId === 'string'
                           ? 'Truyện đã bị xóa'
                           : chapter.storyId?.title || 'Truyện đã bị xóa'
@@ -476,7 +476,7 @@ export default function AdminDashboard() {
                       </div>
                     </td>
                     <td className="px-2 sm:px-3 lg:px-6 py-3 sm:py-4 hidden sm:table-cell">
-                      <div className="text-xs sm:text-sm text-gray-500">
+                      <div className="text-xs sm:text-sm text-gray-300">
                         {new Date(chapter.createdAt).toLocaleDateString('vi-VN')}
                       </div>
                     </td>
@@ -484,13 +484,13 @@ export default function AdminDashboard() {
                       <div className="flex flex-col sm:flex-row gap-1 sm:gap-2">
                         <Link
                           href={`/admin/chapters/${chapter._id}/edit`}
-                          className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-2 border border-gray-300 text-xs sm:text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+                          className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
                         >
                           ✏️ Sửa
                         </Link>
                         <button
                           onClick={() => handleDeleteChapter(chapter._id, chapter.title)}
-                          className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-2 border border-red-300 text-xs sm:text-sm font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
+                          className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-2 border border-red-600 text-xs sm:text-sm font-medium rounded-md text-red-400 bg-gray-800 hover:bg-red-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
                         >
                           🗑️ Xóa
                         </button>
@@ -508,31 +508,31 @@ export default function AdminDashboard() {
       {deleteConfirm && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50">
           <div className="relative p-8 border w-full max-w-md max-h-full">
-            <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <div className="relative bg-gray-900 rounded-lg shadow border border-gray-800">
               <div className="p-6 text-center">
-                <svg className="mx-auto mb-4 text-red-500 w-12 h-12 dark:text-red-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                <svg className="mx-auto mb-4 text-red-400 w-12 h-12" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 5v10a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3h.08a3 3 0 0 0 2.92 2h2.08a3 3 0 0 0 2.92-2H15a3 3 0 0 1 3 3Z" />
                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 11V6a3 3 0 1 1 6 0v5a3 3 0 1 1-6 0Z" />
                 </svg>
-                <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                <h3 className="mb-5 text-lg font-normal text-white">
                   Bạn có chắc chắn muốn xóa "{deleteConfirm.title}" không?
                 </h3>
                 {deleteConfirm.type === 'story' && (
-                  <p className="mb-4 text-sm text-red-600 bg-red-50 p-3 rounded-md">
+                  <p className="mb-4 text-sm text-red-400 bg-red-900/20 p-3 rounded-md border border-red-700">
                     ⚠️ <strong>Lưu ý:</strong> Khi xóa truyện này, tất cả các chương liên quan cũng sẽ bị xóa vĩnh viễn!
                   </p>
                 )}
                 <div className="flex justify-center gap-4">
                   <button
                     onClick={confirmDelete}
-                    className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                    className="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                     disabled={isDeleting === deleteConfirm.id}
                   >
                     {isDeleting === deleteConfirm.id ? 'Đang xóa...' : 'Xóa'}
                   </button>
                   <button
                     onClick={cancelDelete}
-                    className="text-gray-500 bg-gray-200 hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-800"
+                    className="text-gray-300 bg-gray-800 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center border border-gray-600"
                   >
                     Hủy
                   </button>
@@ -548,8 +548,8 @@ export default function AdminDashboard() {
         <div className={`fixed top-20 left-4 right-4 sm:left-auto sm:right-4 z-50 max-w-sm mx-auto sm:mx-0`}>
           <div className={`rounded-lg shadow-lg p-4 ${
             notification.type === 'success' 
-              ? 'bg-green-50 border border-green-200 text-green-800' 
-              : 'bg-red-50 border border-red-200 text-red-800'
+              ? 'bg-green-900/20 border border-green-700 text-green-400' 
+              : 'bg-red-900/20 border border-red-700 text-red-400'
           }`}>
             <div className="flex items-start">
               <div className="flex-shrink-0">
@@ -567,9 +567,9 @@ export default function AdminDashboard() {
                   onClick={() => setNotification(null)}
                   className={`inline-flex rounded-md p-1.5 ${
                     notification.type === 'success' 
-                      ? 'text-green-400 hover:bg-green-100' 
-                      : 'text-red-400 hover:bg-red-100'
-                  } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-green-50 focus:ring-green-600`}
+                      ? 'text-green-400 hover:bg-green-900/20' 
+                      : 'text-red-400 hover:bg-red-900/20'
+                  } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-green-600`}
                 >
                   <span className="sr-only">Đóng</span>
                   <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
