@@ -1,12 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Navigation from '../../component/Navigation';
 import { storyService } from '../../services/storyService';
 import { CreateMessageRequest } from '../../types/story';
-import { Mail, User, MessageSquare, Send, CheckCircle, AlertCircle, Info } from 'lucide-react';
+import { useGuest } from '../../contexts/GuestContext';
+import { useAuth } from '../../contexts/AuthContext';
+import { Mail, User, MessageSquare, Send, CheckCircle, AlertCircle, Info, LogIn } from 'lucide-react';
 
 export default function ContactPage() {
+  const router = useRouter();
+  const { guest, isAuthenticated: isGuestAuthenticated } = useGuest();
+  const { user, isAuthenticated: isAdminAuthenticated } = useAuth();
   const [formData, setFormData] = useState<CreateMessageRequest>({
     name: '',
     email: '',
@@ -16,6 +22,20 @@ export default function ContactPage() {
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
 
+  // Check if user is authenticated (either guest or admin)
+  const isAuthenticated = isGuestAuthenticated || isAdminAuthenticated;
+
+  // Auto-fill form with guest info if available
+  useEffect(() => {
+    if (guest && !formData.name && !formData.email) {
+      setFormData(prev => ({
+        ...prev,
+        name: guest.displayName,
+        email: guest.email
+      }));
+    }
+  }, [guest, formData.name, formData.email]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -23,6 +43,12 @@ export default function ContactPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Check if user is authenticated
+    if (!isAuthenticated) {
+      router.push('/auth');
+      return;
+    }
     
     // Check if content exceeds 255 characters
     if (formData.content.length > 255) {
@@ -36,7 +62,13 @@ export default function ContactPage() {
     setErrorMessage('');
 
     try {
-      await storyService.sendMessage(formData);
+      // Add guest token if available
+      const messageData: CreateMessageRequest = {
+        ...formData,
+        guestToken: guest ? guest.id : undefined
+      };
+      
+      await storyService.sendMessage(messageData);
       setSubmitStatus('success');
       setFormData({ name: '', email: '', content: '' });
     } catch (err) {
@@ -45,6 +77,10 @@ export default function ContactPage() {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleLoginRedirect = () => {
+    router.push('/auth');
   };
 
   return (
@@ -62,6 +98,24 @@ export default function ContactPage() {
         </div>
 
         <div className="bg-gray-900 shadow-lg rounded-lg p-8 border border-gray-800">
+          {/* Authentication Required Notice */}
+          {!isAuthenticated && (
+            <div className="mb-6 bg-yellow-900/20 border border-yellow-700 text-yellow-400 px-4 py-3 rounded flex items-center gap-3">
+              <AlertCircle size={20} />
+              <div className="flex-1">
+                <p className="font-medium">Bạn cần đăng nhập để gửi tin nhắn</p>
+                <p className="text-sm mt-1">Tin nhắn sẽ được liên kết với tài khoản của bạn</p>
+              </div>
+              <button
+                onClick={handleLoginRedirect}
+                className="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center gap-2"
+              >
+                <LogIn size={16} />
+                Đăng Nhập
+              </button>
+            </div>
+          )}
+
           {submitStatus === 'success' && (
             <div className="mb-6 bg-green-900/20 border border-green-700 text-green-400 px-4 py-3 rounded flex items-center gap-3">
               <CheckCircle size={20} />
@@ -97,6 +151,7 @@ export default function ContactPage() {
                 onChange={handleInputChange}
                 className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-800 text-white placeholder-gray-400"
                 placeholder="Nhập tên của bạn"
+                disabled={!isAuthenticated}
               />
             </div>
 
@@ -114,6 +169,7 @@ export default function ContactPage() {
                 onChange={handleInputChange}
                 className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-800 text-white placeholder-gray-400"
                 placeholder="your.email@example.com"
+                disabled={!isAuthenticated}
               />
             </div>
 
@@ -131,7 +187,8 @@ export default function ContactPage() {
                 value={formData.content}
                 onChange={handleInputChange}
                 className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-800 text-white placeholder-gray-400"
-                placeholder="Viết tin nhắn của bạn ở đây... (tối đa 255 ký tự)"
+                placeholder={isAuthenticated ? "Viết tin nhắn của bạn ở đây... (tối đa 255 ký tự)" : "Bạn cần đăng nhập để gửi tin nhắn"}
+                disabled={!isAuthenticated}
               />
               <div className="flex justify-between items-center mt-1">
                 <span className="text-xs text-gray-400">
@@ -146,10 +203,15 @@ export default function ContactPage() {
             <div className="flex items-center justify-between">
               <button
                 type="submit"
-                disabled={isSubmitting || formData.content.length > 255}
+                disabled={!isAuthenticated || isSubmitting || formData.content.length > 255}
                 className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md text-lg font-medium transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-3"
               >
-                {isSubmitting ? (
+                {!isAuthenticated ? (
+                  <>
+                    <LogIn size={20} />
+                    Cần Đăng Nhập
+                  </>
+                ) : isSubmitting ? (
                   <>
                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
                     Đang gửi...

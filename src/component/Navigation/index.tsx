@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '../../contexts/AuthContext';
+import { useGuest } from '../../contexts/GuestContext';
 import { 
   BookOpen, 
   Home, 
@@ -13,13 +14,15 @@ import {
   LogOut, 
   LogIn, 
   Menu, 
-  X 
+  X,
+  User
 } from 'lucide-react';
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
-  const { user, isAuthenticated, logout } = useAuth();
+  const { user, isAuthenticated: isAdminAuthenticated, logout: adminLogout } = useAuth();
+  const { guest, isAuthenticated: isGuestAuthenticated, signOut: guestSignOut } = useGuest();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -33,8 +36,13 @@ export default function Navigation() {
     return pathname === path;
   };
 
-  const handleLogout = () => {
-    logout();
+  const handleAdminLogout = () => {
+    adminLogout();
+    closeMenu();
+  };
+
+  const handleGuestSignOut = () => {
+    guestSignOut();
     closeMenu();
   };
 
@@ -100,35 +108,53 @@ export default function Navigation() {
 
           {/* Authentication & Admin Section */}
           <div className="hidden md:flex items-center space-x-3 sm:space-x-4">
-            {isAuthenticated ? (
-              <>
-                <Link 
-                  href="/admin" 
-                  className={`px-2 sm:px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center gap-2 ${
-                    pathname.startsWith('/admin')
-                      ? 'text-blue-400 bg-blue-900/20' 
-                      : 'text-gray-300 hover:text-white hover:bg-gray-800'
-                  }`}
-                >
-                  <Settings size={16} />
-                  Quản Trị
-                </Link>
+            {/* Guest Authentication */}
+            {isGuestAuthenticated ? (
+              <div className="flex items-center space-x-2">
+                <span className="text-sm text-gray-300 px-2 py-1 rounded bg-gray-800">
+                  <User size={14} className="inline mr-1" />
+                  {guest?.displayName}
+                </span>
                 <button
-                  onClick={logout}
+                  onClick={handleGuestSignOut}
                   className="px-2 sm:px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-red-400 hover:bg-red-900/20 transition-colors duration-200 flex items-center gap-2"
                 >
                   <LogOut size={16} />
                   Đăng Xuất
                 </button>
-              </>
+              </div>
             ) : (
-              <Link
-                href="/auth"
-                className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center gap-2"
-              >
-                <LogIn size={16} />
-                Đăng Nhập
-              </Link>
+              /* Admin Authentication - Only show when guest is NOT authenticated */
+              isAdminAuthenticated ? (
+                <>
+                  <Link 
+                    href="/admin" 
+                    className={`px-2 sm:px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center gap-2 ${
+                      pathname.startsWith('/admin')
+                        ? 'text-blue-400 bg-blue-900/20' 
+                        : 'text-gray-300 hover:text-white hover:bg-gray-800'
+                    }`}
+                  >
+                    <Settings size={16} />
+                    Quản Trị
+                  </Link>
+                  <button
+                    onClick={handleAdminLogout}
+                    className="px-2 sm:px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-red-400 hover:bg-red-900/20 transition-colors duration-200 flex items-center gap-2"
+                  >
+                    <LogOut size={16} />
+                    Đăng Xuất Admin
+                  </button>
+                </>
+              ) : (
+                <Link
+                  href="/auth"
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center gap-2"
+                >
+                  <LogIn size={16} />
+                  Đăng Nhập
+                </Link>
+              )
             )}
           </div>
 
@@ -208,38 +234,56 @@ export default function Navigation() {
           </Link>
           
           {/* Authentication section for mobile */}
-          <div className="pt-2 border-t border-gray-800">
-            {isAuthenticated ? (
-              <>
-                <Link
-                  href="/admin"
-                  onClick={closeMenu}
-                  className={`block px-3 py-2.5 rounded-md text-base font-medium transition-colors duration-200 flex items-center gap-3 ${
-                    pathname.startsWith('/admin')
-                      ? 'text-blue-400 bg-blue-900/20'
-                      : 'text-gray-300 hover:text-white hover:bg-gray-800'
-                  }`}
-                >
-                  <Settings size={20} />
-                  Quản Trị
-                </Link>
+          <div className="pt-2 border-t border-gray-800 space-y-2">
+            {/* Guest Authentication */}
+            {isGuestAuthenticated ? (
+              <div className="px-3 py-2 bg-gray-800 rounded-md">
+                <div className="text-sm text-gray-300 mb-2 flex items-center gap-2">
+                  <User size={16} />
+                  {guest?.displayName}
+                </div>
                 <button
-                  onClick={handleLogout}
-                  className="w-full text-left px-3 py-2.5 rounded-md text-base font-medium text-gray-300 hover:text-red-400 hover:bg-red-900/20 transition-colors duration-200 flex items-center gap-3"
+                  onClick={handleGuestSignOut}
+                  className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-red-400 hover:bg-red-900/20 transition-colors duration-200 flex items-center gap-2"
                 >
-                  <LogOut size={20} />
-                  Đăng Xuất
+                  <LogOut size={16} />
+                  Đăng Xuất Google
                 </button>
-              </>
+              </div>
             ) : (
-              <Link
-                href="/auth"
-                onClick={closeMenu}
-                className="bg-blue-600 hover:bg-blue-700 text-white block w-full text-center px-4 py-2.5 rounded-md text-base font-medium transition-colors duration-200 flex items-center justify-center gap-3"
-              >
-                <LogIn size={20} />
-                Đăng Nhập
-              </Link>
+              /* Admin Authentication - Only show when guest is NOT authenticated */
+              isAdminAuthenticated ? (
+                <>
+                  <Link
+                    href="/admin"
+                    onClick={closeMenu}
+                    className={`block px-3 py-2.5 rounded-md text-base font-medium transition-colors duration-200 flex items-center gap-3 ${
+                      pathname.startsWith('/admin')
+                        ? 'text-blue-400 bg-blue-900/20'
+                        : 'text-gray-300 hover:text-white hover:bg-gray-800'
+                    }`}
+                  >
+                    <Settings size={20} />
+                    Quản Trị
+                  </Link>
+                  <button
+                    onClick={handleAdminLogout}
+                    className="w-full text-left px-3 py-2.5 rounded-md text-base font-medium text-gray-300 hover:text-red-400 hover:bg-red-900/20 transition-colors duration-200 flex items-center gap-3"
+                  >
+                    <LogOut size={20} />
+                    Đăng Xuất Admin
+                  </button>
+                </>
+              ) : (
+                <Link
+                  href="/auth"
+                  onClick={closeMenu}
+                  className="bg-blue-600 hover:bg-blue-700 text-white block w-full text-center px-4 py-2.5 rounded-md text-base font-medium transition-colors duration-200 flex items-center justify-center gap-3"
+                >
+                  <LogIn size={20} />
+                  Đăng Nhập
+                </Link>
+              )
             )}
           </div>
         </div>

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Navigation from '../../component/Navigation';
-import GoogleAuthService, { GuestInfo } from '../../services/googleAuthService';
+import { useGuest } from '../../contexts/GuestContext';
 import { LogIn, Shield, Users, ArrowLeft, Mail } from 'lucide-react';
 import Link from 'next/link';
 
@@ -11,6 +11,7 @@ export default function AuthPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
+  const { signInWithGoogle } = useGuest();
 
   const handleSelectLoginType = async (type: 'guest' | 'admin') => {
     if (type === 'admin') {
@@ -22,8 +23,7 @@ export default function AuthPage() {
         setIsLoading(true);
         setError('');
         
-        const authService = GoogleAuthService.getInstance();
-        const result = await authService.signInWithGoogle();
+        await signInWithGoogle();
         
         // Redirect to contact page after successful Google login
         router.push('/contact');
@@ -83,7 +83,7 @@ export default function AuthPage() {
             <button
               onClick={() => handleSelectLoginType('admin')}
               disabled={isLoading}
-              className="w-full bg-purple-600 hover:bg-purple-700 disabled:bg-purple-800 text-white px-8 py-6 rounded-xl font-medium transition-colors duration-200 flex items-center justify-center gap-4 shadow-lg hover:shadow-xl"
+              className="w-full bg-purple-600 hover:bg-purple-700 disabled:bg-purple-800 text-white px-8 py-6 rounded-xl font-medium transition-colors duration-200 flex items-center gap-4 shadow-lg hover:shadow-xl"
             >
               <Shield size={32} />
               <div className="text-left">

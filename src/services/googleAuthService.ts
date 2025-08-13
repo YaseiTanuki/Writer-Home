@@ -47,6 +47,10 @@ class GoogleAuthService {
         return;
       }
 
+      console.log('Google OAuth: Starting sign-in process');
+      console.log('Google OAuth: Client ID:', GOOGLE_CLIENT_ID);
+      console.log('Google OAuth: Current origin:', window.location.origin);
+
       // Load Google Sign-In script
       const script = document.createElement('script');
       script.src = 'https://accounts.google.com/gsi/client';
@@ -55,6 +59,8 @@ class GoogleAuthService {
       
       script.onload = () => {
         if (window.google) {
+          console.log('Google OAuth: Script loaded successfully');
+          
           // Create a temporary container for the button
           const tempContainer = document.createElement('div');
           tempContainer.id = 'google-signin-container';
@@ -68,16 +74,18 @@ class GoogleAuthService {
             client_id: GOOGLE_CLIENT_ID,
             callback: async (response: any) => {
               try {
+                console.log('Google OAuth: Callback received');
+                
                 // Remove temporary container
                 if (document.body.contains(tempContainer)) {
                   document.body.removeChild(tempContainer);
                 }
                 
                 const result = await this.authenticateWithBackend(response.credential);
-                this.setGuestToken(result.token);
-                this.setGuestInfo(result.guest);
                 resolve(result);
               } catch (error) {
+                console.error('Google OAuth: Callback error:', error);
+                
                 // Remove temporary container on error too
                 if (document.body.contains(tempContainer)) {
                   document.body.removeChild(tempContainer);
@@ -90,6 +98,8 @@ class GoogleAuthService {
             prompt_parent_id: 'google-signin-container',
             use_fedcm_for_prompt: false, // Explicitly disable FedCM
           });
+
+          console.log('Google OAuth: Initialized, rendering button');
 
           // Render the button to trigger popup
           window.google.accounts.id.renderButton(tempContainer, {
@@ -105,18 +115,22 @@ class GoogleAuthService {
           setTimeout(() => {
             const button = tempContainer.querySelector('div[role="button"]');
             if (button) {
+              console.log('Google OAuth: Button found, clicking...');
               (button as HTMLElement).click();
             } else {
+              console.error('Google OAuth: Button not found');
               reject(new Error('Google Sign-In button not found'));
             }
           }, 100);
 
         } else {
+          console.error('Google OAuth: Failed to load Google OAuth');
           reject(new Error('Failed to load Google OAuth'));
         }
       };
 
-      script.onerror = () => {
+      script.onerror = (error) => {
+        console.error('Google OAuth: Script load error:', error);
         reject(new Error('Failed to load Google OAuth script'));
       };
 
@@ -181,14 +195,14 @@ class GoogleAuthService {
     return !!this.guestToken;
   }
 
-  private setGuestToken(token: string): void {
+  public setGuestToken(token: string): void {
     this.guestToken = token;
     if (typeof window !== 'undefined') {
       localStorage.setItem('guestToken', token);
     }
   }
 
-  private setGuestInfo(guest: GuestInfo): void {
+  public setGuestInfo(guest: GuestInfo): void {
     this.guestInfo = guest;
     if (typeof window !== 'undefined') {
       localStorage.setItem('guestInfo', JSON.stringify(guest));

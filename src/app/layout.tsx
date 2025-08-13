@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "../contexts/AuthContext";
+import { GuestProvider } from "../contexts/GuestContext";
 
 const notoSansJP = Noto_Sans_JP({
   variable: "--font-noto-sans-jp",
@@ -25,7 +26,9 @@ export default function RootLayout({
         className={`${notoSansJP.variable} antialiased`}
       >
         <AuthProvider>
-          {children}
+          <GuestProvider>
+            {children}
+          </GuestProvider>
         </AuthProvider>
       </body>
     </html>
