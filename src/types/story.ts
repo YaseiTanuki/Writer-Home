@@ -34,6 +34,7 @@ export interface Message {
   name: string;
   email: string;
   content: string;
+  guestId?: string;
   createdAt: string;
 }
 
@@ -83,4 +84,5 @@ export interface CreateMessageRequest {
   name: string;
   email: string;
   content: string;
+  guestToken?: string;
 }

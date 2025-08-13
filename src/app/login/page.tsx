@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '../../contexts/AuthContext';
 import Link from 'next/link';
 import Navigation from '../../component/Navigation';
-import { LogIn, User, Lock, Home, AlertCircle, Loader2 } from 'lucide-react';
+import { LogIn, User, Lock, Home, AlertCircle, Loader2, Mail } from 'lucide-react';
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
@@ -47,6 +47,11 @@ export default function LoginPage() {
             <Link href="/" className="font-medium text-blue-400 hover:text-blue-300 flex items-center justify-center gap-2 mt-2">
               <Home size={16} />
               quay về trang chủ
+            </Link>
+            <br />
+            <Link href="/contact" className="font-medium text-green-400 hover:text-green-300 flex items-center justify-center gap-2 mt-2">
+              <Mail size={16} />
+              quay về trang liên hệ
             </Link>
           </p>
         </div>

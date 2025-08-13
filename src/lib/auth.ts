@@ -14,7 +14,7 @@ export interface LoginCredentials {
   password: string;
 }
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8111';
 
 export class AuthService {
   private static getStoredTokens(): AuthTokens | null {
@@ -124,9 +124,9 @@ export async function apiRequest<T>(
 ): Promise<T> {
   const token = AuthService.getAccessToken();
   
-  const headers: HeadersInit = {
+  const headers: Record<string, string> = {
     'Content-Type': 'application/json',
-    ...options.headers,
+    ...(options.headers as Record<string, string>),
   };
 
   if (token) {

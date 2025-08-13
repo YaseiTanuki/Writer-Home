@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Navigation from "../component/Navigation";
 import Link from "next/link";
-import { BookOpen, MessageSquare, Heart, Star, Sparkles, Quote } from 'lucide-react';
+import { BookOpen, MessageSquare, Heart, Star, Sparkles, Quote, X } from 'lucide-react';
 import { storyService } from "../services/storyService";
 
 interface Message {
@@ -16,10 +16,26 @@ interface Message {
 export default function Home() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [displayedMessages, setDisplayedMessages] = useState<Message[]>([]);
+  const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
     loadMessages();
   }, []);
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      // Shuffle messages randomly
+      const shuffledMessages = [...messages].sort(() => Math.random() - 0.5);
+      
+      // Determine device type and set appropriate message limits
+      const isMobile = window.innerWidth < 768; // md breakpoint
+      const maxMessages = isMobile ? 9 : 20; // Mobile: 3x3=9, Desktop: 4x5=20
+      
+      setDisplayedMessages(shuffledMessages.slice(0, maxMessages));
+    }
+  }, [messages]);
 
   const loadMessages = async () => {
     try {
@@ -54,6 +70,90 @@ export default function Home() {
 
   const noteIcons = [Heart, Star, Sparkles, Quote, MessageSquare];
 
+  const handleMessageClick = (message: Message) => {
+    setSelectedMessage(message);
+    setShowPopup(true);
+  };
+
+  const closePopup = () => {
+    setShowPopup(false);
+    setSelectedMessage(null);
+  };
+
+  // Create grid layout
+  const renderGrid = () => {
+    const isMobile = window.innerWidth < 768;
+    
+    if (isMobile) {
+      // Mobile: 3x3 layout
+      return (
+        <div className="grid grid-cols-3 gap-4">
+          {displayedMessages.map((message, index) => renderMessage(message, index))}
+        </div>
+      );
+    } else {
+      // Desktop: 4x5 layout
+      return (
+        <div className="grid grid-cols-5 gap-6">
+          {displayedMessages.map((message, index) => renderMessage(message, index))}
+        </div>
+      );
+    }
+  };
+
+  const renderMessage = (message: Message, index: number) => {
+    const IconComponent = noteIcons[index % noteIcons.length];
+    const colorClass = noteColors[index % noteIcons.length];
+    const rotation = getRandomRotation();
+    const delay = getRandomDelay(index);
+
+    // Truncate content to 255 characters
+    const truncatedContent = message.content.length > 255 
+      ? message.content.substring(0, 255) + '...'
+      : message.content;
+
+    return (
+      <div
+        key={message._id}
+        className="group cursor-pointer transform hover:scale-105 transition-all duration-300"
+        style={{
+          transform: `rotate(${rotation}deg)`,
+          animationDelay: `${delay}s`
+        }}
+        onClick={() => handleMessageClick(message)}
+      >
+        <div className={`bg-gradient-to-br ${colorClass} p-4 sm:p-6 rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 relative min-h-[120px] sm:min-h-[140px]`}>
+          {/* Note pin effect */}
+          <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-3 h-3 sm:w-4 sm:h-4 bg-red-500 rounded-full shadow-md"></div>
+          
+          {/* Sender name - small and in corner */}
+          <div className="absolute top-2 left-2 text-white/80 text-xs font-medium bg-black/20 px-2 py-1 rounded-full backdrop-blur-sm">
+            {message.name}
+          </div>
+          
+          {/* Message content - main focus */}
+          <div className="text-center pt-8 sm:pt-10">
+            <p className="text-white/90 text-xs sm:text-sm leading-relaxed line-clamp-4 sm:line-clamp-5">
+              {truncatedContent}
+            </p>
+          </div>
+          
+          {/* Date */}
+          <div className="absolute bottom-2 right-2 text-white/60 text-xs">
+            {new Date(message.createdAt).toLocaleDateString('vi-VN')}
+          </div>
+          
+          {/* Hover effect overlay */}
+          <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center">
+            <div className="bg-white/90 text-gray-800 px-3 sm:px-4 py-1 sm:py-2 rounded-full text-xs sm:text-sm font-medium">
+              Xem chi tiết
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-black">
       <Navigation />
@@ -84,9 +184,13 @@ export default function Home() {
               <MessageSquare size={32} className="text-blue-400" />
               Tin Nhắn từ Độc Giả
             </h2>
-            <p className="text-lg text-gray-300">
+            <p className="text-lg text-gray-300 mb-4">
               Những lời động viên và góp ý quý báu từ các bạn
             </p>
+            <div className="text-sm text-gray-400">
+              <span className="hidden md:inline">Layout: 4 hàng × 5 tin (ngẫu nhiên)</span>
+              <span className="md:hidden">Layout: 3 hàng × 3 tin (ngẫu nhiên)</span>
+            </div>
           </div>
 
           {isLoading ? (
@@ -94,7 +198,7 @@ export default function Home() {
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
               <p className="mt-4 text-gray-300">Đang tải tin nhắn...</p>
             </div>
-          ) : messages.length === 0 ? (
+          ) : displayedMessages.length === 0 ? (
             <div className="text-center py-12">
               <div className="bg-gray-900/50 rounded-lg p-8 border border-gray-800">
                 <MessageSquare size={48} className="text-gray-500 mx-auto mb-4" />
@@ -109,55 +213,27 @@ export default function Home() {
               </div>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
-              {messages.map((message, index) => {
-                const IconComponent = noteIcons[index % noteIcons.length];
-                const colorClass = noteColors[index % noteColors.length];
-                const rotation = getRandomRotation();
-                const delay = getRandomDelay(index);
-
-                return (
-                  <div
-                    key={message._id}
-                    className="group cursor-pointer transform hover:scale-105 transition-all duration-300"
-                    style={{
-                      transform: `rotate(${rotation}deg)`,
-                      animationDelay: `${delay}s`
-                    }}
-                  >
-                    <div className={`bg-gradient-to-br ${colorClass} p-6 rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 relative`}>
-                      {/* Note pin effect */}
-                      <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-red-500 rounded-full shadow-md"></div>
-                      
-                      {/* Message content */}
-                      <div className="text-center">
-                        <div className="flex justify-center mb-3">
-                          <IconComponent size={24} className="text-white/80" />
-                        </div>
-                        <h3 className="font-semibold text-white mb-3 text-lg">
-                          {message.name}
-                        </h3>
-                        <p className="text-white/90 text-sm leading-relaxed line-clamp-4">
-                          {message.content}
-                        </p>
-                      </div>
-                      
-                      {/* Date */}
-                      <div className="absolute bottom-2 right-2 text-white/60 text-xs">
-                        {new Date(message.createdAt).toLocaleDateString('vi-VN')}
-                      </div>
-                      
-                      {/* Hover effect overlay */}
-                      <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center">
-                        <div className="bg-white/90 text-gray-800 px-4 py-2 rounded-full text-sm font-medium">
-                          Xem chi tiết
-                        </div>
-                      </div>
-                    </div>
+            <>
+              {renderGrid()}
+              
+              {/* Show more messages info if there are more */}
+              {messages.length > displayedMessages.length && (
+                <div className="text-center mt-8">
+                  <div className="bg-gray-900/50 rounded-lg p-6 border border-gray-800">
+                    <p className="text-gray-300 mb-3">
+                      Còn {messages.length - displayedMessages.length} tin nhắn khác
+                    </p>
+                    <Link
+                      href="/contact"
+                      className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                    >
+                      <MessageSquare size={16} />
+                      Gửi Tin Nhắn Mới
+                    </Link>
                   </div>
-                );
-              })}
-            </div>
+                </div>
+              )}
+            </>
           )}
         </div>
 
@@ -180,6 +256,54 @@ export default function Home() {
           </div>
         </div>
       </main>
+
+      {/* Message Popup/Dialog */}
+      {showPopup && selectedMessage && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-2xl max-w-md w-full max-h-[80vh] overflow-hidden">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-4 text-white">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold flex items-center gap-2">
+                  <MessageSquare size={20} />
+                  Tin Nhắn từ {selectedMessage.name}
+                </h3>
+                <button
+                  onClick={closePopup}
+                  className="text-white/80 hover:text-white transition-colors"
+                >
+                  <X size={24} />
+                </button>
+              </div>
+            </div>
+            
+            {/* Content */}
+            <div className="p-6">
+              <div className="mb-4">
+                <p className="text-gray-700 leading-relaxed text-sm">
+                  {selectedMessage.content}
+                </p>
+              </div>
+              
+              {/* Footer */}
+              <div className="flex items-center justify-between text-xs text-gray-500 border-t pt-4">
+                <span>Ngày gửi: {new Date(selectedMessage.createdAt).toLocaleDateString('vi-VN')}</span>
+                <span>{selectedMessage.content.length}/255 ký tự</span>
+              </div>
+            </div>
+            
+            {/* Action buttons */}
+            <div className="bg-gray-50 px-6 py-4 flex justify-center">
+              <button
+                onClick={closePopup}
+                className="bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-8 rounded-md font-medium transition-colors duration-200"
+              >
+                Đóng
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

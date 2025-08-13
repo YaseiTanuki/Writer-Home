@@ -23,6 +23,14 @@ export default function ContactPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Check if content exceeds 255 characters
+    if (formData.content.length > 255) {
+      setSubmitStatus('error');
+      setErrorMessage('Tin nhắn không được vượt quá 255 ký tự');
+      return;
+    }
+    
     setIsSubmitting(true);
     setSubmitStatus('idle');
     setErrorMessage('');
@@ -119,23 +127,37 @@ export default function ContactPage() {
                 name="content"
                 required
                 rows={6}
+                maxLength={255}
                 value={formData.content}
                 onChange={handleInputChange}
                 className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-800 text-white placeholder-gray-400"
-                placeholder="Viết tin nhắn của bạn ở đây..."
+                placeholder="Viết tin nhắn của bạn ở đây... (tối đa 255 ký tự)"
               />
+              <div className="flex justify-between items-center mt-1">
+                <span className="text-xs text-gray-400">
+                  Tin nhắn sẽ được hiển thị trên trang chủ
+                </span>
+                <span className={`text-xs ${formData.content.length >= 255 ? 'text-red-400' : 'text-gray-400'}`}>
+                  {formData.content.length}/255 ký tự
+                </span>
+              </div>
             </div>
 
             <div className="flex items-center justify-between">
               <button
                 type="submit"
-                disabled={isSubmitting}
+                disabled={isSubmitting || formData.content.length > 255}
                 className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md text-lg font-medium transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-3"
               >
                 {isSubmitting ? (
                   <>
                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
                     Đang gửi...
+                  </>
+                ) : formData.content.length > 255 ? (
+                  <>
+                    <AlertCircle size={20} />
+                    Vượt quá 255 ký tự
                   </>
                 ) : (
                   <>

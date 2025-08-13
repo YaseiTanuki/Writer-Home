@@ -123,7 +123,7 @@ export default function Navigation() {
               </>
             ) : (
               <Link
-                href="/login"
+                href="/auth"
                 className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center gap-2"
               >
                 <LogIn size={16} />
@@ -233,7 +233,7 @@ export default function Navigation() {
               </>
             ) : (
               <Link
-                href="/login"
+                href="/auth"
                 onClick={closeMenu}
                 className="bg-blue-600 hover:bg-blue-700 text-white block w-full text-center px-4 py-2.5 rounded-md text-base font-medium transition-colors duration-200 flex items-center justify-center gap-3"
               >
