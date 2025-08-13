@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Home, BookOpen, FileText, CheckCircle, Edit3, Trash2, AlertTriangle, Tag, Plus } from 'lucide-react';
+import { Home, BookOpen, FileText, CheckCircle, Edit3, Trash2, AlertTriangle, Tag, Plus, Settings } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { storyService } from '../../services/storyService';
 import { Story, Chapter, Category } from '../../types/story';
@@ -144,8 +144,9 @@ export default function AdminDashboard() {
         <div className="mb-6 sm:mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="text-center sm:text-left">
-              <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2 leading-tight">
-                ⚙️ Bảng Điều Khiển Quản Trị
+              <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2 leading-tight flex items-center gap-3">
+                <Settings size={32} className="text-blue-400" />
+                Bảng Điều Khiển Quản Trị
               </h1>
               <p className="text-sm sm:text-base text-gray-300">
                 Quản lý truyện, chương và thể loại
@@ -156,7 +157,8 @@ export default function AdminDashboard() {
                 href="/stories"
                 className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-gray-600 text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
               >
-                👁️ Xem Trang Web
+                <BookOpen size={16} />
+                Xem Trang Web
               </Link>
               <Link
                 href="/"
@@ -187,7 +189,10 @@ export default function AdminDashboard() {
           </div>
           <div className="bg-purple-900/20 rounded-lg p-3 sm:p-4 text-center border border-purple-800">
             <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-purple-400">{categories.length}</div>
-            <div className="text-xs sm:text-sm text-purple-300">🏷️ Thể Loại</div>
+            <div className="text-xs sm:text-sm text-purple-300 flex items-center justify-center gap-1">
+              <Tag size={14} />
+              Thể Loại
+            </div>
           </div>
           <div className="bg-yellow-900/20 rounded-lg p-3 sm:p-4 text-center border border-yellow-800">
             <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-yellow-400">
@@ -246,12 +251,13 @@ export default function AdminDashboard() {
                 <BookOpen size={20} />
                 Danh Sách Truyện
               </h2>
-              <Link
-                href="/admin/new-story"
-                className="inline-flex items-center px-3 sm:px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full sm:w-auto justify-center"
-              >
-                ✨ Tạo Truyện Mới
-              </Link>
+                              <Link
+                  href="/admin/new-story"
+                  className="inline-flex items-center px-3 sm:px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full sm:w-auto justify-center gap-2"
+                >
+                  <Plus size={18} />
+                  Tạo Truyện Mới
+                </Link>
             </div>
           </div>
           
@@ -348,9 +354,10 @@ export default function AdminDashboard() {
                       <div className="flex flex-col sm:flex-row gap-1 sm:gap-2">
                         <Link
                           href={`/admin/stories/${story._id}/edit`}
-                          className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+                          className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 sm:py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
                         >
-                          ✏️ Sửa
+                          <Edit3 size={16} />
+                          Sửa
                         </Link>
                         <button
                           onClick={() => handleDeleteStory(story._id, story.title)}

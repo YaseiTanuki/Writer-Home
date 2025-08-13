@@ -4,6 +4,17 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '../../contexts/AuthContext';
+import { 
+  BookOpen, 
+  Home, 
+  Info, 
+  Mail, 
+  Settings, 
+  LogOut, 
+  LogIn, 
+  Menu, 
+  X 
+} from 'lucide-react';
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -33,8 +44,9 @@ export default function Navigation() {
         <div className="flex justify-between items-center h-14 sm:h-16">
           {/* Logo/Brand */}
           <div className="flex items-center">
-            <Link href="/" className="text-lg sm:text-xl font-bold text-blue-400">
-              📚 Góc Truyện
+            <Link href="/" className="text-lg sm:text-xl font-bold text-blue-400 flex items-center gap-2">
+              <BookOpen size={24} />
+              Góc Truyện
             </Link>
           </div>
 
@@ -42,43 +54,47 @@ export default function Navigation() {
           <div className="hidden md:flex items-center space-x-3 sm:space-x-4">
             <Link 
               href="/" 
-              className={`px-2 sm:px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
+              className={`px-2 sm:px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center gap-2 ${
                 isActive('/') 
                   ? 'text-blue-400 bg-blue-900/20' 
                   : 'text-gray-300 hover:text-white hover:bg-gray-800'
               }`}
             >
-              🏠 Trang Chủ
+              <Home size={16} />
+              Trang Chủ
             </Link>
             <Link 
               href="/stories" 
-              className={`px-2 sm:px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
+              className={`px-2 sm:px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center gap-2 ${
                 isActive('/stories') || pathname.startsWith('/stories/')
                   ? 'text-blue-400 bg-blue-900/20' 
                   : 'text-gray-300 hover:text-white hover:bg-gray-800'
               }`}
             >
-              📖 Thư Viện
+              <BookOpen size={16} />
+              Thư Viện
             </Link>
             <Link 
               href="/about" 
-              className={`px-2 sm:px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
+              className={`px-2 sm:px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center gap-2 ${
                 isActive('/about')
                   ? 'text-blue-400 bg-blue-900/20' 
                   : 'text-gray-300 hover:text-white hover:bg-gray-800'
               }`}
             >
-              ℹ️ Về Tôi
+              <Info size={16} />
+              Về Tôi
             </Link>
             <Link 
               href="/contact" 
-              className={`px-2 sm:px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
+              className={`px-2 sm:px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center gap-2 ${
                 isActive('/contact')
                   ? 'text-blue-400 bg-blue-900/20' 
                   : 'text-gray-300 hover:text-white hover:bg-gray-800'
               }`}
             >
-              📧 Liên Hệ
+              <Mail size={16} />
+              Liên Hệ
             </Link>
           </div>
 
@@ -88,27 +104,30 @@ export default function Navigation() {
               <>
                 <Link 
                   href="/admin" 
-                  className={`px-2 sm:px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
+                  className={`px-2 sm:px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center gap-2 ${
                     pathname.startsWith('/admin')
                       ? 'text-blue-400 bg-blue-900/20' 
                       : 'text-gray-300 hover:text-white hover:bg-gray-800'
                   }`}
                 >
-                  ⚙️ Quản Trị
+                  <Settings size={16} />
+                  Quản Trị
                 </Link>
                 <button
                   onClick={logout}
-                  className="px-2 sm:px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-red-400 hover:bg-red-900/20 transition-colors duration-200"
+                  className="px-2 sm:px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-red-400 hover:bg-red-900/20 transition-colors duration-200 flex items-center gap-2"
                 >
-                  🚪 Đăng Xuất
+                  <LogOut size={16} />
+                  Đăng Xuất
                 </button>
               </>
             ) : (
               <Link
                 href="/login"
-                className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center gap-2"
               >
-                🔑 Đăng Nhập
+                <LogIn size={16} />
+                Đăng Nhập
               </Link>
             )}
           </div>
@@ -122,37 +141,15 @@ export default function Navigation() {
             >
               <span className="sr-only">Mở menu chính</span>
               {/* Icon when menu is closed */}
-              <svg
+              <Menu
                 className={`${isMenuOpen ? 'hidden' : 'block'} h-5 w-5 sm:h-6 sm:w-6`}
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
                 aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
+              />
               {/* Icon when menu is open */}
-              <svg
+              <X
                 className={`${isMenuOpen ? 'block' : 'hidden'} h-5 w-5 sm:h-6 sm:w-6`}
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
                 aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
+              />
             </button>
           </div>
         </div>
@@ -164,46 +161,50 @@ export default function Navigation() {
           <Link
             href="/"
             onClick={closeMenu}
-            className={`block px-3 py-2.5 rounded-md text-base font-medium transition-colors duration-200 ${
+            className={`block px-3 py-2.5 rounded-md text-base font-medium transition-colors duration-200 flex items-center gap-3 ${
               isActive('/')
                 ? 'text-blue-400 bg-blue-900/20'
                 : 'text-gray-300 hover:text-white hover:bg-gray-800'
             }`}
           >
-            🏠 Trang Chủ
+            <Home size={20} />
+            Trang Chủ
           </Link>
           <Link
             href="/stories"
             onClick={closeMenu}
-            className={`block px-3 py-2.2 rounded-md text-base font-medium transition-colors duration-200 ${
+            className={`block px-3 py-2.2 rounded-md text-base font-medium transition-colors duration-200 flex items-center gap-3 ${
               isActive('/stories') || pathname.startsWith('/stories/')
                 ? 'text-blue-400 bg-blue-900/20'
                 : 'text-gray-300 hover:text-white hover:bg-gray-800'
             }`}
           >
-            📖 Thư Viện
+            <BookOpen size={20} />
+            Thư Viện
           </Link>
           <Link
             href="/about"
             onClick={closeMenu}
-            className={`block px-3 py-2.5 rounded-md text-base font-medium transition-colors duration-200 ${
+            className={`block px-3 py-2.5 rounded-md text-base font-medium transition-colors duration-200 flex items-center gap-3 ${
               isActive('/about')
                 ? 'text-blue-400 bg-blue-900/20'
                 : 'text-gray-300 hover:text-white hover:bg-gray-800'
             }`}
           >
-            ℹ️ Về Tôi
+            <Info size={20} />
+            Về Tôi
           </Link>
           <Link
             href="/contact"
             onClick={closeMenu}
-            className={`block px-3 py-2.5 rounded-md text-base font-medium transition-colors duration-200 ${
+            className={`block px-3 py-2.5 rounded-md text-base font-medium transition-colors duration-200 flex items-center gap-3 ${
               isActive('/contact')
                 ? 'text-blue-400 bg-blue-900/20'
                 : 'text-gray-300 hover:text-white hover:bg-gray-800'
             }`}
           >
-            📧 Liên Hệ
+            <Mail size={20} />
+            Liên Hệ
           </Link>
           
           {/* Authentication section for mobile */}
@@ -213,28 +214,31 @@ export default function Navigation() {
                 <Link
                   href="/admin"
                   onClick={closeMenu}
-                  className={`block px-3 py-2.5 rounded-md text-base font-medium transition-colors duration-200 ${
+                  className={`block px-3 py-2.5 rounded-md text-base font-medium transition-colors duration-200 flex items-center gap-3 ${
                     pathname.startsWith('/admin')
                       ? 'text-blue-400 bg-blue-900/20'
                       : 'text-gray-300 hover:text-white hover:bg-gray-800'
                   }`}
                 >
-                  ⚙️ Quản Trị
+                  <Settings size={20} />
+                  Quản Trị
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="w-full text-left px-3 py-2.5 rounded-md text-base font-medium text-gray-300 hover:text-red-400 hover:bg-red-900/20 transition-colors duration-200"
+                  className="w-full text-left px-3 py-2.5 rounded-md text-base font-medium text-gray-300 hover:text-red-400 hover:bg-red-900/20 transition-colors duration-200 flex items-center gap-3"
                 >
-                  🚪 Đăng Xuất
+                  <LogOut size={20} />
+                  Đăng Xuất
                 </button>
               </>
             ) : (
               <Link
                 href="/login"
                 onClick={closeMenu}
-                className="bg-blue-600 hover:bg-blue-700 text-white block w-full text-center px-4 py-2.5 rounded-md text-base font-medium transition-colors duration-200"
+                className="bg-blue-600 hover:bg-blue-700 text-white block w-full text-center px-4 py-2.5 rounded-md text-base font-medium transition-colors duration-200 flex items-center justify-center gap-3"
               >
-                🔑 Đăng Nhập
+                <LogIn size={20} />
+                Đăng Nhập
               </Link>
             )}
           </div>

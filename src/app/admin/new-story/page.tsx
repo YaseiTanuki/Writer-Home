@@ -9,6 +9,7 @@ import { CreateStoryRequest } from '../../../types/story';
 import TiptapEditor from '../../../component/TiptapEditor';
 import CategorySelector from '../../../component/CategorySelector';
 import Navigation from '../../../component/Navigation';
+import { Sparkles, BookOpen, Home, Plus, Loader2 } from 'lucide-react';
 
 export default function NewStoryPage() {
   const { user, isAuthenticated, isLoading } = useAuth();
@@ -89,28 +90,25 @@ export default function NewStoryPage() {
         <div className="mb-6 sm:mb-8 mt-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="text-center sm:text-left">
-              <h1 className="text-xl sm:text-2xl font-bold text-white mb-2 leading-tight">
-                ✨ Viết Truyện Mới
+              <h1 className="text-xl sm:text-2xl font-bold text-white mb-2 leading-tight flex items-center gap-3">
+                <Sparkles size={28} className="text-blue-400" />
+                Viết Truyện Mới
               </h1>
             </div>
             <div className="flex flex-row items-center gap-2 sm:gap-3 w-full sm:w-auto justify-center sm:justify-end">
               <Link 
-                href="/admin" 
-                className="inline-flex items-center justify-center px-2 sm:px-3 py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm"
-              >
-                ⬅️ Dashboard
-              </Link>
-              <Link 
                 href="/stories" 
                 className="inline-flex items-center justify-center px-2 sm:px-3 py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm"
               >
-                👁️ Xem Web
+                <BookOpen size={16} />
+                Xem Web
               </Link>
               <Link 
-                href="/" 
-                className="inline-flex items-center justify-center px-2 sm:px-3 py-2 border border-transparent text-xs sm:text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm"
+                href="/admin" 
+                className="inline-flex items-center justify-center px-2 sm:px-3 py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm"
               >
-                🏠 Trang Chủ
+                <Home size={16} />
+                Trang Chủ
               </Link>
             </div>
           </div>
@@ -221,9 +219,19 @@ export default function NewStoryPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex-1 sm:flex-none bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-6 py-3 rounded-md font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:cursor-not-allowed"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md text-lg font-medium transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
             >
-              {isSubmitting ? 'Đang tạo...' : '✨ Tạo Truyện'}
+              {isSubmitting ? (
+                <>
+                  <Loader2 size={20} className="animate-spin" />
+                  Đang tạo...
+                </>
+              ) : (
+                <>
+                  <Plus size={20} />
+                  Tạo Truyện
+                </>
+              )}
             </button>
                          <Link
                href="/admin"

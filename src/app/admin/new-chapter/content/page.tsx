@@ -8,6 +8,7 @@ import { storyService } from '../../../../services/storyService';
 import { CreateChapterRequest, Story } from '../../../../types/story';
 import TiptapEditor from '../../../../component/TiptapEditor';
 import Navigation from '../../../../component/Navigation';
+import { Sparkles, BookOpen, Home, Plus, Loader2, X, FileText } from 'lucide-react';
 
 interface TempChapter {
   storyId: string;
@@ -87,7 +88,10 @@ export default function ChapterContentPage() {
         <div className="pt-24 lg:pt-32">
           <div className="max-w-6xl mx-auto px-3 sm:px-4 lg:px-8 py-6 sm:py-8">
             <div className="text-center">
-              <div className="text-red-400 text-lg mb-4">❌ Dữ liệu không hợp lệ</div>
+              <div className="text-red-400 text-lg mb-4 flex items-center justify-center gap-2">
+                <X size={24} />
+                Dữ liệu không hợp lệ
+              </div>
               <p className="text-gray-300 mb-6">Không thể tải thông tin chương. Vui lòng thử lại.</p>
               <Link
                 href="/admin/new-chapter"
@@ -149,58 +153,54 @@ export default function ChapterContentPage() {
       {/* Main Content */}
       <div className="pt-24 lg:pt-32">
         {/* Page Title */}
-        <div className="max-w-6xl mx-auto px-3 sm:px-4 lg:px-8 py-6 sm:py-8">
-          <div className="mb-6 sm:mb-8">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-              <div className="text-center sm:text-left">
-                <h1 className="text-xl sm:text-2xl font-bold text-white mb-2 leading-tight">
-                  ✨ Viết Nội Dung Chương
-                </h1>
-                <p className="text-sm sm:text-base text-gray-300">
-                  Bước 2: Viết nội dung chương
-                </p>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-                <Link 
-                  href="/admin" 
-                  className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-gray-600 text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
-                >
-                  ⬅️ Quay Lại Dashboard
-                </Link>
-                <Link 
-                  href="/stories" 
-                  className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-gray-600 text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
-                >
-                  👁️ Xem Trang Web
-                </Link>
-                <Link 
-                  href="/" 
-                  className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
-                >
-                  🏠 Trang Chủ
-                </Link>
-              </div>
+        <div className="mb-6 sm:mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="text-center sm:text-left">
+              <h1 className="text-xl sm:text-2xl font-bold text-white mb-2 leading-tight flex items-center gap-3">
+                <Sparkles size={28} className="text-blue-400" />
+                Viết Nội Dung Chương
+              </h1>
+              <p className="text-sm sm:text-base text-gray-300">
+                Bước 2: Viết nội dung chương
+              </p>
+            </div>
+            <div className="flex flex-row items-center gap-2 sm:gap-3 w-full sm:w-auto justify-center sm:justify-end">
+              <Link 
+                href="/stories" 
+                className="inline-flex items-center justify-center px-2 sm:px-3 py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm"
+              >
+                <BookOpen size={16} />
+                Xem Trang Web
+              </Link>
+              <Link 
+                href="/admin" 
+                className="inline-flex items-center justify-center px-2 sm:px-3 py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm"
+              >
+                <Home size={16} />
+                Trang Chủ
+              </Link>
             </div>
           </div>
         </div>
 
-        {/* Basic Information Display */}
-        <div className="max-w-6xl mx-auto px-3 sm:px-4 lg:px-8 mb-6">
-          <div className="bg-gray-900 rounded-lg shadow p-3 sm:p-4 lg:p-6 border border-gray-800">
-            <h3 className="text-lg font-medium text-white mb-4">📖 Thông Tin Chương</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">Truyện:</label>
-                <p className="text-sm text-white font-medium">{story.title}</p>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">Số chương:</label>
-                <p className="text-sm text-white font-medium">{tempChapter.chapterNumber}</p>
-              </div>
-              <div className="sm:col-span-2">
-                <label className="block text-sm font-medium text-gray-300 mb-1">Tiêu đề chương:</label>
-                <p className="text-sm text-white font-medium">{tempChapter.title}</p>
-              </div>
+        {/* Chapter Info */}
+        <div className="bg-gray-900 rounded-lg shadow p-4 sm:p-6 mb-6 sm:mb-8 border border-gray-800">
+          <h3 className="text-lg font-medium text-white mb-4 flex items-center gap-2">
+            <FileText size={20} />
+            Thông Tin Chương
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-1">Truyện:</label>
+              <p className="text-sm text-white font-medium">{story.title}</p>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-1">Số chương:</label>
+              <p className="text-sm text-white font-medium">{tempChapter.chapterNumber}</p>
+            </div>
+            <div className="sm:col-span-2">
+              <label className="block text-sm font-medium text-gray-300 mb-1">Tiêu đề chương:</label>
+              <p className="text-sm text-white font-medium">{tempChapter.title}</p>
             </div>
           </div>
         </div>
@@ -236,9 +236,19 @@ export default function ChapterContentPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="flex-1 sm:flex-none bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-6 py-3 rounded-md font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:cursor-not-allowed"
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md text-lg font-medium transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
                 >
-                  {isSubmitting ? 'Đang tạo...' : '✨ Tạo Chương'}
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 size={20} className="animate-spin" />
+                      Đang tạo...
+                    </>
+                  ) : (
+                    <>
+                      <Plus size={20} />
+                      Tạo Chương
+                    </>
+                  )}
                 </button>
                 <button
                   type="button"

@@ -17,15 +17,18 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
             <Link 
               href="/stories" 
-              className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md text-base sm:text-lg font-medium transition-colors duration-200 shadow-sm hover:shadow-md"
+              className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md text-base sm:text-lg font-medium transition-colors duration-200 shadow-sm hover:shadow-md flex items-center justify-center gap-3"
             >
               <BookOpen size={20} />
               Đọc Truyện của Tôi
             </Link>
-            <button className="w-full sm:w-auto bg-gray-800 hover:bg-gray-700 text-gray-200 px-6 py-3 rounded-md text-base sm:text-lg font-medium transition-colors duration-200 shadow-sm hover:shadow-md">
+            <Link
+              href="/about"
+              className="w-full sm:w-auto bg-gray-800 hover:bg-gray-700 text-gray-200 px-6 py-3 rounded-md text-base sm:text-lg font-medium transition-colors duration-200 shadow-sm hover:shadow-md flex items-center justify-center gap-3"
+            >
               <User size={20} />
               Về Tôi
-            </button>
+            </Link>
           </div>
         </div>
       </main>

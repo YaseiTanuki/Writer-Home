@@ -9,6 +9,7 @@ import { Story, UpdateStoryRequest } from '../../../../../types/story';
 import TiptapEditor from '../../../../../component/TiptapEditor';
 import CategorySelector from '../../../../../component/CategorySelector';
 import Navigation from '../../../../../component/Navigation';
+import { Edit3, BookOpen, Home, ArrowLeft, Loader2 } from 'lucide-react';
 
 interface EditStoryFormData {
   title: string;
@@ -145,8 +146,9 @@ export default function EditStoryPage() {
         <div className="mb-6 sm:mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="text-center sm:text-left">
-              <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 leading-tight">
-                ✏️ Chỉnh Sửa Truyện
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 leading-tight flex items-center gap-3">
+                <Edit3 size={28} className="text-blue-600" />
+                Chỉnh Sửa Truyện
               </h1>
               <p className="text-sm sm:text-base text-gray-600">
                 Cập nhật thông tin truyện của bạn
@@ -155,21 +157,24 @@ export default function EditStoryPage() {
             <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 w-full sm:w-auto">
               <Link 
                 href="/admin" 
-                className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
+                className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto gap-2"
               >
-                ⬅️ Quay Lại Dashboard
+                <ArrowLeft size={16} />
+                Quay Lại Dashboard
               </Link>
               <Link 
                 href="/stories" 
-                className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
+                className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto gap-2"
               >
-                👁️ Xem Trang Web
+                <BookOpen size={16} />
+                Xem Trang Web
               </Link>
               <Link 
                 href="/" 
-                className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
+                className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto gap-2"
               >
-                🏠 Trang Chủ
+                <Home size={16} />
+                Trang Chủ
               </Link>
             </div>
           </div>
@@ -285,9 +290,19 @@ export default function EditStoryPage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex-1 sm:flex-none bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-6 py-3 rounded-md font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:cursor-not-allowed"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md text-lg font-medium transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
               >
-                {isSubmitting ? 'Đang cập nhật...' : '💾 Cập Nhật Truyện'}
+                {isSubmitting ? (
+                  <>
+                    <Loader2 size={20} className="animate-spin" />
+                    Đang cập nhật...
+                  </>
+                ) : (
+                  <>
+                    <Edit3 size={20} />
+                    Cập Nhật Truyện
+                  </>
+                )}
               </button>
               <Link
                 href="/admin"

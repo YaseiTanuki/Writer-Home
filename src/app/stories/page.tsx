@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { BookOpen, Home, Search, Trash2 } from 'lucide-react';
+import { BookOpen, Home, Search, Trash2, CheckCircle } from 'lucide-react';
 import Navigation from '../../component/Navigation';
 import { storyService } from '../../services/storyService';
 import { Story, Category } from '../../types/story';
@@ -218,7 +218,7 @@ export default function StoriesPage() {
                     />
                   ) : (
                     <div className="w-full h-32 sm:h-40 lg:h-48 xl:h-56 bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
-                      <span className="text-white text-xl sm:text-2xl lg:text-3xl font-medium">📚</span>
+                      <BookOpen size={48} className="text-white" />
                     </div>
                   )}
                 </div>
@@ -259,8 +259,9 @@ export default function StoriesPage() {
 
                   {/* Status Badge */}
                   <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-0">
-                    <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-900/20 text-green-400 w-fit border border-green-700">
-                      ✅ Đã xuất bản
+                    <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold rounded-full bg-green-900/20 text-green-400 w-fit border border-green-700">
+                      <CheckCircle size={12} />
+                      Đã xuất bản
                     </span>
                     <span className="text-xs text-gray-400">
                       {new Date(story.createdAt).toLocaleDateString('vi-VN')}
