@@ -173,7 +173,7 @@ export default function Navigation() {
           <Link
             href="/stories"
             onClick={closeMenu}
-            className={`block px-3 py-2.2 rounded-md text-base font-medium transition-colors duration-200 flex items-center gap-3 ${
+            className={`block px-3 py-2.5 rounded-md text-base font-medium transition-colors duration-200 flex items-center gap-3 ${
               isActive('/stories') || pathname.startsWith('/stories/')
                 ? 'text-blue-400 bg-blue-900/20'
                 : 'text-gray-300 hover:text-white hover:bg-gray-800'
@@ -208,7 +208,7 @@ export default function Navigation() {
           </Link>
           
           {/* Authentication section for mobile */}
-          <div className="pt-4 border-t border-gray-800">
+          <div className="pt-2 border-t border-gray-800">
             {isAuthenticated ? (
               <>
                 <Link
