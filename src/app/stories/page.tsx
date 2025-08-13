@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { BookOpen, Home, Search, Trash2 } from 'lucide-react';
 import Navigation from '../../component/Navigation';
 import { storyService } from '../../services/storyService';
 import { Story, Category } from '../../types/story';
@@ -105,8 +106,9 @@ export default function StoriesPage() {
         <div className="mb-6 sm:mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="text-center sm:text-left">
-              <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
-                📚 Thư Viện Truyện
+              <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2 flex items-center gap-2">
+                <BookOpen size={32} />
+                Thư Viện Truyện
               </h1>
               <p className="text-sm sm:text-base text-gray-300">
                 Khám phá những câu chuyện thú vị từ các tác giả tài năng
@@ -116,14 +118,18 @@ export default function StoriesPage() {
               href="/"
               className="inline-flex items-center justify-center px-4 sm:px-6 py-2 sm:py-3 border border-transparent text-sm sm:text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
             >
-              🏠 Trang Chủ
+              <Home size={18} />
+              Trang Chủ
             </Link>
           </div>
         </div>
 
         {/* Filters */}
         <div className="bg-gray-900 rounded-lg shadow p-3 sm:p-4 lg:p-6 mb-6 sm:mb-8 border border-gray-800">
-          <h2 className="text-base sm:text-lg font-medium text-white mb-3 sm:mb-4">🔍 Bộ Lọc</h2>
+          <h2 className="text-base sm:text-lg font-medium text-white mb-3 sm:mb-4 flex items-center gap-2">
+            <Search size={20} />
+            Bộ Lọc
+          </h2>
           
           {/* Search */}
           <div className="mb-3 sm:mb-4">
@@ -171,7 +177,8 @@ export default function StoriesPage() {
               onClick={clearFilters}
               className="text-blue-400 hover:text-blue-300 text-sm font-medium"
             >
-              🗑️ Xóa bộ lọc
+              <Trash2 size={16} />
+              Xóa bộ lọc
             </button>
           )}
         </div>

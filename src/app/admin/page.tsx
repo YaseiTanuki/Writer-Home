@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { Home, BookOpen, FileText, CheckCircle, Edit3, Trash2, AlertTriangle, Tag, Plus } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { storyService } from '../../services/storyService';
 import { Story, Chapter, Category } from '../../types/story';
@@ -161,7 +162,8 @@ export default function AdminDashboard() {
                 href="/"
                 className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
               >
-                🏠 Trang Chủ
+                <Home size={18} />
+              Trang Chủ
               </Link>
             </div>
           </div>
@@ -171,11 +173,17 @@ export default function AdminDashboard() {
         <div className="grid grid-cols-2 md:grid-cols-5 gap-3 sm:gap-4 lg:gap-6 mb-6 sm:mb-8">
           <div className="bg-blue-900/20 rounded-lg p-3 sm:p-4 text-center border border-blue-800">
             <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-400">{stories.length}</div>
-            <div className="text-xs sm:text-sm text-blue-300">📚 Truyện</div>
+                            <div className="text-xs sm:text-sm text-blue-300 flex items-center justify-center gap-1">
+                  <BookOpen size={14} />
+                  Truyện
+                </div>
           </div>
           <div className="bg-green-900/20 rounded-lg p-3 sm:p-4 text-center border border-green-800">
             <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-green-400">{chapters.length}</div>
-            <div className="text-xs sm:text-sm text-green-300">📖 Chương</div>
+                            <div className="text-xs sm:text-sm text-green-300 flex items-center justify-center gap-1">
+                  <FileText size={14} />
+                  Chương
+                </div>
           </div>
           <div className="bg-purple-900/20 rounded-lg p-3 sm:p-4 text-center border border-purple-800">
             <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-purple-400">{categories.length}</div>
@@ -185,13 +193,19 @@ export default function AdminDashboard() {
             <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-yellow-400">
               {stories.filter(s => s.status === 'public').length}
             </div>
-            <div className="text-xs sm:text-sm text-yellow-300">✅ Đã Xuất Bản</div>
+                            <div className="text-xs sm:text-sm text-yellow-300 flex items-center justify-center gap-1">
+                  <CheckCircle size={14} />
+                  Đã Xuất Bản
+                </div>
           </div>
           <div className="bg-red-900/20 rounded-lg p-3 sm:p-4 text-center border border-red-800">
             <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-red-400">
               {stories.filter(s => s.status === 'draft').length}
             </div>
-            <div className="text-xs sm:text-sm text-red-300">📝 Bản Thảo</div>
+                            <div className="text-xs sm:text-sm text-red-300 flex items-center justify-center gap-1">
+                  <Edit3 size={14} />
+                  Bản Thảo
+                </div>
           </div>
         </div>
 
@@ -228,7 +242,10 @@ export default function AdminDashboard() {
         <div className="bg-gray-900 rounded-lg shadow mb-6 sm:mb-8 border border-gray-800">
           <div className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 border-b border-gray-800">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
-              <h2 className="text-lg font-medium text-white">📚 Danh Sách Truyện</h2>
+              <h2 className="text-lg font-medium text-white flex items-center gap-2">
+                <BookOpen size={20} />
+                Danh Sách Truyện
+              </h2>
               <Link
                 href="/admin/new-story"
                 className="inline-flex items-center px-3 sm:px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full sm:w-auto justify-center"
@@ -269,7 +286,7 @@ export default function AdminDashboard() {
                             <img className="h-8 w-8 sm:h-10 sm:w-10 rounded-full object-cover" src={story.coverImage} alt={story.title} />
                           ) : (
                             <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
-                              <span className="text-white text-xs sm:text-sm font-medium">📚</span>
+                              <BookOpen size={16} className="text-white" />
                             </div>
                           )}
                         </div>
@@ -309,7 +326,17 @@ export default function AdminDashboard() {
                           ? 'bg-green-900/20 text-green-400 border border-green-700' 
                           : 'bg-yellow-900/20 text-yellow-400 border border-yellow-700'
                       }`}>
-                        {story.status === 'public' ? '✅ Đã xuất bản' : '📝 Bản thảo'}
+                        {story.status === 'public' ? (
+                    <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full bg-green-900/20 text-green-400 border border-green-700">
+                      <CheckCircle size={12} />
+                      Đã xuất bản
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full bg-red-900/20 text-red-400 border border-red-700">
+                      <Edit3 size={12} />
+                      Bản thảo
+                    </span>
+                  )}
                       </span>
                     </td>
                     <td className="px-2 sm:px-3 lg:px-6 py-3 sm:py-4 hidden sm:table-cell">
@@ -327,9 +354,10 @@ export default function AdminDashboard() {
                         </Link>
                         <button
                           onClick={() => handleDeleteStory(story._id, story.title)}
-                          className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-2 border border-red-600 text-xs sm:text-sm font-medium rounded-md text-red-400 bg-gray-800 hover:bg-red-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
+                          className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 sm:py-2 border border-red-600 text-xs sm:text-sm font-medium rounded-md text-red-400 bg-gray-800 hover:bg-red-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
                         >
-                          🗑️ Xóa
+                          <Trash2 size={16} />
+                          Xóa
                         </button>
                       </div>
                     </td>
@@ -344,12 +372,16 @@ export default function AdminDashboard() {
         <div className="bg-gray-900 rounded-lg shadow mb-6 sm:mb-8 border border-gray-800">
           <div className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 border-b border-gray-800">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
-              <h2 className="text-lg font-medium text-white">🏷️ Danh Sách Thể Loại</h2>
+              <h2 className="text-lg font-medium text-white flex items-center gap-2">
+                <Tag size={20} />
+                Danh Sách Thể Loại
+              </h2>
               <Link
                 href="/admin/new-category"
                 className="inline-flex items-center px-3 sm:px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 w-full sm:w-auto justify-center"
               >
-                ✨ Tạo Thể Loại Mới
+                <Plus size={18} />
+                Tạo Thể Loại Mới
               </Link>
             </div>
           </div>
@@ -403,9 +435,10 @@ export default function AdminDashboard() {
                         <div className="flex flex-col sm:flex-row gap-1 sm:gap-2">
                           <button
                             onClick={() => handleDeleteCategory(category._id, category.name)}
-                            className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-2 border border-red-600 text-xs sm:text-sm font-medium rounded-md text-red-400 bg-gray-800 hover:bg-red-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
+                            className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 sm:py-2 border border-red-600 text-xs sm:text-sm font-medium rounded-md text-red-400 bg-gray-800 hover:bg-red-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
                           >
-                            🗑️ Xóa
+                            <Trash2 size={16} />
+                            Xóa
                           </button>
                         </div>
                       </td>
@@ -421,12 +454,16 @@ export default function AdminDashboard() {
         <div className="bg-gray-900 rounded-lg shadow mb-6 sm:mb-8 border border-gray-800">
           <div className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 border-b border-gray-800">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
-              <h2 className="text-lg font-medium text-white">📖 Danh Sách Chương</h2>
+              <h2 className="text-lg font-medium text-white flex items-center gap-2">
+                <FileText size={20} />
+                Danh Sách Chương
+              </h2>
               <Link
                 href="/admin/new-chapter"
                 className="inline-flex items-center px-3 sm:px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 w-full sm:w-auto justify-center"
               >
-                ✨ Tạo Chương Mới
+                <Plus size={18} />
+                Tạo Chương Mới
               </Link>
             </div>
           </div>
@@ -486,13 +523,15 @@ export default function AdminDashboard() {
                           href={`/admin/chapters/${chapter._id}/edit`}
                           className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
                         >
-                          ✏️ Sửa
+                          <Edit3 size={16} />
+                          Sửa
                         </Link>
                         <button
                           onClick={() => handleDeleteChapter(chapter._id, chapter.title)}
-                          className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-2 border border-red-600 text-xs sm:text-sm font-medium rounded-md text-red-400 bg-gray-800 hover:bg-red-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
+                          className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 sm:py-2 border border-red-600 text-xs sm:text-sm font-medium rounded-md text-red-400 bg-gray-800 hover:bg-red-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
                         >
-                          🗑️ Xóa
+                          <Trash2 size={16} />
+                          Xóa
                         </button>
                       </div>
                     </td>
@@ -519,7 +558,8 @@ export default function AdminDashboard() {
                 </h3>
                 {deleteConfirm.type === 'story' && (
                   <p className="mb-4 text-sm text-red-400 bg-red-900/20 p-3 rounded-md border border-red-700">
-                    ⚠️ <strong>Lưu ý:</strong> Khi xóa truyện này, tất cả các chương liên quan cũng sẽ bị xóa vĩnh viễn!
+                    <AlertTriangle size={16} className="inline mr-2" />
+                  <strong>Lưu ý:</strong> Khi xóa truyện này, tất cả các chương liên quan cũng sẽ bị xóa vĩnh viễn!
                   </p>
                 )}
                 <div className="flex justify-center gap-4">
@@ -554,9 +594,9 @@ export default function AdminDashboard() {
             <div className="flex items-start">
               <div className="flex-shrink-0">
                 {notification.type === 'success' ? (
-                  <span className="text-green-400 text-lg">✅</span>
+                  <CheckCircle size={20} className="text-green-400" />
                 ) : (
-                  <span className="text-red-400 text-lg">❌</span>
+                  <AlertTriangle size={20} className="text-red-400" />
                 )}
               </div>
               <div className="ml-3 flex-1">

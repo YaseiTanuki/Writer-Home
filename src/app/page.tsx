@@ -1,5 +1,6 @@
 import Navigation from "../component/Navigation";
 import Link from "next/link";
+import { BookOpen, User } from 'lucide-react';
 
 export default function Home() {
   return (
@@ -18,10 +19,12 @@ export default function Home() {
               href="/stories" 
               className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md text-base sm:text-lg font-medium transition-colors duration-200 shadow-sm hover:shadow-md"
             >
-              📚 Đọc Truyện của Tôi
+              <BookOpen size={20} />
+              Đọc Truyện của Tôi
             </Link>
             <button className="w-full sm:w-auto bg-gray-800 hover:bg-gray-700 text-gray-200 px-6 py-3 rounded-md text-base sm:text-lg font-medium transition-colors duration-200 shadow-sm hover:shadow-md">
-              👤 Về Tôi
+              <User size={20} />
+              Về Tôi
             </button>
           </div>
         </div>

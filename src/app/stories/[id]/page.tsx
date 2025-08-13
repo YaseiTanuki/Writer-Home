@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { BookOpen, Home, Calendar, FileText, CheckCircle } from 'lucide-react';
 import { storyService } from '../../../services/storyService';
 import { Story, Chapter, Category } from '../../../types/story';
 import Navigation from '../../../component/Navigation';
@@ -131,15 +132,17 @@ export default function StoryDetailPage() {
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
               <Link
                 href="/stories"
-                className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-gray-600 text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
+                className="inline-flex items-center gap-2 justify-center px-3 sm:px-4 py-2 border border-gray-600 text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
               >
-                📚 Thư Viện
+                <BookOpen size={18} />
+                Thư Viện
               </Link>
               <Link
                 href="/"
-                className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
+                className="inline-flex items-center gap-2 justify-center px-3 sm:px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
               >
-                🏠 Trang Chủ
+                <Home size={18} />
+                Trang Chủ
               </Link>
             </div>
           </div>
@@ -158,9 +161,9 @@ export default function StoryDetailPage() {
                     className="w-full h-40 sm:h-48 lg:h-64 object-cover rounded-lg"
                   />
                 ) : (
-                  <div className="w-full h-40 sm:h-48 lg:h-64 bg-gradient-to-br from-blue-400 to-purple-500 rounded-lg flex items-center justify-center">
-                    <span className="text-white text-2xl sm:text-3xl lg:text-4xl font-medium">📚</span>
-                  </div>
+                                     <div className="w-full h-40 sm:h-48 lg:h-64 bg-gradient-to-br from-blue-400 to-purple-500 rounded-lg flex items-center justify-center">
+                     <BookOpen size={48} className="text-white" />
+                   </div>
                 )}
               </div>
 
@@ -173,7 +176,7 @@ export default function StoryDetailPage() {
 
                 {/* Categories */}
                 <div>
-                  <h3 className="text-sm font-medium text-gray-300 mb-2">🏷️ Thể loại</h3>
+                  <h3 className="text-sm font-medium text-gray-300 mb-2">Thể loại</h3>
                   <div className="flex flex-wrap gap-1.5 sm:gap-2">
                     {story.category.map((catId) => {
                       const category = categories.find(c => c._id === catId);
@@ -197,19 +200,28 @@ export default function StoryDetailPage() {
                 <div className="grid grid-cols-2 gap-3 sm:gap-4 pt-3 sm:pt-4 border-t border-gray-800">
                   <div className="text-center">
                     <div className="text-lg sm:text-xl lg:text-2xl font-bold text-blue-400">{chapters.length}</div>
-                    <div className="text-xs sm:text-sm text-gray-300">📖 Chương</div>
+                    <div className="text-xs sm:text-sm text-gray-300 flex items-center justify-center gap-1">
+                      <FileText size={14} />
+                      Chương
+                    </div>
                   </div>
                   <div className="text-center">
                     <div className="text-lg sm:text-xl lg:text-2xl font-bold text-green-400">
                       {story.description.split(' ').length}
                     </div>
-                    <div className="text-xs sm:text-sm text-gray-300">📝 Từ</div>
+                    <div className="text-xs sm:text-sm text-gray-300 flex items-center justify-center gap-1">
+                      <FileText size={14} />
+                      Từ
+                    </div>
                   </div>
                 </div>
 
                 {/* Content Preview */}
                 <div className="pt-3 sm:pt-4 border-t border-gray-800">
-                  <h3 className="text-sm font-medium text-gray-300 mb-2">📖 Nội dung</h3>
+                  <h3 className="text-sm font-medium text-gray-300 mb-2 flex items-center gap-2">
+                    <FileText size={16} />
+                    Nội dung
+                  </h3>
                   <p className="text-gray-300 text-sm leading-relaxed line-clamp-4">
                     {story.description}
                   </p>
@@ -217,8 +229,9 @@ export default function StoryDetailPage() {
 
                 {/* Creation Date */}
                 <div className="pt-3 sm:pt-4 border-t border-gray-800">
-                  <div className="text-xs sm:text-sm text-gray-400">
-                    📅 Tạo ngày: {new Date(story.createdAt).toLocaleDateString('vi-VN')}
+                  <div className="text-xs sm:text-sm text-gray-400 flex items-center gap-2">
+                    <Calendar size={14} />
+                    Tạo ngày: {new Date(story.createdAt).toLocaleDateString('vi-VN')}
                   </div>
                 </div>
               </div>
@@ -228,8 +241,9 @@ export default function StoryDetailPage() {
           {/* Chapters List - Right Column */}
           <div className="lg:col-span-2">
             <div className="bg-gray-900 rounded-lg shadow p-3 sm:p-4 lg:p-6 border border-gray-800">
-              <h2 className="text-lg sm:text-xl font-bold text-white mb-4 sm:mb-6 flex items-center">
-                📚 Danh sách chương ({chapters.length})
+              <h2 className="text-lg sm:text-xl font-bold text-white mb-4 sm:mb-6 flex items-center gap-2">
+                <BookOpen size={20} />
+                Danh sách chương ({chapters.length})
               </h2>
               
               {chapters.length === 0 ? (
@@ -260,8 +274,9 @@ export default function StoryDetailPage() {
                             )}
                           </div>
                           <div className="ml-3 sm:ml-4 flex-shrink-0">
-                            <span className="inline-flex items-center px-2 sm:px-3 py-1 text-xs font-medium rounded-full bg-green-900/20 text-green-400 border border-green-700">
-                              ✅ Đã xuất bản
+                            <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 text-xs font-medium rounded-full bg-green-900/20 text-green-400 border border-green-700">
+                              <CheckCircle size={14} />
+                              Đã xuất bản
                             </span>
                           </div>
                         </div>
