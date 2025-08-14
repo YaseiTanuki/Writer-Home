@@ -34,16 +34,6 @@ export default function ContactPage() {
   // Check if user is authenticated (either guest or admin)
   const isAuthenticated = isGuestAuthenticated || isAdminAuthenticated;
 
-  // Debug logging
-  console.log('Contact Page Debug:', {
-    guest,
-    isGuestAuthenticated,
-    user,
-    isAdminAuthenticated,
-    isAuthenticated,
-    formData
-  });
-
   // Auto-fill form with guest info if available
   useEffect(() => {
     if (guest && !formData.name && !formData.email) {
@@ -171,21 +161,6 @@ export default function ContactPage() {
         </div>
 
         <div className="bg-gray-900 shadow-lg rounded-lg p-8 border border-gray-800">
-          {/* Debug Panel - Remove in production */}
-          {process.env.NODE_ENV === 'development' && (
-            <div className="mb-6 bg-gray-800 border border-gray-600 text-gray-300 px-4 py-3 rounded text-sm">
-              <h4 className="font-medium mb-2">Debug Info:</h4>
-              <div className="space-y-1">
-                <p>Guest: {guest ? `${guest.displayName} (${guest.email})` : 'null'}</p>
-                <p>Guest Auth: {isGuestAuthenticated ? 'true' : 'false'}</p>
-                <p>Admin: {user ? `${user.username}` : 'null'}</p>
-                <p>Admin Auth: {isAdminAuthenticated ? 'true' : 'false'}</p>
-                <p>Is Authenticated: {isAuthenticated ? 'true' : 'false'}</p>
-                <p>Form Email: {formData.email || 'empty'}</p>
-              </div>
-            </div>
-          )}
-
           {/* Authentication Required Notice */}
           {!isAuthenticated && (
             <div className="mb-6 bg-yellow-900/20 border border-yellow-700 text-yellow-400 px-4 py-3 rounded flex items-center gap-3">

@@ -30,8 +30,6 @@ class GoogleAuthService {
     if (typeof window !== 'undefined') {
       this.guestToken = localStorage.getItem('guestToken');
       this.guestInfo = JSON.parse(localStorage.getItem('guestInfo') || 'null');
-      console.log('GoogleAuthService: Constructor - Token:', this.guestToken ? 'exists' : 'null');
-      console.log('GoogleAuthService: Constructor - Guest info:', this.guestInfo);
     }
   }
 
@@ -158,14 +156,11 @@ class GoogleAuthService {
   }
 
   public async getCurrentGuest(): Promise<GuestInfo | null> {
-    console.log('GoogleAuthService: getCurrentGuest called, token:', this.guestToken ? 'exists' : 'null');
     if (!this.guestToken) {
-      console.log('GoogleAuthService: No token, returning null');
       return null;
     }
 
     try {
-      console.log('GoogleAuthService: Fetching guest info from API...');
       const response = await fetch('/api/auth/me', {
         headers: {
           'Authorization': `Bearer ${this.guestToken}`,
@@ -173,65 +168,53 @@ class GoogleAuthService {
       });
 
       if (!response.ok) {
-        console.log('GoogleAuthService: API response not ok, signing out');
         this.signOut();
         return null;
       }
 
       const result = await response.json();
-      console.log('GoogleAuthService: API response:', result);
       this.guestInfo = result.guest;
       this.setGuestInfo(result.guest);
       return result.guest;
     } catch (error) {
-      console.error('GoogleAuthService: Error fetching guest info:', error);
+      console.error('Error fetching guest info:', error);
       this.signOut();
       return null;
     }
   }
 
   public getGuestToken(): string | null {
-    console.log('GoogleAuthService: getGuestToken called, returning:', this.guestToken ? 'token exists' : 'null');
     return this.guestToken;
   }
 
   public getGuestInfo(): GuestInfo | null {
-    console.log('GoogleAuthService: getGuestInfo called, returning:', this.guestInfo);
     return this.guestInfo;
   }
 
   public isAuthenticated(): boolean {
-    const authenticated = !!this.guestToken;
-    console.log('GoogleAuthService: isAuthenticated called, returning:', authenticated);
-    return authenticated;
+    return !!this.guestToken;
   }
 
   public setGuestToken(token: string): void {
-    console.log('GoogleAuthService: setGuestToken called with:', token ? 'token exists' : 'null');
     this.guestToken = token;
     if (typeof window !== 'undefined') {
       localStorage.setItem('guestToken', token);
-      console.log('GoogleAuthService: Token saved to localStorage');
     }
   }
 
   public setGuestInfo(guest: GuestInfo): void {
-    console.log('GoogleAuthService: setGuestInfo called with:', guest);
     this.guestInfo = guest;
     if (typeof window !== 'undefined') {
       localStorage.setItem('guestInfo', JSON.stringify(guest));
-      console.log('GoogleAuthService: Guest info saved to localStorage');
     }
   }
 
   public signOut(): void {
-    console.log('GoogleAuthService: signOut called');
     this.guestToken = null;
     this.guestInfo = null;
     if (typeof window !== 'undefined') {
       localStorage.removeItem('guestToken');
       localStorage.removeItem('guestInfo');
-      console.log('GoogleAuthService: Token and guest info removed from localStorage');
     }
   }
 }
