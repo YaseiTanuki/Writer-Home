@@ -1,15 +1,9 @@
 import type { Metadata } from "next";
-import { Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "../contexts/AuthContext";
 import { GuestProvider } from "../contexts/GuestContext";
-
-const notoSansJP = Noto_Sans_JP({
-  variable: "--font-noto-sans-jp",
-  subsets: ["latin"],
-  weight: ["400", "500", "700"], // Simplified weights for better compatibility
-  display: "swap",
-});
+import Navigation from "../component/Navigation";
+import MobileBottomNav from "../component/Navigation/MobileBottomNav";
 
 export const metadata: Metadata = {
   title: "Góc Truyện - Writer Home",
@@ -26,13 +20,19 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link 
+          href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" 
+          rel="stylesheet" 
+        />
       </head>
-      <body
-        className={`${notoSansJP.variable} antialiased`}
-      >
+      <body className="antialiased">
         <AuthProvider>
           <GuestProvider>
-            {children}
+            <Navigation />
+            <MobileBottomNav />
+            <main className="pt-16 md:pt-16 pb-20 md:pb-0">
+              {children}
+            </main>
           </GuestProvider>
         </AuthProvider>
       </body>
