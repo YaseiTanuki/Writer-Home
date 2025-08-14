@@ -73,6 +73,11 @@ export default function ChapterReaderPage() {
   const increaseLineHeight = () => setLineHeight(prev => Math.min(prev + 0.1, 2.0));
   const decreaseLineHeight = () => setLineHeight(prev => Math.max(prev - 0.1, 1.2));
 
+  // Update CSS custom property when lineHeight changes
+  useEffect(() => {
+    document.documentElement.style.setProperty('--custom-line-height', lineHeight.toString());
+  }, [lineHeight]);
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-black">
@@ -235,17 +240,22 @@ export default function ChapterReaderPage() {
 
           {/* Chapter Text */}
           <div 
-            className="prose prose-sm sm:prose-base lg:prose-lg max-w-none text-white"
+            className="max-w-none text-white chapter-content"
             style={{ 
               fontSize: `${fontSize}px`, 
               lineHeight: lineHeight,
-              textAlign: 'justify'
-            }}
+              textAlign: 'justify',
+              '--custom-line-height': lineHeight,
+            } as React.CSSProperties}
           >
             {chapter.content && (
               <div 
                 dangerouslySetInnerHTML={{ __html: chapter.content }}
-                className="leading-relaxed text-white"
+                className="text-white chapter-content"
+                style={{ 
+                  lineHeight: lineHeight,
+                  '--custom-line-height': lineHeight,
+                } as React.CSSProperties}
               />
             )}
           </div>

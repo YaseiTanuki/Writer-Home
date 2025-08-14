@@ -112,3 +112,53 @@ body {
 .ProseMirror a:hover {
   color: var(--accent-hover);
 }
+
+/* Chapter Reader Styles */
+.chapter-content {
+  line-height: var(--custom-line-height, 1.6) !important;
+}
+
+.chapter-content p,
+.chapter-content div,
+.chapter-content span,
+.chapter-content h1,
+.chapter-content h2,
+.chapter-content h3,
+.chapter-content h4,
+.chapter-content h5,
+.chapter-content h6,
+.chapter-content li,
+.chapter-content blockquote {
+  line-height: inherit !important;
+}
+
+/* Override any conflicting Tailwind classes */
+.chapter-content.leading-relaxed,
+.chapter-content.leading-normal,
+.chapter-content.leading-tight,
+.chapter-content.leading-loose {
+  line-height: var(--custom-line-height, 1.6) !important;
+}
+
+.chapter-content.prose {
+  line-height: var(--custom-line-height, 1.6) !important;
+}
+
+.chapter-content.prose p,
+.chapter-content.prose div,
+.chapter-content.prose span,
+.chapter-content.prose h1,
+.chapter-content.prose h2,
+.chapter-content.prose h3,
+.chapter-content.prose h4,
+.chapter-content.prose h5,
+.chapter-content.prose h6,
+.chapter-content.prose li,
+.chapter-content.prose blockquote {
+  line-height: inherit !important;
+}
+
+/* Force line-height for all text elements */
+.chapter-content * {
+  line-height: inherit !important;
+}
