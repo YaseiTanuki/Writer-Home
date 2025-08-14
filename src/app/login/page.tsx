@@ -34,7 +34,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-black">
       <Navigation />
-      <div className="flex flex-col justify-center py-12 sm:px-6 lg:px-8 pt-24">
+              <div className="flex flex-col justify-center py-12 sm:px-6 lg:px-8 pt-16 md:pt-24">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <div className="flex items-center justify-center gap-3 mb-6">
             <LogIn size={48} className="text-blue-400" />

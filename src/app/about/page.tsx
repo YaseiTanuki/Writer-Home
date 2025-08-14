@@ -5,7 +5,7 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-black">
       <Navigation />
-      <div className="pt-24 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="pt-16 md:pt-24 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-3 mb-4">
             <User size={48} className="text-blue-400" />

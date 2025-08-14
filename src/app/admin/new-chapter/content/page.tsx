@@ -69,7 +69,7 @@ export default function ChapterContentPage() {
     return (
       <div className="min-h-screen bg-black">
         <Navigation />
-        <div className="pt-24 lg:pt-32">
+        <div className="pt-16 md:pt-24 lg:pt-32">
           <div className="max-w-6xl mx-auto px-3 sm:px-4 lg:px-8 py-6 sm:py-8">
             <div className="text-center">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
@@ -85,14 +85,14 @@ export default function ChapterContentPage() {
     return (
       <div className="min-h-screen bg-black">
         <Navigation />
-        <div className="pt-24 lg:pt-32">
+        <div className="pt-16 md:pt-24 lg:pt-32">
           <div className="max-w-6xl mx-auto px-3 sm:px-4 lg:px-8 py-6 sm:py-8">
             <div className="text-center">
               <div className="text-red-400 text-lg mb-4 flex items-center justify-center gap-2">
                 <X size={24} />
                 Dữ liệu không hợp lệ
               </div>
-              <p className="text-gray-300 mb-6">Không thể tải thông tin chương. Vui lòng thử lại.</p>
+              <p className="mt-4 text-gray-300 mb-6">Không thể tải thông tin chương. Vui lòng thử lại.</p>
               <Link
                 href="/admin/new-chapter"
                 className="inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-200"
@@ -151,7 +151,7 @@ export default function ChapterContentPage() {
       <Navigation />
       
       {/* Main Content */}
-      <div className="pt-24 lg:pt-32">
+      <div className="pt-16 md:pt-24 lg:pt-32">
         {/* Page Title */}
         <div className="mb-6 sm:mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">

@@ -60,7 +60,7 @@ export default function EditChapterPage() {
     return (
       <div className="min-h-screen bg-white">
         <Navigation />
-        <div className="pt-24 lg:pt-32 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="pt-16 md:pt-24 lg:pt-32 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
             <p className="mt-4 text-gray-600">Đang tải...</p>
@@ -74,7 +74,7 @@ export default function EditChapterPage() {
     return (
       <div className="min-h-screen bg-white">
         <Navigation />
-        <div className="pt-24 lg:pt-32 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="pt-16 md:pt-24 lg:pt-32 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
             <p className="text-red-600">Không tìm thấy chương</p>
             <Link href="/admin" className="text-blue-600 hover:underline mt-4 block">
@@ -123,7 +123,7 @@ export default function EditChapterPage() {
       <Navigation />
       
       {/* Main Content */}
-      <div className="pt-24 lg:pt-32 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="pt-16 md:pt-24 lg:pt-32 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-white rounded-lg shadow p-6">
           <div className="mb-6 p-4 rounded-md bg-blue-100 text-blue-800">
             <p className="font-medium">Đang chỉnh sửa chương: {chapter.title}</p>

@@ -84,7 +84,7 @@ export default function StoriesPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-black pt-24">
+      <div className="min-h-screen bg-black pt-16 md:pt-24">
         <Navigation />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
@@ -97,7 +97,7 @@ export default function StoriesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black pt-24">
+    <div className="min-h-screen bg-black pt-16 md:pt-24">
       <Navigation />
       
       {/* Main Content */}
