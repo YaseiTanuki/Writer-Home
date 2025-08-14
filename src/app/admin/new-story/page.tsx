@@ -2,14 +2,13 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { useAuth } from '../../../contexts/AuthContext';
 import { storyService } from '../../../services/storyService';
 import { CreateStoryRequest } from '../../../types/story';
 import TiptapEditor from '../../../component/TiptapEditor';
 import CategorySelector from '../../../component/CategorySelector';
 import Navigation from '../../../component/Navigation';
-import { Sparkles, BookOpen, Home, Plus, Loader2 } from 'lucide-react';
+import { Sparkles, Plus, Loader2 } from 'lucide-react';
 
 export default function NewStoryPage() {
   const { user, isAuthenticated, isLoading } = useAuth();
@@ -95,22 +94,7 @@ export default function NewStoryPage() {
                 Viết Truyện Mới
               </h1>
             </div>
-            <div className="flex flex-row items-center gap-2 sm:gap-3 w-full sm:w-auto justify-center sm:justify-end">
-              <Link 
-                href="/stories" 
-                className="inline-flex items-center justify-center px-2 sm:px-3 py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm"
-              >
-                <BookOpen size={16} />
-                Xem Web
-              </Link>
-              <Link 
-                href="/admin" 
-                className="inline-flex items-center justify-center px-2 sm:px-3 py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm"
-              >
-                <Home size={16} />
-                Trang Chủ
-              </Link>
-            </div>
+
           </div>
         </div>
 
@@ -233,12 +217,13 @@ export default function NewStoryPage() {
                 </>
               )}
             </button>
-                         <Link
-               href="/admin"
-               className="flex-1 sm:flex-none bg-gray-800 hover:bg-gray-700 text-gray-300 px-6 py-3 rounded-md font-medium transition-colors duration-200 text-center border border-gray-600"
-             >
-               Hủy
-             </Link>
+                                                   <button
+                type="button"
+                onClick={() => router.push('/admin')}
+                className="flex-1 sm:flex-none bg-gray-800 hover:bg-gray-700 text-gray-300 px-6 py-3 rounded-md font-medium transition-colors duration-200 text-center border border-gray-600"
+              >
+                Hủy
+              </button>
           </div>
         </form>
       </div>

@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { storyService } from '../../services/storyService';
 import { Category } from '../../types/story';
-import { Plus, Loader2 } from 'lucide-react';
+import { Plus, Loader2, Search, Filter, X, Check } from 'lucide-react';
 
 interface CategorySelectorProps {
   selectedCategories: string[];
@@ -26,6 +26,9 @@ export default function CategorySelector({
   });
   const [isCreating, setIsCreating] = useState(false);
   const [error, setError] = useState('');
+  
+  // Search state
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     loadCategories();
@@ -83,6 +86,18 @@ export default function CategorySelector({
     return category ? category.name : categoryId;
   };
 
+  // Filter categories by search term
+  const filteredCategories = useMemo(() => {
+    if (!searchTerm) return categories;
+    
+    return categories.filter(cat => 
+      cat.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      cat.description?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [categories, searchTerm]);
+
+
+
   if (isLoading) {
     return (
       <div className={`${className}`}>
@@ -95,28 +110,30 @@ export default function CategorySelector({
     <div className={`${className}`}>
       <div className="mb-3">
         <label className="block text-sm font-medium text-gray-300 mb-2">
-          Thể loại *
+          Thể loại * ({selectedCategories.length} đã chọn)
         </label>
         
         {/* Selected Categories Display */}
         {selectedCategories.length > 0 && (
-          <div className="mb-3 p-2 sm:p-3 bg-blue-900/20 border border-blue-700 rounded-md">
-            <div className="text-xs sm:text-sm text-blue-400 mb-2">Thể loại đã chọn:</div>
-            <div className="flex flex-wrap gap-1 sm:gap-2">
+          <div className="mb-3 p-3 bg-blue-900/20 border border-blue-700 rounded-md">
+            <div className="text-xs sm:text-sm text-blue-400 mb-2">
+              Thể loại đã chọn:
+            </div>
+            <div className="flex flex-wrap gap-2">
               {selectedCategories.map((catId) => {
                 const category = categories.find(c => c._id === catId);
                 return category ? (
                   <span
                     key={catId}
-                    className="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-blue-900/20 text-blue-400 border border-blue-700"
+                    className="inline-flex items-center px-3 py-1 text-sm font-medium rounded-full bg-blue-900/20 text-blue-400 border border-blue-700"
                   >
                     {category.name}
                     <button
                       type="button"
                       onClick={() => handleCategoryToggle(catId)}
-                      className="ml-1 text-blue-400 hover:text-blue-300"
+                      className="ml-2 text-blue-400 hover:text-blue-300 hover:bg-blue-800 rounded-full w-5 h-5 flex items-center justify-center"
                     >
-                      ×
+                      <X size={14} />
                     </button>
                   </span>
                 ) : null;
@@ -125,28 +142,65 @@ export default function CategorySelector({
           </div>
         )}
 
+
+
+        {/* Search */}
+        <div className="mb-3">
+          <div className="relative">
+            <Search size={16} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Tìm kiếm thể loại..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-10 pr-3 py-2 border border-gray-600 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-800 text-white placeholder-gray-400"
+            />
+            {searchTerm && (
+              <button
+                onClick={() => setSearchTerm('')}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-300"
+              >
+                <X size={16} />
+              </button>
+            )}
+          </div>
+        </div>
+
         {/* Available Categories */}
         <div className="mb-3">
-          <div className="text-xs sm:text-sm text-gray-300 mb-2">Chọn từ danh sách có sẵn:</div>
-          <div className="flex flex-wrap gap-1.5 sm:gap-2">
-            {categories.map((category) => (
+          <div className="text-xs sm:text-sm text-gray-300 mb-2">
+            Chọn từ danh sách có sẵn:
+          </div>
+          
+          {/* Categories Grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 max-h-20 overflow-y-auto p-2 border border-gray-700 rounded-md bg-gray-900/50">
+            {filteredCategories.map((category) => (
               <button
                 key={category._id}
                 type="button"
                 onClick={() => handleCategoryToggle(category._id)}
-                className={`px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium transition-colors duration-200 ${
+                className={`p-2 rounded-md text-xs font-medium transition-all duration-200 flex items-center justify-between ${
                   selectedCategories.includes(category._id)
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                    ? 'bg-blue-600 text-white shadow-lg scale-105'
+                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700 hover:scale-102'
                 }`}
                 style={{
                   border: selectedCategories.includes(category._id) ? 'none' : `2px solid ${category.color}`
                 }}
               >
-                {category.name}
+                <span className="truncate">{category.name}</span>
+                {selectedCategories.includes(category._id) && (
+                  <Check size={12} className="ml-1 flex-shrink-0" />
+                )}
               </button>
             ))}
           </div>
+          
+          {filteredCategories.length === 0 && (
+            <div className="text-center py-4 text-gray-400 text-sm">
+              {searchTerm ? 'Không tìm thấy thể loại nào phù hợp' : 'Không có thể loại nào'}
+            </div>
+          )}
         </div>
 
         {/* Create New Category */}
@@ -160,56 +214,56 @@ export default function CategorySelector({
           </button>
           
           {showCreateForm && (
-            <div className="mt-3 p-3 sm:p-4 bg-gray-800 rounded-md border border-gray-700">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+            <div className="mt-3 p-4 bg-gray-800 rounded-md border border-gray-700">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1 sm:mb-2">
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
                     Tên thể loại *
                   </label>
                   <input
                     type="text"
                     value={newCategory.name}
                     onChange={(e) => setNewCategory(prev => ({ ...prev, name: e.target.value }))}
-                    className="w-full px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-600 rounded-md text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-700 text-white placeholder-gray-400"
+                    className="w-full px-3 py-2 border border-gray-600 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-700 text-white placeholder-gray-400"
                     placeholder="Nhập tên thể loại..."
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1 sm:mb-2">
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
                     Màu sắc
                   </label>
                   <input
                     type="color"
                     value={newCategory.color}
                     onChange={(e) => setNewCategory(prev => ({ ...prev, color: e.target.value }))}
-                    className="w-full h-8 sm:h-10 border border-gray-600 rounded-md cursor-pointer"
+                    className="w-full h-10 border border-gray-600 rounded-md cursor-pointer"
                   />
                 </div>
               </div>
               
-              <div className="mt-3">
-                <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1 sm:mb-2">
+              <div className="mt-4">
+                <label className="block text-sm font-medium text-gray-300 mb-2">
                   Mô tả
                 </label>
                 <textarea
                   value={newCategory.description}
                   onChange={(e) => setNewCategory(prev => ({ ...prev, description: e.target.value }))}
                   rows={2}
-                  className="w-full px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-600 rounded-md text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-700 text-white placeholder-gray-400"
+                  className="w-full px-3 py-2 border border-gray-600 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-700 text-white placeholder-gray-400"
                   placeholder="Mô tả ngắn gọn về thể loại..."
                 />
               </div>
               
               {error && (
-                <div className="mt-2 text-xs sm:text-sm text-red-400">
+                <div className="mt-2 text-sm text-red-400">
                   {error}
                 </div>
               )}
               
-              <div className="mt-3 flex flex-col sm:flex-row gap-2 sm:gap-3">
+              <div className="mt-4 flex flex-col sm:flex-row gap-3">
                 <button
-                  type="submit"
+                  type="button"
                   onClick={handleCreateCategory}
                   disabled={isCreating}
                   className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
@@ -233,7 +287,7 @@ export default function CategorySelector({
                     setNewCategory({ name: '', description: '', color: '#3B82F6' });
                     setError('');
                   }}
-                  className="flex-1 sm:flex-none bg-gray-700 hover:bg-gray-600 text-gray-300 px-3 sm:px-4 py-1.5 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-colors duration-200 border border-gray-600"
+                  className="flex-1 sm:flex-none bg-gray-700 hover:bg-gray-600 text-gray-300 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 border border-gray-600"
                 >
                   Hủy
                 </button>
