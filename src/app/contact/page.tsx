@@ -7,7 +7,14 @@ import { storyService } from '../../services/storyService';
 import { CreateMessageRequest } from '../../types/story';
 import { useGuest } from '../../contexts/GuestContext';
 import { useAuth } from '../../contexts/AuthContext';
-import { Mail, User, MessageSquare, Send, CheckCircle, AlertCircle, Info, LogIn, Clock } from 'lucide-react';
+import { Mail, User, MessageSquare, Send, CheckCircle, AlertCircle, Info, LogIn, Clock, XCircle } from 'lucide-react';
+
+interface MessageLimitInfo {
+  email: string;
+  todayMessageCount: number;
+  date: string;
+  limit: number;
+}
 
 export default function ContactPage() {
   const router = useRouter();
@@ -21,9 +28,21 @@ export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
+  const [messageLimitInfo, setMessageLimitInfo] = useState<MessageLimitInfo | null>(null);
+  const [isCheckingLimit, setIsCheckingLimit] = useState(false);
 
   // Check if user is authenticated (either guest or admin)
   const isAuthenticated = isGuestAuthenticated || isAdminAuthenticated;
+
+  // Debug logging
+  console.log('Contact Page Debug:', {
+    guest,
+    isGuestAuthenticated,
+    user,
+    isAdminAuthenticated,
+    isAuthenticated,
+    formData
+  });
 
   // Auto-fill form with guest info if available
   useEffect(() => {
@@ -35,6 +54,30 @@ export default function ContactPage() {
       }));
     }
   }, [guest, formData.name, formData.email]);
+
+  // Check message limit when email changes
+  useEffect(() => {
+    if (formData.email && isAuthenticated) {
+      checkMessageLimit(formData.email);
+    }
+  }, [formData.email, isAuthenticated]);
+
+  const checkMessageLimit = async (email: string) => {
+    if (!email) return;
+    
+    setIsCheckingLimit(true);
+    try {
+      const response = await fetch(`/api/messages/count-today?email=${email}`);
+      if (response.ok) {
+        const data = await response.json();
+        setMessageLimitInfo(data);
+      }
+    } catch (error) {
+      console.error('Error checking message limit:', error);
+    } finally {
+      setIsCheckingLimit(false);
+    }
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -56,6 +99,13 @@ export default function ContactPage() {
       setErrorMessage('Tin nhắn không được vượt quá 255 ký tự');
       return;
     }
+
+    // Check if user has reached daily limit
+    if (messageLimitInfo && messageLimitInfo.todayMessageCount >= messageLimitInfo.limit) {
+      setSubmitStatus('error');
+      setErrorMessage('Bạn đã đạt giới hạn 5 tin nhắn mỗi ngày. Vui lòng thử lại vào ngày mai.');
+      return;
+    }
     
     setIsSubmitting(true);
     setSubmitStatus('idle');
@@ -71,6 +121,11 @@ export default function ContactPage() {
       await storyService.sendMessage(messageData);
       setSubmitStatus('success');
       setFormData({ name: '', email: '', content: '' });
+      
+      // Refresh message limit info after successful send
+      if (formData.email) {
+        checkMessageLimit(formData.email);
+      }
     } catch (err) {
       setSubmitStatus('error');
       
@@ -78,6 +133,10 @@ export default function ContactPage() {
       if (err instanceof Error) {
         if (err.message.includes('Daily message limit exceeded') || err.message.includes('429')) {
           setErrorMessage('Bạn đã đạt giới hạn 5 tin nhắn mỗi ngày. Vui lòng thử lại vào ngày mai.');
+          // Refresh message limit info to show current count
+          if (formData.email) {
+            checkMessageLimit(formData.email);
+          }
         } else {
           setErrorMessage(err.message);
         }
@@ -92,6 +151,10 @@ export default function ContactPage() {
   const handleLoginRedirect = () => {
     router.push('/auth');
   };
+
+  // Check if user can send more messages
+  const canSendMessage = messageLimitInfo ? messageLimitInfo.todayMessageCount < messageLimitInfo.limit : true;
+  const remainingMessages = messageLimitInfo ? messageLimitInfo.limit - messageLimitInfo.todayMessageCount : 5;
 
   return (
     <div className="min-h-screen bg-black">
@@ -108,6 +171,21 @@ export default function ContactPage() {
         </div>
 
         <div className="bg-gray-900 shadow-lg rounded-lg p-8 border border-gray-800">
+          {/* Debug Panel - Remove in production */}
+          {process.env.NODE_ENV === 'development' && (
+            <div className="mb-6 bg-gray-800 border border-gray-600 text-gray-300 px-4 py-3 rounded text-sm">
+              <h4 className="font-medium mb-2">Debug Info:</h4>
+              <div className="space-y-1">
+                <p>Guest: {guest ? `${guest.displayName} (${guest.email})` : 'null'}</p>
+                <p>Guest Auth: {isGuestAuthenticated ? 'true' : 'false'}</p>
+                <p>Admin: {user ? `${user.username}` : 'null'}</p>
+                <p>Admin Auth: {isAdminAuthenticated ? 'true' : 'false'}</p>
+                <p>Is Authenticated: {isAuthenticated ? 'true' : 'false'}</p>
+                <p>Form Email: {formData.email || 'empty'}</p>
+              </div>
+            </div>
+          )}
+
           {/* Authentication Required Notice */}
           {!isAuthenticated && (
             <div className="mb-6 bg-yellow-900/20 border border-yellow-700 text-yellow-400 px-4 py-3 rounded flex items-center gap-3">
@@ -133,6 +211,32 @@ export default function ContactPage() {
               <div>
                 <p className="font-medium">Giới hạn tin nhắn hàng ngày</p>
                 <p className="text-sm mt-1">Mỗi tài khoản Google chỉ được gửi tối đa 5 tin nhắn mỗi ngày</p>
+              </div>
+            </div>
+          )}
+
+          {/* Message Limit Status */}
+          {isAuthenticated && messageLimitInfo && (
+            <div className={`mb-6 border rounded px-4 py-3 flex items-center gap-3 ${
+              canSendMessage 
+                ? 'bg-green-900/20 border-green-700 text-green-400' 
+                : 'bg-red-900/20 border-red-700 text-red-400'
+            }`}>
+              {canSendMessage ? (
+                <CheckCircle size={20} />
+              ) : (
+                <XCircle size={20} />
+              )}
+              <div>
+                <p className="font-medium">
+                  {canSendMessage ? 'Bạn có thể gửi tin nhắn' : 'Bạn đã đạt giới hạn tin nhắn hôm nay'}
+                </p>
+                <p className="text-sm mt-1">
+                  {canSendMessage 
+                    ? `Hôm nay bạn đã gửi ${messageLimitInfo.todayMessageCount}/5 tin nhắn. Còn lại ${remainingMessages} tin nhắn.`
+                    : `Hôm nay bạn đã gửi ${messageLimitInfo.todayMessageCount}/5 tin nhắn. Vui lòng thử lại vào ngày mai.`
+                  }
+                </p>
               </div>
             </div>
           )}
@@ -238,7 +342,7 @@ export default function ContactPage() {
             <div className="flex items-center justify-between">
               <button
                 type="submit"
-                disabled={!isAuthenticated || isSubmitting || formData.content.length > 255}
+                disabled={!isAuthenticated || isSubmitting || formData.content.length > 255 || !canSendMessage}
                 className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md text-lg font-medium transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-3"
               >
                 {!isAuthenticated ? (
@@ -255,6 +359,11 @@ export default function ContactPage() {
                   <>
                     <AlertCircle size={20} />
                     Vượt quá 255 ký tự
+                  </>
+                ) : !canSendMessage ? (
+                  <>
+                    <XCircle size={20} />
+                    Đã đạt giới hạn hôm nay
                   </>
                 ) : (
                   <>
