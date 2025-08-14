@@ -121,17 +121,21 @@ export default function MobileBottomNav() {
 
           {/* Profile/Auth */}
           <div className="flex flex-col items-center justify-center w-16">
-            {isGuestAuthenticated || isAdminAuthenticated ? (
+            {isGuestAuthenticated ? (
+              <button
+                onClick={handleGuestSignOut}
+                className="flex flex-col items-center justify-center w-full py-2 text-gray-300 hover:text-white transition-colors duration-200"
+              >
+                <LogOut size={20} />
+                <span className="text-xs mt-1 text-center">Đăng xuất</span>
+              </button>
+            ) : isAdminAuthenticated ? (
               <Link
-                href={isAdminAuthenticated ? "/admin" : "/"}
-                className={`flex flex-col items-center justify-center w-full py-2 transition-colors duration-200 ${
-                  pathname.startsWith('/admin')
-                    ? 'text-blue-400' 
-                    : 'text-gray-300 hover:text-white'
-                }`}
+                href="/admin"
+                className="flex flex-col items-center justify-center w-full py-2 text-gray-300 hover:text-white transition-colors duration-200"
               >
                 <UserCircle size={20} />
-                <span className="text-xs mt-1 text-center">Tài Khoản</span>
+                <span className="text-xs mt-1 text-center">Quản trị</span>
               </Link>
             ) : (
               <Link
