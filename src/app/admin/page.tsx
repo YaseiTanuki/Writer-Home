@@ -152,29 +152,7 @@ export default function AdminDashboard() {
                 Quản lý truyện, chương và thể loại
               </p>
             </div>
-            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-              <Link
-                href="/stories"
-                className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-gray-600 text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
-              >
-                <BookOpen size={16} />
-                Xem Trang Web
-              </Link>
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-gray-600 text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
-              >
-                <Mail size={16} />
-                Trang Liên Hệ
-              </Link>
-              <Link
-                href="/"
-                className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
-              >
-                <Home size={18} />
-              Trang Chủ
-              </Link>
-            </div>
+
           </div>
         </div>
 
