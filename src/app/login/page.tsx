@@ -37,39 +37,39 @@ export default function LoginPage() {
       <Navigation />
               <div className="flex flex-col justify-center py-12 sm:px-6 lg:px-8 pt-16 md:pt-24">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <LogIn size={48} className="text-blue-400" />
-            <h2 className="text-center text-3xl font-extrabold text-white">
+          <div className="flex items-center justify-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+            <LogIn size={40} className="text-blue-400 sm:w-12 sm:h-12" />
+            <h2 className="text-center text-2xl sm:text-3xl font-extrabold text-white">
               Đăng nhập vào tài khoản
             </h2>
           </div>
-          <p className="text-center text-sm text-gray-300">
+          <p className="text-center text-xs sm:text-sm text-gray-300">
             Hoặc{' '}
-            <Link href="/" className="font-medium text-blue-400 hover:text-blue-300 flex items-center justify-center gap-2 mt-2">
-              <Home size={16} />
+            <Link href="/" className="font-medium text-blue-400 hover:text-blue-300 flex items-center justify-center gap-1.5 sm:gap-2 mt-2">
+              <Home size={14} className="sm:w-4 sm:h-4" />
               quay về trang chủ
             </Link>
             <br />
-            <Link href="/contact" className="font-medium text-green-400 hover:text-green-300 flex items-center justify-center gap-2 mt-2">
-              <Mail size={16} />
+            <Link href="/contact" className="font-medium text-green-400 hover:text-green-300 flex items-center justify-center gap-1.5 sm:gap-2 mt-2">
+              <Mail size={14} className="sm:w-4 sm:h-4" />
               quay về trang liên hệ
             </Link>
           </p>
         </div>
 
-        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-          <div className="bg-gray-900 py-8 px-4 shadow sm:rounded-lg sm:px-10 border border-gray-800">
-            <form className="space-y-6" onSubmit={handleSubmit}>
+        <div className="mt-6 sm:mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+          <div className="bg-gray-900 py-6 sm:py-8 px-3 sm:px-4 shadow sm:rounded-lg sm:px-8 sm:px-10 border border-gray-800">
+            <form className="space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
               {error && (
-                <div className="bg-red-900/20 border border-red-700 text-red-400 px-4 py-3 rounded flex items-center gap-3">
-                  <AlertCircle size={20} />
-                  <span>{error}</span>
+                <div className="bg-red-900/20 border border-red-700 text-red-400 px-3 sm:px-4 py-2.5 sm:py-3 rounded flex items-center gap-2 sm:gap-3">
+                  <AlertCircle size={18} className="sm:w-5 sm:h-5" />
+                  <span className="text-sm sm:text-base">{error}</span>
                 </div>
               )}
 
               <div>
-                <label htmlFor="username" className="block text-sm font-medium text-gray-300 flex items-center gap-2">
-                  <User size={16} />
+                <label htmlFor="username" className="block text-xs sm:text-sm font-medium text-gray-300 flex items-center gap-1.5 sm:gap-2">
+                  <User size={14} className="sm:w-4 sm:h-4" />
                   Tên đăng nhập
                 </label>
                 <div className="mt-1">
@@ -80,15 +80,15 @@ export default function LoginPage() {
                     required
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    className="appearance-none block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-800 text-white"
+                    className="appearance-none block w-full px-2.5 sm:px-3 py-1.5 sm:py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-800 text-white text-xs sm:text-sm"
                     placeholder="Nhập tên đăng nhập"
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-300 flex items-center gap-2">
-                  <Lock size={16} />
+                <label htmlFor="password" className="block text-xs sm:text-sm font-medium text-gray-300 flex items-center gap-1.5 sm:gap-2">
+                  <Lock size={14} className="sm:w-4 sm:h-4" />
                   Mật khẩu
                 </label>
                 <div className="mt-1">
@@ -99,7 +99,7 @@ export default function LoginPage() {
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="appearance-none block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-800 text-white"
+                    className="appearance-none block w-full px-2.5 sm:px-3 py-1.5 sm:py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-800 text-white text-xs sm:text-sm"
                     placeholder="Nhập mật khẩu"
                   />
                 </div>
@@ -109,11 +109,11 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full flex justify-center items-center gap-3 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full flex justify-center items-center gap-2 sm:gap-3 py-2 sm:py-2.5 px-3 sm:px-4 border border-transparent rounded-md shadow-sm text-xs sm:text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isLoading ? (
                     <>
-                      <div className="relative w-5 h-5">
+                      <div className="relative w-4 h-4 sm:w-5 sm:h-5">
                         <Image
                           src="/reading.gif"
                           alt="Logging in..."
@@ -122,12 +122,12 @@ export default function LoginPage() {
                           className="rounded w-full h-full object-cover"
                         />
                       </div>
-                      Đang đăng nhập...
+                      <span className="text-xs sm:text-sm">Đang đăng nhập...</span>
                     </>
                   ) : (
                     <>
-                      <LogIn size={20} />
-                      Đăng nhập
+                      <LogIn size={18} className="sm:w-5 sm:h-5" />
+                      <span className="text-xs sm:text-sm">Đăng nhập</span>
                     </>
                   )}
                 </button>

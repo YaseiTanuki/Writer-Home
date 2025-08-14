@@ -193,23 +193,23 @@ export default function ChapterContentPage() {
         </div>
 
         {/* Chapter Info */}
-        <div className="bg-gray-900 rounded-lg shadow p-4 sm:p-6 mb-6 sm:mb-8 border border-gray-800">
-          <h3 className="text-lg font-medium text-white mb-4 flex items-center gap-2">
-            <FileText size={20} />
+        <div className="bg-gray-900 rounded-lg shadow p-3 sm:p-4 md:p-6 mb-4 sm:mb-6 md:mb-8 border border-gray-800">
+          <h3 className="text-base sm:text-lg font-medium text-white mb-3 sm:mb-4 flex items-center gap-2">
+            <FileText size={18} className="sm:w-5 sm:h-5" />
             Thông Tin Chương
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Truyện:</label>
-              <p className="text-sm text-white font-medium">{story.title}</p>
+              <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1">Truyện:</label>
+              <p className="text-xs sm:text-sm text-white font-medium">{story.title}</p>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Số chương:</label>
-              <p className="text-sm text-white font-medium">{tempChapter.chapterNumber}</p>
+              <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1">Số chương:</label>
+              <p className="text-xs sm:text-sm text-white font-medium">{tempChapter.chapterNumber}</p>
             </div>
             <div className="sm:col-span-2">
-              <label className="block text-sm font-medium text-gray-300 mb-1">Tiêu đề chương:</label>
-              <p className="text-sm text-white font-medium">{tempChapter.title}</p>
+              <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1">Tiêu đề chương:</label>
+              <p className="text-xs sm:text-sm text-white font-medium">{tempChapter.title}</p>
             </div>
           </div>
         </div>
@@ -217,8 +217,8 @@ export default function ChapterContentPage() {
         {/* Chapter Content - Full Width on Mobile */}
         <div className="px-0 sm:px-3 lg:px-8">
           <div className="bg-gray-900 shadow border border-gray-800">
-            <div className="px-3 sm:px-4 lg:px-6 py-4">
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+            <div className="px-2 sm:px-3 md:px-4 lg:px-6 py-3 sm:py-4">
+              <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1.5 sm:mb-2">
                 Nội dung chương *
               </label>
             </div>
@@ -232,24 +232,24 @@ export default function ChapterContentPage() {
         </div>
 
         {/* Action Buttons */}
-        <div className="max-w-6xl mx-auto px-3 sm:px-4 lg:px-8 py-6">
-          <div className="bg-gray-900 rounded-lg shadow p-3 sm:p-4 lg:p-6 border border-gray-800">
+        <div className="max-w-6xl mx-auto px-3 sm:px-4 lg:px-8 py-4 sm:py-6">
+          <div className="bg-gray-900 rounded-lg shadow p-3 sm:p-4 md:p-6 border border-gray-800">
             {error && (
-              <div className="mb-6 p-3 sm:p-4 rounded-md bg-red-900/20 text-red-400 border border-red-700">
+              <div className="mb-4 sm:mb-6 p-2 sm:p-3 md:p-4 rounded-md bg-red-900/20 text-red-400 border border-red-700">
                 {error}
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5 md:space-y-6">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 md:gap-4">
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md text-lg font-medium transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-md text-base sm:text-lg font-medium transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 sm:gap-3"
                 >
                   {isSubmitting ? (
                     <>
-                      <div className="relative w-5 h-5">
+                      <div className="relative w-4 h-4 sm:w-5 sm:h-5">
                         <Image
                           src="/reading.gif"
                           alt="Creating..."
@@ -258,25 +258,25 @@ export default function ChapterContentPage() {
                           className="rounded w-full h-full object-cover"
                         />
                       </div>
-                      Đang tạo...
+                      <span className="text-sm sm:text-base">Đang tạo...</span>
                     </>
                   ) : (
                     <>
-                      <Plus size={20} />
-                      Tạo Chương
+                      <Plus size={18} className="sm:w-5 sm:h-5" />
+                      <span className="text-sm sm:text-base">Tạo Chương</span>
                     </>
                   )}
                 </button>
                 <button
                   type="button"
                   onClick={handleBack}
-                  className="flex-1 sm:flex-none bg-gray-800 hover:bg-gray-700 text-gray-300 px-6 py-3 rounded-md font-medium transition-colors duration-200 border border-gray-600"
+                  className="flex-1 sm:flex-none bg-gray-800 hover:bg-gray-700 text-gray-300 px-4 sm:px-6 py-2.5 sm:py-3 rounded-md font-medium transition-colors duration-200 border border-gray-600 text-sm sm:text-base"
                 >
                   ⬅️ Quay Lại
                 </button>
                 <Link
                   href="/admin"
-                  className="flex-1 sm:flex-none bg-red-900/20 hover:bg-red-800/20 text-red-400 px-6 py-3 rounded-md font-medium transition-colors duration-200 text-center border border-red-700"
+                  className="flex-1 sm:flex-none bg-red-900/20 hover:bg-red-800/20 text-red-400 px-4 sm:px-6 py-2.5 sm:py-3 rounded-md font-medium transition-colors duration-200 text-center border border-red-700 text-sm sm:text-base"
                 >
                   Hủy
                 </Link>
