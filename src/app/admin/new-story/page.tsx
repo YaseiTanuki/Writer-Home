@@ -2,13 +2,14 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { useAuth } from '../../../contexts/AuthContext';
 import { storyService } from '../../../services/storyService';
 import { CreateStoryRequest } from '../../../types/story';
 import TiptapEditor from '../../../component/TiptapEditor';
 import CategorySelector from '../../../component/CategorySelector';
 import Navigation from '../../../component/Navigation';
-import { Sparkles, Plus, Loader2 } from 'lucide-react';
+import { Sparkles, Plus } from 'lucide-react';
 
 export default function NewStoryPage() {
   const { user, isAuthenticated, isLoading } = useAuth();
@@ -37,7 +38,15 @@ export default function NewStoryPage() {
       <div className="min-h-screen bg-black">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+            <div className="relative w-16 h-16 md:w-20 md:h-20 mx-auto mb-4">
+              <Image
+                src="/reading.gif"
+                alt="Loading..."
+                width={80}
+                height={80}
+                className="rounded-lg w-full h-full object-cover"
+              />
+            </div>
             <p className="mt-4 text-gray-300">Đang tải...</p>
           </div>
         </div>
@@ -207,7 +216,15 @@ export default function NewStoryPage() {
             >
               {isSubmitting ? (
                 <>
-                  <Loader2 size={20} className="animate-spin" />
+                  <div className="relative w-5 h-5">
+                    <Image
+                      src="/reading.gif"
+                      alt="Creating..."
+                      width={20}
+                      height={20}
+                      className="rounded w-full h-full object-cover"
+                    />
+                  </div>
                   Đang tạo...
                 </>
               ) : (

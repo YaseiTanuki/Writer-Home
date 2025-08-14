@@ -6,6 +6,7 @@ import Navigation from '../../component/Navigation';
 import { useGuest } from '../../contexts/GuestContext';
 import { LogIn, Shield, Users, ArrowLeft, Mail } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function AuthPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -65,7 +66,15 @@ export default function AuthPage() {
             >
               {isLoading ? (
                 <>
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                  <div className="relative w-5 h-5">
+                    <Image
+                      src="/reading.gif"
+                      alt="Processing..."
+                      width={20}
+                      height={20}
+                      className="rounded w-full h-full object-cover"
+                    />
+                  </div>
                   Đang xử lý...
                 </>
               ) : (

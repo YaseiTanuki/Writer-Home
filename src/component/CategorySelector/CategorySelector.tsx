@@ -1,9 +1,10 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
+import Image from 'next/image';
 import { storyService } from '../../services/storyService';
 import { Category } from '../../types/story';
-import { Plus, Loader2, Search, Filter, X, Check } from 'lucide-react';
+import { Plus, X, Check, Search, Filter } from 'lucide-react';
 
 interface CategorySelectorProps {
   selectedCategories: string[];
@@ -270,7 +271,15 @@ export default function CategorySelector({
                 >
                   {isCreating ? (
                     <>
-                      <Loader2 size={16} className="animate-spin" />
+                      <div className="relative w-4 h-4">
+                        <Image
+                          src="/reading.gif"
+                          alt="Creating..."
+                          width={16}
+                          height={16}
+                          className="rounded w-full h-full object-cover"
+                        />
+                      </div>
                       Đang tạo...
                     </>
                   ) : (

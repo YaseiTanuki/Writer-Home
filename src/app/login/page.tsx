@@ -2,10 +2,11 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '../../contexts/AuthContext';
 import Link from 'next/link';
+import Image from 'next/image';
+import { useAuth } from '../../contexts/AuthContext';
 import Navigation from '../../component/Navigation';
-import { LogIn, User, Lock, Home, AlertCircle, Loader2, Mail } from 'lucide-react';
+import { LogIn, User, Lock, Home, Mail, AlertCircle } from 'lucide-react';
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
@@ -112,7 +113,15 @@ export default function LoginPage() {
                 >
                   {isLoading ? (
                     <>
-                      <Loader2 size={20} className="animate-spin" />
+                      <div className="relative w-5 h-5">
+                        <Image
+                          src="/reading.gif"
+                          alt="Logging in..."
+                          width={20}
+                          height={20}
+                          className="rounded w-full h-full object-cover"
+                        />
+                      </div>
                       Đang đăng nhập...
                     </>
                   ) : (

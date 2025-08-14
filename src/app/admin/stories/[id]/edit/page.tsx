@@ -3,13 +3,14 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useAuth } from '../../../../../contexts/AuthContext';
 import { storyService } from '../../../../../services/storyService';
 import { Story, UpdateStoryRequest } from '../../../../../types/story';
 import TiptapEditor from '../../../../../component/TiptapEditor';
 import CategorySelector from '../../../../../component/CategorySelector';
 import Navigation from '../../../../../component/Navigation';
-import { Edit3, BookOpen, Home, ArrowLeft, Loader2 } from 'lucide-react';
+import { Edit3, BookOpen, Home, ArrowLeft } from 'lucide-react';
 
 interface EditStoryFormData {
   title: string;
@@ -75,12 +76,20 @@ export default function EditStoryPage() {
 
   if (isLoading || isLoadingStory) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-black">
         <Navigation />
         <div className="pt-16 md:pt-24 lg:pt-32 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-            <p className="mt-4 text-gray-600">Đang tải...</p>
+            <div className="relative w-16 h-16 md:w-20 md:h-20 mx-auto mb-4">
+              <Image
+                src="/reading.gif"
+                alt="Loading..."
+                width={80}
+                height={80}
+                className="rounded-lg w-full h-full object-cover"
+              />
+            </div>
+            <p className="mt-4 text-gray-300">Đang tải...</p>
           </div>
         </div>
       </div>
@@ -89,12 +98,12 @@ export default function EditStoryPage() {
 
   if (!story) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-black">
         <Navigation />
         <div className="pt-16 md:pt-24 lg:pt-32 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
-            <p className="text-red-600">Không tìm thấy truyện</p>
-            <Link href="/admin" className="text-center">
+            <p className="text-red-400">Không tìm thấy truyện</p>
+            <Link href="/admin" className="text-center text-blue-400 hover:text-blue-300">
               Quay lại trang quản lý
             </Link>
           </div>
@@ -137,7 +146,7 @@ export default function EditStoryPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-black">
       <Navigation />
       
       {/* Main Content */}
@@ -146,25 +155,25 @@ export default function EditStoryPage() {
         <div className="mb-6 sm:mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="text-center sm:text-left">
-              <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 leading-tight flex items-center gap-3">
-                <Edit3 size={28} className="text-blue-600" />
+              <h1 className="text-xl sm:text-2xl font-bold text-white mb-2 leading-tight flex items-center gap-3">
+                <Edit3 size={28} className="text-blue-400" />
                 Chỉnh Sửa Truyện
               </h1>
-              <p className="text-sm sm:text-base text-gray-600">
+              <p className="text-sm sm:text-base text-gray-300">
                 Cập nhật thông tin truyện của bạn
               </p>
             </div>
             <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 w-full sm:w-auto">
               <Link 
                 href="/admin" 
-                className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto gap-2"
+                className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-gray-600 text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto gap-2"
               >
                 <ArrowLeft size={16} />
                 Quay Lại Dashboard
               </Link>
               <Link 
                 href="/stories" 
-                className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto gap-2"
+                className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-gray-600 text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto gap-2"
               >
                 <BookOpen size={16} />
                 Xem Trang Web
@@ -180,13 +189,13 @@ export default function EditStoryPage() {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow p-3 sm:p-4 lg:p-6">
-          <div className="mb-6 p-3 sm:p-4 rounded-md bg-blue-100 text-blue-800">
+        <div className="bg-gray-900 rounded-lg shadow-lg border border-gray-700 p-3 sm:p-4 lg:p-6">
+          <div className="mb-6 p-3 sm:p-4 rounded-md bg-blue-900/20 border border-blue-700 text-blue-300">
             <p className="font-medium">Đang chỉnh sửa truyện: {story.title}</p>
           </div>
 
           {error && (
-            <div className="mb-6 p-3 sm:p-4 rounded-md bg-red-100 text-red-800">
+            <div className="mb-6 p-3 sm:p-4 rounded-md bg-red-900/20 border border-red-700 text-red-300">
               {error}
             </div>
           )}
@@ -194,7 +203,7 @@ export default function EditStoryPage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Title */}
             <div>
-              <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="title" className="block text-sm font-medium text-gray-200 mb-2">
                 Tiêu đề truyện *
               </label>
               <input
@@ -203,7 +212,7 @@ export default function EditStoryPage() {
                 name="title"
                 value={formData.title}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
+                className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base bg-gray-800 text-white placeholder-gray-400"
                 placeholder="Nhập tiêu đề truyện..."
                 required
               />
@@ -211,7 +220,7 @@ export default function EditStoryPage() {
 
             {/* Description */}
             <div>
-              <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="description" className="block text-sm font-medium text-gray-200 mb-2">
                 Mô tả truyện *
               </label>
               <textarea
@@ -220,7 +229,7 @@ export default function EditStoryPage() {
                 value={formData.description}
                 onChange={handleInputChange}
                 rows={3}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
+                className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base bg-gray-800 text-white placeholder-gray-400"
                 placeholder="Nhập mô tả ngắn gọn về truyện..."
                 required
               />
@@ -228,7 +237,7 @@ export default function EditStoryPage() {
 
             {/* Categories */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-200 mb-2">
                 Thể loại *
               </label>
               <CategorySelector
@@ -239,7 +248,7 @@ export default function EditStoryPage() {
 
             {/* Cover Image */}
             <div>
-              <label htmlFor="coverImage" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="coverImage" className="block text-sm font-medium text-gray-200 mb-2">
                 Ảnh bìa *
               </label>
               <input
@@ -248,7 +257,7 @@ export default function EditStoryPage() {
                 name="coverImage"
                 value={formData.coverImage}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
+                className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base bg-gray-800 text-white placeholder-gray-400"
                 placeholder="Nhập URL ảnh bìa..."
                 required
               />
@@ -256,7 +265,7 @@ export default function EditStoryPage() {
 
             {/* Status */}
             <div>
-              <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="status" className="block text-sm font-medium text-gray-200 mb-2">
                 Trạng thái
               </label>
               <select
@@ -264,7 +273,7 @@ export default function EditStoryPage() {
                 name="status"
                 value={formData.status}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
+                className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base bg-gray-800 text-white"
               >
                 <option value="draft">Bản thảo</option>
                 <option value="public">Xuất bản</option>
@@ -273,10 +282,10 @@ export default function EditStoryPage() {
 
             {/* Story Content */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-200 mb-2">
                 Nội dung truyện *
               </label>
-              <div className="border border-gray-300 rounded-md">
+              <div className="border border-gray-600 rounded-md">
                 <TiptapEditor
                   content={formData.content}
                   onChange={(content) => setFormData(prev => ({ ...prev, content }))}
@@ -294,7 +303,15 @@ export default function EditStoryPage() {
               >
                 {isSubmitting ? (
                   <>
-                    <Loader2 size={20} className="animate-spin" />
+                    <div className="relative w-5 h-5">
+                      <Image
+                        src="/reading.gif"
+                        alt="Updating..."
+                        width={20}
+                        height={20}
+                        className="rounded w-full h-full object-cover"
+                      />
+                    </div>
                     Đang cập nhật...
                   </>
                 ) : (
@@ -306,7 +323,7 @@ export default function EditStoryPage() {
               </button>
               <Link
                 href="/admin"
-                className="flex-1 sm:flex-none bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 rounded-md font-medium transition-colors duration-200 text-center"
+                className="flex-1 sm:flex-none bg-gray-700 hover:bg-gray-600 text-gray-200 px-6 py-3 rounded-md font-medium transition-colors duration-200 text-center"
               >
                 Hủy
               </Link>

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useAuth } from '../../../../../contexts/AuthContext';
 import { storyService } from '../../../../../services/storyService';
 import { Chapter, UpdateChapterRequest } from '../../../../../types/story';
@@ -58,12 +59,20 @@ export default function EditChapterPage() {
 
   if (isLoading || isLoadingChapter) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-black">
         <Navigation />
         <div className="pt-16 md:pt-24 lg:pt-32 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-            <p className="mt-4 text-gray-600">Đang tải...</p>
+            <div className="relative w-16 h-16 md:w-20 md:h-20 mx-auto mb-4">
+              <Image
+                src="/reading.gif"
+                alt="Loading..."
+                width={80}
+                height={80}
+                className="rounded-lg w-full h-full object-cover"
+              />
+            </div>
+            <p className="mt-4 text-gray-300">Đang tải...</p>
           </div>
         </div>
       </div>
@@ -72,12 +81,12 @@ export default function EditChapterPage() {
 
   if (!chapter) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-black">
         <Navigation />
         <div className="pt-16 md:pt-24 lg:pt-32 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
-            <p className="text-red-600">Không tìm thấy chương</p>
-            <Link href="/admin" className="text-blue-600 hover:underline mt-4 block">
+            <p className="text-red-400">Không tìm thấy chương</p>
+            <Link href="/admin" className="text-blue-400 hover:text-blue-300 mt-4 block">
               Quay lại trang quản lý
             </Link>
           </div>
