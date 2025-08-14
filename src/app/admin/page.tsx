@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Home, BookOpen, FileText, CheckCircle, Edit3, Trash2, AlertTriangle, Tag, Plus, Settings, Mail } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { storyService } from '../../services/storyService';
@@ -124,9 +125,17 @@ export default function AdminDashboard() {
   if (isLoading || !isAuthenticated) {
     return (
       <div className="min-h-screen bg-black">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg-8 py-12">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+            <div className="relative w-16 h-16 md:w-20 md:h-20 mx-auto mb-4">
+              <Image
+                src="/reading.gif"
+                alt="Loading..."
+                width={80}
+                height={80}
+                className="rounded-lg w-full h-full object-cover"
+              />
+            </div>
             <p className="mt-4 text-gray-300">Đang tải...</p>
           </div>
         </div>

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Calendar, FileText, ChevronLeft, ChevronRight, Home, BookOpen, List, Minus, Plus, ArrowUp, ArrowDown, Settings } from 'lucide-react';
 import { storyService } from '../../../../../services/storyService';
 import { Story, Chapter } from '../../../../../types/story';
@@ -83,7 +84,15 @@ export default function ChapterReaderPage() {
       <div className="min-h-screen bg-black">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+            <div className="relative w-16 h-16 md:w-20 md:h-20 mx-auto mb-4">
+              <Image
+                src="/reading.gif"
+                alt="Loading..."
+                width={80}
+                height={80}
+                className="rounded-lg w-full h-full object-cover"
+              />
+            </div>
             <p className="mt-4 text-gray-300">Đang tải...</p>
           </div>
         </div>

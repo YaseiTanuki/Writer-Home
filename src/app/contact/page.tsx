@@ -8,6 +8,7 @@ import { CreateMessageRequest } from '../../types/story';
 import { useGuest } from '../../contexts/GuestContext';
 import { useAuth } from '../../contexts/AuthContext';
 import { Mail, User, MessageSquare, Send, CheckCircle, AlertCircle, Info, LogIn, Clock, XCircle } from 'lucide-react';
+import Image from 'next/image';
 
 interface MessageLimitInfo {
   email: string;
@@ -30,6 +31,7 @@ export default function ContactPage() {
   const [errorMessage, setErrorMessage] = useState('');
   const [messageLimitInfo, setMessageLimitInfo] = useState<MessageLimitInfo | null>(null);
   const [isCheckingLimit, setIsCheckingLimit] = useState(false);
+  const [isPageLoading, setIsPageLoading] = useState(true);
 
   // Check if user is authenticated (either guest or admin)
   const isAuthenticated = isGuestAuthenticated || isAdminAuthenticated;
@@ -51,6 +53,15 @@ export default function ContactPage() {
       checkMessageLimit(formData.email);
     }
   }, [formData.email, isAuthenticated]);
+
+  // Set page loading to false after initial render
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsPageLoading(false);
+    }, 1000); // Show loading for 1 second
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const checkMessageLimit = async (email: string) => {
     if (!email) return;
@@ -146,6 +157,27 @@ export default function ContactPage() {
   const canSendMessage = messageLimitInfo ? messageLimitInfo.todayMessageCount < messageLimitInfo.limit : true;
   const remainingMessages = messageLimitInfo ? messageLimitInfo.limit - messageLimitInfo.todayMessageCount : 5;
 
+  // Loading screen
+  if (isPageLoading) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-center">
+          <div className="relative w-24 h-24 md:w-32 md:h-32 mx-auto mb-4 md:mb-6">
+            <Image
+              src="/reading.gif"
+              alt="Loading..."
+              width={96}
+              height={96}
+              className="rounded-lg w-full h-full object-cover"
+            />
+          </div>
+          <h2 className="text-xl md:text-2xl font-bold text-white mb-2">Đang tải...</h2>
+          <p className="text-sm md:text-base text-gray-400">Vui lòng chờ một chút</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-black">
       <Navigation />
@@ -212,6 +244,25 @@ export default function ContactPage() {
                     : `Hôm nay bạn đã gửi ${messageLimitInfo.todayMessageCount}/5 tin nhắn. Vui lòng thử lại vào ngày mai.`
                   }
                 </p>
+              </div>
+            </div>
+          )}
+
+          {/* Loading indicator for message limit check */}
+          {isCheckingLimit && (
+            <div className="mb-6 bg-blue-900/20 border border-blue-700 text-blue-400 px-4 py-3 rounded flex items-center gap-3">
+              <div className="relative w-5 h-5 md:w-6 md:h-6">
+                <Image
+                  src="/reading.gif"
+                  alt="Checking..."
+                  width={20}
+                  height={20}
+                  className="rounded w-full h-full object-cover"
+                />
+              </div>
+              <div>
+                <p className="font-medium">Đang kiểm tra giới hạn tin nhắn...</p>
+                <p className="text-sm mt-1">Vui lòng chờ một chút</p>
               </div>
             </div>
           )}
@@ -327,7 +378,15 @@ export default function ContactPage() {
                   </>
                 ) : isSubmitting ? (
                   <>
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                    <div className="relative w-4 h-4 md:w-5 md:h-5">
+                      <Image
+                        src="/reading.gif"
+                        alt="Sending..."
+                        width={16}
+                        height={16}
+                        className="rounded w-full h-full object-cover"
+                      />
+                    </div>
                     Đang gửi...
                   </>
                 ) : formData.content.length > 255 ? (
