@@ -58,7 +58,7 @@ export default function TiptapEditor({
     },
     editorProps: {
       attributes: {
-        class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none',
+        class: 'mx-auto focus:outline-none',
       },
     },
     immediatelyRender: false,
@@ -70,7 +70,7 @@ export default function TiptapEditor({
   if (!isMounted) {
     return (
       <div className={`border border-gray-600 rounded-md overflow-hidden ${className}`}>
-        <div className="p-4 text-center text-gray-400">
+        <div className="p-2 sm:p-3 md:p-4 text-center text-gray-400 text-xs sm:text-sm">
           Đang tải trình soạn thảo...
         </div>
       </div>
@@ -82,31 +82,156 @@ export default function TiptapEditor({
       <TiptapToolbar editor={editor} />
       <EditorContent 
         editor={editor} 
-        className="min-h-[400px] p-4 focus:outline-none prose prose-sm max-w-none bg-gray-900 text-white"
+        className="min-h-[300px] sm:min-h-[350px] md:min-h-[400px] p-2 sm:p-3 md:p-4 focus:outline-none max-w-none bg-gray-900 text-white"
         style={{
-          minHeight: '400px',
-          padding: '1rem',
+          minHeight: '300px',
+          padding: '0.5rem',
           backgroundColor: '#111827',
           color: '#ffffff',
+          fontSize: '12px', // Force mobile font size
         }}
       />
       
-      {/* Custom styles for horizontal rule */}
-      <style jsx>{`
+      {/* Custom styles with higher specificity */}
+      <style jsx global>{`
+        /* Override Tiptap default styles with maximum specificity */
+        .ProseMirror,
+        .ProseMirror *,
+        .ProseMirror p,
+        .ProseMirror div,
+        .ProseMirror span {
+          font-size: 12px !important; /* Force 12px on mobile */
+          line-height: 1.25rem !important;
+        }
+        
+        @media (min-width: 640px) {
+          .ProseMirror,
+          .ProseMirror *,
+          .ProseMirror p,
+          .ProseMirror div,
+          .ProseMirror span {
+            font-size: 10px !important; /* Force 10px on tablet */
+            line-height: 1.5rem !important;
+          }
+        }
+        
+        @media (min-width: 768px) {
+          .ProseMirror,
+          .ProseMirror *,
+          .ProseMirror p,
+          .ProseMirror div,
+          .ProseMirror span {
+            font-size: 12px !important; /* Force 12px on desktop */
+            line-height: 1.75rem !important;
+          }
+        }
+        
+        /* Headings with higher specificity */
+        .ProseMirror h1,
+        .ProseMirror h1 * {
+          font-size: 14px !important; /* Mobile */
+          line-height: 1.5rem !important;
+          margin-bottom: 0.75rem !important;
+          font-weight: bold !important;
+        }
+        
+        @media (min-width: 640px) {
+          .ProseMirror h1,
+          .ProseMirror h1 * {
+            font-size: 16px !important; /* Tablet */
+            line-height: 1.75rem !important;
+            margin-bottom: 1rem !important;
+          }
+        }
+        
+        @media (min-width: 768px) {
+          .ProseMirror h1,
+          .ProseMirror h1 * {
+            font-size: 18px !important; /* Desktop */
+            line-height: 2rem !important;
+            margin-bottom: 1.25rem !important;
+          }
+        }
+        
+        .ProseMirror h2,
+        .ProseMirror h2 * {
+          font-size: 12px !important; /* Mobile */
+          line-height: 1.5rem !important;
+          margin-bottom: 0.75rem !important;
+          font-weight: bold !important;
+        }
+        
+        @media (min-width: 640px) {
+          .ProseMirror h2,
+          .ProseMirror h2 * {
+            font-size: 14px !important; /* Tablet */
+            line-height: 1.5rem !important;
+            margin-bottom: 1rem !important;
+          }
+        }
+        
+        @media (min-width: 768px) {
+          .ProseMirror h2,
+          .ProseMirror h2 * {
+            font-size: 16px !important; /* Desktop */
+            line-height: 1.75rem !important;
+            margin-bottom: 1.25rem !important;
+          }
+        }
+        
+        .ProseMirror h3,
+        .ProseMirror h3 * {
+          font-size: 10px !important; /* Mobile */
+          line-height: 1.25rem !important;
+          margin-bottom: 0.5rem !important;
+          font-weight: bold !important;
+        }
+        
+        @media (min-width: 640px) {
+          .ProseMirror h3,
+          .ProseMirror h3 * {
+            font-size: 12px !important; /* Tablet */
+            line-height: 1.5rem !important;
+            margin-bottom: 0.75rem !important;
+          }
+        }
+        
+        @media (min-width: 768px) {
+          .ProseMirror h3,
+          .ProseMirror h3 * {
+            font-size: 14px !important; /* Desktop */
+            line-height: 1.5rem !important;
+            margin-bottom: 1rem !important;
+          }
+        }
+        
+        /* Horizontal rule */
         .ProseMirror hr {
-          border: none;
-          border-top: 2px solid #4b5563;
-          margin: 1.5rem 0;
-          width: 100%;
+          border: none !important;
+          border-top: 2px solid #4b5563 !important;
+          margin: 1rem 0 !important; /* mobile */
+          width: 100% !important;
+        }
+        
+        @media (min-width: 640px) {
+          .ProseMirror hr {
+            margin: 1.25rem 0 !important; /* sm */
+          }
+        }
+        
+        @media (min-width: 768px) {
+          .ProseMirror hr {
+            margin: 1.5rem 0 !important; /* md */
+          }
         }
         
         .ProseMirror hr:hover {
-          border-top-color: #6b7280;
+          border-top-color: #6b7280 !important;
         }
       `}</style>
       
       {/* Word and Character Count */}
-      <div className="border-t border-gray-800 bg-gray-800 px-4 py-2 text-sm text-gray-300 flex justify-between">
+      <div className="border-t border-gray-800 bg-gray-800 px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 text-xs sm:text-sm text-gray-300 flex justify-between">
         <span>Từ: {wordCount}</span>
         <span>Ký tự: {charCount}</span>
       </div>

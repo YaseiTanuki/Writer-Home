@@ -68,147 +68,140 @@ export default function TiptapToolbar({ editor }: TiptapToolbarProps) {
   // All features in a single array
   const allFeatures = [
     {
-      icon: <Bold size={16} />,
+      icon: <Bold size={14} className="sm:w-4 sm:h-4" />,
       onClick: () => editor.chain().focus().toggleBold().run(),
       canExecute: editor.can().chain().focus().toggleBold().run(),
       isActive: editor.isActive('bold'),
       title: 'In đậm (Ctrl+B)'
     },
     {
-      icon: <Italic size={16} />,
+      icon: <Italic size={14} className="sm:w-4 sm:h-4" />,
       onClick: () => editor.chain().focus().toggleItalic().run(),
       canExecute: editor.can().chain().focus().toggleItalic().run(),
       isActive: editor.isActive('italic'),
       title: 'In nghiêng (Ctrl+I)'
     },
     {
-      icon: <Underline size={16} />,
+      icon: <Underline size={14} className="sm:w-4 sm:h-4" />,
       onClick: () => editor.chain().focus().toggleUnderline().run(),
       canExecute: editor.can().chain().focus().toggleUnderline().run(),
       isActive: editor.isActive('underline'),
       title: 'Gạch chân (Ctrl+U)'
     },
     {
-      icon: <Strikethrough size={16} />,
+      icon: <Strikethrough size={14} className="sm:w-4 sm:h-4" />,
       onClick: () => editor.chain().focus().toggleStrike().run(),
       canExecute: editor.can().chain().focus().toggleStrike().run(),
       isActive: editor.isActive('strike'),
       title: 'Gạch ngang'
     },
     {
-      icon: <Heading1 size={16} />,
+      icon: <Heading1 size={14} className="sm:w-4 sm:h-4" />,
       onClick: () => editor.chain().focus().toggleHeading({ level: 1 }).run(),
       canExecute: editor.can().chain().focus().toggleHeading({ level: 1 }).run(),
       isActive: editor.isActive('heading', { level: 1 }),
       title: 'Tiêu đề 1'
     },
     {
-      icon: <Heading2 size={16} />,
+      icon: <Heading2 size={14} className="sm:w-4 sm:h-4" />,
       onClick: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
       canExecute: editor.can().chain().focus().toggleHeading({ level: 2 }).run(),
       isActive: editor.isActive('heading', { level: 2 }),
       title: 'Tiêu đề 2'
     },
     {
-      icon: <Heading3 size={16} />,
+      icon: <Heading3 size={14} className="sm:w-4 sm:h-4" />,
       onClick: () => editor.chain().focus().toggleHeading({ level: 3 }).run(),
       canExecute: editor.can().chain().focus().toggleHeading({ level: 3 }).run(),
       isActive: editor.isActive('heading', { level: 3 }),
       title: 'Tiêu đề 3'
     },
     {
-      icon: <AlignLeft size={16} />,
-      onClick: () => editor.chain().focus().setTextAlign('left').run(),
-      canExecute: editor.can().chain().focus().setTextAlign('left').run(),
-      isActive: editor.isActive({ textAlign: 'left' }),
-      title: 'Căn trái'
-    },
-    {
-      icon: <AlignCenter size={16} />,
-      onClick: () => editor.chain().focus().setTextAlign('center').run(),
-      canExecute: editor.can().chain().focus().setTextAlign('center').run(),
-      isActive: editor.isActive({ textAlign: 'center' }),
-      title: 'Căn giữa'
-    },
-    {
-      icon: <AlignRight size={16} />,
-      onClick: () => editor.chain().focus().setTextAlign('right').run(),
-      canExecute: editor.can().chain().focus().setTextAlign('right').run(),
-      isActive: editor.isActive({ textAlign: 'right' }),
-      title: 'Căn phải'
-    },
-    {
-      icon: <AlignJustify size={16} />,
-      onClick: () => editor.chain().focus().setTextAlign('justify').run(),
-      canExecute: editor.can().chain().focus().setTextAlign('justify').run(),
-      isActive: editor.isActive({ textAlign: 'justify' }),
-      title: 'Căn đều'
-    },
-    {
-      icon: <List size={16} />,
+      icon: <List size={14} className="sm:w-4 sm:h-4" />,
       onClick: () => editor.chain().focus().toggleBulletList().run(),
-      canExecute: true,
+      canExecute: editor.can().chain().focus().toggleBulletList().run(),
       isActive: editor.isActive('bulletList'),
-      title: 'Danh sách không số'
+      title: 'Danh sách không thứ tự'
     },
     {
-      icon: <ListOrdered size={16} />,
+      icon: <ListOrdered size={14} className="sm:w-4 sm:h-4" />,
       onClick: () => editor.chain().focus().toggleOrderedList().run(),
-      canExecute: true,
+      canExecute: editor.can().chain().focus().toggleOrderedList().run(),
       isActive: editor.isActive('orderedList'),
-      title: 'Danh sách có số'
+      title: 'Danh sách có thứ tự'
     },
     {
-      icon: <Quote size={16} />,
+      icon: <Quote size={14} className="sm:w-4 sm:h-4" />,
       onClick: () => editor.chain().focus().toggleBlockquote().run(),
-      canExecute: true,
+      canExecute: editor.can().chain().focus().toggleBlockquote().run(),
       isActive: editor.isActive('blockquote'),
       title: 'Trích dẫn'
     },
     {
-      icon: <Code size={16} />,
+      icon: <Code size={14} className="sm:w-4 sm:h-4" />,
       onClick: () => editor.chain().focus().toggleCodeBlock().run(),
-      canExecute: true,
+      canExecute: editor.can().chain().focus().toggleCodeBlock().run(),
       isActive: editor.isActive('codeBlock'),
-      title: 'Khối code'
+      title: 'Khối mã'
     },
     {
-      icon: <span className="text-xs font-medium border-t-2 border-gray-400 w-6 h-4 flex items-center justify-center">─</span>,
-      onClick: () => editor.chain().focus().setHorizontalRule().run(),
-      canExecute: true,
-      isActive: false,
-      title: 'Kẻ hàng ngang'
-    },
-    {
-      icon: <Link size={16} />,
+      icon: <Link size={14} className="sm:w-4 sm:h-4" />,
       onClick: addLink,
       canExecute: true,
       isActive: editor.isActive('link'),
       title: 'Thêm liên kết'
     },
     {
-      icon: <Unlink size={16} />,
+      icon: <Unlink size={14} className="sm:w-4 sm:h-4" />,
       onClick: removeLink,
-      canExecute: editor.isActive('link'),
+      canExecute: editor.can().chain().focus().unsetLink().run(),
       isActive: false,
       title: 'Xóa liên kết'
     },
     {
-      icon: <Palette size={16} />,
+      icon: <AlignLeft size={14} className="sm:w-4 sm:h-4" />,
+      onClick: () => editor.chain().focus().setTextAlign('left').run(),
+      canExecute: true,
+      isActive: editor.isActive({ textAlign: 'left' }),
+      title: 'Căn trái'
+    },
+    {
+      icon: <AlignCenter size={14} className="sm:w-4 sm:h-4" />,
+      onClick: () => editor.chain().focus().setTextAlign('center').run(),
+      canExecute: true,
+      isActive: editor.isActive({ textAlign: 'center' }),
+      title: 'Căn giữa'
+    },
+    {
+      icon: <AlignRight size={14} className="sm:w-4 sm:h-4" />,
+      onClick: () => editor.chain().focus().setTextAlign('right').run(),
+      canExecute: true,
+      isActive: editor.isActive({ textAlign: 'right' }),
+      title: 'Căn phải'
+    },
+    {
+      icon: <AlignJustify size={14} className="sm:w-4 sm:h-4" />,
+      onClick: () => editor.chain().focus().setTextAlign('justify').run(),
+      canExecute: true,
+      isActive: editor.isActive({ textAlign: 'justify' }),
+      title: 'Căn đều'
+    },
+    {
+      icon: <Palette size={14} className="sm:w-4 sm:h-4" />,
       onClick: setTextColor,
       canExecute: true,
       isActive: false,
       title: 'Màu chữ'
     },
     {
-      icon: <Highlighter size={16} />,
+      icon: <Highlighter size={14} className="sm:w-4 sm:h-4" />,
       onClick: setHighlight,
       canExecute: true,
       isActive: false,
       title: 'Highlight văn bản'
     },
     {
-      icon: <Type size={16} />,
+      icon: <Type size={14} className="sm:w-4 sm:h-4" />,
       onClick: () => editor.chain().focus().clearNodes().unsetAllMarks().run(),
       canExecute: true,
       isActive: false,
@@ -264,17 +257,17 @@ export default function TiptapToolbar({ editor }: TiptapToolbarProps) {
   }, [featuresPerPage]);
 
   return (
-    <div className="border-b border-gray-800 bg-gray-800 p-2" ref={containerRef}>
+    <div className="border-b border-gray-800 bg-gray-800 p-1.5 sm:p-2" ref={containerRef}>
       {/* Features Container with Navigation */}
-      <div className="flex items-center gap-1 justify-center">
+      <div className="flex items-center gap-0.5 sm:gap-1 justify-center">
         {/* Previous Page Button */}
         <button
           onClick={prevPage}
           disabled={totalPages <= 1}
-          className="p-2 rounded hover:bg-gray-700 transition-colors text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="p-1.5 sm:p-2 rounded hover:bg-gray-700 transition-colors text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
           title="Trang trước"
         >
-          <ChevronLeft size={16} />
+          <ChevronLeft size={14} className="sm:w-4 sm:h-4" />
         </button>
 
         {/* Features */}
@@ -283,7 +276,7 @@ export default function TiptapToolbar({ editor }: TiptapToolbarProps) {
             key={startIndex + index}
             onClick={feature.onClick}
             disabled={!feature.canExecute}
-            className={`p-2 rounded hover:bg-gray-700 transition-colors ${
+            className={`p-1.5 sm:p-2 rounded hover:bg-gray-700 transition-colors ${
               feature.isActive ? 'bg-blue-900/20 text-blue-400 border border-blue-700' : 'text-gray-300'
             } disabled:opacity-50 disabled:cursor-not-allowed`}
             title={feature.title}
@@ -296,10 +289,10 @@ export default function TiptapToolbar({ editor }: TiptapToolbarProps) {
         <button
           onClick={nextPage}
           disabled={totalPages <= 1}
-          className="p-2 rounded hover:bg-gray-700 transition-colors text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="p-1.5 sm:p-2 rounded hover:bg-gray-700 transition-colors text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
           title="Trang sau"
         >
-          <ChevronRight size={16} />
+          <ChevronRight size={14} className="sm:w-4 sm:h-4" />
         </button>
       </div>
     </div>
