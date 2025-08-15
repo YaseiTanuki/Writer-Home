@@ -15,10 +15,19 @@ import {
 
 export const storyService = {
   // Get all stories with optional filters
-  async getStories(params?: { status?: string; category?: string }): Promise<{ stories: Story[]; count: number }> {
+  async getStories(params?: { 
+    status?: string; 
+    category?: string; 
+    page?: number; 
+    limit?: number; 
+    search?: string 
+  }): Promise<{ stories: Story[]; count: number }> {
     const queryParams = new URLSearchParams();
     if (params?.status) queryParams.append('status', params.status);
     if (params?.category) queryParams.append('category', params.category);
+    if (params?.page) queryParams.append('page', params.page.toString());
+    if (params?.limit) queryParams.append('limit', params.limit.toString());
+    if (params?.search) queryParams.append('search', params.search);
     
     const queryString = queryParams.toString();
     const endpoint = queryString ? `/api/stories?${queryString}` : '/api/stories';
