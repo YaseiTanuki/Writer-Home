@@ -10,7 +10,7 @@ interface ImageUploadProps {
   className?: string;
 }
 
-const ImageUpload = forwardRef<{ uploadImage: () => Promise<string> }, ImageUploadProps>(({ currentImageUrl, onImageChange, className = '' }, ref) => {
+const ImageUpload = forwardRef<{ uploadImage: () => Promise<string>; hasNewFile: () => boolean }, ImageUploadProps>(({ currentImageUrl, onImageChange, className = '' }, ref) => {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadError, setUploadError] = useState('');
   const [previewUrl, setPreviewUrl] = useState<string | null>(currentImageUrl || null);
@@ -25,17 +25,28 @@ const ImageUpload = forwardRef<{ uploadImage: () => Promise<string> }, ImageUplo
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (!file) return;
+    if (!file) {
+      // User cancelled file selection, keep current image
+      setSelectedFile(null);
+      setUploadError('');
+      // Reset preview to current image if no new file selected
+      if (currentImageUrl) {
+        setPreviewUrl(currentImageUrl);
+      }
+      return;
+    }
 
     // Validate file type
     if (!file.type.startsWith('image/')) {
       setUploadError('Vui lòng chọn file ảnh hợp lệ');
+      setSelectedFile(null);
       return;
     }
 
     // Validate file size (max 32MB)
     if (file.size > 32 * 1024 * 1024) {
       setUploadError('Kích thước ảnh không được vượt quá 32MB');
+      setSelectedFile(null);
       return;
     }
 
@@ -76,7 +87,8 @@ const ImageUpload = forwardRef<{ uploadImage: () => Promise<string> }, ImageUplo
 
   // Expose uploadImage function to parent via ref
   useImperativeHandle(ref, () => ({
-    uploadImage
+    uploadImage,
+    hasNewFile: () => selectedFile !== null
   }), [selectedFile]);
 
   const handleRemoveImage = () => {
@@ -110,8 +122,21 @@ const ImageUpload = forwardRef<{ uploadImage: () => Promise<string> }, ImageUplo
             />
 
             <div className="absolute bottom-2 left-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
-              {currentImageUrl ? 'Ảnh hiện tại' : 'Ảnh mới'}
+              {selectedFile ? 'Ảnh mới' : 'Ảnh hiện tại'}
             </div>
+            {selectedFile && currentImageUrl && (
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedFile(null);
+                  setPreviewUrl(currentImageUrl);
+                  setUploadError('');
+                }}
+                className="absolute bottom-2 right-2 bg-blue-600 hover:bg-blue-700 text-white text-xs px-2 py-1 rounded transition-colors"
+              >
+                Giữ ảnh cũ
+              </button>
+            )}
           </div>
         ) : (
           // Upload Area

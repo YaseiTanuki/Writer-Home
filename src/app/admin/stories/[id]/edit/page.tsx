@@ -11,7 +11,7 @@ import TiptapEditor from '../../../../../component/TiptapEditor';
 import CategorySelector from '../../../../../component/CategorySelector';
 import Navigation from '../../../../../component/Navigation';
 import ImageUpload from '../../../../../component/ImageUpload';
-import { Edit3, BookOpen, Home, ArrowLeft } from 'lucide-react';
+import { Edit3 } from 'lucide-react';
 
 interface EditStoryFormData {
   title: string;
@@ -32,7 +32,7 @@ export default function EditStoryPage() {
   const [isLoadingStory, setIsLoadingStory] = useState(true);
   const [error, setError] = useState('');
   const [story, setStory] = useState<Story | null>(null);
-  const imageUploadRef = useRef<{ uploadImage?: () => Promise<string> }>(null);
+  const imageUploadRef = useRef<{ uploadImage?: () => Promise<string>; hasNewFile?: () => boolean }>(null);
   
   const [formData, setFormData] = useState<EditStoryFormData>({
     title: '',
@@ -45,11 +45,13 @@ export default function EditStoryPage() {
 
   // Redirect if not authenticated
   if (!isLoading && !isAuthenticated) {
+    console.log('User not authenticated, redirecting to login');
     router.push('/login');
     return null;
   }
 
   useEffect(() => {
+    console.log('useEffect triggered:', { isAuthenticated, storyId });
     if (isAuthenticated && storyId) {
       loadStory();
     }
@@ -58,7 +60,9 @@ export default function EditStoryPage() {
   const loadStory = async () => {
     try {
       setIsLoadingStory(true);
+      console.log('Loading story with ID:', storyId);
       const response = await storyService.getStory(storyId);
+      console.log('Story loaded:', response);
       setStory(response.story);
       setFormData({
         title: response.story.title,
@@ -68,15 +72,24 @@ export default function EditStoryPage() {
         coverImage: response.story.coverImage,
         status: response.story.status
       });
+      console.log('Form data set:', {
+        title: response.story.title,
+        description: response.story.description,
+        content: response.story.content || '',
+        category: response.story.category,
+        coverImage: response.story.coverImage,
+        status: response.story.status
+      });
     } catch (err) {
-      setError('Không thể tải thông tin truyện');
       console.error('Failed to load story:', err);
+      setError('Không thể tải thông tin truyện');
     } finally {
       setIsLoadingStory(false);
     }
   };
 
   if (isLoading || isLoadingStory) {
+    console.log('Loading state:', { isLoading, isLoadingStory });
     return (
       <div className="min-h-screen bg-black">
         <Navigation />
@@ -99,6 +112,7 @@ export default function EditStoryPage() {
   }
 
   if (!story) {
+    console.log('Story not found, showing error page');
     return (
       <div className="min-h-screen bg-black">
         <Navigation />
@@ -122,7 +136,19 @@ export default function EditStoryPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.title || !formData.description || formData.category.length === 0 || !formData.content?.trim()) {
+    console.log('Form submitted:', formData);
+    console.log('Story ID:', storyId);
+    console.log('User authenticated:', isAuthenticated);
+    console.log('User:', user);
+    
+    if (!formData.title || !formData.description || formData.category.length === 0 || !formData.content || formData.content.trim() === '') {
+      console.log('Validation failed:', {
+        title: !!formData.title,
+        description: !!formData.description,
+        category: formData.category.length,
+        content: !!formData.content,
+        contentTrim: formData.content?.trim()
+      });
       setError('Vui lòng điền đầy đủ thông tin bắt buộc');
       return;
     }
@@ -133,13 +159,22 @@ export default function EditStoryPage() {
       
       // Upload image first if there's a selected file
       let coverImageUrl = formData.coverImage;
-      if (imageUploadRef?.current?.uploadImage) {
+      console.log('Current cover image:', coverImageUrl);
+      console.log('Image upload ref:', imageUploadRef?.current);
+      
+      // Only upload if there's actually a new file selected
+      if (imageUploadRef?.current?.uploadImage && imageUploadRef?.current?.hasNewFile?.()) {
         try {
+          console.log('Uploading new image...');
           coverImageUrl = await imageUploadRef.current.uploadImage();
+          console.log('Image uploaded successfully:', coverImageUrl);
         } catch (uploadError) {
+          console.error('Image upload failed:', uploadError);
           setError('Không thể upload ảnh. Vui lòng thử lại.');
           return;
         }
+      } else {
+        console.log('No new image selected, keeping current image');
       }
       
       // Convert form data to UpdateStoryRequest format
@@ -148,11 +183,14 @@ export default function EditStoryPage() {
         coverImage: coverImageUrl
       };
       
-      await storyService.updateStory(storyId, updateData);
+      console.log('Updating story with data:', updateData);
+      const result = await storyService.updateStory(storyId, updateData);
+      console.log('Update result:', result);
       
       // Redirect to admin dashboard on success
       router.push('/admin');
     } catch (err) {
+      console.error('Error updating story:', err);
       setError(err instanceof Error ? err.message : 'Có lỗi xảy ra khi cập nhật truyện');
     } finally {
       setIsSubmitting(false);
@@ -177,29 +215,7 @@ export default function EditStoryPage() {
                 Cập nhật thông tin truyện của bạn
               </p>
             </div>
-            <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 md:gap-4 w-full sm:w-auto">
-              <Link 
-                href="/admin" 
-                className="inline-flex items-center justify-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto gap-1.5 sm:gap-2"
-              >
-                <ArrowLeft size={14} className="sm:w-4 sm:h-4 md:w-5 md:h-5" />
-                Quay Lại Dashboard
-              </Link>
-              <Link 
-                href="/stories" 
-                className="inline-flex items-center justify-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto gap-1.5 sm:gap-2"
-              >
-                <BookOpen size={14} className="sm:w-4 sm:h-4 md:w-5 md:h-5" />
-                Xem Trang Web
-              </Link>
-              <Link 
-                href="/" 
-                className="inline-flex items-center justify-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 border border-transparent text-xs sm:text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto gap-1.5 sm:gap-2"
-              >
-                <Home size={14} className="sm:w-4 sm:h-4 md:w-5 md:h-5" />
-                Trang Chủ
-              </Link>
-            </div>
+
           </div>
         </div>
 
@@ -305,6 +321,7 @@ export default function EditStoryPage() {
                 type="submit"
                 disabled={isSubmitting}
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-md text-base sm:text-lg font-medium transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 sm:gap-3"
+                onClick={() => console.log('Submit button clicked')}
               >
                 {isSubmitting ? (
                   <>
@@ -325,6 +342,18 @@ export default function EditStoryPage() {
                     <span className="text-sm sm:text-base">Cập Nhật Truyện</span>
                   </>
                 )}
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  console.log('Test button clicked');
+                  console.log('Current form data:', formData);
+                  console.log('Story ID:', storyId);
+                  console.log('User authenticated:', isAuthenticated);
+                }}
+                className="flex-1 sm:flex-none bg-green-600 hover:bg-green-700 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-md font-medium transition-colors duration-200"
+              >
+                Test Debug
               </button>
               <Link
                 href="/admin"

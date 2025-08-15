@@ -27,7 +27,7 @@ export default function NewStoryPage() {
   });
 
   const [storyContent, setStoryContent] = useState('');
-  const imageUploadRef = useRef<{ uploadImage?: () => Promise<string> }>(null);
+  const imageUploadRef = useRef<{ uploadImage?: () => Promise<string>; hasNewFile?: () => boolean }>(null);
 
   // Redirect if not authenticated
   if (!isLoading && !isAuthenticated) {
@@ -75,13 +75,19 @@ export default function NewStoryPage() {
       
       // Upload image first if there's a selected file
       let coverImageUrl = formData.coverImage;
-      if (imageUploadRef?.current?.uploadImage) {
+      
+      // Only upload if there's actually a new file selected
+      if (imageUploadRef?.current?.uploadImage && imageUploadRef?.current?.hasNewFile?.()) {
         try {
           coverImageUrl = await imageUploadRef.current.uploadImage();
         } catch (uploadError) {
           setError('Không thể upload ảnh. Vui lòng thử lại.');
           return;
         }
+      } else if (!coverImageUrl) {
+        // For new story, require an image
+        setError('Vui lòng chọn ảnh bìa cho truyện');
+        return;
       }
       
       // Combine form data with story content
