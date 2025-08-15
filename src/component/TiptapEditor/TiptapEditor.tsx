@@ -82,10 +82,10 @@ export default function TiptapEditor({
       <TiptapToolbar editor={editor} />
       <EditorContent 
         editor={editor} 
-        className="min-h-[300px] sm:min-h-[350px] md:min-h-[400px] p-2 sm:p-3 md:p-4 focus:outline-none max-w-none bg-gray-900 text-white"
+        className="min-h-[300px] sm:min-h-[350px] md:min-h-[400px] p-0 sm:p-3 md:p-4 focus:outline-none max-w-none bg-gray-900 text-white"
         style={{
           minHeight: '300px',
-          padding: '0.5rem',
+          padding: '0', // No padding on mobile
           backgroundColor: '#111827',
           color: '#ffffff',
           fontSize: '12px', // Force mobile font size

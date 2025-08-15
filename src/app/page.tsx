@@ -158,16 +158,16 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-black">
       <Navigation />
-      <main className="pt-16 md:pt-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-12">
+      <main className="pt-16 md:pt-24 max-w-7xl mx-auto px-0 sm:px-6 lg:px-8 py-0 sm:py-12">
         {/* Header Section */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 px-4 sm:px-0">
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4 leading-tight">
             Chào mừng đến với Góc Truyện của Tôi
           </h1>
           <p className="text-lg sm:text-xl text-gray-300 mb-8 px-4 sm:px-0">
             Nơi lưu trữ những câu chuyện, suy nghĩ và sáng tác văn học của tôi
           </p>
-          <div className="flex justify-center">
+          <div className="flex justify-center px-4 sm:px-0">
             <Link 
               href="/stories" 
               className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg sm:text-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center gap-3"
@@ -179,7 +179,7 @@ export default function Home() {
         </div>
 
         {/* Messages Section */}
-        <div className="mb-12">
+        <div className="mb-12 px-4 sm:px-0">
           <div className="text-center mb-8">
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 flex items-center justify-center gap-3">
               <MessageSquare size={32} className="text-blue-400" />

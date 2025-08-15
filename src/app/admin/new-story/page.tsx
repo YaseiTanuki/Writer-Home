@@ -93,9 +93,9 @@ export default function NewStoryPage() {
       <Navigation />
       
       {/* Main Content */}
-      <div className="pt-16 md:pt-24 lg:pt-32 max-w-4xl mx-auto px-3 sm:px-4 lg:px-8 py-6 sm:py-8">
+      <div className="pt-16 md:pt-24 lg:pt-32 max-w-4xl mx-auto px-0 sm:px-4 lg:px-8 py-0 sm:py-8">
         {/* Page Title */}
-        <div className="mb-4 sm:mb-6 md:mb-8 mt-4">
+        <div className="mb-4 sm:mb-6 md:mb-8 mt-4 px-4 sm:px-0">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
             <div className="text-center sm:text-left">
               <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-2 leading-tight flex items-center gap-2 sm:gap-3">
@@ -106,14 +106,14 @@ export default function NewStoryPage() {
           </div>
         </div>
 
-        <div className="bg-gray-900 rounded-lg shadow-lg border border-gray-700 p-3 sm:p-4 md:p-6">
+        <div className="bg-gray-900 rounded-lg shadow-lg border border-gray-700 p-0 sm:p-4 md:p-6 mx-0 sm:mx-0">
           {error && (
             <div className="mb-4 sm:mb-6 p-2 sm:p-3 md:p-4 rounded-md bg-red-900/20 border border-red-700 text-red-300">
               {error}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5 md:space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5 md:space-y-6 p-3 sm:p-0">
             {/* Title */}
             <div>
               <label htmlFor="title" className="block text-xs sm:text-sm font-medium text-gray-300 mb-1.5 sm:mb-2">

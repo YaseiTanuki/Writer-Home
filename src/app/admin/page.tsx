@@ -148,9 +148,9 @@ export default function AdminDashboard() {
       <Navigation />
       
       {/* Main Content */}
-      <div className="pt-16 md:pt-24 lg:pt-32 max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-6 sm:py-8">
+      <div className="pt-16 md:pt-24 lg:pt-32 max-w-7xl mx-auto px-0 sm:px-4 lg:px-8 py-0 sm:py-8">
         {/* Page Title */}
-        <div className="mb-6 sm:mb-8">
+        <div className="mb-6 sm:mb-8 px-4 sm:px-0">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="text-center sm:text-left">
               <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2 leading-tight flex items-center gap-3">
@@ -166,7 +166,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-3 sm:gap-4 lg:gap-6 mb-6 sm:mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-3 sm:gap-4 lg:gap-6 mb-6 sm:mb-8 px-4 sm:px-0">
           <div className="bg-blue-900/20 rounded-lg p-3 sm:p-4 text-center border border-blue-800">
             <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-400">{stories.length}</div>
                             <div className="text-xs sm:text-sm text-blue-300 flex items-center justify-center gap-1">

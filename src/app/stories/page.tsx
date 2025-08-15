@@ -110,19 +110,17 @@ export default function StoriesPage() {
       <Navigation />
       
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-6 sm:py-8">
+      <div className="max-w-7xl mx-auto px-0 sm:px-4 lg:px-8 py-0 sm:py-8">
         {/* Page Title */}
-        <div className="mb-6 sm:mb-8">
+        <div className="mb-6 sm:mb-8 px-4 sm:px-0">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div className="text-center sm:text-left">
-              <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2 flex items-center gap-2">
-                <BookOpen size={32} />
-                Thư Viện Truyện
-              </h1>
-              <p className="text-sm sm:text-base text-gray-300">
-                Khám phá những câu chuyện thú vị từ các tác giả tài năng
-              </p>
-            </div>
+            <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2 flex items-center gap-2">
+              <BookOpen size={32} />
+              Thư Viện Truyện
+            </h1>
+            <p className="text-sm sm:text-base text-gray-300">
+              Khám phá những câu chuyện thú vị từ các tác giả tài năng
+            </p>
             <Link
               href="/"
               className="inline-flex items-center justify-center px-4 sm:px-6 py-2 sm:py-3 border border-transparent text-sm sm:text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
@@ -134,7 +132,7 @@ export default function StoriesPage() {
         </div>
 
         {/* Filters */}
-        <div className="bg-gray-900 rounded-lg shadow p-3 sm:p-4 lg:p-6 mb-6 sm:mb-8 border border-gray-800">
+        <div className="bg-gray-900 rounded-lg shadow p-3 sm:p-4 lg:p-6 mb-6 sm:mb-8 border border-gray-800 mx-4 sm:mx-0">
           <h2 className="text-base sm:text-lg font-medium text-white mb-3 sm:mb-4 flex items-center gap-2">
             <Search size={20} />
             Bộ Lọc

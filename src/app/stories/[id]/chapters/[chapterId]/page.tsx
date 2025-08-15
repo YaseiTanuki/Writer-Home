@@ -148,9 +148,9 @@ export default function ChapterReaderPage() {
       <Navigation />
       
       {/* Main Content */}
-      <div className="pt-16 md:pt-24 max-w-4xl mx-auto px-3 sm:px-4 lg:px-8 py-6 sm:py-8">
+      <div className="pt-16 md:pt-24 max-w-4xl mx-auto px-0 sm:px-4 lg:px-8 py-0 sm:py-8">
         {/* Chapter Header */}
-        <div className="bg-gray-900 rounded-lg shadow p-3 sm:p-4 lg:p-6 mb-4 sm:mb-6 lg:mb-8 border border-gray-800">
+        <div className="bg-gray-900 rounded-lg shadow p-3 sm:p-4 lg:p-6 mb-4 sm:mb-6 lg:mb-8 border border-gray-800 mx-4 sm:mx-0">
           <div className="text-center mb-3 sm:mb-4 lg:mb-6">
             <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2 leading-tight">
               Chương {chapter.chapterNumber}: {chapter.title}
