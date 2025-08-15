@@ -171,8 +171,8 @@ export default function ContactPage() {
               className="rounded-lg w-full h-full object-cover"
             />
           </div>
-          <h2 className="text-xl md:text-2xl font-bold text-white mb-2">Đang tải...</h2>
-          <p className="text-sm md:text-base text-gray-400">Vui lòng chờ một chút</p>
+          <h2 className="text-sm md:text-2xl font-bold text-white mb-2">Đang tải...</h2>
+          <p className="text-xs md:text-base text-gray-400">Vui lòng chờ một chút</p>
         </div>
       </div>
     );
@@ -185,9 +185,9 @@ export default function ContactPage() {
         <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-3 mb-4">
             <Mail size={48} className="text-blue-400" />
-            <h1 className="text-3xl font-bold text-white">Liên hệ với tôi</h1>
+            <h1 className="text-sm font-bold text-white">Liên hệ với tôi</h1>
           </div>
-          <p className="text-lg text-gray-300">
+          <p className="text-xs text-gray-300">
             Bạn có góp ý, câu hỏi hoặc muốn chia sẻ cảm nhận về truyện? Hãy để lại tin nhắn cho tôi!
           </p>
         </div>

@@ -74,7 +74,7 @@ export default function StoryDetailPage() {
                 className="rounded-lg w-full h-full object-cover"
               />
             </div>
-            <p className="mt-4 text-gray-300">Đang tải...</p>
+            <p className="mt-4 text-gray-300 text-xs">Đang tải...</p>
           </div>
         </div>
       </div>
@@ -86,12 +86,12 @@ export default function StoryDetailPage() {
       <div className="min-h-screen bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
-            <div className="bg-red-900/20 border border-red-700 text-red-400 px-4 py-3 rounded">
+            <div className="bg-red-900/20 border border-red-700 text-red-400 px-4 py-3 rounded text-xs">
               {error || 'Không tìm thấy truyện'}
             </div>
             <button 
               onClick={() => router.push('/stories')}
-              className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+              className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-xs"
             >
               Quay lại danh sách
             </button>
@@ -106,12 +106,12 @@ export default function StoryDetailPage() {
       <div className="min-h-screen bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
-            <div className="bg-yellow-900/20 border border-yellow-700 text-yellow-400 px-4 py-3 rounded">
+            <div className="bg-yellow-900/20 border border-yellow-700 text-yellow-400 px-4 py-3 rounded text-xs">
               Truyện này chưa được xuất bản
             </div>
             <button 
               onClick={() => router.push('/stories')}
-              className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+              className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-xs"
             >
               Quay lại danh sách
             </button>
@@ -131,24 +131,24 @@ export default function StoryDetailPage() {
         <div className="mb-6 sm:mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="text-center sm:text-left">
-              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2 leading-tight">
+              <h1 className="text-sm sm:text-2xl lg:text-3xl font-bold text-white mb-2 leading-tight">
                 {story.title}
               </h1>
-              <p className="text-sm sm:text-base text-gray-300">
+              <p className="text-xs sm:text-base text-gray-300">
                 Khám phá câu chuyện và các chương thú vị
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
               <Link
                 href="/stories"
-                className="inline-flex items-center gap-2 justify-center px-3 sm:px-4 py-2 border border-gray-600 text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
+                className="inline-flex items-center gap-2 justify-center px-3 sm:px-4 py-2 border border-gray-600 text-xs font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
               >
                 <BookOpen size={18} />
                 Thư Viện
               </Link>
               <Link
                 href="/"
-                className="inline-flex items-center gap-2 justify-center px-3 sm:px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
+                className="inline-flex items-center gap-2 justify-center px-3 sm:px-4 py-2 border border-transparent text-xs font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
               >
                 <Home size={18} />
                 Trang Chủ
@@ -179,13 +179,13 @@ export default function StoryDetailPage() {
               {/* Story Details */}
               <div className="space-y-3 sm:space-y-4">
                 <div>
-                  <h2 className="text-base sm:text-lg lg:text-xl font-bold text-white mb-2 leading-tight">{story.title}</h2>
-                  <p className="text-gray-300 text-sm leading-relaxed">{story.description}</p>
+                  <h2 className="text-xs sm:text-lg lg:text-xl font-bold text-white mb-2 leading-tight">{story.title}</h2>
+                  <p className="text-gray-300 text-xs leading-relaxed">{story.description}</p>
                 </div>
 
                 {/* Categories */}
                 <div>
-                  <h3 className="text-sm font-medium text-gray-300 mb-2">Thể loại</h3>
+                  <h3 className="text-xs font-medium text-gray-300 mb-2">Thể loại</h3>
                   <div className="flex flex-wrap gap-1.5 sm:gap-2">
                     {story.category.map((catId) => {
                       const category = categories.find(c => c._id === catId);
@@ -208,17 +208,17 @@ export default function StoryDetailPage() {
                 {/* Stats */}
                 <div className="grid grid-cols-2 gap-3 sm:gap-4 pt-3 sm:pt-4 border-t border-gray-800">
                   <div className="text-center">
-                    <div className="text-lg sm:text-xl lg:text-2xl font-bold text-blue-400">{chapters.length}</div>
-                    <div className="text-xs sm:text-sm text-gray-300 flex items-center justify-center gap-1">
+                    <div className="text-sm sm:text-xl lg:text-2xl font-bold text-blue-400">{chapters.length}</div>
+                    <div className="text-xs text-gray-300 flex items-center justify-center gap-1">
                       <FileText size={14} />
                       Chương
                     </div>
                   </div>
                   <div className="text-center">
-                    <div className="text-lg sm:text-xl lg:text-2xl font-bold text-green-400">
+                    <div className="text-sm sm:text-xl lg:text-2xl font-bold text-green-400">
                       {story.description.split(' ').length}
                     </div>
-                    <div className="text-xs sm:text-sm text-gray-300 flex items-center justify-center gap-1">
+                    <div className="text-xs text-gray-300 flex items-center justify-center gap-1">
                       <FileText size={14} />
                       Từ
                     </div>
@@ -227,18 +227,18 @@ export default function StoryDetailPage() {
 
                 {/* Content Preview */}
                 <div className="pt-3 sm:pt-4 border-t border-gray-800">
-                  <h3 className="text-sm font-medium text-gray-300 mb-2 flex items-center gap-2">
+                  <h3 className="text-xs font-medium text-gray-300 mb-2 flex items-center gap-2">
                     <FileText size={16} />
                     Nội dung
                   </h3>
-                  <p className="text-gray-300 text-sm leading-relaxed line-clamp-4">
+                  <p className="text-gray-300 text-xs leading-relaxed line-clamp-4">
                     {story.description}
                   </p>
                 </div>
 
                 {/* Creation Date */}
                 <div className="pt-3 sm:pt-4 border-t border-gray-800">
-                  <div className="text-xs sm:text-sm text-gray-400 flex items-center gap-2">
+                  <div className="text-xs text-gray-400 flex items-center gap-2">
                     <Calendar size={14} />
                     Tạo ngày: {new Date(story.createdAt).toLocaleDateString('vi-VN')}
                   </div>
@@ -250,14 +250,14 @@ export default function StoryDetailPage() {
           {/* Chapters List - Right Column */}
           <div className="lg:col-span-2">
             <div className="bg-gray-900 rounded-lg shadow p-3 sm:p-4 lg:p-6 border border-gray-800">
-              <h2 className="text-lg sm:text-xl font-bold text-white mb-4 sm:mb-6 flex items-center gap-2">
+              <h2 className="text-sm sm:text-xl font-bold text-white mb-4 sm:mb-6 flex items-center gap-2">
                 <BookOpen size={20} />
                 Danh sách chương ({chapters.length})
               </h2>
               
               {chapters.length === 0 ? (
                 <div className="text-center py-8 sm:py-12">
-                  <div className="text-gray-400 text-base sm:text-lg">
+                  <div className="text-gray-400 text-xs sm:text-lg">
                     Chưa có chương nào được xuất bản.
                   </div>
                 </div>
@@ -273,11 +273,11 @@ export default function StoryDetailPage() {
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex-1 min-w-0">
-                            <h3 className="text-sm sm:text-base font-medium text-white group-hover:text-blue-400 transition-colors duration-200 truncate">
+                            <h3 className="text-xs sm:text-base font-medium text-white group-hover:text-blue-400 transition-colors duration-200 truncate">
                               Chương {chapter.chapterNumber}: {chapter.title}
                             </h3>
                             {chapter.content && (
-                              <p className="text-xs sm:text-sm text-gray-300 mt-1 line-clamp-2">
+                              <p className="text-xs text-gray-300 mt-1 line-clamp-2">
                                 {chapter.content.length > 100 ? chapter.content.substring(0, 100) + '...' : chapter.content}
                               </p>
                             )}

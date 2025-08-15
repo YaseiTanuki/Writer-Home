@@ -39,7 +39,7 @@ export default function Navigation() {
         <div className="flex justify-between items-center h-14 sm:h-16">
           {/* Logo/Brand */}
           <div className="flex items-center">
-            <Link href="/" className="text-lg sm:text-xl font-bold text-blue-400 flex items-center gap-2">
+            <Link href="/" className="text-sm sm:text-xl font-bold text-blue-400 flex items-center gap-2">
               <BookOpen size={24} />
               Góc Truyện
             </Link>
@@ -49,7 +49,7 @@ export default function Navigation() {
           <div className="flex items-center space-x-3 sm:space-x-4">
             <Link 
               href="/" 
-              className={`px-2 sm:px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center gap-2 ${
+              className={`px-2 sm:px-3 py-2 rounded-md text-xs font-medium transition-colors duration-200 flex items-center gap-2 ${
                 isActive('/') 
                   ? 'text-blue-400 bg-blue-900/20' 
                   : 'text-gray-300 hover:text-white hover:bg-gray-800'
@@ -60,7 +60,7 @@ export default function Navigation() {
             </Link>
             <Link 
               href="/stories" 
-              className={`px-2 sm:px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center gap-2 ${
+              className={`px-2 sm:px-3 py-2 rounded-md text-xs font-medium transition-colors duration-200 flex items-center gap-2 ${
                 isActive('/stories') || pathname.startsWith('/stories/')
                   ? 'text-blue-400 bg-blue-900/20' 
                   : 'text-gray-300 hover:text-white hover:bg-gray-800'
@@ -71,7 +71,7 @@ export default function Navigation() {
             </Link>
             <Link 
               href="/about" 
-              className={`px-2 sm:px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center gap-2 ${
+              className={`px-2 sm:px-3 py-2 rounded-md text-xs font-medium transition-colors duration-200 flex items-center gap-2 ${
                 isActive('/about')
                   ? 'text-blue-400 bg-blue-900/20' 
                   : 'text-gray-300 hover:text-white hover:bg-gray-800'
@@ -82,7 +82,7 @@ export default function Navigation() {
             </Link>
             <Link 
               href="/contact" 
-              className={`px-2 sm:px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center gap-2 ${
+              className={`px-2 sm:px-3 py-2 rounded-md text-xs font-medium transition-colors duration-200 flex items-center gap-2 ${
                 isActive('/contact')
                   ? 'text-blue-400 bg-blue-900/20' 
                   : 'text-gray-300 hover:text-white hover:bg-gray-800'
@@ -98,13 +98,13 @@ export default function Navigation() {
             {/* Guest Authentication */}
             {isGuestAuthenticated ? (
               <div className="flex items-center space-x-2">
-                <span className="text-sm text-gray-300 px-2 py-1 rounded bg-gray-800">
+                <span className="text-xs text-gray-300 px-2 py-1 rounded bg-gray-800">
                   <User size={14} className="inline mr-1" />
                   {guest?.displayName}
                 </span>
                 <button
                   onClick={handleGuestSignOut}
-                  className="px-2 sm:px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-red-400 hover:bg-red-900/20 transition-colors duration-200 flex items-center gap-2"
+                  className="px-2 sm:px-3 py-2 rounded-md text-xs font-medium text-gray-300 hover:text-red-400 hover:bg-red-900/20 transition-colors duration-200 flex items-center gap-2"
                 >
                   <LogOut size={16} />
                   Đăng Xuất
@@ -116,7 +116,7 @@ export default function Navigation() {
                 <>
                   <Link 
                     href="/admin" 
-                    className={`px-2 sm:px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center gap-2 ${
+                    className={`px-2 sm:px-3 py-2 rounded-md text-xs font-medium transition-colors duration-200 flex items-center gap-2 ${
                       pathname.startsWith('/admin')
                         ? 'text-blue-400 bg-blue-900/20' 
                         : 'text-gray-300 hover:text-white hover:bg-gray-800'
@@ -127,7 +127,7 @@ export default function Navigation() {
                   </Link>
                   <button
                     onClick={handleAdminLogout}
-                    className="px-2 sm:px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-red-400 hover:bg-red-900/20 transition-colors duration-200 flex items-center gap-2"
+                    className="px-2 sm:px-3 py-2 rounded-md text-xs font-medium text-gray-300 hover:text-red-400 hover:bg-red-900/20 transition-colors duration-200 flex items-center gap-2"
                   >
                     <LogOut size={16} />
                     Đăng Xuất Admin
@@ -136,7 +136,7 @@ export default function Navigation() {
               ) : (
                 <Link
                   href="/auth"
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center gap-2"
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-md text-xs font-medium transition-colors duration-200 flex items-center gap-2"
                 >
                   <LogIn size={16} />
                   Đăng Nhập

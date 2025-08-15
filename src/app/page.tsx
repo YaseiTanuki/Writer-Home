@@ -134,7 +134,7 @@ export default function Home() {
           
           {/* Message content - main focus */}
           <div className="text-center pt-8 sm:pt-10">
-            <p className="text-white/90 text-xs sm:text-sm leading-relaxed line-clamp-4 sm:line-clamp-5">
+            <p className="text-white/90 text-xs leading-relaxed line-clamp-4 sm:line-clamp-5">
               {truncatedContent}
             </p>
           </div>
@@ -146,7 +146,7 @@ export default function Home() {
           
           {/* Hover effect overlay */}
           <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center">
-            <div className="bg-white/90 text-gray-800 px-3 sm:px-4 py-1 sm:py-2 rounded-full text-xs sm:text-sm font-medium">
+            <div className="bg-white/90 text-gray-800 px-3 sm:px-4 py-1 sm:py-2 rounded-full text-xs font-medium">
               Xem chi tiết
             </div>
           </div>
@@ -161,16 +161,16 @@ export default function Home() {
       <main className="pt-16 md:pt-24 max-w-7xl mx-auto px-0 sm:px-6 lg:px-8 py-0 sm:py-12">
         {/* Header Section */}
         <div className="text-center mb-12 px-4 sm:px-0">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4 leading-tight">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-4 leading-tight">
             Chào mừng đến với Góc Truyện của Tôi
           </h1>
-          <p className="text-lg sm:text-xl text-gray-300 mb-8 px-4 sm:px-0">
+          <p className="text-sm sm:text-base text-gray-300 mb-8 px-4 sm:px-0">
             Nơi lưu trữ những câu chuyện, suy nghĩ và sáng tác văn học của tôi
           </p>
           <div className="flex justify-center px-4 sm:px-0">
             <Link 
               href="/stories" 
-              className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg sm:text-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center gap-3"
+              className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-sm sm:text-base font-medium transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center gap-3"
             >
               <BookOpen size={24} />
               Đọc Truyện của Tôi
@@ -181,14 +181,14 @@ export default function Home() {
         {/* Messages Section */}
         <div className="mb-12 px-4 sm:px-0">
           <div className="text-center mb-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 flex items-center justify-center gap-3">
+            <h2 className="text-xl sm:text-2xl font-bold text-white mb-4 flex items-center justify-center gap-3">
               <MessageSquare size={32} className="text-blue-400" />
               Tin Nhắn từ Độc Giả
             </h2>
-            <p className="text-lg text-gray-300 mb-4">
+            <p className="text-sm text-gray-300 mb-4">
               Những lời động viên và góp ý quý báu từ các bạn
             </p>
-            <div className="text-sm text-gray-400">
+            <div className="text-xs text-gray-400">
               <span className="hidden md:inline">Layout: 4 hàng × 5 tin (ngẫu nhiên)</span>
               <span className="md:hidden">Layout: 3 hàng × 3 tin (ngẫu nhiên)</span>
             </div>
@@ -205,17 +205,17 @@ export default function Home() {
                   className="rounded-lg w-full h-full object-cover"
                 />
               </div>
-              <p className="mt-4 text-gray-300">Đang tải tin nhắn...</p>
+              <p className="mt-4 text-gray-300 text-xs">Đang tải tin nhắn...</p>
             </div>
           ) : displayedMessages.length === 0 ? (
             <div className="text-center py-12">
               <div className="bg-gray-900/50 rounded-lg p-8 border border-gray-800">
                 <MessageSquare size={48} className="text-gray-500 mx-auto mb-4" />
-                <p className="text-gray-400 text-lg">Chưa có tin nhắn nào từ độc giả</p>
-                <p className="text-gray-500 mt-2">Hãy là người đầu tiên để lại tin nhắn!</p>
+                <p className="text-gray-400 text-sm">Chưa có tin nhắn nào từ độc giả</p>
+                <p className="text-gray-500 mt-2 text-xs">Hãy là người đầu tiên để lại tin nhắn!</p>
                 <Link
                   href="/contact"
-                  className="inline-block mt-4 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-medium transition-colors duration-200"
+                  className="inline-block mt-4 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-medium transition-colors duration-200 text-xs"
                 >
                   Gửi Tin Nhắn
                 </Link>
@@ -229,12 +229,12 @@ export default function Home() {
               {messages.length > displayedMessages.length && (
                 <div className="text-center mt-8">
                   <div className="bg-gray-900/50 rounded-lg p-6 border border-gray-800">
-                    <p className="text-gray-300 mb-3">
+                    <p className="text-gray-300 mb-3 text-xs">
                       Còn {messages.length - displayedMessages.length} tin nhắn khác
                     </p>
                     <Link
                       href="/contact"
-                      className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                      className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md text-xs font-medium transition-colors duration-200"
                     >
                       <MessageSquare size={16} />
                       Gửi Tin Nhắn Mới
@@ -249,15 +249,15 @@ export default function Home() {
         {/* Call to Action */}
         <div className="text-center">
           <div className="bg-gradient-to-r from-blue-900/20 to-purple-900/20 rounded-lg p-8 border border-gray-800">
-            <h3 className="text-xl sm:text-2xl font-bold text-white mb-4">
+            <h3 className="text-lg sm:text-xl font-bold text-white mb-4">
               Bạn có muốn để lại tin nhắn không?
             </h3>
-            <p className="text-gray-300 mb-6">
+            <p className="text-gray-300 mb-6 text-xs">
               Chia sẻ cảm nhận, góp ý hoặc đơn giản là lời động viên cho tôi
             </p>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+              className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 text-xs"
             >
               <MessageSquare size={20} />
               Gửi Tin Nhắn Ngay
@@ -273,7 +273,7 @@ export default function Home() {
             {/* Header */}
             <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-4 text-white">
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold flex items-center gap-2">
+                <h3 className="text-sm font-semibold flex items-center gap-2">
                   <MessageSquare size={20} />
                   Tin Nhắn từ {selectedMessage.name}
                 </h3>
@@ -289,7 +289,7 @@ export default function Home() {
             {/* Content */}
             <div className="p-6">
               <div className="mb-4">
-                <p className="text-gray-700 leading-relaxed text-sm">
+                <p className="text-gray-700 leading-relaxed text-xs">
                   {selectedMessage.content}
                 </p>
               </div>
@@ -305,7 +305,7 @@ export default function Home() {
             <div className="bg-gray-50 px-6 py-4 flex justify-center">
               <button
                 onClick={closePopup}
-                className="bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-8 rounded-md font-medium transition-colors duration-200"
+                className="bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-8 rounded-md font-medium transition-colors duration-200 text-xs"
               >
                 Đóng
               </button>

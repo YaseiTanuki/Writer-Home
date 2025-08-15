@@ -44,15 +44,15 @@ export default function AuthPage() {
         <div className="text-center">
           <div className="flex items-center justify-center gap-2 sm:gap-3 mb-6 sm:mb-8">
             <LogIn size={40} className="text-blue-400 sm:w-12 sm:h-12" />
-            <h1 className="text-2xl sm:text-3xl font-bold text-white">Chọn loại đăng nhập</h1>
+            <h1 className="text-sm sm:text-3xl font-bold text-white">Chọn loại đăng nhập</h1>
           </div>
           
-          <p className="text-base sm:text-lg text-gray-300 mb-8 sm:mb-12">
+          <p className="text-xs sm:text-lg text-gray-300 mb-8 sm:mb-12">
             Bạn muốn đăng nhập bằng cách nào?
           </p>
 
           {error && (
-            <div className="mb-4 sm:mb-6 bg-red-900/20 border border-red-700 text-red-400 px-3 sm:px-4 py-2.5 sm:py-3 rounded">
+            <div className="mb-4 sm:mb-6 bg-red-900/20 border border-red-700 text-red-400 px-3 sm:px-4 py-2.5 sm:py-3 rounded text-xs">
               {error}
             </div>
           )}
@@ -75,14 +75,14 @@ export default function AuthPage() {
                       className="rounded w-full h-full object-cover"
                     />
                   </div>
-                  <span className="text-sm sm:text-base">Đang xử lý...</span>
+                  <span className="text-xs sm:text-base">Đang xử lý...</span>
                 </>
               ) : (
                 <>
                   <Users size={28} className="sm:w-8 sm:h-8" />
                   <div className="text-left">
-                    <div className="text-lg sm:text-xl font-bold">Đăng nhập với Google</div>
-                    <div className="text-xs sm:text-sm opacity-90">Người dùng khách</div>
+                    <div className="text-sm sm:text-xl font-bold">Đăng nhập với Google</div>
+                    <div className="text-xs opacity-90">Người dùng khách</div>
                   </div>
                 </>
               )}
@@ -96,8 +96,8 @@ export default function AuthPage() {
             >
               <Shield size={28} className="sm:w-8 sm:h-8" />
               <div className="text-left">
-                <div className="text-lg sm:text-xl font-bold">Đăng nhập quản trị</div>
-                <div className="text-xs sm:text-sm opacity-90">Admin</div>
+                <div className="text-sm sm:text-xl font-bold">Đăng nhập quản trị</div>
+                <div className="text-xs opacity-90">Admin</div>
               </div>
             </button>
           </div>
@@ -108,7 +108,7 @@ export default function AuthPage() {
               className="text-gray-400 hover:text-white transition-colors duration-200 flex items-center justify-center gap-1.5 sm:gap-2"
             >
               <ArrowLeft size={14} className="sm:w-4 sm:h-4" />
-              <span className="text-sm sm:text-base">Quay về trang chủ</span>
+              <span className="text-xs sm:text-base">Quay về trang chủ</span>
             </Link>
           </div>
         </div>

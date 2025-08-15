@@ -127,7 +127,7 @@ export default function StoriesPage() {
                 className="rounded-lg w-full h-full object-cover"
               />
             </div>
-            <p className="mt-4 text-gray-300">Đang tải...</p>
+            <p className="mt-4 text-gray-300 text-xs">Đang tải...</p>
           </div>
         </div>
       </div>
@@ -141,10 +141,10 @@ export default function StoriesPage() {
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-blue-900 via-purple-900 to-indigo-900 rounded-lg shadow-2xl p-4 sm:p-6 mb-6 sm:mb-8 mx-4 sm:mx-0">
         <div className="text-center">
-          <h1 className="text-xl sm:text-3xl font-bold text-white mb-3">
+          <h1 className="text-lg sm:text-2xl font-bold text-white mb-3">
             Thư Viện Truyện
           </h1>
-          <p className="text-xs sm:text-sm text-gray-300">
+          <p className="text-xs text-gray-300">
             Khám phá những câu chuyện thú vị từ các tác giả tài năng
           </p>
         </div>
@@ -224,24 +224,24 @@ export default function StoriesPage() {
         {isLoading ? (
           <div className="text-center py-12 px-4 sm:px-0">
             <div className="bg-gray-900/50 rounded-lg p-8 border border-gray-800">
-              <div className="text-gray-400 text-lg mb-2">Đang tải...</div>
+              <div className="text-gray-400 text-sm mb-2">Đang tải...</div>
             </div>
           </div>
         ) : filteredStories.length === 0 ? (
           <div className="text-center py-12 px-4 sm:px-0">
             <div className="bg-gray-900/50 rounded-lg p-8 border border-gray-800">
               <BookOpen size={48} className="text-gray-500 mx-auto mb-4" />
-              <div className="text-gray-400 text-lg mb-2">
+              <div className="text-gray-400 text-sm mb-2">
                 {stories.length === 0 ? 'Chưa có truyện nào được xuất bản.' : 'Không tìm thấy truyện phù hợp với bộ lọc.'}
               </div>
               {searchTerm.trim() && (
-                <div className="text-gray-500 text-sm mb-4">
+                <div className="text-gray-500 text-xs mb-4">
                   Hãy thử điều chỉnh bộ lọc hoặc xóa một số điều kiện tìm kiếm.
                 </div>
               )}
               <button
                 onClick={clearFilters}
-                className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors text-xs"
               >
                 <Trash2 size={16} />
                 Xóa bộ lọc
@@ -254,8 +254,16 @@ export default function StoriesPage() {
             {isSearching && (
               <div className="absolute inset-0 bg-black/50 flex items-center justify-center z-10 rounded-lg">
                 <div className="bg-gray-800 p-4 rounded-lg">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto mb-2"></div>
-                  <p className="text-white text-sm">Đang tìm kiếm...</p>
+                  <div className="relative w-12 h-12 mx-auto mb-2">
+                    <Image
+                      src="/reading.gif"
+                      alt="Loading..."
+                      width={48}
+                      height={48}
+                      className="rounded-lg w-full h-full object-cover"
+                    />
+                  </div>
+                  <p className="text-white text-xs">Đang tìm kiếm...</p>
                 </div>
               </div>
             )}
@@ -299,7 +307,7 @@ export default function StoriesPage() {
                   {/* Story Info */}
                   <div className={`${viewMode === 'list' ? 'flex-1 py-3 pr-3' : 'p-3 lg:p-4'}`}>
                     <h3 className={`font-semibold text-white mb-2 group-hover:text-blue-400 transition-colors duration-200 leading-tight ${
-                      viewMode === 'list' ? 'text-sm' : 'text-sm lg:text-lg'
+                      viewMode === 'list' ? 'text-xs' : 'text-xs lg:text-sm'
                     }`}>
                       {story.title}
                     </h3>
@@ -380,7 +388,7 @@ export default function StoriesPage() {
                 <button
                   onClick={loadMoreStories}
                   disabled={isLoadingMore}
-                  className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                  className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-6 py-3 rounded-lg font-medium transition-colors text-xs"
                 >
                   {isLoadingMore ? (
                     <>
@@ -397,7 +405,7 @@ export default function StoriesPage() {
             )}
 
             {/* Pagination Info */}
-            <div className="text-center mt-4 text-sm text-gray-400">
+            <div className="text-center mt-4 text-xs text-gray-400">
               Trang {currentPage} / {totalPages} • Hiển thị {filteredStories.length} / {totalStories} truyện
             </div>
           </>
