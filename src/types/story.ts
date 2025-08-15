@@ -6,8 +6,12 @@ export interface Story {
   category: string[];
   coverImage: string;
   status: 'draft' | 'public';
+  author?: string;
+  likeCount?: number;
+  commentCount?: number;
+  viewCount?: number;
   createdAt: string;
-  updatedAt: string;
+  updatedAt?: string;
 }
 
 export interface Chapter {
@@ -16,8 +20,11 @@ export interface Chapter {
   title: string;
   content: string;
   chapterNumber: number;
+  likeCount?: number;
+  commentCount?: number;
+  viewCount?: number;
   createdAt: string;
-  updatedAt: string;
+  updatedAt?: string;
 }
 
 export interface Category {
