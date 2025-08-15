@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -10,6 +10,7 @@ import { Story, UpdateStoryRequest } from '../../../../../types/story';
 import TiptapEditor from '../../../../../component/TiptapEditor';
 import CategorySelector from '../../../../../component/CategorySelector';
 import Navigation from '../../../../../component/Navigation';
+import ImageUpload from '../../../../../component/ImageUpload';
 import { Edit3, BookOpen, Home, ArrowLeft } from 'lucide-react';
 
 interface EditStoryFormData {
@@ -31,6 +32,7 @@ export default function EditStoryPage() {
   const [isLoadingStory, setIsLoadingStory] = useState(true);
   const [error, setError] = useState('');
   const [story, setStory] = useState<Story | null>(null);
+  const imageUploadRef = useRef<{ uploadImage?: () => Promise<string> }>(null);
   
   const [formData, setFormData] = useState<EditStoryFormData>({
     title: '',
@@ -120,7 +122,7 @@ export default function EditStoryPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.title || !formData.description || formData.category.length === 0 || !formData.coverImage || !formData.content?.trim()) {
+    if (!formData.title || !formData.description || formData.category.length === 0 || !formData.content?.trim()) {
       setError('Vui lòng điền đầy đủ thông tin bắt buộc');
       return;
     }
@@ -129,9 +131,21 @@ export default function EditStoryPage() {
       setIsSubmitting(true);
       setError('');
       
+      // Upload image first if there's a selected file
+      let coverImageUrl = formData.coverImage;
+      if (imageUploadRef?.current?.uploadImage) {
+        try {
+          coverImageUrl = await imageUploadRef.current.uploadImage();
+        } catch (uploadError) {
+          setError('Không thể upload ảnh. Vui lòng thử lại.');
+          return;
+        }
+      }
+      
       // Convert form data to UpdateStoryRequest format
       const updateData: UpdateStoryRequest = {
-        ...formData
+        ...formData,
+        coverImage: coverImageUrl
       };
       
       await storyService.updateStory(storyId, updateData);
@@ -247,21 +261,12 @@ export default function EditStoryPage() {
             </div>
 
             {/* Cover Image */}
-            <div>
-              <label htmlFor="coverImage" className="block text-xs sm:text-sm font-medium text-gray-200 mb-1.5 sm:mb-2">
-                Ảnh bìa *
-              </label>
-              <input
-                type="url"
-                id="coverImage"
-                name="coverImage"
-                value={formData.coverImage}
-                onChange={handleInputChange}
-                className="w-full px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm md:text-base bg-gray-800 text-white placeholder-gray-400"
-                placeholder="Nhập URL ảnh bìa..."
-                required
-              />
-            </div>
+            <ImageUpload
+              ref={imageUploadRef}
+              currentImageUrl={formData.coverImage}
+              onImageChange={(imageUrl) => setFormData(prev => ({ ...prev, coverImage: imageUrl }))}
+              className="mb-4"
+            />
 
             {/* Status */}
             <div>

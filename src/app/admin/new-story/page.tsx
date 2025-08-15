@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useAuth } from '../../../contexts/AuthContext';
@@ -9,6 +9,7 @@ import { CreateStoryRequest } from '../../../types/story';
 import TiptapEditor from '../../../component/TiptapEditor';
 import CategorySelector from '../../../component/CategorySelector';
 import Navigation from '../../../component/Navigation';
+import ImageUpload from '../../../component/ImageUpload';
 import { Sparkles, Plus } from 'lucide-react';
 
 export default function NewStoryPage() {
@@ -26,6 +27,7 @@ export default function NewStoryPage() {
   });
 
   const [storyContent, setStoryContent] = useState('');
+  const imageUploadRef = useRef<{ uploadImage?: () => Promise<string> }>(null);
 
   // Redirect if not authenticated
   if (!isLoading && !isAuthenticated) {
@@ -62,7 +64,7 @@ export default function NewStoryPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.title || !formData.description || formData.category.length === 0 || !formData.coverImage || !storyContent.trim()) {
+    if (!formData.title || !formData.description || formData.category.length === 0 || !storyContent.trim()) {
       setError('Vui lòng điền đầy đủ thông tin bắt buộc');
       return;
     }
@@ -71,9 +73,21 @@ export default function NewStoryPage() {
       setIsSubmitting(true);
       setError('');
       
+      // Upload image first if there's a selected file
+      let coverImageUrl = formData.coverImage;
+      if (imageUploadRef?.current?.uploadImage) {
+        try {
+          coverImageUrl = await imageUploadRef.current.uploadImage();
+        } catch (uploadError) {
+          setError('Không thể upload ảnh. Vui lòng thử lại.');
+          return;
+        }
+      }
+      
       // Combine form data with story content
       const storyData = {
         ...formData,
+        coverImage: coverImageUrl,
         content: storyContent
       };
       
@@ -160,21 +174,12 @@ export default function NewStoryPage() {
             </div>
 
             {/* Cover Image */}
-            <div>
-              <label htmlFor="coverImage" className="block text-xs sm:text-sm font-medium text-gray-300 mb-1.5 sm:mb-2">
-                Ảnh bìa *
-              </label>
-              <input
-                type="url"
-                id="coverImage"
-                name="coverImage"
-                value={formData.coverImage}
-                onChange={handleInputChange}
-                className="w-full px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm md:text-base bg-gray-800 text-white placeholder-gray-400"
-                placeholder="Nhập URL ảnh bìa..."
-                required
-              />
-            </div>
+            <ImageUpload
+              ref={imageUploadRef}
+              currentImageUrl={formData.coverImage}
+              onImageChange={(imageUrl) => setFormData(prev => ({ ...prev, coverImage: imageUrl }))}
+              className="mb-4"
+            />
 
             {/* Status */}
             <div>
