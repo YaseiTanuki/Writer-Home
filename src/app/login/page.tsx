@@ -44,16 +44,7 @@ export default function LoginPage() {
             </h2>
           </div>
           <p className="text-center text-xs text-gray-300">
-            Hoặc{' '}
-            <Link href="/" className="font-medium text-blue-400 hover:text-blue-300 flex items-center justify-center gap-1.5 sm:gap-2 mt-2">
-              <Home size={14} className="sm:w-4 sm:h-4" />
-              quay về trang chủ
-            </Link>
-            <br />
-            <Link href="/contact" className="font-medium text-green-400 hover:text-green-300 flex items-center justify-center gap-1.5 sm:gap-2 mt-2">
-              <Mail size={14} className="sm:w-4 sm:h-4" />
-              quay về trang liên hệ
-            </Link>
+            Vui lòng đăng nhập để truy cập trang quản trị
           </p>
         </div>
 

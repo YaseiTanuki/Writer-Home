@@ -26,8 +26,8 @@ export default function AuthPage() {
         
         await signInWithGoogle();
         
-        // Redirect to contact page after successful Google login
-        router.push('/contact');
+        // Redirect to home page after successful Google login
+        router.push('/');
       } catch (error) {
         setError(error instanceof Error ? error.message : 'Google sign-in failed');
         setIsLoading(false);
@@ -80,7 +80,7 @@ export default function AuthPage() {
               ) : (
                 <>
                   <Users size={28} className="sm:w-8 sm:h-8" />
-                  <div className="text-left">
+                  <div className="text-center">
                     <div className="text-sm sm:text-xl font-bold">Đăng nhập với Google</div>
                     <div className="text-xs opacity-90">Người dùng khách</div>
                   </div>
@@ -92,10 +92,10 @@ export default function AuthPage() {
             <button
               onClick={() => handleSelectLoginType('admin')}
               disabled={isLoading}
-              className="w-full bg-purple-600 hover:bg-purple-700 disabled:bg-purple-800 text-white px-6 sm:px-8 py-4 sm:py-6 rounded-xl font-medium transition-colors duration-200 flex items-center gap-3 sm:gap-4 shadow-lg hover:shadow-xl"
+              className="w-full bg-purple-600 hover:bg-purple-700 disabled:bg-purple-800 text-white px-6 sm:px-8 py-4 sm:py-6 rounded-xl font-medium transition-colors duration-200 flex items-center justify-center gap-3 sm:gap-4 shadow-lg hover:shadow-xl"
             >
               <Shield size={28} className="sm:w-8 sm:h-8" />
-              <div className="text-left">
+              <div className="text-center">
                 <div className="text-sm sm:text-xl font-bold">Đăng nhập quản trị</div>
                 <div className="text-xs opacity-90">Admin</div>
               </div>
