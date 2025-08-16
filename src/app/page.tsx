@@ -125,7 +125,7 @@ export default function Home() {
         }}
         onClick={() => handleMessageClick(message)}
       >
-        <div className={`bg-gradient-to-br ${colorClass} p-4 sm:p-6 rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 relative min-h-[120px] sm:min-h-[140px]`}>
+        <div className={`bg-gradient-to-br ${colorClass} p-4 sm:p-6 rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 relative min-h-[120px] sm:min-h-[140px] flex flex-col`}>
           {/* Note pin effect */}
           <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-3 h-3 sm:w-4 sm:h-4 bg-red-500 rounded-full shadow-md"></div>
           
@@ -134,15 +134,15 @@ export default function Home() {
             {message.name}
           </div>
           
-          {/* Message content - main focus */}
-          <div className="text-center pt-8 sm:pt-10">
-            <p className="text-white/90 text-xs leading-relaxed line-clamp-4 sm:line-clamp-5">
+          {/* Message content - main focus with flex-grow to push date to bottom */}
+          <div className="text-center pt-8 sm:pt-10 flex-grow flex items-center justify-center">
+            <p className="text-white/90 text-xs leading-relaxed line-clamp-4 sm:line-clamp-5 break-words">
               {truncatedContent}
             </p>
           </div>
           
-          {/* Date */}
-          <div className="absolute bottom-2 right-2 text-white/60 text-xs">
+          {/* Date - now positioned at bottom without absolute positioning */}
+          <div className="text-white/60 text-xs text-center mt-2">
             {new Date(message.createdAt).toLocaleDateString('vi-VN')}
           </div>
           
