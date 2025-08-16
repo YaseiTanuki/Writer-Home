@@ -31,6 +31,20 @@ export default function AdminChapters() {
     }
   }, [isAuthenticated]);
 
+  // Debug logging khi dữ liệu thay đổi
+  useEffect(() => {
+    if (chapters.length > 0 && stories.length > 0) {
+      console.log('Chapters data:', chapters.map(c => ({ id: c._id, storyId: c.storyId, title: c.title })));
+      console.log('Stories data:', stories.map(s => ({ id: s._id, title: s.title })));
+      
+      // Kiểm tra các chương không liên kết
+      const orphanedChapters = chapters.filter(chapter => !isChapterLinkedToStory(chapter));
+      if (orphanedChapters.length > 0) {
+        console.log('Orphaned chapters:', orphanedChapters);
+      }
+    }
+  }, [chapters, stories]);
+
   const loadData = async () => {
     try {
       setIsLoadingData(true);
@@ -39,8 +53,38 @@ export default function AdminChapters() {
         storyService.getStories()
       ]);
       
+      console.log('Raw chapters response:', chaptersResponse);
+      console.log('Raw stories response:', storiesResponse);
+      
       setChapters(chaptersResponse.chapters);
       setStories(storiesResponse.stories);
+      
+      // Debug logging sau khi set state
+      setTimeout(() => {
+        console.log('State after setState - Chapters:', chaptersResponse.chapters);
+        console.log('State after setState - Stories:', storiesResponse.stories);
+        
+        // Kiểm tra cấu trúc dữ liệu
+        if (chaptersResponse.chapters && chaptersResponse.chapters.length > 0) {
+          const firstChapter = chaptersResponse.chapters[0];
+          console.log('First chapter structure:', {
+            _id: firstChapter._id,
+            storyId: firstChapter.storyId,
+            storyIdType: typeof firstChapter.storyId,
+            title: firstChapter.title
+          });
+        }
+        
+        if (storiesResponse.stories && storiesResponse.stories.length > 0) {
+          const firstStory = storiesResponse.stories[0];
+          console.log('First story structure:', {
+            _id: firstStory._id,
+            _idType: typeof firstStory._id,
+            title: firstStory.title
+          });
+        }
+      }, 100);
+      
     } catch (err) {
       console.error('Failed to load data:', err);
     } finally {
@@ -89,9 +133,99 @@ export default function AdminChapters() {
     setDeleteConfirm(null);
   };
 
-  const getStoryTitle = (storyId: string) => {
-    const story = stories.find(s => s._id === storyId);
-    return story ? story.title : 'Truyện đã bị xóa';
+  const getStoryTitle = (storyId: any) => {
+    if (!storyId) return 'Không có truyện';
+    
+    // Debug logging
+    console.log('Looking for storyId:', storyId, 'Type:', typeof storyId);
+    console.log('Available stories:', stories.map(s => ({ id: s._id, idType: typeof s._id, title: s.title })));
+    
+    // Xử lý trường hợp storyId là object (MongoDB ObjectId)
+    let actualStoryId = storyId;
+    if (typeof storyId === 'object' && storyId !== null) {
+      // Nếu storyId là object, lấy _id từ nó
+      if (storyId._id) {
+        actualStoryId = storyId._id;
+        console.log('Extracted _id from storyId object:', actualStoryId);
+      } else {
+        // Nếu không có _id, thử toString()
+        actualStoryId = storyId.toString();
+        console.log('Converted storyId object to string:', actualStoryId);
+      }
+    }
+    
+    // Thử tìm kiếm với nhiều cách khác nhau
+    let story = stories.find(s => s._id === actualStoryId);
+    console.log('Direct match result:', story);
+    
+    if (!story) {
+      // Thử với string conversion
+      story = stories.find(s => String(s._id) === String(actualStoryId));
+      console.log('String conversion match result:', story);
+    }
+    
+    if (!story) {
+      // Thử với toString() method
+      story = stories.find(s => s._id.toString() === actualStoryId.toString());
+      console.log('toString() match result:', story);
+    }
+    
+    if (!story) {
+      // Thử với loose comparison
+      story = stories.find(s => s._id == actualStoryId);
+      console.log('Loose comparison match result:', story);
+    }
+    
+    if (!story) {
+      // Kiểm tra xem có phải do dữ liệu chưa load xong không
+      if (isLoadingData) return 'Đang tải...';
+      
+      // Log tất cả các storyId có sẵn để debug
+      const availableStoryIds = stories.map(s => s._id);
+      console.log('Available story IDs:', availableStoryIds);
+      console.log('Looking for ID:', actualStoryId);
+      console.log('StoryId exists in available IDs:', availableStoryIds.includes(actualStoryId));
+      
+      return 'Truyện không tồn tại';
+    }
+    
+    console.log('Final found story:', story);
+    return story.title;
+  };
+
+  // Helper function để extract storyId từ chapter
+  const extractStoryId = (storyId: any): string => {
+    if (!storyId) return '';
+    
+    if (typeof storyId === 'object' && storyId !== null) {
+      if (storyId._id) {
+        return storyId._id;
+      } else {
+        return storyId.toString();
+      }
+    }
+    
+    return String(storyId);
+  };
+
+  // Helper function để kiểm tra xem chương có liên kết với truyện không
+  const isChapterLinkedToStory = (chapter: Chapter) => {
+    if (!chapter.storyId) return false;
+    
+    const actualStoryId = extractStoryId(chapter.storyId);
+    
+    // Thử nhiều cách so sánh khác nhau
+    const hasDirectMatch = stories.some(story => story._id === actualStoryId);
+    if (hasDirectMatch) return true;
+    
+    const hasStringMatch = stories.some(story => String(story._id) === String(actualStoryId));
+    if (hasStringMatch) return true;
+    
+    const hasToStringMatch = stories.some(story => story._id.toString() === actualStoryId.toString());
+    if (hasToStringMatch) return true;
+    
+    const hasLooseMatch = stories.some(story => story._id == actualStoryId);
+    return hasLooseMatch;
   };
 
   if (isLoading || !isAuthenticated) {
@@ -134,19 +268,84 @@ export default function AdminChapters() {
                 </p>
               </div>
             </div>
-            <Link
-              href="/admin/new-chapter"
-              className="bg-green-600 hover:bg-green-700 text-white px-3 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-colors duration-200 text-xs sm:text-sm flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto justify-center"
-            >
-              <Plus size={16} className="sm:w-[18px]" />
-              <span className="hidden sm:inline">Tạo Chương Mới</span>
-              <span className="sm:hidden">Tạo Chương</span>
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+              {/* Clean up orphaned chapters button */}
+              {chapters.some(chapter => !isChapterLinkedToStory(chapter)) && (
+                <button
+                  onClick={() => {
+                    const orphanedChapters = chapters.filter(chapter => !isChapterLinkedToStory(chapter));
+                    if (confirm(`Bạn có chắc chắn muốn xóa ${orphanedChapters.length} chương không liên kết với truyện nào?`)) {
+                      // Xóa các chương không liên kết
+                      orphanedChapters.forEach(chapter => {
+                        storyService.deleteChapter(chapter._id);
+                      });
+                      // Reload data
+                      loadData();
+                    }
+                  }}
+                  className="bg-red-600 hover:bg-red-700 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-lg font-medium transition-colors duration-200 text-xs sm:text-sm flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto justify-center"
+                >
+                  <Trash2 size={16} className="sm:w-[18px]" />
+                  <span className="hidden sm:inline">Dọn dẹp chương lỗi</span>
+                  <span className="sm:hidden">Dọn dẹp</span>
+                </button>
+              )}
+              <Link
+                href="/admin/new-chapter"
+                className="bg-green-600 hover:bg-green-700 text-white px-3 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-colors duration-200 text-xs sm:text-sm flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto justify-center"
+              >
+                <Plus size={16} className="sm:w-[18px]" />
+                <span className="hidden sm:inline">Tạo Chương Mới</span>
+                <span className="sm:hidden">Tạo Chương</span>
+              </Link>
+            </div>
           </div>
         </div>
 
+        {/* Debug Panel - Temporary */}
+        {process.env.NODE_ENV === 'development' && (
+          <div className="bg-gray-800 border border-gray-700 rounded-lg p-4 mb-4">
+            <h3 className="text-sm font-medium text-white mb-2">Debug Info</h3>
+            <div className="text-xs text-gray-300 space-y-1">
+              <p>Chapters count: {chapters.length}</p>
+              <p>Stories count: {stories.length}</p>
+              <p>Loading: {isLoadingData ? 'Yes' : 'No'}</p>
+              {chapters.length > 0 && (
+                <div>
+                  <p>First chapter storyId: {String(chapters[0].storyId)} (Type: {typeof chapters[0].storyId})</p>
+                  {typeof chapters[0].storyId === 'object' && chapters[0].storyId && (
+                    <p>StoryId object details: {JSON.stringify(chapters[0].storyId)}</p>
+                  )}
+                </div>
+              )}
+              {stories.length > 0 && (
+                <p>First story _id: {String(stories[0]._id)} (Type: {typeof stories[0]._id})</p>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* Chapters List - Mobile Optimized */}
         <div className="space-y-3 sm:space-y-4">
+          {/* Warning for orphaned chapters */}
+          {chapters.some(chapter => !isChapterLinkedToStory(chapter)) && (
+            <div className="bg-yellow-900/20 border border-yellow-800 rounded-lg p-3 sm:p-4">
+              <div className="flex items-start">
+                <div className="flex-shrink-0">
+                  <svg className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <div className="ml-2 sm:ml-3">
+                  <h3 className="text-xs sm:text-sm font-medium text-yellow-400">Cảnh báo</h3>
+                  <div className="mt-1 sm:mt-2 text-xs sm:text-sm text-yellow-300">
+                    <p>Có một số chương không liên kết với truyện nào. Vui lòng kiểm tra và xóa các chương này để tránh lỗi.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+          
           {chapters.map((chapter) => (
             <div key={chapter._id} className="bg-gray-900 rounded-lg border border-gray-800 p-4 sm:p-6 hover:bg-gray-800 transition-colors duration-200">
               <div className="flex items-start gap-3 sm:gap-4">
@@ -169,7 +368,13 @@ export default function AdminChapters() {
                       {/* Story Title */}
                       <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-400 mb-2">
                         <BookOpen size={14} className="sm:w-4" />
-                        <span className="truncate">{getStoryTitle(chapter.storyId as string)}</span>
+                        <span className={`truncate ${
+                          !isChapterLinkedToStory(chapter)
+                            ? 'text-red-400' 
+                            : 'text-gray-400'
+                        }`}>
+                          {getStoryTitle(chapter.storyId)}
+                        </span>
                       </div>
                       
                       {/* Date */}
