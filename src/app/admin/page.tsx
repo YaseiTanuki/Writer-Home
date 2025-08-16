@@ -16,6 +16,8 @@ export default function AdminDashboard() {
   const [stories, setStories] = useState<Story[]>([]);
   const [chapters, setChapters] = useState<Chapter[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [messagesCount, setMessagesCount] = useState(0);
+  const [usersCount, setUsersCount] = useState(0);
   const [isLoadingData, setIsLoadingData] = useState(true);
 
   useEffect(() => {
@@ -33,15 +35,19 @@ export default function AdminDashboard() {
   const loadDashboardData = async () => {
     try {
       setIsLoadingData(true);
-      const [storiesResponse, chaptersResponse, categoriesResponse] = await Promise.all([
+      const [storiesResponse, chaptersResponse, categoriesResponse, messagesResponse, usersResponse] = await Promise.all([
         storyService.getStories(),
         storyService.getAllChapters(),
-        storyService.getCategories()
+        storyService.getCategories(),
+        storyService.getMessages(),
+        storyService.getUsers()
       ]);
       
       setStories(storiesResponse.stories);
       setChapters(chaptersResponse.chapters);
       setCategories(categoriesResponse.categories);
+      setMessagesCount(messagesResponse.count);
+      setUsersCount(usersResponse.count);
     } catch (err) {
       console.error('Failed to load dashboard data:', err);
     } finally {
@@ -207,7 +213,7 @@ export default function AdminDashboard() {
                 <Mail size={24} className="text-yellow-400" />
               </div>
               <div className="text-right">
-                <div className="text-2xl font-bold text-yellow-400">-</div>
+                <div className="text-2xl font-bold text-yellow-400">{messagesCount}</div>
                 <div className="text-xs text-gray-400">tin nhắn</div>
               </div>
             </div>
@@ -231,37 +237,13 @@ export default function AdminDashboard() {
                 <Users size={24} className="text-red-400" />
               </div>
               <div className="text-right">
-                <div className="text-2xl font-bold text-red-400">-</div>
+                <div className="text-2xl font-bold text-red-400">{usersCount}</div>
                 <div className="text-xs text-gray-400">người dùng</div>
               </div>
             </div>
             <h3 className="text-lg font-semibold text-white mb-2">Quản Lý Người Dùng</h3>
             <p className="text-sm text-gray-300 mb-4">Xem và quản lý tài khoản người dùng</p>
             <div className="flex items-center text-red-400 text-sm group-hover:text-red-300 transition-colors duration-300">
-              Xem chi tiết
-              <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </div>
-          </Link>
-
-          {/* Analytics */}
-          <Link 
-            href="/admin/analytics"
-            className="group bg-gray-900 rounded-lg p-6 border border-gray-800 hover:border-indigo-600 transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/20"
-          >
-            <div className="flex items-center justify-between mb-4">
-              <div className="p-3 bg-indigo-900/20 rounded-lg group-hover:bg-indigo-900/30 transition-colors duration-300">
-                <BarChart3 size={24} className="text-indigo-400" />
-              </div>
-              <div className="text-right">
-                <div className="text-2xl font-bold text-indigo-400">-</div>
-                <div className="text-xs text-gray-400">thống kê</div>
-              </div>
-            </div>
-            <h3 className="text-lg font-semibold text-white mb-2">Thống Kê & Báo Cáo</h3>
-            <p className="text-sm text-gray-300 mb-4">Xem thống kê và báo cáo hệ thống</p>
-            <div className="flex items-center text-indigo-400 text-sm group-hover:text-indigo-300 transition-colors duration-300">
               Xem chi tiết
               <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
