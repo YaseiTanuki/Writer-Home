@@ -163,45 +163,50 @@ export default function AdminMessages() {
   }
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-gray-900 text-white">
       <Navigation />
       
-      {/* Main Content */}
-      <div className="pt-16 md:pt-24 max-w-7xl mx-auto px-2 sm:px-4 py-4 sm:py-6">
+      <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-6">
         {/* Header */}
-        <div className="mb-4 sm:mb-6 px-2 sm:px-4">
-          <div className="flex items-center gap-3 sm:gap-4">
-            <Link
-              href="/admin"
-              className="p-1.5 sm:p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors duration-200"
-            >
-              <ArrowLeft size={18} className="text-gray-300" />
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 mb-4 sm:mb-6">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <Link href="/admin" className="inline-flex items-center justify-center p-2 text-gray-400 hover:text-white transition-colors duration-200">
+              <ArrowLeft size={20} className="sm:w-6" />
             </Link>
-            <div>
-              <h1 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2 sm:gap-3">
-                <Mail size={24} className="text-yellow-400" />
-                <span className="hidden sm:inline">Quản Lý Tin Nhắn</span>
-                <span className="sm:hidden">Tin Nhắn</span>
-              </h1>
-              <p className="text-xs sm:text-sm text-gray-300 mt-1">
-                Tổng cộng {messages.length} tin nhắn • {getUnreadCount()} chưa đọc
-              </p>
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                <Mail size={16} className="sm:w-5 text-white" />
+              </div>
+              <div>
+                <h1 className="text-lg sm:text-2xl font-bold text-blue-400">Góc Truyện</h1>
+                <p className="text-xs sm:text-sm text-gray-400">Quản lý tin nhắn</p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="text-right">
+              <p className="text-xs sm:text-sm text-gray-400">Tổng tin nhắn</p>
+              <p className="text-lg sm:text-xl font-bold text-blue-400">{messages.length}</p>
+            </div>
+            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gray-700 rounded-full flex items-center justify-center">
+              <span className="text-xs sm:text-sm font-medium text-white">N</span>
             </div>
           </div>
         </div>
 
-        {/* Messages List - Mobile Optimized */}
-        <div className="space-y-3 sm:space-y-4">
+        {/* Messages List */}
+        <div className="space-y-3 sm:space-y-4 px-1 sm:px-4">
           {messages.map((message) => (
-            <div key={message._id} className="bg-gray-900 rounded-lg border border-gray-800 p-4 sm:p-6 hover:bg-gray-800 transition-colors duration-200">
-              <div className="flex items-start gap-3 sm:gap-4">
+            <div key={message._id} className="bg-gray-800 rounded-lg border border-gray-700 p-3 sm:p-4">
+              <div className="flex items-start gap-2 sm:gap-4">
                 {/* Avatar */}
                 <div className="flex-shrink-0">
                   {message.guestPicture ? (
                     <img 
                       src={message.guestPicture} 
                       alt={message.guestName || message.name}
-                      className="h-16 w-16 sm:h-20 sm:w-20 rounded-full object-cover"
+                      className="h-10 w-10 sm:h-16 sm:w-16 rounded-full object-cover"
                       onError={(e) => {
                         // Fallback to default avatar if image fails to load
                         e.currentTarget.style.display = 'none';
@@ -211,8 +216,8 @@ export default function AdminMessages() {
                     />
                   ) : null}
                   {/* Fallback avatar */}
-                  <div className={`h-16 w-16 sm:h-20 sm:w-20 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center ${message.guestPicture ? 'hidden' : ''}`}>
-                    <User size={20} className="text-white sm:w-6" />
+                  <div className={`h-10 w-10 sm:h-16 sm:w-16 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center ${message.guestPicture ? 'hidden' : ''}`}>
+                    <User size={14} className="text-white sm:w-5" />
                   </div>
                 </div>
 
@@ -231,7 +236,7 @@ export default function AdminMessages() {
                       
                       {/* Date */}
                       <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-400">
-                        <Calendar size={14} className="sm:w-4" />
+                        <Calendar size={12} className="sm:w-4" />
                         <span>{new Date(message.createdAt).toLocaleDateString('vi-VN')}</span>
                       </div>
                     </div>
@@ -250,39 +255,53 @@ export default function AdminMessages() {
                   </div>
 
                   {/* Action Buttons */}
-                  <div className="flex items-center gap-2 sm:gap-3 mt-3 sm:mt-4">
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-3 sm:mt-4">
                     <button
                       onClick={() => setSelectedMessage(message)}
-                      className="inline-flex items-center justify-center gap-1 px-3 py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+                      className="inline-flex items-center justify-center gap-1 px-2 py-1.5 sm:px-3 sm:py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
                     >
-                      <MessageSquare size={14} className="sm:w-4" />
+                      <MessageSquare size={12} className="sm:w-4" />
                       <span className="hidden sm:inline">Xem</span>
                       <span className="sm:hidden">Xem</span>
                     </button>
+                    
                     {!message.reply && isReplying !== message._id && (
                       <button
                         onClick={() => setIsReplying(message._id)}
-                        className="inline-flex items-center justify-center gap-1 px-3 py-2 border border-green-600 text-xs sm:text-sm font-medium rounded-md text-green-400 bg-gray-800 hover:bg-green-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200"
+                        className="inline-flex items-center justify-center gap-1 px-2 py-1.5 sm:px-3 sm:py-2 border border-green-600 text-xs sm:text-sm font-medium rounded-md text-green-400 bg-gray-800 hover:bg-green-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200"
                       >
-                        <Reply size={14} className="sm:w-4" />
+                        <Reply size={12} className="sm:w-4" />
                         <span className="hidden sm:inline">Trả lời</span>
                         <span className="sm:hidden">TL</span>
                       </button>
                     )}
                     
-                    {isReplying === message._id && (
-                      <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => handleDeleteMessage(message._id, message.name)}
+                      className="inline-flex items-center justify-center gap-1 px-2 py-1.5 sm:px-3 sm:py-2 border border-red-600 text-xs sm:text-sm font-medium rounded-md text-red-400 bg-gray-800 hover:bg-red-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
+                    >
+                      <Trash2 size={12} className="sm:w-4" />
+                      <span className="hidden sm:inline">Xóa</span>
+                      <span className="sm:hidden">Xóa</span>
+                    </button>
+                  </div>
+                  
+                  {/* Reply Section */}
+                  {isReplying === message._id && (
+                    <div className="w-full mt-3">
+                      {/* Reply Section - Desktop */}
+                      <div className="hidden sm:flex items-center gap-2">
                         <textarea
                           value={replyText}
                           onChange={(e) => setReplyText(e.target.value)}
                           placeholder="Nhập nội dung trả lời..."
-                          className="flex-1 px-2 py-1 bg-gray-800 border border-gray-600 rounded-md text-white text-xs placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                          className="flex-1 px-3 py-2 bg-gray-800 border border-gray-600 rounded-md text-white text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                           rows={2}
                         />
                         <button
                           onClick={() => handleReply(message._id)}
                           disabled={!replyText.trim()}
-                          className="px-2 py-1 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white text-xs font-medium rounded-md transition-colors duration-200"
+                          className="px-3 py-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white text-sm font-medium rounded-md transition-colors duration-200"
                         >
                           Gửi
                         </button>
@@ -291,21 +310,69 @@ export default function AdminMessages() {
                             setIsReplying(null);
                             setReplyText('');
                           }}
-                          className="px-2 py-1 border border-gray-600 text-gray-300 text-xs font-medium rounded-md hover:bg-gray-700 transition-colors duration-200"
+                          className="px-3 py-2 border border-gray-600 text-gray-300 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors duration-200"
                         >
                           Hủy
                         </button>
                       </div>
-                    )}
-                    <button
-                      onClick={() => handleDeleteMessage(message._id, message.name)}
-                      className="inline-flex items-center justify-center gap-1 px-3 py-2 border border-red-600 text-xs sm:text-sm font-medium rounded-md text-red-400 bg-gray-800 hover:bg-red-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
-                    >
-                      <Trash2 size={14} className="sm:w-4" />
-                      <span className="hidden sm:inline">Xóa</span>
-                      <span className="sm:hidden">Xóa</span>
-                    </button>
-                  </div>
+                      
+                      {/* Reply Section - Mobile (Modal) */}
+                      <div className="sm:hidden">
+                        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50 p-4">
+                          <div className="relative p-4 border w-full max-w-md max-h-full">
+                            <div className="relative bg-gray-900 rounded-lg shadow border border-gray-800">
+                              <div className="p-4">
+                                <div className="flex items-center justify-between mb-4">
+                                  <h3 className="text-lg font-medium text-white">Trả lời tin nhắn</h3>
+                                  <button
+                                    onClick={() => {
+                                      setIsReplying(null);
+                                      setReplyText('');
+                                    }}
+                                    className="text-gray-400 hover:text-gray-300"
+                                  >
+                                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                  </button>
+                                </div>
+                                
+                                <div className="mb-4">
+                                  <label className="block text-sm font-medium text-gray-300 mb-2">Nội dung trả lời:</label>
+                                  <textarea
+                                    value={replyText}
+                                    onChange={(e) => setReplyText(e.target.value)}
+                                    placeholder="Nhập nội dung trả lời..."
+                                    className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md text-white text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                    rows={4}
+                                  />
+                                </div>
+                                
+                                <div className="flex justify-end gap-3">
+                                  <button
+                                    onClick={() => {
+                                      setIsReplying(null);
+                                      setReplyText('');
+                                    }}
+                                    className="px-4 py-2 border border-gray-600 text-gray-300 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors duration-200"
+                                  >
+                                    Hủy
+                                  </button>
+                                  <button
+                                    onClick={() => handleReply(message._id)}
+                                    disabled={!replyText.trim()}
+                                    className="px-4 py-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white text-sm font-medium rounded-md transition-colors duration-200"
+                                  >
+                                    Gửi
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -322,7 +389,7 @@ export default function AdminMessages() {
         )}
 
         {/* Info Box */}
-        <div className="mt-4 sm:mt-6 px-2 sm:px-4">
+        <div className="mt-4 sm:mt-6 px-1 sm:px-4">
           <div className="bg-yellow-900/20 border border-yellow-800 rounded-lg p-3 sm:p-4">
             <div className="flex items-start">
               <div className="flex-shrink-0">
@@ -332,7 +399,7 @@ export default function AdminMessages() {
               </div>
               <div className="ml-2 sm:ml-3">
                 <h3 className="text-xs sm:text-sm font-medium text-yellow-400">Quản lý tin nhắn</h3>
-                <div className="mt-1 sm:mt-2 text-xs sm:text-sm text-yellow-300">
+                <div className="mt-1 sm:mt-2 text-xs sm:text-sm text-yellow-300 space-y-1">
                   <p>• Tin nhắn chưa đọc sẽ được đánh dấu màu đỏ</p>
                   <p>• Đánh dấu "Đã trả lời" khi bạn đã phản hồi người gửi</p>
                   <p>• Xóa tin nhắn không còn cần thiết để giữ gọn hộp thư</p>
@@ -359,7 +426,7 @@ export default function AdminMessages() {
                           alert(`API Test Error: ${error}`);
                         }
                       }}
-                      className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-xs"
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 sm:px-3 sm:py-1 rounded text-xs"
                     >
                       Test API
                     </button>
