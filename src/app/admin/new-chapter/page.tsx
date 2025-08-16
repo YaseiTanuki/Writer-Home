@@ -178,7 +178,7 @@ export default function NewChapterPage() {
           </div>
         </div>
 
-        <div className="bg-gray-900 rounded-lg shadow-lg border border-gray-700 p-3 sm:p-4 md:p-6">
+        <div className="p-3 sm:p-4 md:p-6">
           {error && (
             <div className="mb-4 sm:mb-6 p-2 sm:p-3 md:p-4 rounded-md bg-red-900/20 border border-red-700 text-red-300">
               {error}

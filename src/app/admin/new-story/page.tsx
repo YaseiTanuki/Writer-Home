@@ -124,7 +124,7 @@ export default function NewStoryPage() {
           </div>
         </div>
 
-        <div className="bg-gray-900 rounded-lg shadow-lg border border-gray-700 p-4 mx-0">
+        <div className="p-4 mx-0">
           {error && (
             <div className="mb-4 p-3 rounded-md bg-red-900/20 border border-red-700 text-red-300 text-xs">
               {error}

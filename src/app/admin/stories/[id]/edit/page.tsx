@@ -219,7 +219,7 @@ export default function EditStoryPage() {
           </div>
         </div>
 
-        <div className="bg-gray-900 rounded-lg shadow-lg border border-gray-700 p-3 sm:p-4 md:p-6">
+        <div className="p-3 sm:p-4 md:p-6">
           <div className="mb-4 p-3 rounded-md bg-blue-900/20 border border-blue-700 text-blue-300">
             <p className="font-medium text-xs">Đang chỉnh sửa truyện: {story.title}</p>
           </div>

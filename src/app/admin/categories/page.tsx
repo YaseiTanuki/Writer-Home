@@ -279,33 +279,31 @@ export default function AdminCategories() {
       {deleteConfirm && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50 p-4">
           <div className="relative p-4 sm:p-8 border w-full max-w-md max-h-full">
-            <div className="relative bg-gray-900 rounded-lg shadow border border-gray-800">
-              <div className="p-4 sm:p-6 text-center">
-                <svg className="mx-auto mb-4 text-red-400 w-10 h-10 sm:w-12 sm:h-12" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
-                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 5v10a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3h.08a3 3 0 0 0 2.92 2h2.08a3 3 0 0 0 2.92-2H15a3 3 0 0 1 3 3Z" />
-                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 11V6a3 3 0 1 1 6 0v5a3 3 0 1 1-6 0Z" />
-                </svg>
-                <h3 className="mb-3 sm:mb-5 text-base sm:text-lg font-normal text-white">
-                  Bạn có chắc chắn muốn xóa thể loại "{deleteConfirm.name}" không?
-                </h3>
-                <p className="mb-3 sm:mb-4 text-xs sm:text-sm text-gray-300">
-                  Hành động này không thể hoàn tác.
-                </p>
-                <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-4">
-                  <button
-                    onClick={confirmDelete}
-                    className="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-800 font-medium rounded-lg text-xs sm:text-sm px-4 sm:px-5 py-2 sm:py-2.5 text-center"
-                    disabled={isDeleting === deleteConfirm.id}
-                  >
-                    {isDeleting === deleteConfirm.id ? 'Đang xóa...' : 'Xóa'}
-                  </button>
-                  <button
-                    onClick={cancelDelete}
-                    className="text-gray-300 bg-gray-800 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-600 font-medium rounded-lg text-xs sm:text-sm px-4 sm:px-5 py-2 sm:py-2.5 text-center border border-gray-600"
-                  >
-                    Hủy
-                  </button>
-                </div>
+            <div className="relative p-4 sm:p-6 text-center">
+              <svg className="mx-auto mb-4 text-red-400 w-10 h-10 sm:w-12 sm:h-12" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 5v10a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3h.08a3 3 0 0 0 2.92 2h2.08a3 3 0 0 0 2.92-2H15a3 3 0 0 1 3 3Z" />
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 11V6a3 3 0 1 1 6 0v5a3 3 0 1 1-6 0Z" />
+              </svg>
+              <h3 className="mb-3 sm:mb-5 text-base sm:text-lg font-normal text-white">
+                Bạn có chắc chắn muốn xóa thể loại "{deleteConfirm.name}" không?
+              </h3>
+              <p className="mb-3 sm:mb-4 text-xs sm:text-sm text-gray-300">
+                Hành động này không thể hoàn tác.
+              </p>
+              <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-4">
+                <button
+                  onClick={confirmDelete}
+                  className="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-800 font-medium rounded-lg text-xs sm:text-sm px-4 sm:px-5 py-2 sm:py-2.5 text-center"
+                  disabled={isDeleting === deleteConfirm.id}
+                >
+                  {isDeleting === deleteConfirm.id ? 'Đang xóa...' : 'Xóa'}
+                </button>
+                <button
+                  onClick={cancelDelete}
+                  className="text-gray-300 bg-gray-800 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-600 font-medium rounded-lg text-xs sm:text-sm px-4 sm:px-5 py-2 sm:py-2.5 text-center border border-gray-600"
+                >
+                  Hủy
+                </button>
               </div>
             </div>
           </div>
