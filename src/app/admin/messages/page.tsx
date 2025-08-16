@@ -3,19 +3,11 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Mail, Edit3, Trash2, ArrowLeft, User, Clock, MessageSquare, Calendar } from 'lucide-react';
+import { Mail, Edit3, Trash2, ArrowLeft, User, Clock, MessageSquare, Calendar, Reply, Send } from 'lucide-react';
 import { useAuth } from '../../../contexts/AuthContext';
 import Navigation from '../../../component/Navigation';
-
-interface Message {
-  _id: string;
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-  createdAt: string;
-  status: 'unread' | 'read' | 'replied';
-}
+import { storyService } from '../../../services/storyService';
+import { Message } from '../../../types/story';
 
 export default function AdminMessages() {
   const { user, isAuthenticated, isLoading } = useAuth();
@@ -23,9 +15,11 @@ export default function AdminMessages() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
-  const [deleteConfirm, setDeleteConfirm] = useState<{ id: string; subject: string } | null>(null);
+  const [deleteConfirm, setDeleteConfirm] = useState<{ id: string; name: string } | null>(null);
   const [notification, setNotification] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
+  const [replyText, setReplyText] = useState('');
+  const [isReplying, setIsReplying] = useState<string | null>(null);
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -42,47 +36,21 @@ export default function AdminMessages() {
   const loadData = async () => {
     try {
       setIsLoadingData(true);
-      // Mock data for now - replace with actual API call
-      const mockMessages: Message[] = [
-        {
-          _id: '1',
-          name: 'Nguyễn Văn A',
-          email: 'nguyenvana@example.com',
-          subject: 'Góp ý về truyện mới',
-          message: 'Tôi rất thích truyện mới của bạn. Có thể cho thêm nhiều chương không?',
-          createdAt: new Date().toISOString(),
-          status: 'unread'
-        },
-        {
-          _id: '2',
-          name: 'Trần Thị B',
-          email: 'tranthib@example.com',
-          subject: 'Báo lỗi trang web',
-          message: 'Trang web bị lỗi khi tôi đọc chương 5 của truyện "Cuộc phiêu lưu".',
-          createdAt: new Date(Date.now() - 86400000).toISOString(),
-          status: 'read'
-        },
-        {
-          _id: '3',
-          name: 'Lê Văn C',
-          email: 'levanc@example.com',
-          subject: 'Đề xuất thể loại mới',
-          message: 'Bạn có thể thêm thể loại "Khoa học viễn tưởng" không?',
-          createdAt: new Date(Date.now() - 172800000).toISOString(),
-          status: 'replied'
-        }
-      ];
-      
-      setMessages(mockMessages);
+      const response = await storyService.getMessages();
+      setMessages(response.messages);
     } catch (err) {
       console.error('Failed to load data:', err);
+      setNotification({ 
+        type: 'error', 
+        message: 'Không thể tải dữ liệu tin nhắn!' 
+      });
     } finally {
       setIsLoadingData(false);
     }
   };
 
-  const handleDeleteMessage = async (messageId: string, subject: string) => {
-    setDeleteConfirm({ id: messageId, subject });
+  const handleDeleteMessage = async (messageId: string, name: string) => {
+    setDeleteConfirm({ id: messageId, name });
   };
 
   const confirmDelete = async () => {
@@ -122,48 +90,63 @@ export default function AdminMessages() {
     setDeleteConfirm(null);
   };
 
-  const markAsRead = async (messageId: string) => {
-    setMessages(prev => prev.map(msg => 
-      msg._id === messageId ? { ...msg, status: 'read' as const } : msg
-    ));
+  const handleReply = async (messageId: string) => {
+    if (!replyText.trim()) return;
+    
+    try {
+      console.log('Sending reply:', { messageId, reply: replyText });
+      setIsReplying('loading');
+      const response = await storyService.replyMessage(messageId, replyText);
+      console.log('Reply response:', response);
+      
+      // Reload data to get the latest state from database
+      await loadData();
+      
+      setReplyText('');
+      setIsReplying(null);
+      
+      setNotification({ 
+        type: 'success', 
+        message: 'Đã trả lời tin nhắn thành công!' 
+      });
+      
+      // Auto hide notification after 3 seconds
+      setTimeout(() => setNotification(null), 3000);
+    } catch (err) {
+      console.error('Failed to reply to message:', err);
+      const errorMessage = err instanceof Error ? err.message : 'Có lỗi xảy ra khi trả lời';
+      setNotification({ 
+        type: 'error', 
+        message: `Lỗi: ${errorMessage}` 
+      });
+      
+      // Auto hide error notification after 5 seconds
+      setTimeout(() => setNotification(null), 5000);
+    } finally {
+      setIsReplying(null);
+    }
   };
 
-  const markAsReplied = async (messageId: string) => {
-    setMessages(prev => prev.map(msg => 
-      msg._id === messageId ? { ...msg, status: 'replied' as const } : msg
-    ));
-  };
-
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case 'unread':
-        return (
-          <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-semibold rounded-full bg-red-900/20 text-red-400 border border-red-700">
-            <span className="hidden sm:inline">Chưa đọc</span>
-            <span className="sm:hidden">Mới</span>
-          </span>
-        );
-      case 'read':
-        return (
-          <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-semibold rounded-full bg-yellow-900/20 text-yellow-400 border border-yellow-700">
-            <span className="hidden sm:inline">Đã đọc</span>
-            <span className="sm:hidden">Đã đọc</span>
-          </span>
-        );
-      case 'replied':
-        return (
-          <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-semibold rounded-full bg-green-900/20 text-green-400 border border-green-700">
-            <span className="hidden sm:inline">Đã trả lời</span>
-            <span className="sm:hidden">Đã TL</span>
-          </span>
-        );
-      default:
-        return null;
+  const getStatusBadge = (message: Message) => {
+    if (message.reply) {
+      return (
+        <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-semibold rounded-full bg-green-900/20 text-green-400 border border-green-700">
+          <span className="hidden sm:inline">Đã trả lời</span>
+          <span className="sm:hidden">Đã TL</span>
+        </span>
+      );
+    } else {
+      return (
+        <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-semibold rounded-full bg-yellow-900/20 text-yellow-400 border border-yellow-700">
+          <span className="hidden sm:inline">Chưa trả lời</span>
+          <span className="sm:hidden">Chưa TL</span>
+        </span>
+      );
     }
   };
 
   const getUnreadCount = () => {
-    return messages.filter(msg => msg.status === 'unread').length;
+    return messages.filter(msg => !msg.reply).length;
   };
 
   if (isLoading || !isAuthenticated) {
@@ -229,7 +212,7 @@ export default function AdminMessages() {
                       
                       {/* Subject - Hidden on mobile */}
                       <p className="hidden sm:block text-sm text-gray-300 mb-2">
-                        {message.subject}
+                        {message.content.substring(0, 100)}...
                       </p>
                       
                       {/* Date */}
@@ -241,14 +224,14 @@ export default function AdminMessages() {
 
                     {/* Status Badge */}
                     <div className="flex-shrink-0">
-                      {getStatusBadge(message.status)}
+                      {getStatusBadge(message)}
                     </div>
                   </div>
 
                   {/* Subject - Mobile */}
                   <div className="sm:hidden mt-2">
                     <p className="text-xs text-gray-400 truncate">
-                      {message.subject}
+                      {message.content.substring(0, 50)}...
                     </p>
                   </div>
 
@@ -262,26 +245,46 @@ export default function AdminMessages() {
                       <span className="hidden sm:inline">Xem</span>
                       <span className="sm:hidden">Xem</span>
                     </button>
-                    {message.status === 'unread' && (
+                    {!message.reply && isReplying !== message._id && (
                       <button
-                        onClick={() => markAsRead(message._id)}
-                        className="inline-flex items-center justify-center gap-1 px-3 py-2 border border-blue-600 text-xs sm:text-sm font-medium rounded-md text-blue-400 bg-gray-800 hover:bg-blue-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
-                      >
-                        <span className="hidden sm:inline">Đánh dấu đã đọc</span>
-                        <span className="sm:hidden">Đã đọc</span>
-                      </button>
-                    )}
-                    {message.status !== 'replied' && (
-                      <button
-                        onClick={() => markAsReplied(message._id)}
+                        onClick={() => setIsReplying(message._id)}
                         className="inline-flex items-center justify-center gap-1 px-3 py-2 border border-green-600 text-xs sm:text-sm font-medium rounded-md text-green-400 bg-gray-800 hover:bg-green-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200"
                       >
-                        <span className="hidden sm:inline">Đánh dấu đã trả lời</span>
-                        <span className="sm:hidden">Đã TL</span>
+                        <Reply size={14} className="sm:w-4" />
+                        <span className="hidden sm:inline">Trả lời</span>
+                        <span className="sm:hidden">TL</span>
                       </button>
                     )}
+                    
+                    {isReplying === message._id && (
+                      <div className="flex items-center gap-2">
+                        <textarea
+                          value={replyText}
+                          onChange={(e) => setReplyText(e.target.value)}
+                          placeholder="Nhập nội dung trả lời..."
+                          className="flex-1 px-2 py-1 bg-gray-800 border border-gray-600 rounded-md text-white text-xs placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                          rows={2}
+                        />
+                        <button
+                          onClick={() => handleReply(message._id)}
+                          disabled={!replyText.trim()}
+                          className="px-2 py-1 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white text-xs font-medium rounded-md transition-colors duration-200"
+                        >
+                          Gửi
+                        </button>
+                        <button
+                          onClick={() => {
+                            setIsReplying(null);
+                            setReplyText('');
+                          }}
+                          className="px-2 py-1 border border-gray-600 text-gray-300 text-xs font-medium rounded-md hover:bg-gray-700 transition-colors duration-200"
+                        >
+                          Hủy
+                        </button>
+                      </div>
+                    )}
                     <button
-                      onClick={() => handleDeleteMessage(message._id, message.subject)}
+                      onClick={() => handleDeleteMessage(message._id, message.name)}
                       className="inline-flex items-center justify-center gap-1 px-3 py-2 border border-red-600 text-xs sm:text-sm font-medium rounded-md text-red-400 bg-gray-800 hover:bg-red-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
                     >
                       <Trash2 size={14} className="sm:w-4" />
@@ -320,6 +323,34 @@ export default function AdminMessages() {
                   <p>• Đánh dấu "Đã trả lời" khi bạn đã phản hồi người gửi</p>
                   <p>• Xóa tin nhắn không còn cần thiết để giữ gọn hộp thư</p>
                 </div>
+                
+                {/* Test API Button */}
+                {process.env.NODE_ENV === 'development' && (
+                  <div className="mt-3">
+                    <button
+                      onClick={async () => {
+                        try {
+                          console.log('Testing API...');
+                          const response = await fetch('/api/messages', {
+                            method: 'GET',
+                            headers: {
+                              'Content-Type': 'application/json',
+                            },
+                          });
+                          const data = await response.json();
+                          console.log('API Test Response:', data);
+                          alert(`API Test: ${response.status} - ${data.count} messages`);
+                        } catch (error) {
+                          console.error('API Test Error:', error);
+                          alert(`API Test Error: ${error}`);
+                        }
+                      }}
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-xs"
+                    >
+                      Test API
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -356,16 +387,25 @@ export default function AdminMessages() {
                   </div>
                   
                   <div>
-                    <label className="block text-xs sm:text-sm font-medium text-gray-300">Tiêu đề:</label>
-                    <p className="mt-1 text-xs sm:text-sm text-white">{selectedMessage.subject}</p>
+                    <label className="block text-xs sm:text-sm font-medium text-gray-300">Nội dung tóm tắt:</label>
+                    <p className="mt-1 text-xs sm:text-sm text-white">{selectedMessage.content.substring(0, 100)}...</p>
                   </div>
                   
                   <div>
-                    <label className="block text-xs sm:text-sm font-medium text-gray-300">Nội dung:</label>
+                    <label className="block text-xs sm:text-sm font-medium text-gray-300">Nội dung chi tiết:</label>
                     <div className="mt-1 p-2 sm:p-3 bg-gray-800 rounded-md">
-                      <p className="text-xs sm:text-sm text-white whitespace-pre-wrap">{selectedMessage.message}</p>
+                      <p className="text-xs sm:text-sm text-white whitespace-pre-wrap">{selectedMessage.content}</p>
                     </div>
                   </div>
+                  
+                  {selectedMessage.reply && (
+                    <div>
+                      <label className="block text-xs sm:text-sm font-medium text-gray-300">Trả lời của admin:</label>
+                      <div className="mt-1 p-2 sm:p-3 bg-green-900/20 border border-green-700 rounded-md">
+                        <p className="text-xs sm:text-sm text-green-400 whitespace-pre-wrap">{selectedMessage.reply}</p>
+                      </div>
+                    </div>
+                  )}
                   
                   <div>
                     <label className="block text-xs sm:text-sm font-medium text-gray-300">Ngày gửi:</label>
@@ -377,7 +417,7 @@ export default function AdminMessages() {
                   <div>
                     <label className="block text-xs sm:text-sm font-medium text-gray-300">Trạng thái:</label>
                     <div className="mt-1">
-                      {getStatusBadge(selectedMessage.status)}
+                      {getStatusBadge(selectedMessage)}
                     </div>
                   </div>
                 </div>
@@ -407,7 +447,7 @@ export default function AdminMessages() {
                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 11V6a3 3 0 1 1 6 0v5a3 3 0 1 1-6 0Z" />
                 </svg>
                 <h3 className="mb-3 sm:mb-5 text-base sm:text-lg font-normal text-white">
-                  Bạn có chắc chắn muốn xóa tin nhắn "{deleteConfirm.subject}" không?
+                  Bạn có chắc chắn muốn xóa tin nhắn "{deleteConfirm.name}" không?
                 </h3>
                 <p className="mb-3 sm:mb-4 text-xs sm:text-sm text-gray-300">
                   Hành động này không thể hoàn tác.

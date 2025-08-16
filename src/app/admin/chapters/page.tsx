@@ -246,29 +246,29 @@ export default function AdminChapters() {
       <Navigation />
       
       {/* Main Content */}
-      <div className="pt-16 md:pt-24 max-w-7xl mx-auto px-2 sm:px-4 py-4 sm:py-6">
+      <div className="pt-16 md:pt-24 max-w-7xl mx-auto px-1 sm:px-4 py-2 sm:py-6">
         {/* Header */}
-        <div className="mb-4 sm:mb-6 px-2 sm:px-4">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
-            <div className="flex items-center gap-3 sm:gap-4">
+        <div className="mb-2 sm:mb-6 px-1 sm:px-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4">
+            <div className="flex items-center gap-2 sm:gap-4">
               <Link
                 href="/admin"
-                className="p-1.5 sm:p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors duration-200"
+                className="p-1 sm:p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors duration-200"
               >
-                <ArrowLeft size={18} className="text-gray-300" />
+                <ArrowLeft size={16} className="text-gray-300 sm:w-[18px]" />
               </Link>
               <div>
-                <h1 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2 sm:gap-3">
-                  <FileText size={24} className="text-green-400" />
+                <h1 className="text-lg sm:text-2xl font-bold text-white flex items-center gap-2 sm:gap-3">
+                  <FileText size={20} className="text-green-400 sm:w-6" />
                   <span className="hidden sm:inline">Quản Lý Chương</span>
                   <span className="sm:hidden">Chương</span>
                 </h1>
-                <p className="text-xs sm:text-sm text-gray-300 mt-1">
+                <p className="text-xs sm:text-sm text-gray-300 mt-0.5 sm:mt-1">
                   Tổng cộng {chapters.length} chương
                 </p>
               </div>
             </div>
-            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+            <div className="flex flex-col sm:flex-row gap-1.5 sm:gap-3">
               {/* Clean up orphaned chapters button */}
               {chapters.some(chapter => !isChapterLinkedToStory(chapter)) && (
                 <button
@@ -283,18 +283,18 @@ export default function AdminChapters() {
                       loadData();
                     }
                   }}
-                  className="bg-red-600 hover:bg-red-700 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-lg font-medium transition-colors duration-200 text-xs sm:text-sm flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto justify-center"
+                  className="bg-red-600 hover:bg-red-700 text-white px-2 sm:px-4 py-1.5 sm:py-3 rounded-lg font-medium transition-colors duration-200 text-xs sm:text-sm flex items-center gap-1 sm:gap-2 w-full sm:w-auto justify-center"
                 >
-                  <Trash2 size={16} className="sm:w-[18px]" />
+                  <Trash2 size={14} className="sm:w-4" />
                   <span className="hidden sm:inline">Dọn dẹp chương lỗi</span>
                   <span className="sm:hidden">Dọn dẹp</span>
                 </button>
               )}
               <Link
                 href="/admin/new-chapter"
-                className="bg-green-600 hover:bg-green-700 text-white px-3 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-colors duration-200 text-xs sm:text-sm flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto justify-center"
+                className="bg-green-600 hover:bg-green-700 text-white px-2 sm:px-6 py-1.5 sm:py-3 rounded-lg font-medium transition-colors duration-200 text-xs sm:text-sm flex items-center gap-1 sm:gap-2 w-full sm:w-auto justify-center"
               >
-                <Plus size={16} className="sm:w-[18px]" />
+                <Plus size={14} className="sm:w-4" />
                 <span className="hidden sm:inline">Tạo Chương Mới</span>
                 <span className="sm:hidden">Tạo Chương</span>
               </Link>
@@ -304,9 +304,9 @@ export default function AdminChapters() {
 
         {/* Debug Panel - Temporary */}
         {process.env.NODE_ENV === 'development' && (
-          <div className="bg-gray-800 border border-gray-700 rounded-lg p-4 mb-4">
-            <h3 className="text-sm font-medium text-white mb-2">Debug Info</h3>
-            <div className="text-xs text-gray-300 space-y-1">
+          <div className="bg-gray-800 border border-gray-700 rounded-lg p-2 sm:p-4 mb-2 sm:mb-4">
+            <h3 className="text-xs sm:text-sm font-medium text-white mb-1 sm:mb-2">Debug Info</h3>
+            <div className="text-xs text-gray-300 space-y-0.5 sm:space-y-1">
               <p>Chapters count: {chapters.length}</p>
               <p>Stories count: {stories.length}</p>
               <p>Loading: {isLoadingData ? 'Yes' : 'No'}</p>
@@ -326,10 +326,10 @@ export default function AdminChapters() {
         )}
 
         {/* Chapters List - Mobile Optimized */}
-        <div className="space-y-3 sm:space-y-4">
+        <div className="space-y-2 sm:space-y-4">
           {/* Warning for orphaned chapters */}
           {chapters.some(chapter => !isChapterLinkedToStory(chapter)) && (
-            <div className="bg-yellow-900/20 border border-yellow-800 rounded-lg p-3 sm:p-4">
+            <div className="bg-yellow-900/20 border border-yellow-800 rounded-lg p-2 sm:p-4">
               <div className="flex items-start">
                 <div className="flex-shrink-0">
                   <svg className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
@@ -338,7 +338,7 @@ export default function AdminChapters() {
                 </div>
                 <div className="ml-2 sm:ml-3">
                   <h3 className="text-xs sm:text-sm font-medium text-yellow-400">Cảnh báo</h3>
-                  <div className="mt-1 sm:mt-2 text-xs sm:text-sm text-yellow-300">
+                  <div className="mt-0.5 sm:mt-2 text-xs sm:text-sm text-yellow-300">
                     <p>Có một số chương không liên kết với truyện nào. Vui lòng kiểm tra và xóa các chương này để tránh lỗi.</p>
                   </div>
                 </div>
@@ -347,27 +347,27 @@ export default function AdminChapters() {
           )}
           
           {chapters.map((chapter) => (
-            <div key={chapter._id} className="bg-gray-900 rounded-lg border border-gray-800 p-4 sm:p-6 hover:bg-gray-800 transition-colors duration-200">
-              <div className="flex items-start gap-3 sm:gap-4">
+            <div key={chapter._id} className="bg-gray-900 rounded-lg border border-gray-800 p-3 sm:p-6 hover:bg-gray-800 transition-colors duration-200">
+              <div className="flex items-start gap-2 sm:gap-4">
                 {/* Chapter Number */}
                 <div className="flex-shrink-0">
-                  <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-green-900/20 text-green-400 text-sm sm:text-lg font-medium rounded-full border border-green-700">
-                    <Hash size={16} className="sm:w-5" />
-                    <span className="ml-1">{chapter.chapterNumber}</span>
+                  <div className="inline-flex items-center justify-center w-10 h-10 sm:w-16 sm:h-16 bg-green-900/20 text-green-400 text-sm sm:text-lg font-medium rounded-full border border-green-700">
+                    <Hash size={14} className="sm:w-5" />
+                    <span className="ml-0.5 sm:ml-1">{chapter.chapterNumber}</span>
                   </div>
                 </div>
 
                 {/* Content */}
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-start justify-between gap-2 sm:gap-4">
+                  <div className="flex items-start justify-between gap-1.5 sm:gap-4">
                     <div className="flex-1 min-w-0">
                       <h3 className="text-sm sm:text-lg font-semibold text-white truncate mb-1 sm:mb-2">
                         {chapter.title}
                       </h3>
                       
                       {/* Story Title */}
-                      <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-400 mb-2">
-                        <BookOpen size={14} className="sm:w-4" />
+                      <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-gray-400 mb-1.5 sm:mb-2">
+                        <BookOpen size={12} className="sm:w-4" />
                         <span className={`truncate ${
                           !isChapterLinkedToStory(chapter)
                             ? 'text-red-400' 
@@ -378,8 +378,8 @@ export default function AdminChapters() {
                       </div>
                       
                       {/* Date */}
-                      <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-400">
-                        <Calendar size={14} className="sm:w-4" />
+                      <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-gray-400">
+                        <Calendar size={12} className="sm:w-4" />
                         <span>{new Date(chapter.createdAt).toLocaleDateString('vi-VN')}</span>
                       </div>
                     </div>
@@ -393,27 +393,27 @@ export default function AdminChapters() {
                   </div>
 
                   {/* Word Count - Mobile */}
-                  <div className="sm:hidden mt-2">
+                  <div className="sm:hidden mt-1.5 sm:mt-2">
                     <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-blue-900/20 text-blue-400 border border-blue-700">
                       {chapter.content ? Math.ceil(chapter.content.length / 1000) : 0} nghìn từ
                     </span>
                   </div>
 
                   {/* Action Buttons */}
-                  <div className="flex items-center gap-2 sm:gap-3 mt-3 sm:mt-4">
+                  <div className="flex items-center gap-1.5 sm:gap-3 mt-2 sm:mt-4">
                     <Link
                       href={`/admin/chapters/${chapter._id}/edit`}
-                      className="inline-flex items-center justify-center gap-1 px-3 py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+                      className="inline-flex items-center justify-center gap-1 px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
                     >
-                      <Edit3 size={14} className="sm:w-4" />
+                      <Edit3 size={12} className="sm:w-4" />
                       <span className="hidden sm:inline">Sửa</span>
                       <span className="sm:hidden">Sửa</span>
                     </Link>
                     <button
                       onClick={() => handleDeleteChapter(chapter._id, chapter.title)}
-                      className="inline-flex items-center justify-center gap-1 px-3 py-2 border border-red-600 text-xs sm:text-sm font-medium rounded-md text-red-400 bg-gray-800 hover:bg-red-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
+                      className="inline-flex items-center justify-center gap-1 px-2 sm:px-3 py-1.5 sm:py-2 border border-red-600 text-xs sm:text-sm font-medium rounded-md text-red-400 bg-gray-800 hover:bg-red-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
                     >
-                      <Trash2 size={14} className="sm:w-4" />
+                      <Trash2 size={12} className="sm:w-4" />
                       <span className="hidden sm:inline">Xóa</span>
                       <span className="sm:hidden">Xóa</span>
                     </button>
@@ -426,13 +426,13 @@ export default function AdminChapters() {
 
         {/* Empty State */}
         {chapters.length === 0 && !isLoadingData && (
-          <div className="text-center py-12">
-            <FileText size={48} className="mx-auto text-gray-600 mb-4" />
-            <h3 className="text-lg font-medium text-gray-400 mb-2">Chưa có chương nào</h3>
-            <p className="text-sm text-gray-500 mb-6">Bắt đầu tạo chương đầu tiên của bạn</p>
+          <div className="text-center py-8 sm:py-12">
+            <FileText size={40} className="mx-auto text-gray-600 mb-3 sm:mb-4 sm:w-12" />
+            <h3 className="text-base sm:text-lg font-medium text-gray-400 mb-1.5 sm:mb-2">Chưa có chương nào</h3>
+            <p className="text-xs sm:text-sm text-gray-500 mb-4 sm:mb-6">Bắt đầu tạo chương đầu tiên của bạn</p>
             <Link
               href="/admin/new-chapter"
-              className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
+              className="bg-green-600 hover:bg-green-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-colors duration-200 text-sm"
             >
               Tạo Chương Mới
             </Link>

@@ -11,6 +11,7 @@ interface Message {
   _id: string;
   name: string;
   content: string;
+  reply?: string;
   createdAt: string;
 }
 
@@ -42,6 +43,7 @@ export default function Home() {
     try {
       setIsLoading(true);
       const response = await storyService.getMessages();
+      console.log('Loaded messages:', response.messages);
       setMessages(response.messages || []);
     } catch (err) {
       console.error('Failed to load messages:', err);
@@ -293,6 +295,28 @@ export default function Home() {
                   {selectedMessage.content}
                 </p>
               </div>
+              
+              {/* Admin Reply */}
+              {selectedMessage.reply && (
+                <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <span className="text-xs font-medium text-green-800">Trả lời của Admin</span>
+                  </div>
+                  <p className="text-green-700 leading-relaxed text-xs">
+                    {selectedMessage.reply}
+                  </p>
+                </div>
+              )}
+              
+              {/* Debug info */}
+              {process.env.NODE_ENV === 'development' && (
+                <div className="mt-2 p-2 bg-gray-100 rounded text-xs text-gray-600">
+                  <p>Debug: Message ID: {selectedMessage._id}</p>
+                  <p>Debug: Has reply: {selectedMessage.reply ? 'Yes' : 'No'}</p>
+                  <p>Debug: Reply content: {selectedMessage.reply || 'None'}</p>
+                </div>
+              )}
               
               {/* Footer */}
               <div className="flex items-center justify-between text-xs text-gray-500 border-t pt-4">

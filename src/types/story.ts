@@ -41,6 +41,7 @@ export interface Message {
   name: string;
   email: string;
   content: string;
+  reply?: string;
   guestId?: string;
   createdAt: string;
 }

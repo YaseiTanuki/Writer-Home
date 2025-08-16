@@ -131,7 +131,19 @@ export const storyService = {
 
   // Get all messages
   async getMessages(): Promise<{ messages: Message[]; count: number }> {
-    return apiRequest('/api/messages');
+    const response = await fetch('http://localhost:8111/api/messages', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to fetch messages');
+    }
+
+    return response.json();
   },
 
   // Send a new message
@@ -140,5 +152,23 @@ export const storyService = {
       method: 'POST',
       body: JSON.stringify(messageData),
     });
+  },
+
+  // Reply to a message (admin only)
+  async replyMessage(messageId: string, reply: string): Promise<{ message: string; data: Message }> {
+    const response = await fetch('http://localhost:8111/api/messages', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ messageId, reply }),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to reply to message');
+    }
+
+    return response.json();
   },
 };
