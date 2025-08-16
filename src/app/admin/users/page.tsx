@@ -64,15 +64,33 @@ export default function AdminUsers() {
     
     try {
       setIsDeleting(deleteConfirm.id);
-      // Mock delete - replace with actual API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
       
+      // Call actual API to delete user and all related messages
+      const response = await storyService.deleteUser(deleteConfirm.id);
+      console.log('Delete user response:', response);
+      
+      // Remove user from local state
       setUsers(users.filter(user => user._id !== deleteConfirm.id));
-      setNotification({ type: 'success', message: `Đã xóa người dùng "${deleteConfirm.name}" thành công!` });
+      
+      setNotification({ 
+        type: 'success', 
+        message: `Đã xóa người dùng "${deleteConfirm.name}" và ${response.deletedMessages} tin nhắn liên quan thành công!` 
+      });
+      
       setDeleteConfirm(null);
+      
+      // Auto hide notification after 3 seconds
+      setTimeout(() => setNotification(null), 3000);
     } catch (err) {
       console.error('Failed to delete user:', err);
-      setNotification({ type: 'error', message: 'Không thể xóa người dùng. Vui lòng thử lại!' });
+      const errorMessage = err instanceof Error ? err.message : 'Có lỗi xảy ra khi xóa';
+      setNotification({ 
+        type: 'error', 
+        message: `Lỗi: ${errorMessage}` 
+      });
+      
+      // Auto hide error notification after 5 seconds
+      setTimeout(() => setNotification(null), 5000);
     } finally {
       setIsDeleting(null);
     }
@@ -491,7 +509,7 @@ export default function AdminUsers() {
                   Bạn có chắc chắn muốn xóa người dùng "{deleteConfirm.name}" không?
                 </h3>
                 <p className="mb-3 sm:mb-4 text-xs sm:text-sm text-red-400 bg-red-900/20 p-2 sm:p-3 rounded-md border border-red-700">
-                  <strong>Lưu ý:</strong> Hành động này sẽ xóa vĩnh viễn tài khoản người dùng và tất cả dữ liệu liên quan!
+                  <strong>Lưu ý:</strong> Hành động này sẽ xóa vĩnh viễn tài khoản người dùng và tất cả {deleteConfirm ? users.find(u => u._id === deleteConfirm.id)?.messageCount || 0 : 0} tin nhắn liên quan!
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-4">
                   <button

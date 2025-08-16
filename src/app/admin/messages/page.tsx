@@ -197,7 +197,21 @@ export default function AdminMessages() {
               <div className="flex items-start gap-3 sm:gap-4">
                 {/* Avatar */}
                 <div className="flex-shrink-0">
-                  <div className="h-16 w-16 sm:h-20 sm:w-20 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center">
+                  {message.guestPicture ? (
+                    <img 
+                      src={message.guestPicture} 
+                      alt={message.guestName || message.name}
+                      className="h-16 w-16 sm:h-20 sm:w-20 rounded-full object-cover"
+                      onError={(e) => {
+                        // Fallback to default avatar if image fails to load
+                        e.currentTarget.style.display = 'none';
+                        const fallback = e.currentTarget.nextElementSibling as HTMLElement;
+                        if (fallback) fallback.style.display = 'flex';
+                      }}
+                    />
+                  ) : null}
+                  {/* Fallback avatar */}
+                  <div className={`h-16 w-16 sm:h-20 sm:w-20 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center ${message.guestPicture ? 'hidden' : ''}`}>
                     <User size={20} className="text-white sm:w-6" />
                   </div>
                 </div>
@@ -207,7 +221,7 @@ export default function AdminMessages() {
                   <div className="flex items-start justify-between gap-2 sm:gap-4">
                     <div className="flex-1 min-w-0">
                       <h3 className="text-sm sm:text-lg font-semibold text-white truncate mb-1 sm:mb-2">
-                        {message.name}
+                        {message.guestName || message.name}
                       </h3>
                       
                       {/* Subject - Hidden on mobile */}
@@ -376,9 +390,40 @@ export default function AdminMessages() {
                 </div>
                 
                 <div className="space-y-3 sm:space-y-4">
+                  <div className="flex items-center">
+                    <div className="flex-shrink-0">
+                      {selectedMessage.guestPicture ? (
+                        <img 
+                          src={selectedMessage.guestPicture} 
+                          alt={selectedMessage.guestName || selectedMessage.name}
+                          className="h-16 w-16 rounded-full object-cover"
+                          onError={(e) => {
+                            e.currentTarget.style.display = 'none';
+                            const fallback = e.currentTarget.nextElementSibling as HTMLElement;
+                            if (fallback) fallback.style.display = 'flex';
+                          }}
+                        />
+                      ) : null}
+                      <div className={`h-16 w-16 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center ${selectedMessage.guestPicture ? 'hidden' : ''}`}>
+                        <User size={20} className="text-white" />
+                      </div>
+                    </div>
+                    <div className="ml-3 sm:ml-4">
+                      <h4 className="text-base sm:text-lg font-medium text-white">
+                        {selectedMessage.guestName || selectedMessage.name}
+                      </h4>
+                      <p className="text-xs sm:text-sm text-gray-300">{selectedMessage.email}</p>
+                    </div>
+                  </div>
+                  
                   <div>
                     <label className="block text-xs sm:text-sm font-medium text-gray-300">Người gửi:</label>
-                    <p className="mt-1 text-xs sm:text-sm text-white">{selectedMessage.name}</p>
+                    <p className="mt-1 text-xs sm:text-sm text-white">
+                      {selectedMessage.guestName || selectedMessage.name}
+                      {selectedMessage.guestName && selectedMessage.guestName !== selectedMessage.name && (
+                        <span className="text-gray-400 ml-2">(Tên gốc: {selectedMessage.name})</span>
+                      )}
+                    </p>
                   </div>
                   
                   <div>

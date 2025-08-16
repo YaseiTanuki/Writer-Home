@@ -238,4 +238,21 @@ export const storyService = {
 
     return response.json();
   },
+
+  // Delete a user and all related messages
+  async deleteUser(userId: string): Promise<{ message: string; deletedMessages: number; deletedUser: any }> {
+    const response = await fetch(`http://localhost:8111/api/users/${userId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to delete user');
+    }
+
+    return response.json();
+  },
 };

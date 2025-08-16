@@ -42,7 +42,9 @@ export interface Message {
   email: string;
   content: string;
   reply?: string;
-  guestId?: string;
+  guestName?: string;
+  guestPicture?: string;
+  guestEmail?: string;
   createdAt: string;
 }
 
