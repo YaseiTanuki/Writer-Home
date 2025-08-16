@@ -6,16 +6,16 @@ import Link from 'next/link';
 import { Users, Edit3, Trash2, ArrowLeft, User, Shield, Calendar, Mail } from 'lucide-react';
 import { useAuth } from '../../../contexts/AuthContext';
 import Navigation from '../../../component/Navigation';
+import { storyService } from '../../../services/storyService';
 
 interface User {
   _id: string;
-  name: string;
+  displayName: string;
   email: string;
-  role: 'user' | 'admin';
-  status: 'active' | 'inactive' | 'banned';
+  picture?: string;
   createdAt: string;
   lastLogin?: string;
-  avatar?: string;
+  messageCount: number;
 }
 
 export default function AdminUsers() {
@@ -43,59 +43,13 @@ export default function AdminUsers() {
   const loadData = async () => {
     try {
       setIsLoadingData(true);
-      // Mock data for now - replace with actual API call
-      const mockUsers: User[] = [
-        {
-          _id: '1',
-          name: 'Admin User',
-          email: 'admin@example.com',
-          role: 'admin',
-          status: 'active',
-          createdAt: new Date(Date.now() - 86400000 * 30).toISOString(),
-          lastLogin: new Date().toISOString(),
-          avatar: '/admin-avatar.jpg'
-        },
-        {
-          _id: '2',
-          name: 'Nguyễn Văn A',
-          email: 'nguyenvana@example.com',
-          role: 'user',
-          status: 'active',
-          createdAt: new Date(Date.now() - 86400000 * 15).toISOString(),
-          lastLogin: new Date(Date.now() - 86400000 * 2).toISOString()
-        },
-        {
-          _id: '3',
-          name: 'Trần Thị B',
-          email: 'tranthib@example.com',
-          role: 'user',
-          status: 'active',
-          createdAt: new Date(Date.now() - 86400000 * 7).toISOString(),
-          lastLogin: new Date(Date.now() - 86400000 * 1).toISOString()
-        },
-        {
-          _id: '4',
-          name: 'Lê Văn C',
-          email: 'levanc@example.com',
-          role: 'user',
-          status: 'inactive',
-          createdAt: new Date(Date.now() - 86400000 * 45).toISOString(),
-          lastLogin: new Date(Date.now() - 86400000 * 30).toISOString()
-        },
-        {
-          _id: '5',
-          name: 'Phạm Thị D',
-          email: 'phamthid@example.com',
-          role: 'user',
-          status: 'banned',
-          createdAt: new Date(Date.now() - 86400000 * 60).toISOString(),
-          lastLogin: new Date(Date.now() - 86400000 * 45).toISOString()
-        }
-      ];
-      
-      setUsers(mockUsers);
+      const response = await storyService.getUsers();
+      console.log('Users API response:', response);
+      console.log('Users data:', response.users);
+      setUsers(response.users || []);
     } catch (err) {
       console.error('Failed to load data:', err);
+      setNotification({ type: 'error', message: 'Không thể tải danh sách người dùng!' });
     } finally {
       setIsLoadingData(false);
     }
@@ -107,32 +61,18 @@ export default function AdminUsers() {
 
   const confirmDelete = async () => {
     if (!deleteConfirm) return;
-
+    
     try {
       setIsDeleting(deleteConfirm.id);
-      
       // Mock delete - replace with actual API call
-      setUsers(prev => prev.filter(user => user._id !== deleteConfirm.id));
+      await new Promise(resolve => setTimeout(resolve, 1000));
       
-      setNotification({ 
-        type: 'success', 
-        message: 'Đã xóa người dùng thành công!' 
-      });
-      
+      setUsers(users.filter(user => user._id !== deleteConfirm.id));
+      setNotification({ type: 'success', message: `Đã xóa người dùng "${deleteConfirm.name}" thành công!` });
       setDeleteConfirm(null);
-      
-      // Auto hide notification after 3 seconds
-      setTimeout(() => setNotification(null), 3000);
     } catch (err) {
       console.error('Failed to delete user:', err);
-      const errorMessage = err instanceof Error ? err.message : 'Có lỗi xảy ra khi xóa';
-      setNotification({ 
-        type: 'error', 
-        message: `Lỗi: ${errorMessage}` 
-      });
-      
-      // Auto hide error notification after 5 seconds
-      setTimeout(() => setNotification(null), 5000);
+      setNotification({ type: 'error', message: 'Không thể xóa người dùng. Vui lòng thử lại!' });
     } finally {
       setIsDeleting(null);
     }
@@ -219,11 +159,84 @@ export default function AdminUsers() {
   };
 
   const getActiveUsersCount = () => {
-    return users.filter(user => user.status === 'active').length;
+    return users.length; // All guests are considered active
   };
 
   const getAdminUsersCount = () => {
-    return users.filter(user => user.role === 'admin').length;
+    return 0; // No admin role for guests
+  };
+
+  // Avatar component with fallback
+  const UserAvatar = ({ user, size = 'md' }: { user: User; size?: 'sm' | 'md' | 'lg' }) => {
+    const sizeClasses = {
+      sm: 'h-12 w-12',
+      md: 'h-16 w-16 sm:h-20 sm:w-20',
+      lg: 'h-20 w-20 sm:h-24 sm:w-24'
+    };
+
+    const iconSizes = {
+      sm: 16,
+      md: 20,
+      lg: 24
+    };
+
+    // Fix Google OAuth avatar URL
+    const getOptimizedAvatarUrl = (url: string) => {
+      if (url.includes('googleusercontent.com')) {
+        // Remove size parameter and use larger size for better quality
+        return url.replace(/=s\d+-c$/, '=s200-c');
+      }
+      return url;
+    };
+
+    // Alternative: Use a proxy service for Google avatars
+    const getProxyAvatarUrl = (url: string) => {
+      if (url.includes('googleusercontent.com')) {
+        // Use a proxy service to avoid CORS issues
+        return `https://images.weserv.nl/?url=${encodeURIComponent(url)}&w=200&h=200&fit=cover&output=webp`;
+      }
+      return url;
+    };
+
+    if (!user.picture) {
+      return (
+        <div className={`${sizeClasses[size]} rounded-full bg-gradient-to-br from-red-400 to-pink-500 flex items-center justify-center`}>
+          <User size={iconSizes[size]} className="text-white" />
+        </div>
+      );
+    }
+
+    const optimizedUrl = getOptimizedAvatarUrl(user.picture || '');
+    const proxyUrl = getProxyAvatarUrl(user.picture || '');
+
+    return (
+      <>
+        <img 
+          className={`${sizeClasses[size]} rounded-full object-cover`}
+          src={proxyUrl} 
+          alt={user.displayName}
+          onError={(e) => {
+            console.error('Avatar load error for user:', user.displayName, 'Original URL:', user.picture, 'Proxy URL:', proxyUrl);
+            // Try original URL as fallback
+            if (e.currentTarget.src !== user.picture && user.picture) {
+              e.currentTarget.src = user.picture;
+            } else {
+              // Show fallback avatar
+              e.currentTarget.style.display = 'none';
+              const fallback = e.currentTarget.nextElementSibling as HTMLElement;
+              if (fallback) fallback.style.display = 'flex';
+            }
+          }}
+          onLoad={() => {
+            console.log('Avatar loaded successfully for user:', user.displayName, 'URL:', proxyUrl);
+          }}
+        />
+        {/* Hidden fallback avatar */}
+        <div className={`${sizeClasses[size]} rounded-full bg-gradient-to-br from-red-400 to-pink-500 flex items-center justify-center hidden`}>
+          <User size={iconSizes[size]} className="text-white" />
+        </div>
+      </>
+    );
   };
 
   if (isLoading || !isAuthenticated) {
@@ -274,17 +287,7 @@ export default function AdminUsers() {
               <div className="flex items-start gap-3 sm:gap-4">
                 {/* Avatar */}
                 <div className="flex-shrink-0">
-                  {user.avatar ? (
-                    <img 
-                      className="h-16 w-16 sm:h-20 sm:w-20 rounded-full object-cover" 
-                      src={user.avatar} 
-                      alt={user.name} 
-                    />
-                  ) : (
-                    <div className="h-16 w-16 sm:h-20 sm:w-20 rounded-full bg-gradient-to-br from-red-400 to-pink-500 flex items-center justify-center">
-                      <User size={20} className="text-white sm:w-6" />
-                    </div>
-                  )}
+                  <UserAvatar user={user} />
                 </div>
 
                 {/* Content */}
@@ -292,7 +295,7 @@ export default function AdminUsers() {
                   <div className="flex items-start justify-between gap-2 sm:gap-4">
                     <div className="flex-1 min-w-0">
                       <h3 className="text-sm sm:text-lg font-semibold text-white truncate mb-1 sm:mb-2">
-                        {user.name}
+                        {user.displayName}
                       </h3>
                       
                       {/* Email - Hidden on mobile */}
@@ -307,10 +310,17 @@ export default function AdminUsers() {
                       </div>
                     </div>
 
-                    {/* Status and Role Badges */}
+                    {/* Message Count and Last Login */}
                     <div className="flex flex-col gap-1 sm:gap-2 items-end">
-                      {getStatusBadge(user.status)}
-                      {getRoleBadge(user.role)}
+                      <div className="flex items-center gap-1 text-xs text-blue-400">
+                        <Mail size={14} />
+                        <span>{user.messageCount} tin nhắn</span>
+                      </div>
+                      {user.lastLogin && (
+                        <div className="text-xs text-gray-400">
+                          Đăng nhập: {new Date(user.lastLogin).toLocaleDateString('vi-VN')}
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -332,32 +342,13 @@ export default function AdminUsers() {
                       <span className="sm:hidden">Xem</span>
                     </button>
                     <button
-                      onClick={() => toggleUserStatus(user._id, user.status)}
-                      className={`inline-flex items-center justify-center gap-1 px-3 py-2 border text-xs sm:text-sm font-medium rounded-md transition-colors duration-200 ${
-                        user.status === 'active' 
-                          ? 'border-yellow-600 text-yellow-400 bg-gray-800 hover:bg-yellow-900/20' 
-                          : user.status === 'inactive'
-                          ? 'border-red-600 text-red-400 bg-gray-800 hover:bg-red-900/20'
-                          : 'border-green-600 text-green-400 bg-gray-800 hover:bg-green-900/20'
-                      }`}
+                      onClick={() => handleDeleteUser(user._id, user.displayName)}
+                      className="inline-flex items-center justify-center gap-1 px-3 py-2 border border-red-600 text-xs sm:text-sm font-medium rounded-md text-red-400 bg-gray-800 hover:bg-red-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
                     >
-                      <span className="hidden sm:inline">
-                        {user.status === 'active' ? 'Vô hiệu hóa' : user.status === 'inactive' ? 'Cấm' : 'Kích hoạt'}
-                      </span>
-                      <span className="sm:hidden">
-                        {user.status === 'active' ? 'Vô hiệu' : user.status === 'inactive' ? 'Cấm' : 'Kích hoạt'}
-                      </span>
+                      <Trash2 size={14} className="sm:w-4" />
+                      <span className="hidden sm:inline">Xóa</span>
+                      <span className="sm:hidden">Xóa</span>
                     </button>
-                    {user.role !== 'admin' && (
-                      <button
-                        onClick={() => handleDeleteUser(user._id, user.name)}
-                        className="inline-flex items-center justify-center gap-1 px-3 py-2 border border-red-600 text-xs sm:text-sm font-medium rounded-md text-red-400 bg-gray-800 hover:bg-red-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
-                      >
-                        <Trash2 size={14} className="sm:w-4" />
-                        <span className="hidden sm:inline">Xóa</span>
-                        <span className="sm:hidden">Xóa</span>
-                      </button>
-                    )}
                   </div>
                 </div>
               </div>
@@ -376,19 +367,19 @@ export default function AdminUsers() {
 
         {/* Info Box */}
         <div className="mt-4 sm:mt-6 px-2 sm:px-4">
-          <div className="bg-red-900/20 border border-red-800 rounded-lg p-3 sm:p-4">
+          <div className="bg-blue-900/20 border border-blue-800 rounded-lg p-3 sm:p-4">
             <div className="flex items-start">
               <div className="flex-shrink-0">
-                <svg className="h-4 w-4 sm:h-5 sm:w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                <svg className="h-4 w-4 sm:h-5 sm:w-5 text-blue-400" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
                 </svg>
               </div>
               <div className="ml-2 sm:ml-3">
-                <h3 className="text-xs sm:text-sm font-medium text-red-400">Quản lý người dùng</h3>
-                <div className="mt-1 sm:mt-2 text-xs sm:text-sm text-red-300">
-                  <p>• Không thể xóa tài khoản admin</p>
-                  <p>• Có thể vô hiệu hóa hoặc cấm tài khoản người dùng</p>
-                  <p>• Theo dõi hoạt động đăng nhập của người dùng</p>
+                <h3 className="text-xs sm:text-sm font-medium text-blue-400">Quản lý người dùng guest</h3>
+                <div className="mt-1 sm:mt-2 text-xs sm:text-sm text-blue-300">
+                  <p>• Hiển thị thông tin từ bảng guest</p>
+                  <p>• Đếm số lượng tin nhắn đã gửi</p>
+                  <p>• Theo dõi hoạt động đăng nhập</p>
                 </div>
               </div>
             </div>
@@ -416,33 +407,37 @@ export default function AdminUsers() {
                 
                 <div className="space-y-3 sm:space-y-4">
                   <div className="flex items-center">
-                    <div className="flex-shrink-0 h-12 w-12 sm:h-16 sm:w-16">
-                      {selectedUser.avatar ? (
-                        <img className="h-12 w-12 sm:h-16 sm:w-16 rounded-full object-cover" src={selectedUser.avatar} alt={selectedUser.name} />
-                      ) : (
-                        <div className="h-12 w-12 sm:h-16 sm:w-16 rounded-full bg-gradient-to-br from-red-400 to-pink-500 flex items-center justify-center">
-                          <User size={24} className="text-white sm:w-8" />
-                        </div>
-                      )}
+                    <div className="flex-shrink-0">
+                      <UserAvatar user={selectedUser} size="sm" />
                     </div>
                     <div className="ml-3 sm:ml-4">
-                      <h4 className="text-base sm:text-lg font-medium text-white">{selectedUser.name}</h4>
+                      <h4 className="text-base sm:text-lg font-medium text-white">{selectedUser.displayName}</h4>
                       <p className="text-xs sm:text-sm text-gray-300">{selectedUser.email}</p>
                     </div>
                   </div>
                   
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                     <div>
-                      <label className="block text-xs sm:text-sm font-medium text-gray-300">Vai trò:</label>
+                      <label className="block text-xs sm:text-sm font-medium text-gray-300">Số tin nhắn:</label>
                       <div className="mt-1">
-                        {getRoleBadge(selectedUser.role)}
+                        <span className="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-blue-900/20 text-blue-400 border border-blue-700">
+                          {selectedUser.messageCount} tin nhắn
+                        </span>
                       </div>
+                      {/* Debug info */}
+                      {process.env.NODE_ENV === 'development' && (
+                        <div className="mt-1 text-xs text-gray-500">
+                          Debug: messageCount = {selectedUser.messageCount}
+                        </div>
+                      )}
                     </div>
                     
                     <div>
                       <label className="block text-xs sm:text-sm font-medium text-gray-300">Trạng thái:</label>
                       <div className="mt-1">
-                        {getStatusBadge(selectedUser.status)}
+                        <span className="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-green-900/20 text-green-400 border border-green-700">
+                          Hoạt động
+                        </span>
                       </div>
                     </div>
                   </div>

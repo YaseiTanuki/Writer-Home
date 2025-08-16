@@ -171,4 +171,21 @@ export const storyService = {
 
     return response.json();
   },
+
+  // Get all users (for admin dashboard)
+  async getUsers(): Promise<{ users: any[]; count: number }> {
+    const response = await fetch('http://localhost:8111/api/users', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to fetch users');
+    }
+
+    return response.json();
+  },
 };
