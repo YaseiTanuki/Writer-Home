@@ -103,30 +103,80 @@ export const storyService = {
 
   // Get all categories
   async getCategories(): Promise<{ categories: Category[]; count: number }> {
-    return apiRequest('/api/categories');
+    const response = await fetch('http://localhost:8111/api/categories', {
+      method: 'GET',
+      mode: 'cors',
+      credentials: 'omit',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to fetch categories');
+    }
+
+    return response.json();
   },
 
   // Create a new category (requires authentication)
   async createCategory(categoryData: CreateCategoryRequest): Promise<{ message: string; category: Category }> {
-    return apiRequest('/api/categories', {
+    const response = await fetch('http://localhost:8111/api/categories', {
       method: 'POST',
+      mode: 'cors',
+      credentials: 'omit',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(categoryData),
     });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to create category');
+    }
+
+    return response.json();
   },
 
   // Update a category (requires authentication)
   async updateCategory(id: string, categoryData: UpdateCategoryRequest): Promise<{ message: string; category: Category }> {
-    return apiRequest(`/api/categories/${id}`, {
+    const response = await fetch(`http://localhost:8111/api/categories/${id}`, {
       method: 'PUT',
+      mode: 'cors',
+      credentials: 'omit',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(categoryData),
     });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to update category');
+    }
+
+    return response.json();
   },
 
   // Delete a category (requires authentication)
   async deleteCategory(id: string): Promise<{ message: string }> {
-    return apiRequest(`/api/categories/${id}`, {
+    const response = await fetch(`http://localhost:8111/api/categories/${id}`, {
       method: 'DELETE',
+      mode: 'cors',
+      credentials: 'omit',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to delete category');
+    }
+
+    return response.json();
   },
 
   // Get all messages

@@ -7,6 +7,7 @@ import { Tag, Edit3, Trash2, Plus, ArrowLeft, BookOpen, Calendar } from 'lucide-
 import { useAuth } from '../../../contexts/AuthContext';
 import { storyService } from '../../../services/storyService';
 import { Category, Story } from '../../../types/story';
+import { UpdateCategoryRequest } from '../../../types/story';
 import Navigation from '../../../component/Navigation';
 
 export default function AdminCategories() {
@@ -18,6 +19,13 @@ export default function AdminCategories() {
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState<{ id: string; name: string } | null>(null);
   const [notification, setNotification] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+  const [editingCategory, setEditingCategory] = useState<Category | null>(null);
+  const [editFormData, setEditFormData] = useState({
+    name: '',
+    description: '',
+    color: '#3B82F6'
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -87,6 +95,71 @@ export default function AdminCategories() {
 
   const cancelDelete = () => {
     setDeleteConfirm(null);
+  };
+
+  const handleEditCategory = (category: Category) => {
+    setEditingCategory(category);
+    setEditFormData({
+      name: category.name,
+      description: category.description || '',
+      color: category.color || '#3B82F6'
+    });
+  };
+
+  const cancelEdit = () => {
+    setEditingCategory(null);
+    setEditFormData({
+      name: '',
+      description: '',
+      color: '#3B82F6'
+    });
+  };
+
+  const handleEditSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!editFormData.name.trim()) {
+      setNotification({ 
+        type: 'error', 
+        message: 'Tên thể loại không được để trống!' 
+      });
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      const updateData: UpdateCategoryRequest = {
+        name: editFormData.name,
+        description: editFormData.description || undefined,
+        color: editFormData.color
+      };
+      
+      await storyService.updateCategory(editingCategory!._id, updateData);
+      
+      setNotification({ 
+        type: 'success', 
+        message: 'Đã cập nhật thể loại thành công!' 
+      });
+      
+      // Reload data after update
+      await loadData();
+      cancelEdit();
+      
+      // Auto hide notification after 3 seconds
+      setTimeout(() => setNotification(null), 3000);
+    } catch (err) {
+      console.error('Failed to update category:', err);
+      const errorMessage = err instanceof Error ? err.message : 'Có lỗi xảy ra khi cập nhật';
+      setNotification({ 
+        type: 'error', 
+        message: `Lỗi: ${errorMessage}` 
+      });
+      
+      // Auto hide error notification after 5 seconds
+      setTimeout(() => setNotification(null), 5000);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const getStoryCount = (categoryId: string) => {
@@ -212,14 +285,62 @@ export default function AdminCategories() {
 
                     {/* Action Buttons */}
                     <div className="flex items-center gap-2 sm:gap-3 mt-3 sm:mt-4">
-                      <Link
-                        href={`/admin/categories/${category._id}/edit`}
-                        className="inline-flex items-center justify-center gap-1 px-3 py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
-                      >
-                        <Edit3 size={14} className="sm:w-4" />
-                        <span className="hidden sm:inline">Sửa</span>
-                        <span className="sm:hidden">Sửa</span>
-                      </Link>
+                      {editingCategory?._id === category._id ? (
+                        // Edit Form Inline
+                        <div className="flex-1 space-y-3">
+                          <form onSubmit={handleEditSubmit} className="space-y-3">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
+                              <input
+                                type="text"
+                                value={editFormData.name}
+                                onChange={(e) => setEditFormData(prev => ({ ...prev, name: e.target.value }))}
+                                className="w-full px-2 py-1.5 text-xs border border-gray-600 rounded bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-purple-500"
+                                placeholder="Tên thể loại"
+                                required
+                              />
+                              <input
+                                type="color"
+                                value={editFormData.color}
+                                onChange={(e) => setEditFormData(prev => ({ ...prev, color: e.target.value }))}
+                                className="w-full h-8 border border-gray-600 rounded bg-gray-800 cursor-pointer"
+                              />
+                            </div>
+                            <textarea
+                              value={editFormData.description}
+                              onChange={(e) => setEditFormData(prev => ({ ...prev, description: e.target.value }))}
+                              className="w-full px-2 py-1.5 text-xs border border-gray-600 rounded bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-purple-500"
+                              placeholder="Mô tả thể loại (tùy chọn)"
+                              rows={2}
+                            />
+                            <div className="flex gap-2">
+                              <button
+                                type="submit"
+                                disabled={isSubmitting}
+                                className="flex-1 bg-purple-600 hover:bg-purple-700 text-white px-3 py-1.5 text-xs font-medium rounded transition-colors duration-200 disabled:opacity-50"
+                              >
+                                {isSubmitting ? 'Đang lưu...' : 'Lưu'}
+                              </button>
+                              <button
+                                type="button"
+                                onClick={cancelEdit}
+                                className="flex-1 bg-gray-600 hover:bg-gray-700 text-white px-3 py-1.5 text-xs font-medium rounded transition-colors duration-200"
+                              >
+                                Hủy
+                              </button>
+                            </div>
+                          </form>
+                        </div>
+                      ) : (
+                        // Normal Edit Button
+                        <button
+                          onClick={() => handleEditCategory(category)}
+                          className="inline-flex items-center justify-center gap-1 px-3 py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+                        >
+                          <Edit3 size={14} className="sm:w-4" />
+                          <span className="hidden sm:inline">Sửa</span>
+                          <span className="sm:hidden">Sửa</span>
+                        </button>
+                      )}
                       <button
                         onClick={() => handleDeleteCategory(category._id, category.name)}
                         className="inline-flex items-center justify-center gap-1 px-3 py-2 border border-red-600 text-xs sm:text-sm font-medium rounded-md text-red-400 bg-gray-800 hover:bg-red-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
