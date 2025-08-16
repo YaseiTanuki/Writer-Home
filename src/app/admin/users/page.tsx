@@ -166,6 +166,12 @@ export default function AdminUsers() {
     return 0; // No admin role for guests
   };
 
+  // Sort users based on current sort criteria
+  const getSortedUsers = () => {
+    // Users are now sorted by message count from backend
+    return users;
+  };
+
   // Avatar component with fallback
   const UserAvatar = ({ user, size = 'md' }: { user: User; size?: 'sm' | 'md' | 'lg' }) => {
     const sizeClasses = {
@@ -267,11 +273,11 @@ export default function AdminUsers() {
             >
               <ArrowLeft size={18} className="text-gray-300" />
             </Link>
-            <div>
-              <h1 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2 sm:gap-3">
+            <div className="flex-1">
+              <h1 className="text-xl sm:text-2xl text-white flex items-center gap-2 sm:gap-3">
                 <Users size={24} className="text-red-400" />
-                <span className="hidden sm:inline">Quản Lý Người Dùng</span>
-                <span className="sm:hidden">Người Dùng</span>
+                <span className="hidden sm:inline admin-title font-medium">Quản Lý Người Dùng</span>
+                <span className="sm:hidden admin-title-mobile font-medium">Người Dùng</span>
               </h1>
               <p className="text-xs sm:text-sm text-gray-300 mt-1">
                 Tổng cộng {users.length} người dùng • {getActiveUsersCount()} hoạt động • {getAdminUsersCount()} admin
@@ -282,7 +288,7 @@ export default function AdminUsers() {
 
         {/* Users List - Mobile Optimized */}
         <div className="space-y-3 sm:space-y-4">
-          {users.map((user) => (
+          {getSortedUsers().map((user) => (
             <div key={user._id} className="bg-gray-900 rounded-lg border border-gray-800 p-4 sm:p-6 hover:bg-gray-800 transition-colors duration-200">
               <div className="flex items-start gap-3 sm:gap-4">
                 {/* Avatar */}
