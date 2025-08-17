@@ -17,10 +17,9 @@ export default function AdminMessages() {
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState<{ id: string; name: string } | null>(null);
   const [notification, setNotification] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
-  const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
   const [replyText, setReplyText] = useState('');
   const [isReplying, setIsReplying] = useState<string | null>(null);
-
+  
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
       router.push('/login');
@@ -256,14 +255,14 @@ export default function AdminMessages() {
 
                   {/* Action Buttons */}
                   <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-3 sm:mt-4">
-                    <button
-                      onClick={() => setSelectedMessage(message)}
+                    <Link
+                      href={`/admin/messages/${message._id}`}
                       className="inline-flex items-center justify-center gap-1 px-2 py-1.5 sm:px-3 sm:py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
                     >
                       <MessageSquare size={12} className="sm:w-4" />
                       <span className="hidden sm:inline">Xem</span>
                       <span className="sm:hidden">Xem</span>
-                    </button>
+                    </Link>
                     
                     {!message.reply && isReplying !== message._id && (
                       <button
@@ -373,6 +372,7 @@ export default function AdminMessages() {
                       </div>
                     </div>
                   )}
+                  
                 </div>
               </div>
             </div>
@@ -403,6 +403,9 @@ export default function AdminMessages() {
                   <p>• Tin nhắn chưa đọc sẽ được đánh dấu màu đỏ</p>
                   <p>• Đánh dấu "Đã trả lời" khi bạn đã phản hồi người gửi</p>
                   <p>• Xóa tin nhắn không còn cần thiết để giữ gọn hộp thư</p>
+                  <p>• Bấm "Xem" để xem chi tiết tin nhắn và quản lý guest replies</p>
+                  <p>• Guest có thể trả lời lẫn nhau tạo thành thread comment</p>
+                  <p>• Quản lý và xóa các câu trả lời của guest trên trang chi tiết</p>
                 </div>
                 
                 {/* Test API Button */}
@@ -439,114 +442,7 @@ export default function AdminMessages() {
       </div>
 
       {/* Message Detail Modal */}
-      {selectedMessage && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50 p-4">
-          <div className="relative p-4 sm:p-8 border w-full max-w-2xl max-h-full">
-            <div className="relative bg-gray-900 rounded-lg shadow border border-gray-800">
-              <div className="p-4 sm:p-6">
-                <div className="flex items-center justify-between mb-3 sm:mb-4">
-                  <h3 className="text-base sm:text-lg font-medium text-white">Chi tiết tin nhắn</h3>
-                  <button
-                    onClick={() => setSelectedMessage(null)}
-                    className="text-gray-400 hover:text-gray-300"
-                  >
-                    <svg className="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                </div>
-                
-                <div className="space-y-3 sm:space-y-4">
-                  <div className="flex items-center">
-                    <div className="flex-shrink-0">
-                      {selectedMessage.guestPicture ? (
-                        <img 
-                          src={selectedMessage.guestPicture} 
-                          alt={selectedMessage.guestName || selectedMessage.name}
-                          className="h-16 w-16 rounded-full object-cover"
-                          onError={(e) => {
-                            e.currentTarget.style.display = 'none';
-                            const fallback = e.currentTarget.nextElementSibling as HTMLElement;
-                            if (fallback) fallback.style.display = 'flex';
-                          }}
-                        />
-                      ) : null}
-                      <div className={`h-16 w-16 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center ${selectedMessage.guestPicture ? 'hidden' : ''}`}>
-                        <User size={20} className="text-white" />
-                      </div>
-                    </div>
-                    <div className="ml-3 sm:ml-4">
-                      <h4 className="text-base sm:text-lg font-medium text-white">
-                        {selectedMessage.guestName || selectedMessage.name}
-                      </h4>
-                      <p className="text-xs sm:text-sm text-gray-300">{selectedMessage.email}</p>
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-xs sm:text-sm font-medium text-gray-300">Người gửi:</label>
-                    <p className="mt-1 text-xs sm:text-sm text-white">
-                      {selectedMessage.guestName || selectedMessage.name}
-                      {selectedMessage.guestName && selectedMessage.guestName !== selectedMessage.name && (
-                        <span className="text-gray-400 ml-2">(Tên gốc: {selectedMessage.name})</span>
-                      )}
-                    </p>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-xs sm:text-sm font-medium text-gray-300">Email:</label>
-                    <p className="mt-1 text-xs sm:text-sm text-white">{selectedMessage.email}</p>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-xs sm:text-sm font-medium text-gray-300">Nội dung tóm tắt:</label>
-                    <p className="mt-1 text-xs sm:text-sm text-white">{selectedMessage.content.substring(0, 100)}...</p>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-xs sm:text-sm font-medium text-gray-300">Nội dung chi tiết:</label>
-                    <div className="mt-1 p-2 sm:p-3 bg-gray-800 rounded-md">
-                      <p className="text-xs sm:text-sm text-white whitespace-pre-wrap">{selectedMessage.content}</p>
-                    </div>
-                  </div>
-                  
-                  {selectedMessage.reply && (
-                    <div>
-                      <label className="block text-xs sm:text-sm font-medium text-gray-300">Trả lời của admin:</label>
-                      <div className="mt-1 p-2 sm:p-3 bg-green-900/20 border border-green-700 rounded-md">
-                        <p className="text-xs sm:text-sm text-green-400 whitespace-pre-wrap">{selectedMessage.reply}</p>
-                      </div>
-                    </div>
-                  )}
-                  
-                  <div>
-                    <label className="block text-xs sm:text-sm font-medium text-gray-300">Ngày gửi:</label>
-                    <p className="mt-1 text-xs sm:text-sm text-white">
-                      {new Date(selectedMessage.createdAt).toLocaleString('vi-VN')}
-                    </p>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-xs sm:text-sm font-medium text-gray-300">Trạng thái:</label>
-                    <div className="mt-1">
-                      {getStatusBadge(selectedMessage)}
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="mt-4 sm:mt-6 flex justify-end gap-2 sm:gap-3">
-                  <button
-                    onClick={() => setSelectedMessage(null)}
-                    className="px-3 sm:px-4 py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 transition-colors duration-200"
-                  >
-                    Đóng
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* This section is no longer needed as the detail page is a separate route */}
 
       {/* Delete Confirmation Modal */}
       {deleteConfirm && (

@@ -6,6 +6,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { BookOpen, MessageSquare, Heart, Star, Sparkles, Quote, X } from 'lucide-react';
 import { storyService } from "../services/storyService";
+import { useAuth } from "../contexts/AuthContext";
+import { useGuest } from "../contexts/GuestContext";
 
 interface Message {
   _id: string;
@@ -13,14 +15,73 @@ interface Message {
   content: string;
   reply?: string;
   createdAt: string;
+  guestReplies?: Array<{
+    _id: string;
+    guestId: string;
+    guestName: string;
+    guestEmail: string;
+    guestPicture?: string;
+    content: string;
+    createdAt: string;
+  }>;
 }
 
 export default function Home() {
+  const { user, isAuthenticated: isAdminAuthenticated } = useAuth();
+  const { guest, isAuthenticated: isGuestAuthenticated } = useGuest();
+  
+  // Combined authentication state
+  const isAuthenticated = isAdminAuthenticated || isGuestAuthenticated;
+  const currentUser = user || guest;
+  
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [displayedMessages, setDisplayedMessages] = useState<Message[]>([]);
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
   const [showPopup, setShowPopup] = useState(false);
+  const [replyText, setReplyText] = useState('');
+  const [isSendingReply, setIsSendingReply] = useState(false);
+
+  // Debug authentication state
+  useEffect(() => {
+    console.log('Auth state changed:', { 
+      user, 
+      isAdminAuthenticated, 
+      guest, 
+      isGuestAuthenticated,
+      isAuthenticated,
+      currentUser
+    });
+    
+    // Debug localStorage
+    if (typeof window !== 'undefined') {
+      const authTokens = localStorage.getItem('auth_tokens');
+      const guestToken = localStorage.getItem('guestToken');
+      const guestInfo = localStorage.getItem('guestInfo');
+      
+      console.log('LocalStorage auth_tokens:', authTokens);
+      console.log('LocalStorage guestToken:', guestToken);
+      console.log('LocalStorage guestInfo:', guestInfo);
+      
+      if (authTokens) {
+        try {
+          const parsed = JSON.parse(authTokens);
+          console.log('Parsed auth tokens:', parsed);
+        } catch (e) {
+          console.error('Error parsing auth tokens:', e);
+        }
+      }
+      
+      if (guestInfo) {
+        try {
+          const parsed = JSON.parse(guestInfo);
+          console.log('Parsed guest info:', parsed);
+        } catch (e) {
+          console.error('Error parsing guest info:', e);
+        }
+      }
+    }
+  }, [user, isAdminAuthenticated, guest, isGuestAuthenticated, isAuthenticated, currentUser]);
 
   useEffect(() => {
     loadMessages();
@@ -39,11 +100,31 @@ export default function Home() {
     }
   }, [messages]);
 
+  // Debug selectedMessage changes
+  useEffect(() => {
+    if (selectedMessage) {
+      console.log('SelectedMessage changed:', selectedMessage);
+      console.log('SelectedMessage guestReplies:', selectedMessage.guestReplies);
+    }
+  }, [selectedMessage]);
+
+  // Auto-update selectedMessage when messages change (e.g., after adding guest reply)
+  useEffect(() => {
+    if (selectedMessage && messages.length > 0) {
+      const updatedMessage = messages.find(msg => msg._id === selectedMessage._id);
+      if (updatedMessage && JSON.stringify(updatedMessage) !== JSON.stringify(selectedMessage)) {
+        console.log('Auto-updating selectedMessage with fresh data:', updatedMessage);
+        setSelectedMessage(updatedMessage);
+      }
+    }
+  }, [messages, selectedMessage]);
+
   const loadMessages = async () => {
     try {
       setIsLoading(true);
       const response = await storyService.getMessages();
       console.log('Loaded messages:', response.messages);
+      console.log('Messages with guestReplies:', response.messages.filter(msg => msg.guestReplies && msg.guestReplies.length > 0));
       setMessages(response.messages || []);
     } catch (err) {
       console.error('Failed to load messages:', err);
@@ -81,6 +162,50 @@ export default function Home() {
   const closePopup = () => {
     setShowPopup(false);
     setSelectedMessage(null);
+    setReplyText('');
+  };
+
+  const handleSendReply = async () => {
+    if (!replyText.trim() || !selectedMessage) return;
+    
+    // Check if user is authenticated
+    if (!isAuthenticated || !currentUser) {
+      alert('Vui lòng đăng nhập để có thể trả lời tin nhắn!');
+      return;
+    }
+    
+    try {
+      setIsSendingReply(true);
+      
+      // Create guest reply data with current user information
+      const guestReplyData = {
+        messageId: selectedMessage._id,
+        content: replyText,
+        guestId: currentUser.id,
+        guestName: 'username' in currentUser ? currentUser.username : currentUser.displayName,
+        guestEmail: 'email' in currentUser ? currentUser.email : 'guest@example.com',
+        guestPicture: 'picture' in currentUser ? currentUser.picture : undefined
+      };
+      
+      // Call API to add guest reply
+      const response = await storyService.addGuestReply(guestReplyData);
+      console.log('Guest reply added successfully:', response);
+      
+      // Reload messages from database to get the updated data
+      await loadMessages();
+      
+      // Clear reply text
+      setReplyText('');
+      
+      // Show success message
+      alert('Đã thêm câu trả lời thành công!');
+      
+    } catch (error) {
+      console.error('Failed to add guest reply:', error);
+      alert('Có lỗi xảy ra khi thêm câu trả lời!');
+    } finally {
+      setIsSendingReply(false);
+    }
   };
 
   // Create grid layout
@@ -309,12 +434,73 @@ export default function Home() {
                 </div>
               )}
               
-              {/* Debug info */}
-              {process.env.NODE_ENV === 'development' && (
-                <div className="mt-2 p-2 bg-gray-100 rounded text-xs text-gray-600">
-                  <p>Debug: Message ID: {selectedMessage._id}</p>
-                  <p>Debug: Has reply: {selectedMessage.reply ? 'Yes' : 'No'}</p>
-                  <p>Debug: Reply content: {selectedMessage.reply || 'None'}</p>
+              {/* Guest Replies Section */}
+              {selectedMessage.guestReplies && selectedMessage.guestReplies.length > 0 && (
+                <div className="mb-4">
+                  <h4 className="text-xs font-medium text-gray-700 mb-2">Câu trả lời của guests ({selectedMessage.guestReplies.length}):</h4>
+                  <div className="space-y-2">
+                    {selectedMessage.guestReplies.map((reply, index) => (
+                      <div key={reply._id || index} className="p-2 bg-blue-50 border border-blue-200 rounded-md">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-xs font-medium text-blue-700">{reply.guestName}</span>
+                          <span className="text-xs text-blue-600">({reply.guestEmail})</span>
+                          <span className="text-xs text-blue-500">
+                            {new Date(reply.createdAt).toLocaleDateString('vi-VN')}
+                          </span>
+                        </div>
+                        <p className="text-xs text-blue-700">{reply.content}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
+              {/* Guest Information Form */}
+              {/* This section is removed as per the edit hint */}
+              
+              {/* Reply Input Section */}
+              {!isAuthenticated ? (
+                <div className="mb-4 p-3 bg-gray-50 border border-gray-200 rounded-lg">
+                  <div className="flex items-center gap-2 mb-2">
+                    <svg className="h-4 w-4 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                    <span className="text-xs font-medium text-gray-800">Đăng nhập để trả lời</span>
+                  </div>
+                  <p className="text-xs text-gray-600 mb-3">Bạn cần đăng nhập để có thể trả lời tin nhắn này</p>
+                  <Link
+                    href="/auth"
+                    className="inline-block px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-md transition-colors duration-200"
+                  >
+                    Đăng nhập ngay
+                  </Link>
+                </div>
+              ) : (
+                <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                  <div className="flex items-center gap-2 mb-2">
+                    <svg className="h-4 w-4 text-yellow-600" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                    </svg>
+                    <span className="text-xs font-medium text-yellow-800">Thêm câu trả lời của bạn</span>
+                  </div>
+                  <div className="space-y-2">
+                    <textarea
+                      value={replyText}
+                      onChange={(e) => setReplyText(e.target.value)}
+                      placeholder="Nhập nội dung trả lời..."
+                      className="w-full px-3 py-2 bg-white border border-yellow-300 rounded-md text-gray-700 text-xs placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                      rows={3}
+                    />
+                    <div className="flex justify-end">
+                      <button
+                        onClick={handleSendReply}
+                        disabled={!replyText.trim() || isSendingReply}
+                        className="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white text-xs font-medium rounded-md transition-colors duration-200"
+                      >
+                        {isSendingReply ? 'Đang thêm...' : 'Thêm câu trả lời'}
+                      </button>
+                    </div>
+                  </div>
                 </div>
               )}
               

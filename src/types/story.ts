@@ -46,6 +46,27 @@ export interface Message {
   guestPicture?: string;
   guestEmail?: string;
   createdAt: string;
+  
+  // Guest replies from other guests (nested comment system)
+  guestReplies?: Array<{
+    _id: string;
+    guestId: string;
+    guestName: string;
+    guestEmail: string;
+    guestPicture?: string;
+    content: string;
+    createdAt: string;
+    parentReplyId?: string;
+    replies?: Array<{
+      _id: string;
+      guestId: string;
+      guestName: string;
+      guestEmail: string;
+      guestPicture?: string;
+      content: string;
+      createdAt: string;
+    }>;
+  }>;
 }
 
 export interface CreateStoryRequest {
@@ -95,4 +116,14 @@ export interface CreateMessageRequest {
   email: string;
   content: string;
   guestToken?: string;
+}
+
+export interface CreateGuestReplyRequest {
+  messageId: string;
+  content: string;
+  guestId: string;
+  guestName: string;
+  guestEmail: string;
+  guestPicture?: string;
+  parentReplyId?: string; // ID của reply gốc nếu đây là reply của reply
 }

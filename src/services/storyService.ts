@@ -10,7 +10,8 @@ import {
   UpdateChapterRequest,
   CreateCategoryRequest,
   UpdateCategoryRequest,
-  CreateMessageRequest 
+  CreateMessageRequest,
+  CreateGuestReplyRequest
 } from '../types/story';
 
 export const storyService = {
@@ -251,6 +252,64 @@ export const storyService = {
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.message || 'Failed to delete user');
+    }
+
+    return response.json();
+  },
+
+  // Add a guest reply to a message
+  async addGuestReply(replyData: CreateGuestReplyRequest): Promise<{ message: string; data: Message }> {
+    const response = await fetch('http://localhost:8111/api/messages/guest-reply', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(replyData),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to add guest reply');
+    }
+
+    return response.json();
+  },
+
+  // Add a nested guest reply (reply to another reply)
+  async addNestedGuestReply(replyData: CreateGuestReplyRequest): Promise<{ message: string; data: Message }> {
+    // This is the same as addGuestReply but with parentReplyId set
+    return this.addGuestReply(replyData);
+  },
+
+  // Delete a guest reply (admin only)
+  async deleteGuestReply(messageId: string, replyIndex: number): Promise<{ message: string; data: Message }> {
+    const response = await fetch(`http://localhost:8111/api/messages/${messageId}/guest-reply/${replyIndex}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to delete guest reply');
+    }
+
+    return response.json();
+  },
+
+  // Delete a nested guest reply (admin only)
+  async deleteNestedGuestReply(messageId: string, replyIndex: number, nestedReplyIndex: number): Promise<{ message: string; data: Message }> {
+    const response = await fetch(`http://localhost:8111/api/messages/${messageId}/guest-reply/${replyIndex}/nested/${nestedReplyIndex}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to delete nested guest reply');
     }
 
     return response.json();
