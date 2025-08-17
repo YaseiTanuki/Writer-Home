@@ -201,170 +201,182 @@ export default function EditStoryPage() {
     <div className="min-h-screen bg-black">
       <Navigation />
       
-      {/* Main Content */}
-      <div className="pt-16 md:pt-24 max-w-4xl mx-auto px-4 py-6">
-        {/* Page Title */}
-        <div className="mb-6">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
-            <div className="text-center sm:text-left">
-              <h1 className="text-sm font-bold text-white mb-2 leading-tight flex items-center gap-2">
-                <Edit3 size={20} className="text-blue-400 w-5 h-5" />
-                Chỉnh Sửa Truyện
-              </h1>
-              <p className="text-xs text-gray-300">
-                Cập nhật thông tin truyện của bạn
-              </p>
-            </div>
+             {/* Main Content */}
+       <div className="pt-16 md:pt-24 max-w-5xl mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-6">
+         {/* Page Header */}
+         <div className="mb-6">
+           <div className="text-center sm:text-left">
+             <h1 className="text-xl sm:text-2xl font-bold text-white mb-2 leading-tight flex items-center justify-center sm:justify-start gap-2">
+               <Edit3 size={22} className="text-blue-400" />
+               Chỉnh Sửa Truyện
+             </h1>
+             <p className="text-xs sm:text-sm text-gray-300">
+               Cập nhật thông tin truyện của bạn
+             </p>
+           </div>
+         </div>
 
-          </div>
-        </div>
+         {/* Story Info Banner */}
+         <div className="mb-6 p-3 sm:p-4 rounded-md bg-gradient-to-r from-blue-900/30 to-purple-900/30 border border-blue-700/50 backdrop-blur-sm">
+           <div className="flex items-center gap-2">
+             <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+             <p className="text-xs sm:text-sm font-medium text-blue-200">
+               Đang chỉnh sửa truyện: <span className="text-white font-bold">{story.title}</span>
+             </p>
+           </div>
+         </div>
 
-        <div className="p-3 sm:p-4 md:p-6">
-          <div className="mb-4 p-3 rounded-md bg-blue-900/20 border border-blue-700 text-blue-300">
-            <p className="font-medium text-xs">Đang chỉnh sửa truyện: {story.title}</p>
-          </div>
+         {error && (
+           <div className="mb-4 p-3 rounded-md bg-red-900/20 border border-red-700/50 text-red-300 text-xs">
+             <div className="flex items-center gap-2">
+               <div className="w-1.5 h-1.5 bg-red-400 rounded-full"></div>
+               {error}
+             </div>
+           </div>
+         )}
 
-          {error && (
-            <div className="mb-4 p-3 rounded-md bg-red-900/20 border border-red-700 text-red-300 text-xs">
-              {error}
-            </div>
-          )}
+         <form onSubmit={handleSubmit} className="space-y-6">
+           {/* Basic Information Section */}
+           <div className="bg-gray-900/50 rounded-md p-4 border border-gray-800">
+             <h2 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
+               <div className="w-1.5 h-3 bg-blue-500 rounded-full"></div>
+               Thông Tin Cơ Bản
+             </h2>
+             
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+               {/* Title */}
+               <div className="md:col-span-2">
+                 <label htmlFor="title" className="block text-xs font-medium text-gray-200 mb-1.5">
+                   Tiêu đề truyện *
+                 </label>
+                 <input
+                   type="text"
+                   id="title"
+                   name="title"
+                   value={formData.title}
+                   onChange={handleInputChange}
+                   className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs bg-gray-800 text-white placeholder-gray-400 transition-all duration-200"
+                   placeholder="Nhập tiêu đề truyện..."
+                   required
+                 />
+               </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Title */}
-            <div>
-              <label htmlFor="title" className="block text-xs font-medium text-gray-200 mb-2">
-                Tiêu đề truyện *
-              </label>
-              <input
-                type="text"
-                id="title"
-                name="title"
-                value={formData.title}
-                onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs bg-gray-800 text-white placeholder-gray-400"
-                placeholder="Nhập tiêu đề truyện..."
-                required
-              />
-            </div>
+               {/* Description */}
+               <div className="md:col-span-2">
+                 <label htmlFor="description" className="block text-xs font-medium text-gray-200 mb-1.5">
+                   Mô tả truyện *
+                 </label>
+                 <textarea
+                   id="description"
+                   name="description"
+                   value={formData.description}
+                   onChange={handleInputChange}
+                   rows={2}
+                   className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs bg-gray-800 text-white placeholder-gray-400 transition-all duration-200 resize-none"
+                   placeholder="Nhập mô tả ngắn gọn về truyện..."
+                   required
+                 />
+               </div>
 
-            {/* Description */}
-            <div>
-              <label htmlFor="description" className="block text-xs font-medium text-gray-200 mb-2">
-                Mô tả truyện *
-              </label>
-              <textarea
-                id="description"
-                name="description"
-                value={formData.description}
-                onChange={handleInputChange}
-                rows={2}
-                className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs bg-gray-800 text-white placeholder-gray-400"
-                placeholder="Nhập mô tả ngắn gọn về truyện..."
-                required
-              />
-            </div>
+               {/* Status */}
+               <div>
+                 <label htmlFor="status" className="block text-xs font-medium text-gray-200 mb-1.5">
+                   Trạng thái
+                 </label>
+                 <select
+                   id="status"
+                   name="status"
+                   value={formData.status}
+                   onChange={handleInputChange}
+                   className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs bg-gray-800 text-white transition-all duration-200"
+                 >
+                   <option value="draft">Bản thảo</option>
+                   <option value="public">Xuất bản</option>
+                 </select>
+               </div>
+             </div>
+           </div>
 
-            {/* Categories */}
-            <div>
-              <label className="block text-xs sm:text-sm font-medium text-gray-200 mb-1.5 sm:mb-2">
-                Thể loại *
-              </label>
-              <CategorySelector
-                selectedCategories={formData.category}
-                onChange={(categories: string[]) => setFormData(prev => ({ ...prev, category: categories }))}
-              />
-            </div>
+           {/* Categories Section */}
+           <div className="bg-gray-900/50 rounded-md p-4 border border-gray-800">
+             <h2 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
+               <div className="w-1.5 h-3 bg-green-500 rounded-full"></div>
+               Thể Loại Truyện
+             </h2>
+             <CategorySelector
+               selectedCategories={formData.category}
+               onChange={(categories: string[]) => setFormData(prev => ({ ...prev, category: categories }))}
+             />
+           </div>
 
-            {/* Cover Image */}
-            <ImageUpload
-              ref={imageUploadRef}
-              currentImageUrl={formData.coverImage}
-              onImageChange={(imageUrl) => setFormData(prev => ({ ...prev, coverImage: imageUrl }))}
-              className="mb-4"
-            />
+           {/* Cover Image Section */}
+           <div className="bg-gray-900/50 rounded-md p-4 border border-gray-800">
+             <h2 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
+               <div className="w-1.5 h-3 bg-purple-500 rounded-full"></div>
+               Ảnh Bìa Truyện
+             </h2>
+             <ImageUpload
+               ref={imageUploadRef}
+               currentImageUrl={formData.coverImage}
+               onImageChange={(imageUrl) => setFormData(prev => ({ ...prev, coverImage: imageUrl }))}
+             />
+           </div>
 
-            {/* Status */}
-            <div>
-              <label htmlFor="status" className="block text-xs font-medium text-gray-200 mb-2">
-                Trạng thái
-              </label>
-              <select
-                id="status"
-                name="status"
-                value={formData.status}
-                onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs bg-gray-800 text-white"
-              >
-                <option value="draft">Bản thảo</option>
-                <option value="public">Xuất bản</option>
-              </select>
-            </div>
+           {/* Story Content Section */}
+           <div className="bg-gray-900/50 rounded-md p-4 border border-gray-800">
+             <h2 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
+               <div className="w-1.5 h-3 bg-yellow-500 rounded-full"></div>
+               Nội Dung Truyện
+             </h2>
+             <div className="border border-gray-700 rounded-md overflow-hidden">
+               <TiptapEditor
+                 content={formData.content}
+                 onChange={(content) => setFormData(prev => ({ ...prev, content }))}
+                 placeholder="Viết nội dung truyện của bạn..."
+               />
+             </div>
+           </div>
 
-            {/* Story Content */}
-            <div>
-              <label className="block text-xs font-medium text-gray-200 mb-2">
-                Nội dung truyện *
-              </label>
-              <div className="border border-gray-600 rounded-md">
-                <TiptapEditor
-                  content={formData.content}
-                  onChange={(content) => setFormData(prev => ({ ...prev, content }))}
-                  placeholder="Viết nội dung truyện của bạn..."
-                />
-              </div>
-            </div>
-
-            {/* Submit Button */}
-            <div className="flex flex-col sm:flex-row gap-3">
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-md text-xs font-medium transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                onClick={() => console.log('Submit button clicked')}
-              >
-                {isSubmitting ? (
-                  <>
-                    <div className="relative w-4 h-4">
-                      <Image
-                        src="/reading.gif"
-                        alt="Updating..."
-                        width={16}
-                        height={16}
-                        className="rounded w-full h-full object-cover"
-                      />
-                    </div>
-                    <span className="text-xs">Đang cập nhật...</span>
-                  </>
-                ) : (
-                  <>
-                    <Edit3 size={16} className="w-4 h-4" />
-                    <span className="text-xs">Cập Nhật Truyện</span>
-                  </>
-                )}
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  console.log('Test button clicked');
-                  console.log('Current form data:', formData);
-                  console.log('Story ID:', storyId);
-                  console.log('User authenticated:', isAuthenticated);
-                }}
-                className="flex-1 sm:flex-none bg-green-600 hover:bg-green-700 text-white px-4 py-2.5 rounded-md font-medium transition-colors duration-200 text-xs"
-              >
-                Test Debug
-              </button>
-              <Link
-                href="/admin"
-                className="flex-1 sm:flex-none bg-gray-700 hover:bg-gray-600 text-gray-200 px-4 py-2.5 rounded-md font-medium transition-colors duration-200 text-center text-xs"
-              >
-                Hủy
-              </Link>
-            </div>
-          </form>
-        </div>
-      </div>
+           {/* Action Buttons */}
+           <div className="bg-gray-900/50 rounded-md p-4 border border-gray-800">
+             <div className="flex flex-col sm:flex-row gap-3">
+               <button
+                 type="submit"
+                 disabled={isSubmitting}
+                 className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-3 rounded-md text-sm font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-md hover:shadow-lg transform hover:scale-102"
+                 onClick={() => console.log('Submit button clicked')}
+               >
+                 {isSubmitting ? (
+                   <>
+                     <div className="relative w-4 h-4">
+                       <Image
+                         src="/reading.gif"
+                         alt="Updating..."
+                         width={16}
+                         height={16}
+                         className="rounded w-full h-full object-cover"
+                       />
+                     </div>
+                     <span className="text-sm">Đang cập nhật...</span>
+                   </>
+                 ) : (
+                   <>
+                     <Edit3 size={16} />
+                     <span className="text-sm">Cập Nhật Truyện</span>
+                   </>
+                 )}
+               </button>
+               
+               <Link
+                 href="/admin"
+                 className="flex-1 sm:flex-none bg-gray-700 hover:bg-gray-600 text-gray-200 px-6 py-3 rounded-md font-medium transition-all duration-200 text-center text-sm border border-gray-600 hover:border-gray-500 transform hover:scale-102"
+               >
+                 Hủy Bỏ
+               </Link>
+             </div>
+           </div>
+         </form>
+       </div>
     </div>
   );
 }

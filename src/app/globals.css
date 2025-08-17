@@ -10,11 +10,7 @@
   --accent-hover: #2563eb;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: 'Noto Sans JP';
-}
+
 
 body {
   background: var(--background);
