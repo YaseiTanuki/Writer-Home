@@ -133,7 +133,7 @@ export default function EditChapterPage() {
       <Navigation />
       
       {/* Page Title */}
-      <div className="mb-4 sm:mb-6 md:mb-8">
+      <div className="mb-4 sm:mb-6 md:mb-8 px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
           <div className="text-center sm:text-left">
             <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-2 leading-tight flex items-center gap-2 sm:gap-3">
@@ -141,22 +141,15 @@ export default function EditChapterPage() {
               Chỉnh Sửa Chương
             </h1>
             <p className="text-xs sm:text-sm md:text-base text-gray-300">
-              Cập nhật thông tin chương
+               Cập nhật thông tin chương
             </p>
           </div>
-          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 md:gap-4 w-full sm:w-auto">
-            <Link 
-              href="/admin" 
-              className="inline-flex items-center justify-center px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto gap-1.5 sm:gap-2"
-            >
-              <ArrowLeft size={14} className="sm:w-4 sm:h-4 md:w-5 md:h-5" />
-              Quay Lại Dashboard
-            </Link>
-          </div>
+          
         </div>
       </div>
 
-      <div className="p-3 sm:p-4 md:p-6">
+      {/* Form Container */}
+      <div className="px-4 sm:px-6 lg:px-8 mb-6">
         {error && (
           <div className="mb-4 sm:mb-6 p-2 sm:p-3 md:p-4 rounded-md bg-red-900/20 border border-red-700 text-red-300">
             {error}
@@ -197,56 +190,63 @@ export default function EditChapterPage() {
               required
             />
           </div>
+        </form>
+      </div>
 
-          {/* Chapter Content */}
-          <div>
-            <label className="block text-xs sm:text-sm font-medium text-gray-200 mb-1.5 sm:mb-2">
+      {/* Chapter Content - Full Width */}
+      <div className="px-0 sm:px-3 lg:px-8 mb-6">
+        <div className="bg-gray-900 shadow border border-gray-800">
+          <div className="px-2 sm:px-3 md:px-4 lg:px-6 py-3 sm:py-4">
+            <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1.5 sm:mb-2">
               Nội dung chương *
             </label>
-            <div className="border border-gray-600 rounded-md">
-              <TiptapEditor
-                content={formData.content || ''}
-                onChange={(content) => setFormData(prev => ({ ...prev, content }))}
-                placeholder="Viết nội dung chương..."
-              />
-            </div>
           </div>
+          <div className="w-full">
+            <TiptapEditor
+              content={formData.content || ''}
+              onChange={(content) => setFormData(prev => ({ ...prev, content }))}
+              placeholder="Viết nội dung chương..."
+            />
+          </div>
+        </div>
+      </div>
 
-          {/* Submit Button */}
-          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 md:gap-4">
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-md text-base sm:text-lg font-medium transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 sm:gap-3"
-            >
-              {isSubmitting ? (
-                <>
-                  <div className="relative w-4 h-4 sm:w-5 sm:h-5">
-                    <Image
-                      src="/reading.gif"
-                      alt="Updating..."
-                      width={20}
-                      height={20}
-                      className="rounded w-full h-full object-cover"
-                    />
-                  </div>
-                  <span className="text-sm sm:text-base">Đang cập nhật...</span>
-                </>
-              ) : (
-                <>
-                  <Edit3 size={18} className="sm:w-5 sm:h-5" />
-                  <span className="text-sm sm:text-base">Cập Nhật Chương</span>
-                </>
-              )}
-            </button>
-            <Link
-              href="/admin"
-              className="flex-1 sm:flex-none bg-gray-700 hover:bg-gray-600 text-gray-200 px-4 sm:px-6 py-2.5 sm:py-3 rounded-md font-medium transition-colors duration-200 text-center text-sm sm:text-base"
-            >
-              Hủy
-            </Link>
-          </div>
-        </form>
+      {/* Submit Buttons */}
+      <div className="px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 md:gap-4">
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-md text-base sm:text-lg font-medium transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 sm:gap-3"
+            onClick={handleSubmit}
+          >
+            {isSubmitting ? (
+              <>
+                <div className="relative w-4 h-4 sm:w-5 sm:h-5">
+                  <Image
+                    src="/reading.gif"
+                    alt="Updating..."
+                    width={20}
+                    height={20}
+                    className="rounded w-full h-full object-cover"
+                  />
+                </div>
+                <span className="text-sm sm:text-base">Đang cập nhật...</span>
+              </>
+            ) : (
+              <>
+                <Edit3 size={18} className="sm:w-5 sm:h-5" />
+                <span className="text-sm sm:text-base">Cập Nhật Chương</span>
+              </>
+            )}
+          </button>
+          <Link
+            href="/admin"
+            className="flex-1 sm:flex-none bg-gray-700 hover:bg-gray-600 text-gray-200 px-4 sm:px-6 py-2.5 sm:py-3 rounded-md font-medium transition-colors duration-200 text-center text-sm sm:text-base"
+          >
+            Hủy
+          </Link>
+        </div>
       </div>
     </div>
   );
