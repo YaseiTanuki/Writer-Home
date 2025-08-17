@@ -32,7 +32,7 @@ export default function EditStoryPage() {
   const [isLoadingStory, setIsLoadingStory] = useState(true);
   const [error, setError] = useState('');
   const [story, setStory] = useState<Story | null>(null);
-  const imageUploadRef = useRef<{ uploadImage?: () => Promise<string>; hasNewFile?: () => boolean }>(null);
+  const imageUploadRef = useRef<{ uploadImage: () => Promise<string>; hasNewFile: () => boolean }>(null);
   
   const [formData, setFormData] = useState<EditStoryFormData>({
     title: '',
