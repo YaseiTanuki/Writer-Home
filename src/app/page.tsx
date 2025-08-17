@@ -44,6 +44,10 @@ export default function Home() {
   
   // Notification state
   const [notification, setNotification] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+  
+  // Hourly message rotation state
+  const [lastRotationTime, setLastRotationTime] = useState<number>(0);
+  const [currentHourlyMessages, setCurrentHourlyMessages] = useState<Message[]>([]);
 
   // Debug authentication state
   useEffect(() => {
@@ -87,21 +91,83 @@ export default function Home() {
   }, [user, isAdminAuthenticated, guest, isGuestAuthenticated, isAuthenticated, currentUser]);
 
   useEffect(() => {
+    // Restore hourly message rotation state from localStorage
+    const restoreHourlyState = () => {
+      try {
+        const storedRotationTime = localStorage.getItem('lastRotationTime');
+        const storedHourlyMessages = localStorage.getItem('currentHourlyMessages');
+        
+        if (storedRotationTime && storedHourlyMessages) {
+          const rotationTime = parseInt(storedRotationTime);
+          const hourlyMessages = JSON.parse(storedHourlyMessages);
+          
+          setLastRotationTime(rotationTime);
+          setCurrentHourlyMessages(hourlyMessages);
+          
+          console.log('Restored hourly state from localStorage:', {
+            rotationTime: new Date(rotationTime),
+            messageCount: hourlyMessages.length
+          });
+        }
+      } catch (error) {
+        console.error('Error restoring hourly state from localStorage:', error);
+      }
+    };
+    
+    restoreHourlyState();
     loadMessages();
   }, []);
 
   useEffect(() => {
     if (messages.length > 0) {
-      // Shuffle messages randomly
-      const shuffledMessages = [...messages].sort(() => Math.random() - 0.5);
+      const now = Date.now();
+      const oneHour = 60 * 60 * 1000; // 1 hour in milliseconds
       
-      // Determine device type and set appropriate message limits
-      const isMobile = window.innerWidth < 768; // md breakpoint
-      const maxMessages = isMobile ? 6 : 20; // Mobile: 3x2=6, Desktop: 4x5=20
-      
-      setDisplayedMessages(shuffledMessages.slice(0, maxMessages));
+      // Check if we need to rotate messages (every hour)
+      if (now - lastRotationTime >= oneHour || currentHourlyMessages.length === 0) {
+        // Shuffle messages randomly for this hour
+        const shuffledMessages = [...messages].sort(() => Math.random() - 0.5);
+        
+        // Determine device type and set appropriate message limits
+        const isMobile = window.innerWidth < 768; // md breakpoint
+        const maxMessages = isMobile ? 6 : 20; // Mobile: 3x2=6, Desktop: 4x5=20
+        
+        const newHourlyMessages = shuffledMessages.slice(0, maxMessages);
+        setCurrentHourlyMessages(newHourlyMessages);
+        setDisplayedMessages(newHourlyMessages);
+        setLastRotationTime(now);
+        
+        // Store in localStorage for persistence across page refreshes
+        localStorage.setItem('lastRotationTime', now.toString());
+        localStorage.setItem('currentHourlyMessages', JSON.stringify(newHourlyMessages));
+        
+        console.log('Messages rotated for new hour:', newHourlyMessages.length, 'messages');
+      } else {
+        // Use existing hourly messages
+        setDisplayedMessages(currentHourlyMessages);
+        console.log('Using existing hourly messages:', currentHourlyMessages.length, 'messages');
+      }
     }
-  }, [messages]);
+  }, [messages, lastRotationTime, currentHourlyMessages]);
+  
+  // Auto-rotate messages every hour
+  useEffect(() => {
+    const checkHourlyRotation = () => {
+      const now = Date.now();
+      const oneHour = 60 * 60 * 1000;
+      
+      if (now - lastRotationTime >= oneHour && messages.length > 0) {
+        // Force rotation by updating lastRotationTime
+        setLastRotationTime(now);
+        console.log('Auto-rotating messages for new hour');
+      }
+    };
+    
+    // Check every minute
+    const interval = setInterval(checkHourlyRotation, 60 * 1000);
+    
+    return () => clearInterval(interval);
+  }, [lastRotationTime, messages.length]);
 
   // Debug selectedMessage changes
   useEffect(() => {
