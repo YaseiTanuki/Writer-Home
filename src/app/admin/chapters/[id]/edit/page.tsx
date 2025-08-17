@@ -129,7 +129,7 @@ export default function EditChapterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-black">
       <Navigation />
       
       {/* Page Title */}
