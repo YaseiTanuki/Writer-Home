@@ -414,19 +414,25 @@ export default function AdminMessages() {
                     <button
                       onClick={async () => {
                         try {
-                          console.log('Testing API...');
                           const response = await fetch('/api/messages', {
-                            method: 'GET',
                             headers: {
                               'Content-Type': 'application/json',
                             },
                           });
                           const data = await response.json();
                           console.log('API Test Response:', data);
-                          alert(`API Test: ${response.status} - ${data.count} messages`);
+                          setNotification({
+                            type: 'success',
+                            message: `API Test: ${response.status} - ${data.count} messages`
+                          });
+                          setTimeout(() => setNotification(null), 3000);
                         } catch (error) {
                           console.error('API Test Error:', error);
-                          alert(`API Test Error: ${error}`);
+                          setNotification({
+                            type: 'error',
+                            message: `API Test Error: ${error}`
+                          });
+                          setTimeout(() => setNotification(null), 5000);
                         }
                       }}
                       className="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 sm:px-3 sm:py-1 rounded text-xs"

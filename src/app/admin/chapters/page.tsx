@@ -18,6 +18,10 @@ export default function AdminChapters() {
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState<{ id: string; title: string } | null>(null);
   const [notification, setNotification] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+  
+  // Orphaned chapters deletion confirmation modal
+  const [showOrphanedDeleteConfirm, setShowOrphanedDeleteConfirm] = useState(false);
+  const [orphanedChaptersToDelete, setOrphanedChaptersToDelete] = useState<Chapter[]>([]);
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -131,6 +135,49 @@ export default function AdminChapters() {
 
   const cancelDelete = () => {
     setDeleteConfirm(null);
+  };
+  
+  // Handle orphaned chapters deletion
+  const confirmOrphanedDelete = async () => {
+    if (!orphanedChaptersToDelete.length) return;
+    
+    try {
+      // Delete all orphaned chapters
+      await Promise.all(
+        orphanedChaptersToDelete.map(chapter => 
+          storyService.deleteChapter(chapter._id)
+        )
+      );
+      
+      // Show success notification
+      setNotification({
+        type: 'success',
+        message: `Đã xóa ${orphanedChaptersToDelete.length} chương không liên kết thành công!`
+      });
+      
+      // Reload data
+      await loadData();
+      
+      // Close modal
+      setShowOrphanedDeleteConfirm(false);
+      setOrphanedChaptersToDelete([]);
+      
+      // Auto-hide notification
+      setTimeout(() => setNotification(null), 3000);
+      
+    } catch (error) {
+      console.error('Failed to delete orphaned chapters:', error);
+      setNotification({
+        type: 'error',
+        message: 'Có lỗi xảy ra khi xóa các chương không liên kết!'
+      });
+      setTimeout(() => setNotification(null), 5000);
+    }
+  };
+  
+  const cancelOrphanedDelete = () => {
+    setShowOrphanedDeleteConfirm(false);
+    setOrphanedChaptersToDelete([]);
   };
 
   const getStoryTitle = (storyId: any) => {
@@ -274,14 +321,8 @@ export default function AdminChapters() {
                 <button
                   onClick={() => {
                     const orphanedChapters = chapters.filter(chapter => !isChapterLinkedToStory(chapter));
-                    if (confirm(`Bạn có chắc chắn muốn xóa ${orphanedChapters.length} chương không liên kết với truyện nào?`)) {
-                      // Xóa các chương không liên kết
-                      orphanedChapters.forEach(chapter => {
-                        storyService.deleteChapter(chapter._id);
-                      });
-                      // Reload data
-                      loadData();
-                    }
+                    setOrphanedChaptersToDelete(orphanedChapters);
+                    setShowOrphanedDeleteConfirm(true);
                   }}
                   className="bg-red-600 hover:bg-red-700 text-white px-2 sm:px-4 py-1.5 sm:py-3 rounded-lg font-medium transition-colors duration-200 text-xs sm:text-sm flex items-center gap-1 sm:gap-2 w-full sm:w-auto justify-center"
                 >
@@ -469,6 +510,52 @@ export default function AdminChapters() {
                     className="text-gray-300 bg-gray-800 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-600 font-medium rounded-lg text-xs sm:text-sm px-4 sm:px-5 py-2 sm:py-2.5 text-center border border-gray-600"
                   >
                     Hủy
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Orphaned Chapters Deletion Confirmation Modal */}
+      {showOrphanedDeleteConfirm && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50 p-4">
+          <div className="relative p-4 sm:p-8 border w-full max-w-md max-h-full">
+            <div className="relative bg-gray-900 rounded-lg shadow border border-gray-800">
+              <div className="p-4 sm:p-6 text-center">
+                <svg className="mx-auto mb-4 text-red-400 w-10 h-10 sm:w-12 sm:h-12" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 5v10a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3h.08a3 3 0 0 0 2.92 2h2.08a3 3 0 0 0 2.92-2H15a3 3 0 0 1 3 3Z" />
+                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 11V6a3 3 0 1 1 6 0v5a3 3 0 1 1-6 0Z" />
+                </svg>
+                <h3 className="mb-3 sm:mb-5 text-base sm:text-lg font-normal text-white">
+                  Xác nhận xóa chương không liên kết
+                </h3>
+                <p className="mb-3 sm:mb-4 text-xs sm:text-sm text-gray-300">
+                  Bạn có chắc chắn muốn xóa {orphanedChaptersToDelete.length} chương không liên kết với truyện nào không? Hành động này không thể hoàn tác.
+                </p>
+                <div className="mb-4 p-3 bg-red-900/20 border border-red-700 rounded-lg">
+                  <p className="text-xs text-red-300 mb-2">Các chương sẽ bị xóa:</p>
+                  <div className="max-h-32 overflow-y-auto space-y-1">
+                    {orphanedChaptersToDelete.map((chapter, index) => (
+                      <div key={chapter._id} className="text-xs text-red-200 bg-red-900/30 p-2 rounded">
+                        {index + 1}. {chapter.title} (Chương {chapter.chapterNumber})
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-4">
+                  <button
+                    onClick={confirmOrphanedDelete}
+                    className="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-800 font-medium rounded-lg text-xs sm:text-sm px-4 sm:px-5 py-2 sm:py-2.5 text-center"
+                  >
+                    Xóa tất cả
+                  </button>
+                  <button
+                    onClick={cancelOrphanedDelete}
+                    className="text-gray-300 bg-gray-800 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-600 font-medium rounded-lg text-xs sm:text-sm px-4 sm:px-5 py-2 sm:py-2.5 text-center border border-gray-600"
+                  >
+                    Hủy bỏ
                   </button>
                 </div>
               </div>

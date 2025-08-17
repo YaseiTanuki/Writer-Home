@@ -41,6 +41,9 @@ export default function Home() {
   const [showPopup, setShowPopup] = useState(false);
   const [replyText, setReplyText] = useState('');
   const [isSendingReply, setIsSendingReply] = useState(false);
+  
+  // Notification state
+  const [notification, setNotification] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
   // Debug authentication state
   useEffect(() => {
@@ -170,7 +173,11 @@ export default function Home() {
     
     // Check if user is authenticated
     if (!isAuthenticated || !currentUser) {
-      alert('Vui lòng đăng nhập để có thể trả lời tin nhắn!');
+      setNotification({
+        type: 'error',
+        message: 'Vui lòng đăng nhập để có thể trả lời tin nhắn!'
+      });
+      setTimeout(() => setNotification(null), 5000);
       return;
     }
     
@@ -198,11 +205,19 @@ export default function Home() {
       setReplyText('');
       
       // Show success message
-      alert('Đã thêm câu trả lời thành công!');
+      setNotification({
+        type: 'success',
+        message: 'Đã thêm câu trả lời thành công!'
+      });
+      setTimeout(() => setNotification(null), 3000);
       
     } catch (error) {
       console.error('Failed to add guest reply:', error);
-      alert('Có lỗi xảy ra khi thêm câu trả lời!');
+      setNotification({
+        type: 'error',
+        message: 'Có lỗi xảy ra khi thêm câu trả lời!'
+      });
+      setTimeout(() => setNotification(null), 5000);
     } finally {
       setIsSendingReply(false);
     }
@@ -519,6 +534,53 @@ export default function Home() {
               >
                 Đóng
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {/* Notification Toast */}
+      {notification && (
+        <div className="fixed top-20 left-4 right-4 z-50 max-w-sm mx-auto">
+          <div className={`rounded-lg shadow-lg p-4 ${
+            notification.type === 'success' 
+              ? 'bg-green-900/20 border border-green-700 text-green-400' 
+              : 'bg-red-900/20 border border-red-700 text-red-400'
+          }`}>
+            <div className="flex items-start">
+              <div className="flex-shrink-0">
+                {notification.type === 'success' ? (
+                  <div className="w-5 h-5 bg-green-400 rounded-full flex items-center justify-center">
+                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                ) : (
+                  <div className="w-5 h-5 bg-red-400 rounded-full flex items-center justify-center">
+                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                )}
+              </div>
+              <div className="ml-3 flex-1">
+                <p className="text-sm font-medium">{notification.message}</p>
+              </div>
+              <div className="ml-4 flex-shrink-0">
+                <button
+                  onClick={() => setNotification(null)}
+                  className={`inline-flex rounded-md p-1.5 ${
+                    notification.type === 'success' 
+                      ? 'text-green-400 hover:bg-green-900/20' 
+                      : 'text-red-400 hover:bg-red-900/20'
+                  } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-green-600`}
+                >
+                  <span className="sr-only">Đóng</span>
+                  <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>
