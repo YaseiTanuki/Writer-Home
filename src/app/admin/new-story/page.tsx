@@ -17,6 +17,7 @@ export default function NewStoryPage() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [touched, setTouched] = useState<{[key: string]: boolean}>({});
   
   const [formData, setFormData] = useState<CreateStoryRequest>({
     title: '',
@@ -27,7 +28,7 @@ export default function NewStoryPage() {
   });
 
   const [storyContent, setStoryContent] = useState('');
-  const imageUploadRef = useRef<{ uploadImage?: () => Promise<string>; hasNewFile?: () => boolean }>(null);
+  const imageUploadRef = useRef<{ uploadImage: () => Promise<string>; hasNewFile: () => boolean }>(null);
 
   // Redirect if not authenticated
   if (!isLoading && !isAuthenticated) {
@@ -59,10 +60,44 @@ export default function NewStoryPage() {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    // Clear error when user starts typing
+    if (error) setError('');
+  };
+
+  const handleBlur = (fieldName: string) => {
+    setTouched(prev => ({ ...prev, [fieldName]: true }));
+  };
+
+  const getFieldError = (fieldName: string) => {
+    if (!touched[fieldName]) return null;
+    
+    switch (fieldName) {
+      case 'title':
+        return !formData.title ? 'Tiêu đề không được để trống' : null;
+      case 'description':
+        return !formData.description ? 'Mô tả không được để trống' : null;
+      case 'category':
+        return formData.category.length === 0 ? 'Vui lòng chọn ít nhất một thể loại' : null;
+      case 'coverImage':
+        return !formData.coverImage ? 'Vui lòng chọn ảnh bìa cho truyện' : null;
+      case 'content':
+        return !storyContent.trim() ? 'Nội dung truyện không được để trống' : null;
+      default:
+        return null;
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Mark all fields as touched to show errors
+    setTouched({
+      title: true,
+      description: true,
+      category: true,
+      coverImage: true,
+      content: true
+    });
     
     if (!formData.title || !formData.description || formData.category.length === 0 || !storyContent.trim()) {
       setError('Vui lòng điền đầy đủ thông tin bắt buộc');
@@ -143,10 +178,14 @@ export default function NewStoryPage() {
                 name="title"
                 value={formData.title}
                 onChange={handleInputChange}
+                onBlur={() => handleBlur('title')}
                 className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs bg-gray-800 text-white placeholder-gray-400"
                 placeholder="Nhập tiêu đề truyện..."
                 required
               />
+              {getFieldError('title') && (
+                <p className="text-red-300 text-xs mt-1">{getFieldError('title')}</p>
+              )}
             </div>
 
             {/* Description */}
@@ -159,11 +198,15 @@ export default function NewStoryPage() {
                 name="description"
                 value={formData.description}
                 onChange={handleInputChange}
+                onBlur={() => handleBlur('description')}
                 rows={2}
                 className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs bg-gray-800 text-white placeholder-gray-400"
                 placeholder="Nhập mô tả ngắn gọn về truyện..."
                 required
               />
+              {getFieldError('description') && (
+                <p className="text-red-300 text-xs mt-1">{getFieldError('description')}</p>
+              )}
             </div>
 
             {/* Categories */}
@@ -173,17 +216,29 @@ export default function NewStoryPage() {
               </label>
               <CategorySelector
                 selectedCategories={formData.category}
-                onChange={(categories: string[]) => setFormData(prev => ({ ...prev, category: categories }))}
+                onChange={(categories: string[]) => {
+                  setFormData(prev => ({ ...prev, category: categories }));
+                  setTouched(prev => ({ ...prev, category: true }));
+                }}
               />
+              {getFieldError('category') && (
+                <p className="text-red-300 text-xs mt-1">{getFieldError('category')}</p>
+              )}
             </div>
 
             {/* Cover Image */}
             <ImageUpload
               ref={imageUploadRef}
               currentImageUrl={formData.coverImage}
-              onImageChange={(imageUrl) => setFormData(prev => ({ ...prev, coverImage: imageUrl }))}
+              onImageChange={(imageUrl) => {
+                setFormData(prev => ({ ...prev, coverImage: imageUrl }));
+                setTouched(prev => ({ ...prev, coverImage: true }));
+              }}
               className="mb-4"
             />
+            {getFieldError('coverImage') && (
+              <p className="text-red-300 text-xs mt-1">{getFieldError('coverImage')}</p>
+            )}
 
             {/* Status */}
             <div>
@@ -210,9 +265,15 @@ export default function NewStoryPage() {
               <div className="border border-gray-600 rounded-md">
                 <TiptapEditor
                   content={storyContent}
-                  onChange={setStoryContent}
+                  onChange={(content) => {
+                    setStoryContent(content);
+                    setTouched(prev => ({ ...prev, content: true }));
+                  }}
                 />
               </div>
+              {getFieldError('content') && (
+                <p className="text-red-300 text-xs mt-1">{getFieldError('content')}</p>
+              )}
             </div>
 
             {/* Submit Button */}

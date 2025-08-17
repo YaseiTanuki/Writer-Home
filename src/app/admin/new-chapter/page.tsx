@@ -15,15 +15,17 @@ export default function NewChapterPage() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
-  const [stories, setStories] = useState<Story[]>([]);
-  const [isLoadingStories, setIsLoadingStories] = useState(true);
+  const [touched, setTouched] = useState<{[key: string]: boolean}>({});
   
   const [formData, setFormData] = useState<CreateChapterRequest>({
-    storyId: '',
     title: '',
+    storyId: '',
     content: '',
     chapterNumber: 1
   });
+
+  const [stories, setStories] = useState<Story[]>([]);
+  const [isLoadingStories, setIsLoadingStories] = useState(true);
 
   // Redirect if not authenticated
   if (!isLoading && !isAuthenticated) {
@@ -53,6 +55,7 @@ export default function NewChapterPage() {
   const handleStoryChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     const storyId = e.target.value;
     setFormData(prev => ({ ...prev, storyId }));
+    setTouched(prev => ({ ...prev, storyId: true }));
     
     if (storyId) {
       try {
@@ -95,17 +98,39 @@ export default function NewChapterPage() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    if (name === 'chapterNumber') {
-      setFormData(prev => ({ ...prev, [name]: parseInt(value) || 1 }));
-    } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
+    setTouched(prev => ({ ...prev, [name]: true }));
+    // Clear error when user starts typing
+    if (error) setError('');
+  };
+
+  const handleBlur = (fieldName: string) => {
+    setTouched(prev => ({ ...prev, [fieldName]: true }));
+  };
+
+  const getFieldError = (fieldName: string) => {
+    if (!touched[fieldName]) return null;
+    
+    switch (fieldName) {
+      case 'title':
+        return !formData.title ? 'Tiêu đề không được để trống' : null;
+      case 'storyId':
+        return !formData.storyId ? 'Vui lòng chọn truyện' : null;
+      default:
+        return null;
     }
   };
 
-  const handleNext = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.storyId || !formData.title || !formData.chapterNumber) {
+    // Mark all fields as touched to show errors
+    setTouched({
+      title: true,
+      storyId: true
+    });
+    
+    if (!formData.title || !formData.storyId) {
       setError('Vui lòng điền đầy đủ thông tin bắt buộc');
       return;
     }
@@ -185,7 +210,7 @@ export default function NewChapterPage() {
             </div>
           )}
 
-          <form onSubmit={handleNext} className="space-y-4 sm:space-y-5 md:space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5 md:space-y-6">
             {/* Story Selection */}
             <div>
               <label htmlFor="storyId" className="block text-xs sm:text-sm font-medium text-gray-300 mb-1.5 sm:mb-2">
@@ -196,6 +221,7 @@ export default function NewChapterPage() {
                 name="storyId"
                 value={formData.storyId}
                 onChange={handleStoryChange}
+                onBlur={() => handleBlur('storyId')}
                 className="w-full px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm md:text-base bg-gray-800 text-white"
                 required
               >
@@ -210,6 +236,9 @@ export default function NewChapterPage() {
                 <p className="mt-1 text-xs sm:text-sm text-red-400">
                   Chưa có truyện nào. Vui lòng <Link href="/admin/new-story" className="text-blue-400 hover:underline">tạo truyện trước</Link>.
                 </p>
+              )}
+              {getFieldError('storyId') && (
+                <p className="mt-1 text-xs sm:text-sm text-red-400">{getFieldError('storyId')}</p>
               )}
             </div>
 
@@ -242,10 +271,14 @@ export default function NewChapterPage() {
                 name="title"
                 value={formData.title}
                 onChange={handleInputChange}
+                onBlur={() => handleBlur('title')}
                 className="w-full px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm md:text-base bg-gray-800 text-white placeholder-gray-400"
                 placeholder="Nhập tiêu đề chương..."
                 required
               />
+              {getFieldError('title') && (
+                <p className="mt-1 text-xs sm:text-sm text-red-400">{getFieldError('title')}</p>
+              )}
             </div>
 
             {/* Submit Button */}

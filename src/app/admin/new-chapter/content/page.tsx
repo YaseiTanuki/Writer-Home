@@ -23,6 +23,8 @@ export default function ChapterContentPage() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [touched, setTouched] = useState<{[key: string]: boolean}>({});
+  
   const [tempChapter, setTempChapter] = useState<TempChapter | null>(null);
   const [story, setStory] = useState<Story | null>(null);
   const [content, setContent] = useState('');
@@ -63,6 +65,17 @@ export default function ChapterContentPage() {
       setError('Không thể tải dữ liệu. Vui lòng thử lại.');
     } finally {
       setIsLoadingData(false);
+    }
+  };
+
+  const getFieldError = (fieldName: string) => {
+    if (!touched[fieldName]) return null;
+    
+    switch (fieldName) {
+      case 'content':
+        return !content.trim() ? 'Nội dung không được để trống' : null;
+      default:
+        return null;
     }
   };
 
@@ -117,6 +130,9 @@ export default function ChapterContentPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Mark content field as touched to show errors
+    setTouched({ content: true });
     
     if (!content.trim()) {
       setError('Vui lòng nhập nội dung chương');
@@ -225,9 +241,17 @@ export default function ChapterContentPage() {
             <div className="w-full">
               <TiptapEditor
                 content={content}
-                onChange={setContent}
+                onChange={(newContent) => {
+                  setContent(newContent);
+                  setTouched(prev => ({ ...prev, content: true }));
+                }}
               />
             </div>
+            {getFieldError('content') && (
+              <div className="px-2 sm:px-3 md:px-4 lg:px-6 pb-3">
+                <p className="text-red-300 text-xs">{getFieldError('content')}</p>
+              </div>
+            )}
           </div>
         </div>
 

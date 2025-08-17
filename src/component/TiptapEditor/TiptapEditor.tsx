@@ -54,11 +54,24 @@ export default function TiptapEditor({
     ],
     content: content,
     onUpdate: ({ editor }) => {
+      // Preserve scroll position
+      const scrollPos = window.scrollY;
       onChange(editor.getHTML());
+      // Restore scroll position after a brief delay
+      setTimeout(() => {
+        window.scrollTo(0, scrollPos);
+      }, 0);
     },
     editorProps: {
       attributes: {
         class: 'mx-auto focus:outline-none',
+      },
+      handleDOMEvents: {
+        // Prevent automatic scrolling when focusing
+        focus: (view, event) => {
+          // Don't scroll to focused element
+          return false;
+        },
       },
     },
     immediatelyRender: false,

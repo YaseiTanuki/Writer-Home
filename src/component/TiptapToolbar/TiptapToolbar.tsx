@@ -107,140 +107,220 @@ export default function TiptapToolbar({ editor }: TiptapToolbarProps) {
   const allFeatures = [
     {
       icon: <Bold size={14} className="sm:w-4 sm:h-4" />,
-      onClick: () => editor.chain().focus().toggleBold().run(),
+      onClick: (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        editor.chain().focus().toggleBold().run();
+      },
       canExecute: editor.can().chain().focus().toggleBold().run(),
       isActive: editor.isActive('bold'),
       title: 'In đậm (Ctrl+B)'
     },
     {
       icon: <Italic size={14} className="sm:w-4 sm:h-4" />,
-      onClick: () => editor.chain().focus().toggleItalic().run(),
+      onClick: (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        editor.chain().focus().toggleItalic().run();
+      },
       canExecute: editor.can().chain().focus().toggleItalic().run(),
       isActive: editor.isActive('italic'),
       title: 'In nghiêng (Ctrl+I)'
     },
     {
       icon: <Underline size={14} className="sm:w-4 sm:h-4" />,
-      onClick: () => editor.chain().focus().toggleUnderline().run(),
+      onClick: (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        editor.chain().focus().toggleUnderline().run();
+      },
       canExecute: editor.can().chain().focus().toggleUnderline().run(),
       isActive: editor.isActive('underline'),
       title: 'Gạch chân (Ctrl+U)'
     },
     {
       icon: <Strikethrough size={14} className="sm:w-4 sm:h-4" />,
-      onClick: () => editor.chain().focus().toggleStrike().run(),
+      onClick: (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        editor.chain().focus().toggleStrike().run();
+      },
       canExecute: editor.can().chain().focus().toggleStrike().run(),
       isActive: editor.isActive('strike'),
       title: 'Gạch ngang'
     },
     {
       icon: <Heading1 size={14} className="sm:w-4 sm:h-4" />,
-      onClick: () => editor.chain().focus().toggleHeading({ level: 1 }).run(),
+      onClick: (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        editor.chain().focus().toggleHeading({ level: 1 }).run();
+      },
       canExecute: editor.can().chain().focus().toggleHeading({ level: 1 }).run(),
       isActive: editor.isActive('heading', { level: 1 }),
       title: 'Tiêu đề 1'
     },
     {
       icon: <Heading2 size={14} className="sm:w-4 sm:h-4" />,
-      onClick: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
+      onClick: (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        editor.chain().focus().toggleHeading({ level: 2 }).run();
+      },
       canExecute: editor.can().chain().focus().toggleHeading({ level: 2 }).run(),
       isActive: editor.isActive('heading', { level: 2 }),
       title: 'Tiêu đề 2'
     },
     {
       icon: <Heading3 size={14} className="sm:w-4 sm:h-4" />,
-      onClick: () => editor.chain().focus().toggleHeading({ level: 3 }).run(),
+      onClick: (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        editor.chain().focus().toggleHeading({ level: 3 }).run();
+      },
       canExecute: editor.can().chain().focus().toggleHeading({ level: 3 }).run(),
       isActive: editor.isActive('heading', { level: 3 }),
       title: 'Tiêu đề 3'
     },
     {
       icon: <List size={14} className="sm:w-4 sm:h-4" />,
-      onClick: () => editor.chain().focus().toggleBulletList().run(),
+      onClick: (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        editor.chain().focus().toggleBulletList().run();
+      },
       canExecute: editor.can().chain().focus().toggleBulletList().run(),
       isActive: editor.isActive('bulletList'),
       title: 'Danh sách không thứ tự'
     },
     {
       icon: <ListOrdered size={14} className="sm:w-4 sm:h-4" />,
-      onClick: () => editor.chain().focus().toggleOrderedList().run(),
+      onClick: (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        editor.chain().focus().toggleOrderedList().run();
+      },
       canExecute: editor.can().chain().focus().toggleOrderedList().run(),
       isActive: editor.isActive('orderedList'),
       title: 'Danh sách có thứ tự'
     },
     {
       icon: <Quote size={14} className="sm:w-4 sm:h-4" />,
-      onClick: () => editor.chain().focus().toggleBlockquote().run(),
+      onClick: (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        editor.chain().focus().toggleBlockquote().run();
+      },
       canExecute: editor.can().chain().focus().toggleBlockquote().run(),
       isActive: editor.isActive('blockquote'),
       title: 'Trích dẫn'
     },
     {
       icon: <Code size={14} className="sm:w-4 sm:h-4" />,
-      onClick: () => editor.chain().focus().toggleCodeBlock().run(),
+      onClick: (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        editor.chain().focus().toggleCodeBlock().run();
+      },
       canExecute: editor.can().chain().focus().toggleCodeBlock().run(),
       isActive: editor.isActive('codeBlock'),
       title: 'Khối mã'
     },
     {
       icon: <Link size={14} className="sm:w-4 sm:h-4" />,
-      onClick: addLink,
+      onClick: (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        addLink();
+      },
       canExecute: true,
       isActive: editor.isActive('link'),
       title: 'Thêm liên kết'
     },
     {
       icon: <Unlink size={14} className="sm:w-4 sm:h-4" />,
-      onClick: removeLink,
+      onClick: (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        removeLink();
+      },
       canExecute: editor.can().chain().focus().unsetLink().run(),
       isActive: false,
       title: 'Xóa liên kết'
     },
     {
       icon: <AlignLeft size={14} className="sm:w-4 sm:h-4" />,
-      onClick: () => editor.chain().focus().setTextAlign('left').run(),
+      onClick: (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        editor.chain().focus().setTextAlign('left').run();
+      },
       canExecute: true,
       isActive: editor.isActive({ textAlign: 'left' }),
       title: 'Căn trái'
     },
     {
       icon: <AlignCenter size={14} className="sm:w-4 sm:h-4" />,
-      onClick: () => editor.chain().focus().setTextAlign('center').run(),
+      onClick: (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        editor.chain().focus().setTextAlign('center').run();
+      },
       canExecute: true,
       isActive: editor.isActive({ textAlign: 'center' }),
       title: 'Căn giữa'
     },
     {
       icon: <AlignRight size={14} className="sm:w-4 sm:h-4" />,
-      onClick: () => editor.chain().focus().setTextAlign('right').run(),
+      onClick: (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        editor.chain().focus().setTextAlign('right').run();
+      },
       canExecute: true,
       isActive: editor.isActive({ textAlign: 'right' }),
       title: 'Căn phải'
     },
     {
       icon: <AlignJustify size={14} className="sm:w-4 sm:h-4" />,
-      onClick: () => editor.chain().focus().setTextAlign('justify').run(),
+      onClick: (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        editor.chain().focus().setTextAlign('justify').run();
+      },
       canExecute: true,
       isActive: editor.isActive({ textAlign: 'justify' }),
       title: 'Căn đều'
     },
     {
       icon: <Palette size={14} className="sm:w-4 sm:h-4" />,
-      onClick: openTextColorModal,
+      onClick: (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        openTextColorModal();
+      },
       canExecute: true,
       isActive: false,
       title: 'Màu chữ'
     },
     {
       icon: <Highlighter size={14} className="sm:w-4 sm:h-4" />,
-      onClick: openHighlightModal,
+      onClick: (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        openHighlightModal();
+      },
       canExecute: true,
       isActive: false,
       title: 'Highlight văn bản'
     },
     {
       icon: <Type size={14} className="sm:w-4 sm:h-4" />,
-      onClick: () => editor.chain().focus().clearNodes().unsetAllMarks().run(),
+      onClick: (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        editor.chain().focus().clearNodes().unsetAllMarks().run();
+      },
       canExecute: true,
       isActive: false,
       title: 'Xóa định dạng'
@@ -300,6 +380,7 @@ export default function TiptapToolbar({ editor }: TiptapToolbarProps) {
       <div className="flex items-center gap-0.5 sm:gap-1 justify-center">
         {/* Previous Page Button */}
         <button
+          type="button"
           onClick={prevPage}
           disabled={totalPages <= 1}
           className="p-1.5 sm:p-2 rounded hover:bg-gray-700 transition-colors text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -312,6 +393,7 @@ export default function TiptapToolbar({ editor }: TiptapToolbarProps) {
         {currentFeatures.map((feature, index) => (
           <button
             key={startIndex + index}
+            type="button"
             onClick={feature.onClick}
             disabled={!feature.canExecute}
             className={`p-1.5 sm:p-2 rounded hover:bg-gray-700 transition-colors ${
@@ -325,6 +407,7 @@ export default function TiptapToolbar({ editor }: TiptapToolbarProps) {
 
         {/* Next Page Button */}
         <button
+          type="button"
           onClick={nextPage}
           disabled={totalPages <= 1}
           className="p-1.5 sm:p-2 rounded hover:bg-gray-700 transition-colors text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -356,12 +439,14 @@ export default function TiptapToolbar({ editor }: TiptapToolbarProps) {
                 />
                 <div className="flex gap-3">
                   <button
+                    type="button"
                     onClick={cancelAddLink}
                     className="flex-1 px-4 py-2 border border-gray-600 text-gray-300 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors duration-200"
                   >
                     Hủy bỏ
                   </button>
                   <button
+                    type="button"
                     onClick={confirmAddLink}
                     disabled={!linkUrl.trim()}
                     className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-500 disabled:cursor-not-allowed text-white text-sm font-medium rounded-md transition-colors duration-200"
@@ -397,12 +482,14 @@ export default function TiptapToolbar({ editor }: TiptapToolbarProps) {
                 />
                 <div className="flex gap-3">
                   <button
+                    type="button"
                     onClick={cancelSetTextColor}
                     className="flex-1 px-4 py-2 border border-gray-600 text-gray-300 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors duration-200"
                   >
                     Hủy bỏ
                   </button>
                   <button
+                    type="button"
                     onClick={confirmSetTextColor}
                     disabled={!textColor.trim()}
                     className="flex-1 px-4 py-2 bg-purple-600 hover:bg-purple-700 disabled:bg-purple-500 disabled:cursor-not-allowed text-white text-sm font-medium rounded-md transition-colors duration-200"
@@ -438,12 +525,14 @@ export default function TiptapToolbar({ editor }: TiptapToolbarProps) {
                 />
                 <div className="flex gap-3">
                   <button
+                    type="button"
                     onClick={cancelSetHighlight}
                     className="flex-1 px-4 py-2 border border-gray-600 text-gray-300 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors duration-200"
                   >
                     Hủy bỏ
                   </button>
                   <button
+                    type="button"
                     onClick={confirmSetHighlight}
                     disabled={!highlightColor.trim()}
                     className="flex-1 px-4 py-2 bg-yellow-600 hover:bg-yellow-700 disabled:bg-yellow-500 disabled:cursor-not-allowed text-white text-sm font-medium rounded-md transition-colors duration-200"
