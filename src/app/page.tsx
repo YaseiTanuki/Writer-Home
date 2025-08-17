@@ -401,10 +401,10 @@ export default function Home() {
               <p className="text-xs text-gray-300 mb-3">
                 Những lời động viên và góp ý quý báu từ các bạn
               </p>
-                             <div className="text-xs text-gray-400 bg-gray-800/50 px-2 py-1 rounded border border-gray-700">
-                 <span className="hidden md:inline">Layout: 5 hàng × 4 tin (ngẫu nhiên)</span>
-                 <span className="md:hidden">Layout: 3 hàng × 2 tin (ngẫu nhiên)</span>
-               </div>
+              <div className="text-xs text-gray-400 bg-gray-800/50 px-2 py-1 rounded border border-gray-700">
+                <span className="hidden md:inline">Layout: 5 hàng × 4 tin (ngẫu nhiên)</span>
+                <span className="md:hidden">Layout: 3 hàng × 2 tin (ngẫu nhiên)</span>
+              </div>
             </div>
           </div>
 

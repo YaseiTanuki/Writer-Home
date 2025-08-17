@@ -241,53 +241,43 @@ export default function AdminCategories() {
                     </div>
                   </div>
 
-                  {/* Content */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between gap-2 sm:gap-4">
-                      <div className="flex-1 min-w-0">
-                        <h3 className="text-sm sm:text-lg font-semibold text-white truncate mb-1 sm:mb-2">
-                          {category.name}
-                        </h3>
-                        
-                        {/* Description - Hidden on mobile */}
-                        <p className="hidden sm:block text-sm text-gray-300 mb-2">
-                          {category.description || 'Không có mô tả'}
-                        </p>
-                        
-                        {/* Date */}
-                        <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-400">
-                          <Calendar size={14} className="sm:w-4" />
-                          <span>{new Date(category.createdAt).toLocaleDateString('vi-VN')}</span>
-                        </div>
-                      </div>
+                                     {/* Content */}
+                   <div className="flex-1 min-w-0">
+                     <div className="flex items-start justify-between gap-2 sm:gap-4">
+                       <div className="flex-1 min-w-0">
+                         <h3 className="text-sm sm:text-lg font-semibold text-white truncate mb-1 sm:mb-2">
+                           {category.name}
+                         </h3>
+                         
+                         {/* Description - Hidden on mobile */}
+                         <p className="hidden sm:block text-sm text-gray-300 mb-2">
+                           {category.description || 'Không có mô tả'}
+                         </p>
+                         
+                         {/* Date */}
+                         <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-400">
+                           <Calendar size={14} className="sm:w-4" />
+                           <span>{new Date(category.createdAt).toLocaleDateString('vi-VN')}</span>
+                         </div>
+                       </div>
 
-                      {/* Story Count - Hidden on mobile */}
-                      <div className="hidden sm:flex flex-shrink-0">
-                        <div className="flex items-center">
-                          <BookOpen size={14} className="text-blue-400 mr-2" />
-                          <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-blue-900/20 text-blue-400 border border-blue-700">
-                            {storyCount} truyện
-                          </span>
-                        </div>
-                      </div>
-                    </div>
+                       {/* Story Count - Always visible on right side */}
+                       <div className="flex flex-shrink-0">
+                         <div className="flex items-center">
+                           <BookOpen size={14} className="text-blue-400 mr-2" />
+                           <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-blue-900/20 text-blue-400 border border-blue-700">
+                             {storyCount} truyện
+                           </span>
+                         </div>
+                       </div>
+                     </div>
 
-                    {/* Description - Mobile */}
-                    <div className="sm:hidden mt-2">
-                      <p className="text-xs text-gray-400 truncate">
-                        {category.description || 'Không có mô tả'}
-                      </p>
-                    </div>
-
-                    {/* Story Count - Mobile */}
-                    <div className="sm:hidden mt-2">
-                      <div className="flex items-center">
-                        <BookOpen size={14} className="text-blue-400 mr-2" />
-                        <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-blue-900/20 text-blue-400 border border-blue-700">
-                          {storyCount} truyện
-                        </span>
-                      </div>
-                    </div>
+                     {/* Description - Mobile */}
+                     <div className="sm:hidden mt-2">
+                       <p className="text-xs text-gray-400 truncate">
+                         {category.description || 'Không có mô tả'}
+                       </p>
+                     </div>
 
                     {/* Action Buttons */}
                     <div className="flex items-center gap-2 sm:gap-3 mt-3 sm:mt-4">
