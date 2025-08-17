@@ -138,7 +138,7 @@ export default function AdminDashboard() {
           {/* Stories Management */}
           <Link 
             href="/admin/stories"
-            className="group bg-gray-900/50 rounded-md p-4 border border-gray-700 hover:border-blue-600 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 backdrop-blur-sm"
+            className="group bg-gray-900 rounded-lg p-6 border border-gray-800 hover:border-green-600 transition-all duration-300 hover:shadow-lg hover:shadow-green-500/20"
           >
             <div className="flex items-center justify-between mb-3">
               <div className="p-2 bg-blue-900/30 rounded-md group-hover:bg-blue-900/40 transition-colors duration-300">

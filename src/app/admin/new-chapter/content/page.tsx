@@ -245,11 +245,11 @@ export default function ChapterContentPage() {
             {/* Reading Adjustment Controls */}
             <div className="px-3 sm:px-4 md:px-6 pb-3 border-b border-gray-700">
               <div className="bg-gray-800/50 rounded-md p-3 backdrop-blur-sm">
-                <div className="flex items-center justify-center gap-2 mb-3">
+                <div className="flex items-center gap-2 mb-3">
                   <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
                   <span className="text-xs sm:text-sm font-medium text-gray-300">⚙️ Điều chỉnh đọc</span>
                 </div>
-                <div className="flex items-center justify-center gap-8 sm:gap-12">
+                <div className="flex items-center gap-8 sm:gap-12">
                   {/* Font Size Controls */}
                   <div className="flex items-center gap-2">
                     <button className="w-7 h-7 bg-gray-700 hover:bg-gray-600 rounded-md flex items-center justify-center text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium">

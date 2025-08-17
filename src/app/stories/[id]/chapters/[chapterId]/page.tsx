@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Calendar, FileText, ChevronLeft, ChevronRight, BookOpen, List, Minus, Plus, ArrowUp, ArrowDown, Settings } from 'lucide-react';
+import { Calendar, FileText, ChevronLeft, ChevronRight, BookOpen, List, Minus, Plus, ArrowUp, ArrowDown, Settings, Moon, Sun } from 'lucide-react';
 import { storyService } from '../../../../../services/storyService';
 import { Story, Chapter } from '../../../../../types/story';
 import Navigation from '../../../../../component/Navigation';
@@ -22,6 +22,7 @@ export default function ChapterReaderPage() {
   const [error, setError] = useState('');
   const [fontSize, setFontSize] = useState(16);
   const [lineHeight, setLineHeight] = useState(1.6);
+  const [isDarkMode, setIsDarkMode] = useState(true);
 
   useEffect(() => {
     if (storyId && chapterId) {
@@ -206,56 +207,117 @@ export default function ChapterReaderPage() {
         </div>
 
         {/* Chapter Content */}
-        <div className="bg-gray-900/50 rounded-md shadow-lg p-3 sm:p-4 lg:p-6 xl:p-8 mb-4 sm:mb-6 lg:mb-8 border border-gray-700 backdrop-blur-sm">
-          {/* Reading Controls */}
-          <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-gray-800/50 rounded-md border border-gray-700 backdrop-blur-sm">
-            <h3 className="text-xs font-medium text-gray-300 mb-2 sm:mb-3 flex items-center gap-2">
+        <div className={`rounded-md shadow-lg p-3 sm:p-4 lg:p-6 xl:p-8 mb-4 sm:mb-6 lg:mb-8 border backdrop-blur-sm transition-colors duration-200 ${
+          isDarkMode 
+            ? 'bg-gray-900/50 border-gray-700' 
+            : 'bg-white/90 border-gray-300'
+        }`}>
+                     {/* Reading Controls */}
+           <div className={`mb-4 sm:mb-6 p-3 sm:p-4 rounded-md border backdrop-blur-sm transition-colors duration-200 ${
+             isDarkMode 
+               ? 'bg-gray-800/50 border-gray-700' 
+               : 'bg-gray-200/80 border-gray-400'
+           }`}>
+                         <h3 className={`text-xs font-medium mb-2 sm:mb-3 flex items-center gap-2 transition-colors duration-200 ${
+               isDarkMode ? 'text-gray-300' : 'text-gray-700'
+             }`}>
               <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
               <Settings size={16} />
               Điều chỉnh đọc
             </h3>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
-              <div className="flex items-center space-x-1 sm:space-x-2">
-                <button
-                  onClick={decreaseFontSize}
-                  className="p-1.5 sm:p-2 text-gray-300 hover:text-white hover:bg-gray-700 rounded transition-colors duration-200"
-                  title="Giảm cỡ chữ"
-                >
-                  <Minus size={16} />
-                </button>
-                <span className="text-xs text-gray-300 w-8 sm:w-12 text-center font-medium">{fontSize}px</span>
-                <button
-                  onClick={increaseFontSize}
-                  className="p-1.5 sm:p-2 text-gray-300 hover:text-white hover:bg-gray-700 rounded transition-colors duration-200"
-                  title="Tăng cỡ chữ"
-                >
-                  <Plus size={16} />
-                </button>
-              </div>
-              
-              <div className="flex items-center space-x-1 sm:space-x-2">
-                <button
-                  onClick={decreaseLineHeight}
-                  className="p-1.5 sm:p-2 text-gray-300 hover:text-white hover:bg-gray-700 rounded transition-colors duration-200"
-                  title="Giảm khoảng cách dòng"
-                >
-                  <ArrowDown size={16} />
-                </button>
-                <span className="text-xs text-gray-300 w-8 sm:w-12 text-center font-medium">{lineHeight.toFixed(1)}</span>
-                <button
-                  onClick={increaseLineHeight}
-                  className="p-1.5 sm:p-2 text-gray-300 hover:text-white hover:bg-gray-700 rounded transition-colors duration-200"
-                  title="Tăng khoảng cách dòng"
-                >
-                  <ArrowUp size={16} />
-                </button>
-              </div>
+            <div className="flex flex-row items-center justify-center gap-3 sm:gap-4">
+                             <div className="flex items-center space-x-1 sm:space-x-2">
+                 <button
+                   onClick={decreaseFontSize}
+                   className={`p-1.5 sm:p-2 rounded transition-colors duration-200 ${
+                     isDarkMode 
+                       ? 'text-gray-300 hover:text-white hover:bg-gray-700' 
+                       : 'text-gray-600 hover:text-gray-800 hover:bg-gray-300'
+                   }`}
+                   title="Giảm cỡ chữ"
+                 >
+                   <Minus size={16} />
+                 </button>
+                 <span className={`text-xs w-8 sm:w-12 text-center font-medium transition-colors duration-200 ${
+                   isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                 }`}>{fontSize}px</span>
+                 <button
+                   onClick={increaseFontSize}
+                   className={`p-1.5 sm:p-2 rounded transition-colors duration-200 ${
+                     isDarkMode 
+                       ? 'text-gray-300 hover:text-white hover:bg-gray-700' 
+                       : 'text-gray-600 hover:text-gray-800 hover:bg-gray-300'
+                   }`}
+                   title="Tăng cỡ chữ"
+                 >
+                   <Plus size={16} />
+                 </button>
+               </div>
+               
+               <div className="flex items-center space-x-1 sm:space-x-2">
+                 <button
+                   onClick={decreaseLineHeight}
+                   className={`p-1.5 sm:p-2 rounded transition-colors duration-200 ${
+                     isDarkMode 
+                       ? 'text-gray-300 hover:text-white hover:bg-gray-700' 
+                       : 'text-gray-600 hover:text-gray-800 hover:bg-gray-300'
+                   }`}
+                   title="Giảm khoảng cách dòng"
+                 >
+                   <ArrowDown size={16} />
+                 </button>
+                 <span className={`text-xs w-8 sm:w-12 text-center font-medium transition-colors duration-200 ${
+                   isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                 }`}>{lineHeight.toFixed(1)}</span>
+                 <button
+                   onClick={increaseLineHeight}
+                   className={`p-1.5 sm:p-2 rounded transition-colors duration-200 ${
+                     isDarkMode 
+                       ? 'text-gray-300 hover:text-white hover:bg-gray-700' 
+                       : 'text-gray-600 hover:text-gray-800 hover:bg-gray-300'
+                   }`}
+                   title="Tăng khoảng cách dòng"
+                 >
+                   <ArrowUp size={16} />
+                 </button>
+               </div>
+
+                             {/* Theme Toggle Switch */}
+               <div className="flex items-center space-x-2">
+                 <Sun 
+                   size={16} 
+                   className={`transition-colors duration-200 ${
+                     isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                   }`} 
+                 />
+                 <button
+                   onClick={() => setIsDarkMode(!isDarkMode)}
+                   className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
+                     isDarkMode ? 'bg-blue-600' : 'bg-gray-600'
+                   }`}
+                   title={isDarkMode ? 'Chuyển sang chế độ sáng' : 'Chuyển sang chế độ tối'}
+                 >
+                   <span
+                     className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 ${
+                       isDarkMode ? 'translate-x-6' : 'translate-x-1'
+                     }`}
+                   />
+                 </button>
+                 <Moon 
+                   size={16} 
+                   className={`transition-colors duration-200 ${
+                     isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                   }`} 
+                 />
+               </div>
             </div>
           </div>
 
           {/* Chapter Text */}
           <div 
-            className="max-w-none text-white chapter-content"
+            className={`max-w-none chapter-content transition-colors duration-200 ${
+              isDarkMode ? 'text-white' : 'text-black'
+            }`}
             style={{ 
               fontSize: `${fontSize}px`, 
               lineHeight: lineHeight,
@@ -266,7 +328,9 @@ export default function ChapterReaderPage() {
             {chapter.content && (
               <div 
                 dangerouslySetInnerHTML={{ __html: chapter.content }}
-                className="text-white chapter-content"
+                className={`chapter-content transition-colors duration-200 ${
+                  isDarkMode ? 'text-white' : 'text-black'
+                }`}
                 style={{ 
                   lineHeight: lineHeight,
                   '--custom-line-height': lineHeight,

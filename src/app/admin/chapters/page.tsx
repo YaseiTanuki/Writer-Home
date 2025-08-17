@@ -313,12 +313,12 @@ export default function AdminChapters() {
                 </h1>
                   <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-yellow-400 rounded-full animate-pulse"></div>
                 </div>
-                <p className="text-xs sm:text-sm text-gray-300 mt-0.5 sm:mt-1">
+                <div className="text-xs sm:text-sm text-gray-300 mt-0.5 sm:mt-1">
                   <span className="inline-flex items-center gap-1">
                     <div className="w-1 h-1 bg-green-400 rounded-full"></div>
-                  Tổng cộng {chapters.length} chương
+                    Tổng cộng {chapters.length} chương
                   </span>
-                </p>
+                </div>
               </div>
             </div>
             <div className="flex flex-col sm:flex-row gap-1.5 sm:gap-3">

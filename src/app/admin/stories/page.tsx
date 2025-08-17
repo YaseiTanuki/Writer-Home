@@ -196,16 +196,16 @@ export default function AdminStories() {
                     {/* Status Badge */}
                     <div className="flex-shrink-0">
                       {story.status === 'public' ? (
-                        <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full bg-green-900/20 text-green-400 border border-green-700">
+                        <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full bg-green-900/20 text-green-400 border border-green-700 whitespace-nowrap">
                           <CheckCircle size={12} className="sm:w-3" />
                           <span className="hidden sm:inline">Đã xuất bản</span>
-                          <span className="sm:inline">XB</span>
+                          <span className="sm:hidden">XB</span>
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full bg-red-900/20 text-red-400 border border-red-700">
+                        <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full bg-red-900/20 text-red-400 border border-red-700 whitespace-nowrap">
                           <AlertTriangle size={12} className="sm:w-3" />
                           <span className="hidden sm:inline">Bản thảo</span>
-                          <span className="sm:inline">BT</span>
+                          <span className="sm:hidden">BT</span>
                         </span>
                       )}
                     </div>
