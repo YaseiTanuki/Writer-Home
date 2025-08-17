@@ -83,73 +83,77 @@ export default function AdminDashboard() {
       {/* Main Content */}
       <div className="pt-16 md:pt-24 max-w-7xl mx-auto px-4 py-6">
         {/* Page Title */}
-        <div className="mb-8 px-4">
+        <div className="mb-6 px-3 sm:px-4">
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-white mb-3 leading-tight flex items-center justify-center gap-3">
-              <Settings size={28} className="text-blue-400 w-7 h-7" />
-              Bảng Điều Khiển Quản Trị
-            </h1>
-            <p className="text-sm text-gray-300">
+            <div className="relative mb-3">
+              <h1 className="text-xl sm:text-2xl font-bold text-white mb-2 leading-tight flex items-center justify-center gap-2">
+                <div className="w-1.5 h-3 bg-blue-500 rounded-full"></div>
+                <Settings size={24} className="text-blue-400 w-6 h-6" />
+                Bảng Điều Khiển Quản Trị
+              </h1>
+              <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-yellow-400 rounded-full animate-pulse"></div>
+            </div>
+            <p className="text-xs sm:text-sm text-gray-300">
               Quản lý toàn bộ hệ thống truyện và người dùng
             </p>
           </div>
         </div>
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 px-4">
-          <div className="bg-blue-900/20 rounded-lg p-4 text-center border border-blue-800">
-            <div className="text-2xl font-bold text-blue-400 mb-1">{stories.length}</div>
-            <div className="text-sm text-blue-300 flex items-center justify-center gap-2">
-              <BookOpen size={16} />
-              Truyện
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6 px-3 sm:px-4">
+          <div className="bg-blue-900/30 rounded-md p-3 text-center border border-blue-700/50 backdrop-blur-sm">
+            <div className="flex items-center justify-center w-10 h-10 mx-auto mb-2 bg-gradient-to-br from-blue-600 to-blue-700 rounded-md shadow-md">
+              <BookOpen size={20} className="text-white" />
             </div>
+            <p className="text-xl font-bold text-white mb-1">{stories.length}</p>
+            <p className="text-xs text-blue-200">Truyện</p>
           </div>
-          <div className="bg-green-900/20 rounded-lg p-4 text-center border border-green-800">
-            <div className="text-2xl font-bold text-green-400 mb-1">{chapters.length}</div>
-            <div className="text-sm text-green-300 flex items-center justify-center gap-2">
-              <FileText size={16} />
-              Chương
+          <div className="bg-green-900/30 rounded-md p-3 text-center border border-green-700/50 backdrop-blur-sm">
+            <div className="flex items-center justify-center w-10 h-10 mx-auto mb-2 bg-gradient-to-br from-green-600 to-green-700 rounded-md shadow-md">
+              <FileText size={20} className="text-white" />
             </div>
+            <p className="text-xl font-bold text-white mb-1">{chapters.length}</p>
+            <p className="text-xs text-green-200">Chương</p>
           </div>
-          <div className="bg-purple-900/20 rounded-lg p-4 text-center border border-purple-800">
-            <div className="text-2xl font-bold text-purple-400 mb-1">{categories.length}</div>
-            <div className="text-sm text-purple-300 flex items-center justify-center gap-2">
-              <Tag size={16} />
-              Thể Loại
+          <div className="bg-purple-900/30 rounded-md p-3 text-center border border-purple-700/50 backdrop-blur-sm">
+            <div className="flex items-center justify-center w-10 h-10 mx-auto mb-auto mb-2 bg-gradient-to-br from-purple-600 to-purple-700 rounded-md shadow-md">
+              <Tag size={20} className="text-white" />
             </div>
+            <p className="text-xl font-bold text-white mb-1">{categories.length}</p>
+            <p className="text-xs text-purple-200">Thể Loại</p>
           </div>
-          <div className="bg-yellow-900/20 rounded-lg p-4 text-center border border-yellow-800">
-            <div className="text-2xl font-bold text-yellow-400 mb-1">
+          <div className="bg-yellow-900/30 rounded-md p-3 text-center border border-yellow-700/50 backdrop-blur-sm">
+            <div className="flex items-center justify-center w-10 h-10 mx-auto mb-2 bg-gradient-to-br from-yellow-600 to-yellow-700 rounded-md shadow-md">
+              <CheckCircle size={20} className="text-white" />
+            </div>
+            <p className="text-xl font-bold text-white mb-1">
               {stories.filter(s => s.status === 'public').length}
-            </div>
-            <div className="text-sm text-yellow-300 flex items-center justify-center gap-2">
-              <CheckCircle size={16} />
-              Đã Xuất Bản
-            </div>
+            </p>
+            <p className="text-xs text-yellow-200">Đã Xuất Bản</p>
           </div>
         </div>
 
         {/* Navigation Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-3 sm:px-4">
           {/* Stories Management */}
           <Link 
             href="/admin/stories"
-            className="group bg-gray-900 rounded-lg p-6 border border-gray-800 hover:border-blue-600 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20"
+            className="group bg-gray-900/50 rounded-md p-4 border border-gray-700 hover:border-blue-600 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 backdrop-blur-sm"
           >
-            <div className="flex items-center justify-between mb-4">
-              <div className="p-3 bg-blue-900/20 rounded-lg group-hover:bg-blue-900/30 transition-colors duration-300">
-                <BookOpen size={24} className="text-blue-400" />
+            <div className="flex items-center justify-between mb-3">
+              <div className="p-2 bg-blue-900/30 rounded-md group-hover:bg-blue-900/40 transition-colors duration-300">
+                <BookOpen size={20} className="text-blue-400" />
               </div>
               <div className="text-right">
-                <div className="text-2xl font-bold text-blue-400">{stories.length}</div>
+                <div className="text-xl font-bold text-blue-400">{stories.length}</div>
                 <div className="text-xs text-gray-400">truyện</div>
               </div>
             </div>
-            <h3 className="text-lg font-semibold text-white mb-2">Quản Lý Truyện</h3>
-            <p className="text-sm text-gray-300 mb-4">Xem, thêm, sửa và xóa truyện</p>
-            <div className="flex items-center text-blue-400 text-sm group-hover:text-blue-300 transition-colors duration-300">
+            <h3 className="text-base font-semibold text-white mb-2">Quản Lý Truyện</h3>
+            <p className="text-xs text-gray-300 mb-3">Xem, thêm, sửa và xóa truyện</p>
+            <div className="flex items-center text-blue-400 text-xs group-hover:text-blue-300 transition-colors duration-300">
               Xem chi tiết
-              <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-3 h-3 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </div>

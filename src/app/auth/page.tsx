@@ -42,18 +42,24 @@ export default function AuthPage() {
         
         {/* Main Selection Screen */}
         <div className="text-center">
-          <div className="flex items-center justify-center gap-2 sm:gap-3 mb-6 sm:mb-8">
-            <LogIn size={40} className="text-blue-400 sm:w-12 sm:h-12" />
-            <h1 className="text-sm sm:text-3xl font-bold text-white">Chọn loại đăng nhập</h1>
+          <div className="relative mb-6 sm:mb-8">
+            <div className="flex items-center justify-center gap-2 sm:gap-3 mb-4">
+              <LogIn size={28} className="text-blue-400 sm:w-8 sm:h-8" />
+              <h1 className="text-lg sm:text-2xl font-bold text-white bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Chọn loại đăng nhập</h1>
+            </div>
+            <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-yellow-400 rounded-full animate-pulse"></div>
           </div>
           
-          <p className="text-xs sm:text-lg text-gray-300 mb-8 sm:mb-12">
+          <p className="text-xs sm:text-base text-gray-300 mb-8 sm:mb-12">
             Bạn muốn đăng nhập bằng cách nào?
           </p>
 
           {error && (
-            <div className="mb-4 sm:mb-6 bg-red-900/20 border border-red-700 text-red-400 px-3 sm:px-4 py-2.5 sm:py-3 rounded text-xs">
-              {error}
+            <div className="mb-4 sm:mb-6 bg-red-900/20 border border-red-700/50 text-red-300 px-3 sm:px-4 py-2.5 sm:py-3 rounded-md text-xs backdrop-blur-sm">
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 bg-red-400 rounded-full"></div>
+                {error}
+              </div>
             </div>
           )}
 
@@ -62,7 +68,7 @@ export default function AuthPage() {
             <button
               onClick={() => handleSelectLoginType('guest')}
               disabled={isLoading}
-              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 text-white px-6 sm:px-8 py-4 sm:py-6 rounded-xl font-medium transition-colors duration-200 flex items-center justify-center gap-3 sm:gap-4 shadow-lg hover:shadow-xl"
+              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-blue-800 disabled:to-purple-800 text-white px-6 sm:px-8 py-4 sm:py-6 rounded-md font-medium transition-all duration-300 flex items-center justify-center gap-3 sm:gap-4 shadow-lg hover:shadow-xl hover:scale-105"
             >
               {isLoading ? (
                 <>
@@ -92,7 +98,7 @@ export default function AuthPage() {
             <button
               onClick={() => handleSelectLoginType('admin')}
               disabled={isLoading}
-              className="w-full bg-purple-600 hover:bg-purple-700 disabled:bg-purple-800 text-white px-6 sm:px-8 py-4 sm:py-6 rounded-xl font-medium transition-colors duration-200 flex items-center justify-center gap-3 sm:gap-4 shadow-lg hover:shadow-xl"
+              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 disabled:from-purple-800 disabled:to-pink-800 text-white px-6 sm:px-8 py-4 sm:py-6 rounded-md font-medium transition-all duration-300 flex items-center justify-center gap-3 sm:gap-4 shadow-lg hover:shadow-xl hover:scale-105"
             >
               <Shield size={28} className="sm:w-8 sm:h-8" />
               <div className="text-center">

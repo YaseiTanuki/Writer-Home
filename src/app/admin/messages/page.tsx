@@ -169,16 +169,27 @@ export default function AdminMessages() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 mb-4 sm:mb-6">
           <div className="flex items-center gap-2 sm:gap-3">
-            <Link href="/admin" className="inline-flex items-center justify-center p-2 text-gray-400 hover:text-white transition-colors duration-200">
-              <ArrowLeft size={20} className="sm:w-6" />
+            <Link href="/admin" className="inline-flex items-center justify-center p-2 text-gray-400 hover:text-white transition-all duration-200 rounded-md bg-gray-800/50 hover:bg-gray-700/50 backdrop-blur-sm border border-gray-700">
+              <ArrowLeft size={18} className="sm:w-5" />
             </Link>
             <div className="flex items-center gap-2 sm:gap-3">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-                <Mail size={16} className="sm:w-5 text-white" />
+              <div className="relative">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-md flex items-center justify-center shadow-md">
+                  <Mail size={16} className="sm:w-5 text-white" />
+                </div>
+                <div className="absolute -top-1 right-0 w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
               </div>
               <div>
-                <h1 className="text-lg sm:text-2xl font-bold text-blue-400">Góc Truyện</h1>
-                <p className="text-xs sm:text-sm text-gray-400">Quản lý tin nhắn</p>
+                <div className="relative mb-1">
+                  <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Góc Truyện</h1>
+                  <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-yellow-400 rounded-full animate-pulse"></div>
+                </div>
+                <div className="text-xs sm:text-sm text-gray-400">
+                  <span className="inline-flex items-center gap-1">
+                    <div className="w-1 h-1 bg-blue-400 rounded-full"></div>
+                    Quản lý tin nhắn
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -188,7 +199,7 @@ export default function AdminMessages() {
               <p className="text-xs sm:text-sm text-gray-400">Tổng tin nhắn</p>
               <p className="text-lg sm:text-xl font-bold text-blue-400">{messages.length}</p>
             </div>
-            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gray-700 rounded-full flex items-center justify-center">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-gray-700 to-gray-600 rounded-full flex items-center justify-center shadow-md">
               <span className="text-xs sm:text-sm font-medium text-white">N</span>
             </div>
           </div>
@@ -197,7 +208,7 @@ export default function AdminMessages() {
         {/* Messages List */}
         <div className="space-y-3 sm:space-y-4 px-1 sm:px-4">
           {messages.map((message) => (
-            <div key={message._id} className="bg-gray-800 rounded-lg border border-gray-700 p-3 sm:p-4">
+            <div key={message._id} className="bg-gray-800/50 rounded-md border border-gray-700 p-3 sm:p-4 backdrop-blur-sm hover:bg-gray-700/50 transition-all duration-200 hover:scale-102">
               <div className="flex items-start gap-2 sm:gap-4">
                 {/* Avatar */}
                 <div className="flex-shrink-0">

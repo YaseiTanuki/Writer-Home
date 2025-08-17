@@ -121,24 +121,30 @@ export default function AdminStories() {
             <div className="flex items-center gap-3 sm:gap-4">
               <Link
                 href="/admin"
-                className="p-1.5 sm:p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors duration-200"
+                className="p-1.5 sm:p-2 rounded-md bg-gray-800/50 hover:bg-gray-700/50 transition-all duration-200 backdrop-blur-sm border border-gray-700"
               >
-                <ArrowLeft size={18} className="text-gray-300" />
+                <ArrowLeft size={16} className="text-gray-300" />
               </Link>
               <div>
-                <h1 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2 sm:gap-3">
-                  <BookOpen size={24} className="text-blue-400" />
-                  <span className="hidden sm:inline">Quản Lý Truyện</span>
-                  <span className="sm:hidden">Truyện</span>
-                </h1>
-                <p className="text-xs sm:text-sm text-gray-300 mt-1">
-                  Tổng cộng {stories.length} truyện
-                </p>
+                <div className="relative mb-2">
+                  <h1 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                    <BookOpen size={20} className="text-blue-400" />
+                    <span className="hidden sm:inline">Quản Lý Truyện</span>
+                    <span className="sm:hidden">Truyện</span>
+                  </h1>
+                  <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-yellow-400 rounded-full animate-pulse"></div>
+                </div>
+                <div className="text-xs sm:text-sm text-gray-300 mt-1">
+                  <span className="inline-flex items-center gap-1">
+                    <div className="w-1 h-1 bg-blue-400 rounded-full"></div>
+                    Tổng cộng {stories.length} truyện
+                  </span>
+                </div>
               </div>
             </div>
             <Link
               href="/admin/new-story"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-colors duration-200 text-xs sm:text-sm flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto justify-center"
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-3 sm:px-6 py-2 sm:py-3 rounded-md font-medium transition-all duration-300 text-xs sm:text-sm flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto justify-center shadow-md hover:shadow-lg hover:scale-105"
             >
               <Plus size={16} className="sm:w-[18px]" />
               <span className="hidden sm:inline">Tạo Truyện Mới</span>
@@ -150,7 +156,7 @@ export default function AdminStories() {
         {/* Stories List - Mobile Optimized */}
         <div className="space-y-3 sm:space-y-4">
           {stories.map((story) => (
-            <div key={story._id} className="bg-gray-900 rounded-lg border border-gray-800 p-4 sm:p-6 hover:bg-gray-800 transition-colors duration-200">
+            <div key={story._id} className="bg-gray-900/50 rounded-md border border-gray-700 p-4 sm:p-6 hover:bg-gray-800/50 transition-all duration-200 backdrop-blur-sm hover:scale-102">
               <div className="flex items-start gap-3 sm:gap-4">
                 {/* Cover Image */}
                 <div className="flex-shrink-0">

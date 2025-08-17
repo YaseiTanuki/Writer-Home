@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { BookOpen, Home, Calendar, FileText, CheckCircle } from 'lucide-react';
+import { BookOpen, Calendar, FileText, CheckCircle } from 'lucide-react';
 import { storyService } from '../../../services/storyService';
 import { Story, Chapter, Category } from '../../../types/story';
 import Navigation from '../../../component/Navigation';
@@ -129,31 +129,24 @@ export default function StoryDetailPage() {
       <div className="pt-16 md:pt-24 max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-6 sm:py-8">
         {/* Page Title */}
         <div className="mb-6 sm:mb-8">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div className="text-center sm:text-left">
-              <h1 className="text-sm sm:text-2xl lg:text-3xl font-bold text-white mb-2 leading-tight">
-                {story.title}
-              </h1>
-              <p className="text-xs sm:text-base text-gray-300">
-                Khám phá câu chuyện và các chương thú vị
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-              <Link
-                href="/stories"
-                className="inline-flex items-center gap-2 justify-center px-3 sm:px-4 py-2 border border-gray-600 text-xs font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
-              >
-                <BookOpen size={18} />
-                Thư Viện
-              </Link>
-              <Link
-                href="/"
-                className="inline-flex items-center gap-2 justify-center px-3 sm:px-4 py-2 border border-transparent text-xs font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
-              >
-                <Home size={18} />
-                Trang Chủ
-              </Link>
-            </div>
+          <div className="flex items-center gap-3 mb-4">
+            <Link
+              href="/stories"
+              className="inline-flex items-center gap-2 px-3 py-2 text-xs font-medium text-gray-300 hover:text-white transition-colors duration-200"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              Quay lại thư viện
+            </Link>
+          </div>
+          <div className="text-center sm:text-left">
+            <h1 className="text-sm sm:text-2xl lg:text-3xl font-bold text-white mb-2 leading-tight">
+              {story.title}
+            </h1>
+            <p className="text-xs sm:text-base text-gray-300">
+              Khám phá câu chuyện và các chương thú vị
+            </p>
           </div>
         </div>
 

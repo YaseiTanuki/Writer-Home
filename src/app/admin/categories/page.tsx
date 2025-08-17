@@ -191,24 +191,30 @@ export default function AdminCategories() {
             <div className="flex items-center gap-3 sm:gap-4">
               <Link
                 href="/admin"
-                className="p-1.5 sm:p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors duration-200"
+                className="p-1.5 sm:p-2 rounded-md bg-gray-800/50 hover:bg-gray-700/50 transition-all duration-200 backdrop-blur-sm border border-gray-700"
               >
-                <ArrowLeft size={18} className="text-gray-300" />
+                <ArrowLeft size={16} className="text-gray-300" />
               </Link>
               <div>
-                <h1 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2 sm:gap-3">
-                  <Tag size={24} className="text-purple-400" />
-                  <span className="hidden sm:inline">Quản Lý Thể Loại</span>
-                  <span className="sm:hidden">Thể Loại</span>
-                </h1>
-                <p className="text-xs sm:text-sm text-gray-300 mt-1">
-                  Tổng cộng {categories.length} thể loại
-                </p>
+                <div className="relative mb-2">
+                  <h1 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                    <Tag size={20} className="text-purple-400" />
+                    <span className="hidden sm:inline">Quản Lý Thể Loại</span>
+                    <span className="sm:hidden">Thể Loại</span>
+                  </h1>
+                  <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-yellow-400 rounded-full animate-pulse"></div>
+                </div>
+                <div className="text-xs sm:text-sm text-gray-300 mt-1">
+                  <span className="inline-flex items-center gap-1">
+                    <div className="w-1 h-1 bg-blue-400 rounded-full"></div>
+                    Tổng cộng {categories.length} thể loại
+                  </span>
+                </div>
               </div>
             </div>
             <Link
               href="/admin/new-category"
-              className="bg-purple-600 hover:bg-purple-700 text-white px-3 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-colors duration-200 text-xs sm:text-sm flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto justify-center"
+              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-3 sm:px-6 py-2 sm:py-3 rounded-md font-medium transition-all duration-300 text-xs sm:text-sm flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto justify-center shadow-md hover:shadow-lg hover:scale-105"
             >
               <Plus size={16} className="sm:w-[18px]" />
               <span className="hidden sm:inline">Tạo Thể Loại Mới</span>
@@ -223,7 +229,7 @@ export default function AdminCategories() {
             const storyCount = getStoryCount(category._id);
             
             return (
-              <div key={category._id} className="bg-gray-900 rounded-lg border border-gray-800 p-4 sm:p-6 hover:bg-gray-800 transition-colors duration-200">
+              <div key={category._id} className="bg-gray-900/50 rounded-md border border-gray-700 p-4 sm:p-6 hover:bg-gray-800/50 transition-all duration-200 backdrop-blur-sm hover:scale-102">
                 <div className="flex items-start gap-3 sm:gap-4">
                   {/* Color Dot */}
                   <div className="flex-shrink-0">
@@ -334,7 +340,7 @@ export default function AdminCategories() {
                         // Normal Edit Button
                         <button
                           onClick={() => handleEditCategory(category)}
-                          className="inline-flex items-center justify-center gap-1 px-3 py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+                          className="inline-flex items-center justify-center gap-1 px-3 py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800/50 hover:bg-gray-700/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 backdrop-blur-sm"
                         >
                           <Edit3 size={14} className="sm:w-4" />
                           <span className="hidden sm:inline">Sửa</span>
@@ -343,7 +349,7 @@ export default function AdminCategories() {
                       )}
                       <button
                         onClick={() => handleDeleteCategory(category._id, category.name)}
-                        className="inline-flex items-center justify-center gap-1 px-3 py-2 border border-red-600 text-xs sm:text-sm font-medium rounded-md text-red-400 bg-gray-800 hover:bg-red-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
+                        className="inline-flex items-center justify-center gap-1 px-3 py-2 border border-red-600 text-xs sm:text-sm font-medium rounded-md text-red-400 bg-gray-800/50 hover:bg-red-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-200 backdrop-blur-sm"
                         disabled={storyCount > 0}
                         title={storyCount > 0 ? 'Không thể xóa thể loại đang được sử dụng' : ''}
                       >
@@ -362,12 +368,15 @@ export default function AdminCategories() {
         {/* Empty State */}
         {categories.length === 0 && !isLoadingData && (
           <div className="text-center py-12">
-            <Tag size={48} className="mx-auto text-gray-600 mb-4" />
-            <h3 className="text-lg font-medium text-gray-400 mb-2">Chưa có thể loại nào</h3>
-            <p className="text-sm text-gray-500 mb-6">Bắt đầu tạo thể loại đầu tiên của bạn</p>
+            <div className="relative mb-4">
+              <Tag size={40} className="mx-auto text-gray-500 mb-2" />
+              <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-purple-400 rounded-full animate-pulse"></div>
+            </div>
+            <h3 className="text-base font-medium text-gray-400 mb-2">Chưa có thể loại nào</h3>
+            <p className="text-xs text-gray-500 mb-6">Bắt đầu tạo thể loại đầu tiên của bạn</p>
             <Link
               href="/admin/new-category"
-              className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
+              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-6 py-3 rounded-md font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105"
             >
               Tạo Thể Loại Mới
             </Link>
@@ -376,19 +385,26 @@ export default function AdminCategories() {
 
         {/* Info Box */}
         <div className="mt-4 sm:mt-6 px-2 sm:px-4">
-          <div className="bg-blue-900/20 border border-blue-800 rounded-lg p-3 sm:p-4">
+          <div className="bg-blue-900/20 border border-blue-700/50 rounded-md p-3 sm:p-4 backdrop-blur-sm">
             <div className="flex items-start">
               <div className="flex-shrink-0">
-                <svg className="h-4 w-4 sm:h-5 sm:w-5 text-blue-400" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-                </svg>
+                <div className="w-1.5 h-1.5 bg-blue-400 rounded-full mt-1.5"></div>
               </div>
               <div className="ml-2 sm:ml-3">
                 <h3 className="text-xs sm:text-sm font-medium text-blue-400">Lưu ý</h3>
-                <div className="mt-1 sm:mt-2 text-xs sm:text-sm text-blue-300">
-                  <p>• Thể loại đang được sử dụng bởi truyện sẽ không thể xóa</p>
-                  <p>• Màu sắc của thể loại sẽ được hiển thị trên giao diện người dùng</p>
-                  <p>• Mô tả thể loại giúp người dùng hiểu rõ hơn về nội dung</p>
+                <div className="mt-1 sm:mt-2 text-xs sm:text-sm text-blue-300 space-y-1">
+                  <p className="flex items-center gap-1">
+                    <div className="w-1 h-1 bg-blue-400 rounded-full"></div>
+                    Thể loại đang được sử dụng bởi truyện sẽ không thể xóa
+                  </p>
+                  <p className="flex items-center gap-1">
+                    <div className="w-1 h-1 bg-blue-400 rounded-full"></div>
+                    Màu sắc của thể loại sẽ được hiển thị trên giao diện người dùng
+                  </p>
+                  <p className="flex items-center gap-1">
+                    <div className="w-1 h-1 bg-blue-400 rounded-full"></div>
+                    Mô tả thể loại giúp người dùng hiểu rõ hơn về nội dung
+                  </p>
                 </div>
               </div>
             </div>

@@ -139,12 +139,15 @@ export default function StoriesPage() {
       <Navigation />
       
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-blue-900 via-purple-900 to-indigo-900 rounded-lg shadow-2xl p-4 sm:p-6 mb-6 sm:mb-8 mx-4 sm:mx-0">
+      <div className="bg-gradient-to-r from-blue-900/30 via-purple-900/30 to-indigo-900/30 rounded-md shadow-lg p-4 sm:p-6 mb-6 sm:mb-8 mx-4 sm:mx-0 border border-blue-700/50 backdrop-blur-sm">
         <div className="text-center">
-          <h1 className="text-lg sm:text-2xl font-bold text-white mb-3">
-            Thư Viện Truyện
-          </h1>
-          <p className="text-xs text-gray-300">
+          <div className="relative mb-3">
+            <h1 className="text-lg sm:text-2xl font-bold text-white mb-2 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              Thư Viện Truyện
+            </h1>
+            <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-yellow-400 rounded-full animate-pulse"></div>
+          </div>
+          <p className="text-xs sm:text-sm text-gray-300">
             Khám phá những câu chuyện thú vị từ các tác giả tài năng
           </p>
         </div>
@@ -153,19 +156,20 @@ export default function StoriesPage() {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-0 sm:px-4 lg:px-8 py-0 sm:py-8">
         {/* Enhanced Filters - Simplified Layout */}
-        <div className="bg-gray-900 rounded-lg shadow-lg p-3 sm:p-4 mb-4 sm:mb-6 border border-gray-800 mx-4 sm:mx-0">
+        <div className="bg-gray-900/50 rounded-md shadow-lg p-3 sm:p-4 mb-4 sm:mb-6 border border-gray-700 backdrop-blur-sm mx-4 sm:mx-0">
           {/* Main Search Bar - Always Visible */}
           <div className="mb-3">
             <form onSubmit={(e) => { e.preventDefault(); handleSearch(); }}>
               <div className="relative">
-                <Search size={14} className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <div className="w-1 h-1 bg-blue-400 rounded-full absolute left-2 top-1/2 transform -translate-y-1/2"></div>
+                <Search size={14} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                 <input
                   type="text"
                   id="search"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Tìm kiếm theo tên truyện, mô tả, tác giả, thể loại..."
-                  className="w-full pl-8 pr-3 py-1.5 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-xs bg-gray-800 text-white placeholder-gray-400"
+                  className="w-full pl-8 pr-3 py-1.5 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-xs bg-gray-800/50 text-white placeholder-gray-400 transition-all duration-200"
                 />
               </div>
             </form>
@@ -178,23 +182,23 @@ export default function StoriesPage() {
           <div className="flex items-center justify-between gap-3">
             {/* View Mode Toggle */}
             <div className="flex items-center gap-2">
-              <div className="flex bg-gray-700 rounded-md p-0.5">
+              <div className="flex bg-gray-700/50 rounded-md p-0.5 backdrop-blur-sm">
                 <button
                   onClick={() => setViewMode('grid')}
-                  className={`px-2 py-1 rounded text-xs font-medium transition-colors ${
+                  className={`px-2 py-1 rounded text-xs font-medium transition-all duration-200 ${
                     viewMode === 'grid' 
-                      ? 'bg-blue-600 text-white' 
-                      : 'text-gray-400 hover:text-white'
+                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md' 
+                      : 'text-gray-400 hover:text-white hover:bg-gray-600/50'
                   }`}
                 >
                   Grid
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
-                  className={`px-2 py-1 rounded text-xs font-medium transition-colors ${
+                  className={`px-2 py-1 rounded text-xs font-medium transition-all duration-200 ${
                     viewMode === 'list' 
-                      ? 'bg-blue-600 text-white' 
-                      : 'text-gray-400 hover:text-white'
+                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md' 
+                      : 'text-gray-400 hover:text-white hover:bg-gray-600/50'
                   }`}
                 >
                   List
@@ -205,12 +209,13 @@ export default function StoriesPage() {
             {/* Results Summary and Clear Filters */}
             {searchTerm.trim() && (
               <div className="flex items-center gap-2">
+                <div className="w-1 h-1 bg-blue-400 rounded-full animate-pulse"></div>
                 <span className="text-xs text-blue-400">
                   {totalStories} truyện
                 </span>
                 <button
                   onClick={clearFilters}
-                  className="inline-flex items-center gap-1 text-red-400 hover:text-red-300 text-xs font-medium transition-colors bg-red-900/20 hover:bg-red-900/30 px-1.5 py-0.5 rounded"
+                  className="inline-flex items-center gap-1 text-red-400 hover:text-red-300 text-xs font-medium transition-all duration-200 bg-red-900/20 hover:bg-red-900/30 px-1.5 py-0.5 rounded hover:scale-105"
                 >
                   <Trash2 size={12} />
                   Xóa bộ lọc
@@ -277,7 +282,7 @@ export default function StoriesPage() {
                 <Link
                   key={story._id}
                   href={`/stories/${story._id}`}
-                  className={`bg-gray-900 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group border border-gray-800 hover:border-blue-500/50 ${
+                  className={`bg-gray-900/50 rounded-md shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group border border-gray-700 hover:border-blue-500/50 backdrop-blur-sm hover:scale-105 ${
                     viewMode === 'list' ? 'flex items-start gap-4' : 'block'
                   }`}
                 >
@@ -388,15 +393,17 @@ export default function StoriesPage() {
                 <button
                   onClick={loadMoreStories}
                   disabled={isLoadingMore}
-                  className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-6 py-3 rounded-lg font-medium transition-colors text-xs"
+                  className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-md font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 text-xs"
                 >
                   {isLoadingMore ? (
                     <>
+                      <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></div>
                       <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
                       Đang tải...
                     </>
                   ) : (
                     <>
+                      <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
                       Tải thêm truyện ({currentPage * ITEMS_PER_PAGE}/{totalStories})
                     </>
                   )}

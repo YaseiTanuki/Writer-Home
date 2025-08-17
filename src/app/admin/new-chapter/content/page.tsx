@@ -181,63 +181,100 @@ export default function ChapterContentPage() {
         <div className="mb-6 sm:mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="text-center sm:text-left">
-              <h1 className="text-xl sm:text-2xl font-bold text-white mb-2 leading-tight flex items-center gap-3">
-                <Sparkles size={28} className="text-blue-400" />
-                Viết Nội Dung Chương
-              </h1>
-              <p className="text-sm sm:text-base text-gray-300">
-                Bước 2: Viết nội dung chương
-              </p>
-            </div>
-            <div className="flex flex-row items-center gap-2 sm:gap-3 w-full sm:w-auto justify-center sm:justify-end">
-              <Link 
-                href="/stories" 
-                className="inline-flex items-center justify-center px-2 sm:px-3 py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm"
-              >
-                <BookOpen size={16} />
-                Xem Trang Web
-              </Link>
-              <Link 
-                href="/admin" 
-                className="inline-flex items-center justify-center px-2 sm:px-3 py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm"
-              >
-                <Home size={16} />
-                Trang Chủ
-              </Link>
+              <div className="relative mb-3">
+                <h1 className="text-xl sm:text-2xl font-bold text-white mb-2 leading-tight flex items-center gap-3 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                  <Sparkles size={20} className="text-blue-400" />
+                  Viết Nội Dung Chương
+                  <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+                </h1>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
+                <p className="text-sm sm:text-base text-gray-300">
+                  Bước 2: Viết nội dung chương
+                </p>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Chapter Info */}
         <div className="p-3 sm:p-4 md:p-6 mb-4 sm:mb-6 md:mb-8">
-          <h3 className="text-base sm:text-lg font-medium text-white mb-3 sm:mb-4 flex items-center gap-2">
-            <FileText size={18} className="sm:w-5 sm:h-5" />
-            Thông Tin Chương
-          </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-            <div>
-              <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1">Truyện:</label>
-              <p className="text-xs sm:text-sm text-white font-medium">{story.title}</p>
-            </div>
-            <div>
-              <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1">Số chương:</label>
-              <p className="text-xs sm:text-sm text-white font-medium">{tempChapter.chapterNumber}</p>
-            </div>
-            <div className="sm:col-span-2">
-              <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1">Tiêu đề chương:</label>
-              <p className="text-xs sm:text-sm text-white font-medium">{tempChapter.title}</p>
+          <div className="bg-gray-900/50 rounded-md border border-gray-700 p-3 sm:p-4 backdrop-blur-sm">
+            <h3 className="text-base sm:text-lg font-medium text-white mb-3 sm:mb-4 flex items-center gap-2">
+              <FileText size={18} className="sm:w-5 sm:h-5" />
+              Thông Tin Chương
+              <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+              <div className="bg-gray-800/50 rounded-md p-2 backdrop-blur-sm">
+                <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1 flex items-center gap-2">
+                  <div className="w-1 h-1 bg-purple-400 rounded-full"></div>
+                  Truyện:
+                </label>
+                <p className="text-xs sm:text-sm text-white font-medium">{story.title}</p>
+              </div>
+              <div className="bg-gray-800/50 rounded-md p-2 backdrop-blur-sm">
+                <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1 flex items-center gap-2">
+                  <div className="w-1 h-1 bg-green-400 rounded-full"></div>
+                  Số chương:
+                </label>
+                <p className="text-xs sm:text-sm text-white font-medium">{tempChapter.chapterNumber}</p>
+              </div>
+              <div className="sm:col-span-2 bg-gray-800/50 rounded-md p-2 backdrop-blur-sm">
+                <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1 flex items-center gap-2">
+                  <div className="w-1 h-1 bg-yellow-400 rounded-full"></div>
+                  Tiêu đề chương:
+                </label>
+                <p className="text-xs sm:text-sm text-white font-medium">{tempChapter.title}</p>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Chapter Content - Full Width on Mobile */}
         <div className="px-0 sm:px-3 lg:px-8">
-          <div className="bg-gray-900 shadow border border-gray-800">
-            <div className="px-2 sm:px-3 md:px-4 lg:px-6 py-3 sm:py-4">
-              <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1.5 sm:mb-2">
+          <div className="bg-gray-900/50 shadow-md border border-gray-700 rounded-md backdrop-blur-sm">
+            <div className="px-3 sm:px-4 md:px-6 py-3 sm:py-4">
+              <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1.5 sm:mb-2 flex items-center gap-2">
+                <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
                 Nội dung chương *
               </label>
             </div>
+            
+            {/* Reading Adjustment Controls */}
+            <div className="px-3 sm:px-4 md:px-6 pb-3 border-b border-gray-700">
+              <div className="bg-gray-800/50 rounded-md p-3 backdrop-blur-sm">
+                <div className="flex items-center justify-center gap-2 mb-3">
+                  <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
+                  <span className="text-xs sm:text-sm font-medium text-gray-300">⚙️ Điều chỉnh đọc</span>
+                </div>
+                <div className="flex items-center justify-center gap-8 sm:gap-12">
+                  {/* Font Size Controls */}
+                  <div className="flex items-center gap-2">
+                    <button className="w-7 h-7 bg-gray-700 hover:bg-gray-600 rounded-md flex items-center justify-center text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium">
+                      -
+                    </button>
+                    <span className="text-sm text-white font-medium min-w-[50px] text-center">16px</span>
+                    <button className="w-7 h-7 bg-gray-700 hover:bg-gray-600 rounded-md flex items-center justify-center text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium">
+                      +
+                    </button>
+                  </div>
+                  
+                  {/* Line Height Controls */}
+                  <div className="flex items-center gap-2">
+                    <button className="w-7 h-7 bg-gray-700 hover:bg-gray-600 rounded-md flex items-center justify-center text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium">
+                      ↓
+                    </button>
+                    <span className="text-sm text-white font-medium min-w-[50px] text-center">1.6</span>
+                    <button className="w-7 h-7 bg-gray-700 hover:bg-gray-600 rounded-md flex items-center justify-center text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium">
+                      ↑
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
             <div className="w-full">
               <TiptapEditor
                 content={content}
@@ -248,8 +285,13 @@ export default function ChapterContentPage() {
               />
             </div>
             {getFieldError('content') && (
-              <div className="px-2 sm:px-3 md:px-4 lg:px-6 pb-3">
-                <p className="text-red-300 text-xs">{getFieldError('content')}</p>
+              <div className="px-3 sm:px-4 md:px-6 pb-3">
+                <div className="p-2 bg-red-900/20 border border-red-700/50 rounded-md backdrop-blur-sm">
+                  <div className="flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 bg-red-400 rounded-full"></div>
+                    <p className="text-red-300 text-xs">{getFieldError('content')}</p>
+                  </div>
+                </div>
               </div>
             )}
           </div>
@@ -259,8 +301,11 @@ export default function ChapterContentPage() {
         <div className="max-w-6xl mx-auto px-3 sm:px-4 lg:px-8 py-4 sm:py-6">
           <div className="p-3 sm:p-4 md:p-6">
             {error && (
-              <div className="mb-4 sm:mb-6 p-2 sm:p-3 md:p-4 rounded-md bg-red-900/20 text-red-400 border border-red-700">
-                {error}
+              <div className="mb-4 sm:mb-6 p-3 sm:p-4 rounded-md bg-red-900/20 text-red-300 border border-red-700/50 backdrop-blur-sm">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-red-400 rounded-full"></div>
+                  {error}
+                </div>
               </div>
             )}
 
@@ -269,7 +314,7 @@ export default function ChapterContentPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-md text-base sm:text-lg font-medium transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 sm:gap-3"
+                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-md text-sm sm:text-base font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 sm:gap-3 shadow-md hover:shadow-lg hover:scale-105"
                 >
                   {isSubmitting ? (
                     <>
@@ -291,16 +336,9 @@ export default function ChapterContentPage() {
                     </>
                   )}
                 </button>
-                <button
-                  type="button"
-                  onClick={handleBack}
-                  className="flex-1 sm:flex-none bg-gray-800 hover:bg-gray-700 text-gray-300 px-4 sm:px-6 py-2.5 sm:py-3 rounded-md font-medium transition-colors duration-200 border border-gray-600 text-sm sm:text-base"
-                >
-                  ⬅️ Quay Lại
-                </button>
                 <Link
                   href="/admin"
-                  className="flex-1 sm:flex-none bg-red-900/20 hover:bg-red-800/20 text-red-400 px-4 sm:px-6 py-2.5 sm:py-3 rounded-md font-medium transition-colors duration-200 text-center border border-red-700 text-sm sm:text-base"
+                  className="flex-1 sm:flex-none bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-md font-medium transition-all duration-300 text-center text-sm sm:text-base shadow-md hover:shadow-lg hover:scale-105"
                 >
                   Hủy
                 </Link>

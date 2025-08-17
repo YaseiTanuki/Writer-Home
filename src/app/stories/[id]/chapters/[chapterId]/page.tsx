@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Calendar, FileText, ChevronLeft, ChevronRight, Home, BookOpen, List, Minus, Plus, ArrowUp, ArrowDown, Settings } from 'lucide-react';
+import { Calendar, FileText, ChevronLeft, ChevronRight, BookOpen, List, Minus, Plus, ArrowUp, ArrowDown, Settings } from 'lucide-react';
 import { storyService } from '../../../../../services/storyService';
 import { Story, Chapter } from '../../../../../types/story';
 import Navigation from '../../../../../component/Navigation';
@@ -150,13 +150,17 @@ export default function ChapterReaderPage() {
       {/* Main Content */}
       <div className="pt-16 md:pt-24 max-w-4xl mx-auto px-0 sm:px-4 lg:px-8 py-0 sm:py-8">
         {/* Chapter Header */}
-        <div className="bg-gray-900 rounded-lg shadow p-3 sm:p-4 lg:p-6 mb-4 sm:mb-6 lg:mb-8 border border-gray-800 mx-4 sm:mx-0">
+        <div className="bg-gray-900/50 rounded-md shadow-lg p-3 sm:p-4 lg:p-6 mb-4 sm:mb-6 lg:mb-8 border border-gray-700 backdrop-blur-sm mx-4 sm:mx-0">
           <div className="text-center mb-3 sm:mb-4 lg:mb-6">
-            <h1 className="text-sm sm:text-2xl lg:text-3xl font-bold text-white mb-2 leading-tight">
-              Chương {chapter.chapterNumber}: {chapter.title}
-            </h1>
+            <div className="relative mb-3">
+              <h1 className="text-sm sm:text-2xl lg:text-3xl font-bold text-white mb-2 leading-tight bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                Chương {chapter.chapterNumber}: {chapter.title}
+              </h1>
+              <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-yellow-400 rounded-full animate-pulse"></div>
+            </div>
             <div className="text-gray-300 text-xs">
               <span className="inline-flex items-center gap-1">
+                <div className="w-1 h-1 bg-blue-400 rounded-full"></div>
                 <Calendar size={14} />
                 {new Date(chapter.createdAt).toLocaleDateString('vi-VN')}
               </span>
@@ -164,6 +168,7 @@ export default function ChapterReaderPage() {
                 <>
                   <span className="mx-2">•</span>
                   <span className="inline-flex items-center gap-1">
+                    <div className="w-1 h-1 bg-green-400 rounded-full"></div>
                     <FileText size={14} />
                     {Math.ceil(chapter.content.length / 1000)} nghìn từ
                   </span>
@@ -201,10 +206,11 @@ export default function ChapterReaderPage() {
         </div>
 
         {/* Chapter Content */}
-        <div className="bg-gray-900 rounded-lg shadow p-3 sm:p-4 lg:p-6 xl:p-8 mb-4 sm:mb-6 lg:mb-8 border border-gray-800">
+        <div className="bg-gray-900/50 rounded-md shadow-lg p-3 sm:p-4 lg:p-6 xl:p-8 mb-4 sm:mb-6 lg:mb-8 border border-gray-700 backdrop-blur-sm">
           {/* Reading Controls */}
-          <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-gray-800 rounded-lg border border-gray-700">
+          <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-gray-800/50 rounded-md border border-gray-700 backdrop-blur-sm">
             <h3 className="text-xs font-medium text-gray-300 mb-2 sm:mb-3 flex items-center gap-2">
+              <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
               <Settings size={16} />
               Điều chỉnh đọc
             </h3>
@@ -271,12 +277,12 @@ export default function ChapterReaderPage() {
         </div>
 
         {/* Bottom Navigation */}
-        <div className="bg-gray-900 rounded-lg shadow p-3 sm:p-4 lg:p-6 border border-gray-800">
+        <div className="bg-gray-900/50 rounded-md shadow-lg p-3 sm:p-4 lg:p-6 border border-gray-700 backdrop-blur-sm">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-3">
             {previousChapter ? (
               <button
                 onClick={() => navigateToChapter(previousChapter._id)}
-                className="inline-flex items-center gap-2 justify-center px-3 sm:px-4 lg:px-6 py-2 sm:py-3 border border-transparent text-xs font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full sm:w-auto transition-colors duration-200"
+                className="inline-flex items-center gap-2 justify-center px-3 sm:px-4 lg:px-6 py-2 sm:py-3 border border-transparent text-xs font-medium rounded-md text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full sm:w-auto transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105"
               >
                 <ChevronLeft size={18} />
                 Chương trước
@@ -288,31 +294,17 @@ export default function ChapterReaderPage() {
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
               <Link
                 href={`/stories/${storyId}`}
-                className="inline-flex items-center gap-2 justify-center px-3 sm:px-4 lg:px-6 py-2 sm:py-3 border border-gray-600 text-xs font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
+                className="inline-flex items-center gap-2 justify-center px-3 sm:px-4 lg:px-6 py-2 sm:py-3 border border-gray-600 text-xs font-medium rounded-md text-gray-300 bg-gray-800/50 hover:bg-gray-700/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 shadow-sm w-full sm:w-auto backdrop-blur-sm"
               >
                 <List size={18} />
                 Danh sách chương
-              </Link>
-              <Link
-                href="/stories"
-                className="inline-flex items-center gap-2 justify-center px-3 sm:px-4 lg:px-6 py-2 sm:py-3 border border-gray-600 text-xs font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm w-full sm:w-auto"
-              >
-                <BookOpen size={18} />
-                Thư Viện
-              </Link>
-              <Link
-                href="/"
-                className="inline-flex items-center gap-2 justify-center px-3 sm:px-4 lg:px-6 py-2 sm:py-3 border border-transparent text-xs font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 w-full sm:w-auto"
-              >
-                <Home size={18} />
-                Trang Chủ
               </Link>
             </div>
             
             {nextChapter ? (
               <button
                 onClick={() => navigateToChapter(nextChapter._id)}
-                className="inline-flex items-center gap-2 justify-center px-3 sm:px-4 lg:px-6 py-2 sm:py-3 border border-transparent text-xs font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full sm:w-auto transition-colors duration-200"
+                className="inline-flex items-center gap-2 justify-center px-3 sm:px-4 lg:px-6 py-2 sm:py-3 border border-transparent text-xs font-medium rounded-md text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full sm:w-auto transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105"
               >
                 Chương tiếp
                 <ChevronRight size={18} />

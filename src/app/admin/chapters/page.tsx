@@ -300,18 +300,24 @@ export default function AdminChapters() {
             <div className="flex items-center gap-2 sm:gap-4">
               <Link
                 href="/admin"
-                className="p-1 sm:p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors duration-200"
+                className="p-1 sm:p-2 rounded-md bg-gray-800/50 hover:bg-gray-700/50 transition-all duration-200 backdrop-blur-sm border border-gray-700"
               >
                 <ArrowLeft size={16} className="text-gray-300 sm:w-[18px]" />
               </Link>
               <div>
-                <h1 className="text-lg sm:text-2xl font-bold text-white flex items-center gap-2 sm:gap-3">
+                <div className="relative mb-1">
+                  <h1 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
                   <FileText size={20} className="text-green-400 sm:w-6" />
                   <span className="hidden sm:inline">Quản Lý Chương</span>
                   <span className="sm:hidden">Chương</span>
                 </h1>
+                  <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-yellow-400 rounded-full animate-pulse"></div>
+                </div>
                 <p className="text-xs sm:text-sm text-gray-300 mt-0.5 sm:mt-1">
+                  <span className="inline-flex items-center gap-1">
+                    <div className="w-1 h-1 bg-green-400 rounded-full"></div>
                   Tổng cộng {chapters.length} chương
+                  </span>
                 </p>
               </div>
             </div>
@@ -324,7 +330,7 @@ export default function AdminChapters() {
                     setOrphanedChaptersToDelete(orphanedChapters);
                     setShowOrphanedDeleteConfirm(true);
                   }}
-                  className="bg-red-600 hover:bg-red-700 text-white px-2 sm:px-4 py-1.5 sm:py-3 rounded-lg font-medium transition-colors duration-200 text-xs sm:text-sm flex items-center gap-1 sm:gap-2 w-full sm:w-auto justify-center"
+                  className="bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white px-2 sm:px-4 py-1.5 sm:py-3 rounded-md font-medium transition-all duration-300 text-xs sm:text-sm flex items-center gap-1 sm:gap-2 w-full sm:w-auto justify-center shadow-md hover:shadow-lg hover:scale-105"
                 >
                   <Trash2 size={14} className="sm:w-4" />
                   <span className="hidden sm:inline">Dọn dẹp chương lỗi</span>
@@ -333,7 +339,7 @@ export default function AdminChapters() {
               )}
               <Link
                 href="/admin/new-chapter"
-                className="bg-green-600 hover:bg-green-700 text-white px-2 sm:px-6 py-1.5 sm:py-3 rounded-lg font-medium transition-colors duration-200 text-xs sm:text-sm flex items-center gap-1 sm:gap-2 w-full sm:w-auto justify-center"
+                className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white px-2 sm:px-6 py-1.5 sm:py-3 rounded-md font-medium transition-all duration-300 text-xs sm:text-sm flex items-center gap-1 sm:gap-2 w-full sm:w-auto justify-center shadow-md hover:shadow-lg hover:scale-105"
               >
                 <Plus size={14} className="sm:w-4" />
                 <span className="hidden sm:inline">Tạo Chương Mới</span>
@@ -370,17 +376,18 @@ export default function AdminChapters() {
         <div className="space-y-2 sm:space-y-4">
           {/* Warning for orphaned chapters */}
           {chapters.some(chapter => !isChapterLinkedToStory(chapter)) && (
-            <div className="bg-yellow-900/20 border border-yellow-800 rounded-lg p-2 sm:p-4">
+            <div className="bg-yellow-900/20 border border-yellow-700/50 rounded-md p-2 sm:p-4 backdrop-blur-sm">
               <div className="flex items-start">
                 <div className="flex-shrink-0">
-                  <svg className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                  </svg>
+                  <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full mt-1.5"></div>
                 </div>
                 <div className="ml-2 sm:ml-3">
                   <h3 className="text-xs sm:text-sm font-medium text-yellow-400">Cảnh báo</h3>
                   <div className="mt-0.5 sm:mt-2 text-xs sm:text-sm text-yellow-300">
-                    <p>Có một số chương không liên kết với truyện nào. Vui lòng kiểm tra và xóa các chương này để tránh lỗi.</p>
+                    <div className="flex items-center gap-1">
+                      <div className="w-1 h-1 bg-yellow-400 rounded-full"></div>
+                      Có một số chương không liên kết với truyện nào. Vui lòng kiểm tra và xóa các chương này để tránh lỗi.
+                    </div>
                   </div>
                 </div>
               </div>
@@ -388,7 +395,7 @@ export default function AdminChapters() {
           )}
           
           {chapters.map((chapter) => (
-            <div key={chapter._id} className="bg-gray-900 rounded-lg border border-gray-800 p-3 sm:p-6 hover:bg-gray-800 transition-colors duration-200">
+            <div key={chapter._id} className="bg-gray-900/50 rounded-md border border-gray-700 p-3 sm:p-6 hover:bg-gray-800/50 transition-all duration-200 backdrop-blur-sm hover:scale-102">
               <div className="flex items-start gap-2 sm:gap-4">
                 {/* Chapter Number */}
                 <div className="flex-shrink-0">

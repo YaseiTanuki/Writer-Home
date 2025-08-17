@@ -136,13 +136,17 @@ export default function EditChapterPage() {
       <div className="mb-4 sm:mb-6 md:mb-8 px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
           <div className="text-center sm:text-left">
-            <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-2 leading-tight flex items-center gap-2 sm:gap-3">
-              <Edit3 size={24} className="text-blue-400 sm:w-7 sm:h-7 md:w-8 md:h-8" />
+            <h1 className="text-lg sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-2 leading-tight flex items-center gap-2 sm:gap-3">
+              <Edit3 size={20} className="text-blue-400 sm:w-6 sm:h-6 md:w-7 md:h-7" />
               Chỉnh Sửa Chương
+              <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
             </h1>
-            <p className="text-xs sm:text-sm md:text-base text-gray-300">
-               Cập nhật thông tin chương
-            </p>
+            <div className="flex items-center gap-2">
+              <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
+              <p className="text-xs sm:text-sm md:text-base text-gray-300">
+                 Cập nhật thông tin chương
+              </p>
+            </div>
           </div>
           
         </div>
@@ -151,15 +155,19 @@ export default function EditChapterPage() {
       {/* Form Container */}
       <div className="px-4 sm:px-6 lg:px-8 mb-6">
         {error && (
-          <div className="mb-4 sm:mb-6 p-2 sm:p-3 md:p-4 rounded-md bg-red-900/20 border border-red-700 text-red-300">
-            {error}
+          <div className="mb-4 sm:mb-6 p-3 sm:p-4 rounded-md bg-red-900/20 border border-red-700/50 text-red-300 backdrop-blur-sm">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-red-400 rounded-full"></div>
+              {error}
+            </div>
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5 md:space-y-6">
           {/* Chapter Number */}
-          <div>
-            <label htmlFor="chapterNumber" className="block text-xs sm:text-sm font-medium text-gray-200 mb-1.5 sm:mb-2">
+          <div className="bg-gray-900/50 rounded-md border border-gray-700 p-3 sm:p-4 backdrop-blur-sm">
+            <label htmlFor="chapterNumber" className="block text-xs sm:text-sm font-medium text-gray-200 mb-1.5 sm:mb-2 flex items-center gap-2">
+              <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
               Số chương *
             </label>
             <input
@@ -169,14 +177,15 @@ export default function EditChapterPage() {
               value={formData.chapterNumber}
               onChange={handleInputChange}
               min="1"
-              className="w-full px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm md:text-base bg-gray-800 text-white"
+              className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm bg-gray-800/50 text-white backdrop-blur-sm transition-all duration-200"
               required
             />
           </div>
 
           {/* Chapter Title */}
-          <div>
-            <label htmlFor="title" className="block text-xs sm:text-sm font-medium text-gray-200 mb-1.5 sm:mb-2">
+          <div className="bg-gray-900/50 rounded-md border border-gray-700 p-3 sm:p-4 backdrop-blur-sm">
+            <label htmlFor="title" className="block text-xs sm:text-sm font-medium text-gray-200 mb-1.5 sm:mb-2 flex items-center gap-2">
+              <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
               Tiêu đề chương *
             </label>
             <input
@@ -185,7 +194,7 @@ export default function EditChapterPage() {
               name="title"
               value={formData.title}
               onChange={handleInputChange}
-              className="w-full px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm md:text-base bg-gray-800 text-white placeholder-gray-400"
+              className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm bg-gray-800/50 text-white placeholder-gray-400 backdrop-blur-sm transition-all duration-200"
               placeholder="Nhập tiêu đề chương..."
               required
             />
@@ -195,9 +204,10 @@ export default function EditChapterPage() {
 
       {/* Chapter Content - Full Width */}
       <div className="px-0 sm:px-3 lg:px-8 mb-6">
-        <div className="bg-gray-900 shadow border border-gray-800">
-          <div className="px-2 sm:px-3 md:px-4 lg:px-6 py-3 sm:py-4">
-            <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1.5 sm:mb-2">
+        <div className="bg-gray-900/50 shadow-md border border-gray-700 rounded-md backdrop-blur-sm">
+          <div className="px-3 sm:px-4 md:px-6 py-3 sm:py-4">
+            <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1.5 sm:mb-2 flex items-center gap-2">
+              <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
               Nội dung chương *
             </label>
           </div>
@@ -217,7 +227,7 @@ export default function EditChapterPage() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-md text-base sm:text-lg font-medium transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 sm:gap-3"
+            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-md text-sm sm:text-base font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 sm:gap-3 shadow-md hover:shadow-lg hover:scale-105"
             onClick={handleSubmit}
           >
             {isSubmitting ? (
@@ -242,7 +252,7 @@ export default function EditChapterPage() {
           </button>
           <Link
             href="/admin"
-            className="flex-1 sm:flex-none bg-gray-700 hover:bg-gray-600 text-gray-200 px-4 sm:px-6 py-2.5 sm:py-3 rounded-md font-medium transition-colors duration-200 text-center text-sm sm:text-base"
+            className="flex-1 sm:flex-none bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-md font-medium transition-all duration-300 text-center text-sm sm:text-base shadow-md hover:shadow-lg hover:scale-105"
           >
             Hủy
           </Link>
