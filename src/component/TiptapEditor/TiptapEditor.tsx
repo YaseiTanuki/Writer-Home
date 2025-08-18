@@ -42,7 +42,7 @@ export default function TiptapEditor({
       Link.configure({
         openOnClick: false,
         HTMLAttributes: {
-          class: 'text-blue-600 underline cursor-pointer',
+          class: 'text-pink-600 underline cursor-pointer',
         },
       }),
       TextStyle,

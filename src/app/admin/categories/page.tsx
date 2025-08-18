@@ -197,8 +197,8 @@ export default function AdminCategories() {
               </Link>
               <div>
                 <div className="relative mb-2">
-                  <h1 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                    <Tag size={20} className="text-purple-400" />
+                  <h1 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-pink-300 to-rose-400 bg-clip-text text-transparent">
+                    <Tag size={20} className="text-pink-300" />
                     <span className="hidden sm:inline">Quản Lý Thể Loại</span>
                     <span className="sm:hidden">Thể Loại</span>
                   </h1>
@@ -206,16 +206,16 @@ export default function AdminCategories() {
                 </div>
                 <div className="text-xs sm:text-sm text-gray-300 mt-1">
                   <span className="inline-flex items-center gap-1">
-                    <div className="w-1 h-1 bg-blue-400 rounded-full"></div>
+                    <div className="w-1 h-1 bg-pink-400 rounded-full"></div>
                     Tổng cộng {categories.length} thể loại
                   </span>
                 </div>
               </div>
             </div>
-            <Link
-              href="/admin/new-category"
-              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-3 sm:px-6 py-2 sm:py-3 rounded-md font-medium transition-all duration-300 text-xs sm:text-sm flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto justify-center shadow-md hover:shadow-lg hover:scale-105"
-            >
+                         <Link
+               href="/admin/new-category"
+               className="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white px-3 sm:px-6 py-2 sm:py-3 rounded-md font-medium transition-all duration-300 text-xs sm:text-sm flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto justify-center shadow-md hover:shadow-lg hover:scale-105"
+             >
               <Plus size={16} className="sm:w-[18px]" />
               <span className="hidden sm:inline">Tạo Thể Loại Mới</span>
               <span className="sm:hidden">Tạo Loại</span>
@@ -309,11 +309,11 @@ export default function AdminCategories() {
                               rows={2}
                             />
                             <div className="flex gap-2">
-                              <button
-                                type="submit"
-                                disabled={isSubmitting}
-                                className="flex-1 bg-purple-600 hover:bg-purple-700 text-white px-3 py-1.5 text-xs font-medium rounded transition-colors duration-200 disabled:opacity-50"
-                              >
+                                                             <button
+                                 type="submit"
+                                 disabled={isSubmitting}
+                                 className="flex-1 bg-pink-500 hover:bg-pink-600 text-white px-3 py-1.5 text-xs font-medium rounded transition-colors duration-200 disabled:opacity-50"
+                               >
                                 {isSubmitting ? 'Đang lưu...' : 'Lưu'}
                               </button>
                               <button
@@ -364,10 +364,10 @@ export default function AdminCategories() {
             </div>
             <h3 className="text-base font-medium text-gray-400 mb-2">Chưa có thể loại nào</h3>
             <p className="text-xs text-gray-500 mb-6">Bắt đầu tạo thể loại đầu tiên của bạn</p>
-            <Link
-              href="/admin/new-category"
-              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-6 py-3 rounded-md font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105"
-            >
+                         <Link
+               href="/admin/new-category"
+               className="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white px-6 py-3 rounded-md font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105"
+             >
               Tạo Thể Loại Mới
             </Link>
           </div>

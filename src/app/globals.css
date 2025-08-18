@@ -1,13 +1,28 @@
 @import "tailwindcss";
 
 :root {
-  --background: #000000;
-  --foreground: #ffffff;
-  --card-bg: #111111;
+  /* Dark Mode Theme Colors */
+  --background: #121212;
+  --foreground: #FFFFFF;
+  --card-bg: #1E1E1E;
+  --card-bg-alt: #2A2A2A;
   --border-color: #333333;
   --hover-bg: #1a1a1a;
-  --accent: #3b82f6;
-  --accent-hover: #2563eb;
+  
+  /* Neon Border Colors */
+  --neon-pink: #FF4081;
+  --neon-lavender: #B39DDB;
+  --neon-mint: #00E5FF;
+  --neon-teal: #1DE9B6;
+  --neon-yellow: #FFEB3B;
+  
+  /* Text Colors */
+  --text-primary: #FFFFFF;
+  --text-secondary: #B0BEC5;
+  
+  /* Accent Colors */
+  --accent: #FF4081;
+  --accent-hover: #E91E63;
 }
 
 

@@ -117,7 +117,7 @@ export default function ChapterContentPage() {
               <p className="mt-4 text-gray-300 mb-6">Không thể tải thông tin chương. Vui lòng thử lại.</p>
               <Link
                 href="/admin/new-chapter"
-                className="inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-200"
+                className="inline-flex items-center justify-center px-4 py-2 bg-pink-600 text-white rounded-md hover:bg-pink-700 transition-colors duration-200"
               >
                 Quay lại
               </Link>
@@ -182,10 +182,10 @@ export default function ChapterContentPage() {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="text-center sm:text-left">
               <div className="relative mb-3">
-                <h1 className="text-xl sm:text-2xl font-bold text-white mb-2 leading-tight flex items-center gap-3 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                  <Sparkles size={20} className="text-blue-400" />
+                <h1 className="text-xl sm:text-2xl font-bold text-white mb-2 leading-tight flex items-center gap-3 bg-gradient-to-r from-pink-400 to-rose-400 bg-clip-text text-transparent">
+                  <Sparkles size={20} className="text-pink-400" />
                   Viết Nội Dung Chương
-                  <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+                  <div className="w-2 h-2 bg-pink-400 rounded-full animate-pulse"></div>
                 </h1>
               </div>
               <div className="flex items-center gap-2">
@@ -204,12 +204,12 @@ export default function ChapterContentPage() {
             <h3 className="text-base sm:text-lg font-medium text-white mb-3 sm:mb-4 flex items-center gap-2">
               <FileText size={18} className="sm:w-5 sm:h-5" />
               Thông Tin Chương
-              <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
+              <div className="w-1.5 h-1.5 bg-pink-400 rounded-full"></div>
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div className="bg-gray-800/50 rounded-md p-2 backdrop-blur-sm">
                 <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1 flex items-center gap-2">
-                  <div className="w-1 h-1 bg-purple-400 rounded-full"></div>
+                  <div className="w-1 h-1 bg-rose-400 rounded-full"></div>
                   Truyện:
                 </label>
                 <p className="text-xs sm:text-sm text-white font-medium">{story.title}</p>
@@ -246,7 +246,7 @@ export default function ChapterContentPage() {
             <div className="px-3 sm:px-4 md:px-6 pb-3 border-b border-gray-700">
               <div className="bg-gray-800/50 rounded-md p-3 backdrop-blur-sm">
                 <div className="flex items-center gap-2 mb-3">
-                  <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
+                  <div className="w-1.5 h-1.5 bg-pink-400 rounded-full"></div>
                   <span className="text-xs sm:text-sm font-medium text-gray-300">⚙️ Điều chỉnh đọc</span>
                 </div>
                 <div className="flex items-center gap-8 sm:gap-12">
@@ -314,7 +314,7 @@ export default function ChapterContentPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-md text-sm sm:text-base font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 sm:gap-3 shadow-md hover:shadow-lg hover:scale-105"
+                  className="w-full bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-md text-sm sm:text-base font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 sm:gap-3 shadow-md hover:shadow-lg hover:scale-105"
                 >
                   {isSubmitting ? (
                     <>

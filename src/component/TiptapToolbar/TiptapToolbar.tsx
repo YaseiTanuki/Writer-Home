@@ -465,8 +465,8 @@ export default function TiptapToolbar({ editor }: TiptapToolbarProps) {
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-gray-900 rounded-lg shadow-2xl border border-gray-700 max-w-md w-full">
             <div className="p-6">
-              <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-purple-900/20 mb-4">
-                <Palette size={24} className="text-purple-400" />
+              <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-pink-900/20 mb-4">
+                <Palette size={24} className="text-pink-400" />
               </div>
               <h3 className="text-lg font-medium text-white text-center mb-2">
                 Đặt màu chữ
@@ -477,7 +477,7 @@ export default function TiptapToolbar({ editor }: TiptapToolbarProps) {
                   value={textColor}
                   onChange={(e) => setTextColor(e.target.value)}
                   placeholder="Nhập mã màu (ví dụ: #ff0000)"
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-md text-white text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-md text-white text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
                   onKeyDown={(e) => e.key === 'Enter' && confirmSetTextColor()}
                 />
                 <div className="flex gap-3">

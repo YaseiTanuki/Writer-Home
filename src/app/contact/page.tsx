@@ -160,7 +160,7 @@ export default function ContactPage() {
   // Loading screen
   if (isPageLoading) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
+      <div className="min-h-screen bg-[#121212] flex items-center justify-center">
         <div className="text-center">
           <div className="relative w-24 h-24 md:w-32 md:h-32 mx-auto mb-4 md:mb-6">
             <Image
@@ -171,43 +171,43 @@ export default function ContactPage() {
               className="rounded-lg w-full h-full object-cover"
             />
           </div>
-          <h2 className="text-sm md:text-2xl font-bold text-white mb-2">Đang tải...</h2>
-          <p className="text-xs md:text-base text-gray-400">Vui lòng chờ một chút</p>
+          <h2 className="text-sm md:text-2xl font-bold text-[#FFFFFF] mb-2">Đang tải...</h2>
+          <p className="text-xs md:text-base text-[#B0BEC5]">Vui lòng chờ một chút</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-[#121212]">
       <Navigation />
       <div className="pt-16 md:pt-24 max-w-4xl mx-auto px-3 sm:px-4 lg:px-6 py-6 sm:py-8">
         <div className="text-center mb-8">
           <div className="relative mb-4">
             <div className="flex items-center justify-center gap-2 sm:gap-3 mb-3">
-              <Mail size={24} className="text-blue-400" />
-              <h1 className="text-lg sm:text-xl font-bold text-white bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Liên hệ với tôi</h1>
+              <Mail size={24} className="text-[#FF4081]" />
+              <h1 className="text-lg sm:text-xl font-bold text-[#FFFFFF]">Liên hệ với tôi</h1>
             </div>
-            <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-yellow-400 rounded-full animate-pulse"></div>
+            <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-[#FFEB3B] rounded-full animate-pulse"></div>
           </div>
-          <p className="text-xs sm:text-sm text-gray-300">
+          <p className="text-xs sm:text-sm text-[#B0BEC5]">
             Bạn có góp ý, câu hỏi hoặc muốn chia sẻ cảm nhận về truyện? Hãy để lại tin nhắn cho tôi!
           </p>
         </div>
 
-        <div className="bg-gray-900/50 shadow-lg rounded-md p-4 sm:p-6 border border-gray-700 backdrop-blur-sm">
+        <div className="bg-[#1E1E1E] shadow-lg rounded-2xl p-4 sm:p-6 border-2 border-[#FF4081] shadow-[0_0_8px_#FF4081] backdrop-blur-sm">
           {/* Authentication Required Notice */}
           {!isAuthenticated && (
-            <div className="mb-6 bg-yellow-900/20 border border-yellow-700/50 text-yellow-300 px-3 sm:px-4 py-2.5 sm:py-3 rounded-md flex items-center gap-2 sm:gap-3">
-              <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full"></div>
-              <AlertCircle size={16} className="text-yellow-400" />
+            <div className="mb-6 bg-[#FFEB3B]/10 border-2 border-[#FFEB3B]/30 text-[#FFEB3B] px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg flex items-center gap-2 sm:gap-3">
+              <div className="w-1.5 h-1.5 bg-[#FFEB3B] rounded-full"></div>
+              <AlertCircle size={16} className="text-[#FFEB3B]" />
               <div className="flex-1">
                 <p className="text-xs font-medium">Bạn cần đăng nhập để gửi tin nhắn</p>
-                <p className="text-xs mt-1 text-yellow-200">Tin nhắn sẽ được liên kết với tài khoản của bạn</p>
+                <p className="text-xs mt-1 text-[#FFEB3B]/80">Tin nhắn sẽ được liên kết với tài khoản của bạn</p>
               </div>
               <button
                 onClick={handleLoginRedirect}
-                className="bg-yellow-600 hover:bg-yellow-700 text-white px-3 sm:px-4 py-2 rounded-md text-xs font-medium transition-colors duration-200 flex items-center gap-2 hover:scale-105"
+                className="bg-[#FFEB3B] hover:bg-[#FFEB3B]/90 text-[#1E1E1E] px-3 sm:px-4 py-2 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-2 hover:scale-105 shadow-md hover:shadow-lg"
               >
                 <LogIn size={14} />
                 Đăng Nhập
@@ -217,28 +217,28 @@ export default function ContactPage() {
 
           {/* Daily Limit Notice for Guests */}
           {isGuestAuthenticated && (
-            <div className="mb-6 bg-blue-900/20 border border-blue-700/50 text-blue-300 px-3 sm:px-4 py-2.5 sm:py-3 rounded-md flex items-center gap-2 sm:gap-3">
-              <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
-              <Clock size={16} className="text-blue-400" />
+            <div className="mb-6 bg-[#00E5FF]/10 border-2 border-[#00E5FF]/30 text-[#00E5FF] px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg flex items-center gap-2 sm:gap-3">
+              <div className="w-1.5 h-1.5 bg-[#00E5FF] rounded-full"></div>
+              <Clock size={16} className="text-[#00E5FF]" />
               <div>
                 <p className="text-xs font-medium">Giới hạn tin nhắn hàng ngày</p>
-                <p className="text-xs mt-1 text-blue-200">Mỗi tài khoản Google chỉ được gửi tối đa 5 tin nhắn mỗi ngày</p>
+                <p className="text-xs mt-1 text-[#00E5FF]/80">Mỗi tài khoản Google chỉ được gửi tối đa 5 tin nhắn mỗi ngày</p>
               </div>
             </div>
           )}
 
           {/* Message Limit Status */}
           {isAuthenticated && messageLimitInfo && (
-            <div className={`mb-6 border rounded-md px-3 sm:px-4 py-2.5 sm:py-3 flex items-center gap-2 sm:gap-3 ${
+            <div className={`mb-6 border-2 rounded-lg px-3 sm:px-4 py-2.5 sm:py-3 flex items-center gap-2 sm:gap-3 ${
               canSendMessage 
-                ? 'bg-green-900/20 border-green-700/50 text-green-300' 
-                : 'bg-red-900/20 border-red-700/50 text-red-300'
+                ? 'bg-[#1DE9B6]/10 border-[#1DE9B6]/30 text-[#1DE9B6]' 
+                : 'bg-[#FF4081]/10 border-[#FF4081]/30 text-[#FF4081]'
             }`}>
-              <div className={`w-1.5 h-1.5 rounded-full ${canSendMessage ? 'bg-green-400' : 'bg-red-400'}`}></div>
+              <div className={`w-1.5 h-1.5 rounded-full ${canSendMessage ? 'bg-[#1DE9B6]' : 'bg-[#FF4081]'}`}></div>
               {canSendMessage ? (
-                <CheckCircle size={16} className="text-green-400" />
+                <CheckCircle size={16} className="text-[#1DE9B6]" />
               ) : (
-                <XCircle size={16} className="text-red-400" />
+                <XCircle size={16} className="text-[#FF4081]" />
               )}
               <div>
                 <p className="text-xs font-medium">
@@ -256,8 +256,8 @@ export default function ContactPage() {
 
           {/* Loading indicator for message limit check */}
           {isCheckingLimit && (
-            <div className="mb-6 bg-blue-900/20 border border-blue-700/50 text-blue-300 px-3 sm:px-4 py-2.5 sm:py-3 rounded-md flex items-center gap-2 sm:gap-3">
-              <div className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse"></div>
+            <div className="mb-6 bg-[#00E5FF]/10 border-2 border-[#00E5FF]/30 text-[#00E5FF] px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg flex items-center gap-2 sm:gap-3">
+              <div className="w-1.5 h-1.5 bg-[#00E5FF] rounded-full animate-pulse"></div>
               <div className="relative w-4 h-4 md:w-5 md:h-5">
                 <Image
                   src="/reading.gif"
@@ -269,39 +269,39 @@ export default function ContactPage() {
               </div>
               <div>
                 <p className="text-xs font-medium">Đang kiểm tra giới hạn tin nhắn...</p>
-                <p className="text-xs mt-1 text-blue-200">Vui lòng chờ một chút</p>
+                <p className="text-xs mt-1 text-[#00E5FF]/80">Vui lòng chờ một chút</p>
               </div>
             </div>
           )}
 
           {submitStatus === 'success' && (
-            <div className="mb-6 bg-green-900/20 border border-green-700/50 text-green-300 px-3 sm:px-4 py-2.5 sm:py-3 rounded-md flex items-center gap-2 sm:gap-3">
-              <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
-              <CheckCircle size={16} className="text-green-400" />
+            <div className="mb-6 bg-[#1DE9B6]/10 border-2 border-[#1DE9B6]/30 text-[#1DE9B6] px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg flex items-center gap-2 sm:gap-3">
+              <div className="w-1.5 h-1.5 bg-[#1DE9B6] rounded-full"></div>
+              <CheckCircle size={16} className="text-[#1DE9B6]" />
               <div>
                 <p className="text-xs font-medium">Tin nhắn đã được gửi thành công!</p>
-                <p className="text-xs mt-1 text-green-200">Cảm ơn bạn đã liên hệ. Tôi sẽ phản hồi sớm nhất có thể.</p>
+                <p className="text-xs mt-1 text-[#1DE9B6]/80">Cảm ơn bạn đã liên hệ. Tôi sẽ phản hồi sớm nhất có thể.</p>
               </div>
             </div>
           )}
 
           {submitStatus === 'error' && (
-            <div className="mb-6 bg-red-900/20 border border-red-700/50 text-red-300 px-3 sm:px-4 py-2.5 sm:py-3 rounded-md flex items-center gap-2 sm:gap-3">
-              <div className="w-1.5 h-1.5 bg-red-400 rounded-full"></div>
-              <AlertCircle size={16} className="text-red-400" />
+            <div className="mb-6 bg-[#FF4081]/10 border-2 border-[#FF4081]/30 text-[#FF4081] px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg flex items-center gap-2 sm:gap-3">
+              <div className="w-1.5 h-1.5 bg-[#FF4081] rounded-full"></div>
+              <AlertCircle size={16} className="text-[#FF4081]" />
               <div>
                 <p className="text-xs font-medium">Không thể gửi tin nhắn</p>
-                <p className="text-xs mt-1 text-red-200">{errorMessage}</p>
+                <p className="text-xs mt-1 text-[#FF4081]/80">{errorMessage}</p>
               </div>
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
             <div>
-              <label htmlFor="name" className="block text-xs font-medium text-gray-300 mb-2 flex items-center gap-2">
-                <div className="w-1 h-1 bg-blue-400 rounded-full"></div>
+              <label htmlFor="name" className="block text-xs font-medium text-[#B0BEC5] mb-2 flex items-center gap-2">
+                <div className="w-1 h-1 bg-[#00E5FF] rounded-full"></div>
                 <User size={14} />
-                Tên của bạn <span className="text-red-400">*</span>
+                Tên của bạn <span className="text-[#FF4081]">*</span>
               </label>
               <input
                 type="text"
@@ -310,7 +310,7 @@ export default function ContactPage() {
                 required
                 value={formData.name}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-800/50 text-white placeholder-gray-400 text-xs transition-all duration-200"
+                className="w-full px-3 py-2 border-2 border-[#00E5FF]/30 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#00E5FF] focus:border-[#00E5FF] bg-[#2A2A2A] text-[#FFFFFF] placeholder-[#B0BEC5] text-xs transition-all duration-200"
                 placeholder="Nhập tên của bạn"
                 disabled={!isAuthenticated}
               />
@@ -319,10 +319,10 @@ export default function ContactPage() {
             {/* Email field - hidden for guests, shown for admins */}
             {!isGuestAuthenticated && (
               <div>
-                <label htmlFor="email" className="block text-xs font-medium text-gray-300 mb-2 flex items-center gap-2">
-                  <div className="w-1 h-1 bg-blue-400 rounded-full"></div>
+                <label htmlFor="email" className="block text-xs font-medium text-[#B0BEC5] mb-2 flex items-center gap-2">
+                  <div className="w-1 h-1 bg-[#00E5FF] rounded-full"></div>
                   <Mail size={14} />
-                  Email <span className="text-red-400">*</span>
+                  Email <span className="text-[#FF4081]">*</span>
                 </label>
                 <input
                   type="email"
@@ -331,7 +331,7 @@ export default function ContactPage() {
                   required
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-800/50 text-white placeholder-gray-400 text-xs transition-all duration-200"
+                  className="w-full px-3 py-2 border-2 border-[#00E5FF]/30 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#00E5FF] focus:border-[#00E5FF] bg-[#2A2A2A] text-[#FFFFFF] placeholder-[#B0BEC5] text-xs transition-all duration-200"
                   placeholder="your.email@example.com"
                   disabled={!isAuthenticated}
                 />
@@ -340,21 +340,21 @@ export default function ContactPage() {
 
             {/* Guest email info */}
             {isGuestAuthenticated && (
-              <div className="bg-gray-800/50 border border-gray-700 rounded-md p-3 backdrop-blur-sm">
-                <div className="flex items-center gap-2 text-xs text-gray-300">
-                  <div className="w-1 h-1 bg-blue-400 rounded-full"></div>
+              <div className="bg-[#2A2A2A] border-2 border-[#00E5FF]/30 rounded-lg p-3 backdrop-blur-sm">
+                <div className="flex items-center gap-2 text-xs text-[#B0BEC5]">
+                  <div className="w-1 h-1 bg-[#00E5FF] rounded-full"></div>
                   <Mail size={14} />
-                  <span>Email: <span className="text-blue-400">{guest?.email}</span></span>
+                  <span>Email: <span className="text-[#00E5FF]">{guest?.email}</span></span>
                 </div>
-                <p className="text-xs text-gray-400 mt-1">Email sẽ được tự động lấy từ tài khoản Google của bạn</p>
+                <p className="text-xs text-[#B0BEC5]/80 mt-1">Email sẽ được tự động lấy từ tài khoản Google của bạn</p>
               </div>
             )}
 
             <div>
-              <label htmlFor="content" className="block text-xs font-medium text-gray-300 mb-2 flex items-center gap-2">
-                <div className="w-1 h-1 bg-blue-400 rounded-full"></div>
+              <label htmlFor="content" className="block text-xs font-medium text-[#B0BEC5] mb-2 flex items-center gap-2">
+                <div className="w-1 h-1 bg-[#00E5FF] rounded-full"></div>
                 <MessageSquare size={14} />
-                Nội dung tin nhắn <span className="text-red-400">*</span>
+                Nội dung tin nhắn <span className="text-[#FF4081]">*</span>
               </label>
               <textarea
                 id="content"
@@ -364,15 +364,15 @@ export default function ContactPage() {
                 maxLength={255}
                 value={formData.content}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-800/50 text-white placeholder-gray-400 text-xs transition-all duration-200"
+                className="w-full px-3 py-2 border-2 border-[#00E5FF]/30 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#00E5FF] focus:border-[#00E5FF] bg-[#2A2A2A] text-[#FFFFFF] placeholder-[#B0BEC5] text-xs transition-all duration-200"
                 placeholder={isAuthenticated ? "Viết tin nhắn của bạn ở đây... (tối đa 255 ký tự)" : "Bạn cần đăng nhập để gửi tin nhắn"}
                 disabled={!isAuthenticated}
               />
               <div className="flex justify-between items-center mt-1">
-                <span className="text-xs text-gray-400">
+                <span className="text-xs text-[#B0BEC5]">
                   Tin nhắn sẽ được hiển thị trên trang chủ
                 </span>
-                <span className={`text-xs ${formData.content.length >= 255 ? 'text-red-400' : 'text-gray-400'}`}>
+                <span className={`text-xs ${formData.content.length >= 255 ? 'text-[#FF4081]' : 'text-[#B0BEC5]'}`}>
                   {formData.content.length}/255 ký tự
                 </span>
               </div>
@@ -382,53 +382,53 @@ export default function ContactPage() {
               <button
                 type="submit"
                 disabled={!isAuthenticated || isSubmitting || formData.content.length > 255 || !canSendMessage}
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-md text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:scale-102 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 sm:gap-3"
+                className="bg-[#00E5FF] hover:bg-[#00E5FF]/90 text-[#1E1E1E] px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:scale-102 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 sm:gap-3"
               >
-                                  {!isAuthenticated ? (
-                    <>
-                      <LogIn size={16} />
-                      Cần Đăng Nhập
-                    </>
-                  ) : isSubmitting ? (
-                    <>
-                      <div className="relative w-4 h-4 md:w-5 md:h-5">
-                        <Image
-                          src="/reading.gif"
-                          alt="Sending..."
-                          width={16}
-                          height={16}
-                          className="rounded w-full h-full object-cover"
-                        />
-                      </div>
-                      Đang gửi...
-                    </>
-                  ) : formData.content.length > 255 ? (
-                    <>
-                      <AlertCircle size={16} />
-                      Vượt quá 255 ký tự
-                    </>
-                  ) : !canSendMessage ? (
-                    <>
-                      <XCircle size={16} />
-                      Đã đạt giới hạn hôm nay
-                    </>
-                  ) : (
-                    <>
-                      <Send size={16} />
-                      Gửi tin nhắn
-                    </>
-                  )}
+                {!isAuthenticated ? (
+                  <>
+                    <LogIn size={16} />
+                    Cần Đăng Nhập
+                  </>
+                ) : isSubmitting ? (
+                  <>
+                    <div className="relative w-4 h-4 md:w-5 md:h-5">
+                      <Image
+                        src="/reading.gif"
+                        alt="Sending..."
+                        width={16}
+                        height={16}
+                        className="rounded w-full h-full object-cover"
+                      />
+                    </div>
+                    Đang gửi...
+                  </>
+                ) : formData.content.length > 255 ? (
+                  <>
+                    <AlertCircle size={16} />
+                    Vượt quá 255 ký tự
+                  </>
+                ) : !canSendMessage ? (
+                  <>
+                    <XCircle size={16} />
+                    Đã đạt giới hạn hôm nay
+                  </>
+                ) : (
+                  <>
+                    <Send size={16} />
+                    Gửi tin nhắn
+                  </>
+                )}
               </button>
             </div>
           </form>
 
-          <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-gray-700">
+          <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t-2 border-[#FF4081]/30">
             <div className="flex items-center gap-2 sm:gap-3 mb-3">
-              <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
-              <Info size={18} className="text-blue-400" />
-              <h3 className="text-base sm:text-lg font-medium text-white">Thông tin liên hệ khác</h3>
+              <div className="w-1.5 h-1.5 bg-[#00E5FF] rounded-full"></div>
+              <Info size={18} className="text-[#00E5FF]" />
+              <h3 className="text-base sm:text-lg font-medium text-[#FFFFFF]">Thông tin liên hệ khác</h3>
             </div>
-            <div className="text-gray-300 space-y-2">
+            <div className="text-[#B0BEC5] space-y-2">
               <p className="text-xs">• Bạn cũng có thể góp ý trực tiếp trong phần bình luận của từng chương</p>
               <p className="text-xs">• Tôi sẽ cố gắng phản hồi tất cả tin nhắn trong thời gian sớm nhất</p>
               <p className="text-xs">• Cảm ơn bạn đã dành thời gian đọc truyện của tôi!</p>

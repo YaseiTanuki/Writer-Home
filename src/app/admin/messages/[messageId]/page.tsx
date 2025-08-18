@@ -256,7 +256,7 @@ export default function MessageDetail() {
         <div className="max-w-4xl mx-auto px-4 py-8">
           <div className="text-center">
             <p className="text-gray-300 text-base">Không tìm thấy tin nhắn</p>
-            <Link href="/admin/messages" className="mt-3 inline-block text-blue-400 hover:text-blue-300 text-sm">
+            <Link href="/admin/messages" className="mt-3 inline-block text-pink-400 hover:text-pink-300 text-sm">
               Quay lại danh sách tin nhắn
             </Link>
           </div>
@@ -276,13 +276,13 @@ export default function MessageDetail() {
             <ArrowLeft size={16} />
           </Link>
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-gradient-to-r from-pink-600 to-rose-600 rounded-lg flex items-center justify-center">
               <Mail size={16} className="text-white" />
             </div>
             <div>
-              <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Chi tiết tin nhắn</h1>
+              <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-pink-400 to-rose-400 bg-clip-text text-transparent">Chi tiết tin nhắn</h1>
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+                <div className="w-2 h-2 bg-pink-400 rounded-full animate-pulse"></div>
                 <p className="text-xs text-gray-400">Xem và quản lý tin nhắn</p>
               </div>
             </div>
@@ -365,7 +365,7 @@ export default function MessageDetail() {
               <div className="flex items-center gap-2">
                 <button
                   onClick={handleEditReply}
-                  className="px-2.5 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-md transition-colors duration-200"
+                  className="px-2.5 py-1 bg-pink-600 hover:bg-pink-700 text-white text-xs font-medium rounded-md transition-colors duration-200"
                 >
                   Sửa
                 </button>
@@ -385,7 +385,7 @@ export default function MessageDetail() {
                   value={editReplyText}
                   onChange={(e) => setEditReplyText(e.target.value)}
                   placeholder="Nhập nội dung trả lời..."
-                  className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md text-white text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md text-white text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
                   rows={3}
                 />
                 <div className="flex justify-end gap-2">
@@ -398,7 +398,7 @@ export default function MessageDetail() {
                   <button
                     onClick={handleUpdateReply}
                     disabled={!editReplyText.trim() || isUpdatingReply}
-                    className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-500 disabled:cursor-not-allowed text-white text-xs font-medium rounded-md transition-colors duration-200"
+                    className="px-3 py-1.5 bg-pink-600 hover:bg-pink-700 disabled:bg-pink-500 disabled:cursor-not-allowed text-white text-xs font-medium rounded-md transition-colors duration-200"
                   >
                     {isUpdatingReply ? 'Đang cập nhật...' : 'Cập nhật'}
                   </button>
@@ -414,25 +414,25 @@ export default function MessageDetail() {
 
         {/* Guest Replies Section */}
         {message.guestReplies && message.guestReplies.length > 0 && (
-          <div className="bg-blue-900/20 border border-blue-700/50 rounded-md p-4 backdrop-blur-sm">
+          <div className="bg-pink-900/20 border border-pink-700/50 rounded-md p-4 backdrop-blur-sm">
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-              <h3 className="text-base font-medium text-blue-400">
+              <div className="w-2 h-2 bg-pink-400 rounded-full"></div>
+              <h3 className="text-base font-medium text-pink-400">
                 Câu trả lời của guests ({message.guestReplies.length})
               </h3>
             </div>
             <div className="space-y-3">
               {/* Show first 3 guest replies */}
               {message.guestReplies.slice(0, 3).map((reply, index) => (
-                <div key={reply._id || index} className="p-3 bg-blue-900/20 border border-blue-700 rounded-md">
+                <div key={reply._id || index} className="p-3 bg-pink-900/20 border border-pink-700 rounded-md">
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-medium text-blue-400">{reply.guestName}</span>
-                        <span className="text-xs text-blue-300">({reply.guestEmail})</span>
+                        <span className="text-xs font-medium text-pink-400">{reply.guestName}</span>
+                        <span className="text-xs text-pink-300">({reply.guestEmail})</span>
                       </div>
-                      <p className="text-blue-300 text-sm whitespace-pre-wrap mb-1">{reply.content}</p>
-                      <div className="text-xs text-blue-300">
+                      <p className="text-pink-300 text-sm whitespace-pre-wrap mb-1">{reply.content}</p>
+                      <div className="text-xs text-pink-300">
                         {new Date(reply.createdAt).toLocaleString('vi-VN')}
                       </div>
                     </div>
@@ -452,21 +452,21 @@ export default function MessageDetail() {
               {message.guestReplies.length > 3 && (
                 <div className="mt-4">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs text-blue-300">
+                    <span className="text-xs text-pink-300">
                       Và {message.guestReplies.length - 3} câu trả lời khác:
                     </span>
                   </div>
-                  <div className="max-h-48 overflow-y-auto border border-blue-700 rounded-md bg-blue-900/10 p-2">
+                  <div className="max-h-48 overflow-y-auto border border-pink-700 rounded-md bg-pink-900/10 p-2">
                     {message.guestReplies.slice(3).map((reply, index) => (
-                      <div key={reply._id || (index + 3)} className="p-2 bg-blue-900/20 border border-blue-700 rounded-md mb-2 last:mb-0">
+                      <div key={reply._id || (index + 3)} className="p-2 bg-pink-900/20 border border-pink-700 rounded-md mb-2 last:mb-0">
                         <div className="flex items-start justify-between gap-3">
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 mb-1">
-                              <span className="text-xs font-medium text-blue-400">{reply.guestName}</span>
-                              <span className="text-xs text-blue-300">({reply.guestEmail})</span>
+                              <span className="text-xs font-medium text-pink-400">{reply.guestName}</span>
+                              <span className="text-xs text-pink-300">({reply.guestEmail})</span>
                             </div>
-                            <p className="text-blue-300 text-sm whitespace-pre-wrap mb-1">{reply.content}</p>
-                            <div className="text-xs text-blue-300">
+                            <p className="text-pink-300 text-sm whitespace-pre-wrap mb-1">{reply.content}</p>
+                            <div className="text-xs text-pink-300">
                               {new Date(reply.createdAt).toLocaleString('vi-VN')}
                             </div>
                           </div>

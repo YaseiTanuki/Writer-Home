@@ -108,7 +108,7 @@ const ImageUpload = forwardRef<{ uploadImage: () => Promise<string>; hasNewFile:
       <div
         className={`relative border-2 border-dashed rounded-lg p-4 transition-colors ${
           previewUrl 
-            ? 'border-blue-500 bg-blue-50/10' 
+            ? 'border-pink-500 bg-pink-50/10' 
             : 'border-gray-600 hover:border-gray-500 bg-gray-800/50'
         }`}
       >
@@ -132,7 +132,7 @@ const ImageUpload = forwardRef<{ uploadImage: () => Promise<string>; hasNewFile:
                   setPreviewUrl(currentImageUrl);
                   setUploadError('');
                 }}
-                className="absolute bottom-2 right-2 bg-blue-600 hover:bg-blue-700 text-white text-xs px-2 py-1 rounded transition-colors"
+                className="absolute bottom-2 right-2 bg-pink-600 hover:bg-pink-700 text-white text-xs px-2 py-1 rounded transition-colors"
               >
                 Giữ ảnh cũ
               </button>
@@ -143,7 +143,7 @@ const ImageUpload = forwardRef<{ uploadImage: () => Promise<string>; hasNewFile:
           <div className="text-center">
             <div className="flex flex-col items-center justify-center space-y-2">
               {isUploading ? (
-                <Loader2 size={32} className="animate-spin text-blue-400" />
+                <Loader2 size={32} className="animate-spin text-pink-400" />
               ) : (
                 <ImageIcon size={32} className="text-gray-400" />
               )}
@@ -152,7 +152,7 @@ const ImageUpload = forwardRef<{ uploadImage: () => Promise<string>; hasNewFile:
                   'Đang upload ảnh...'
                 ) : (
                   <>
-                    <span className="font-medium text-blue-400">Click để chọn ảnh</span>
+                    <span className="font-medium text-pink-400">Click để chọn ảnh</span>
                     <span className="text-gray-400"> hoặc kéo thả ảnh vào đây</span>
                   </>
                 )}

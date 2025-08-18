@@ -213,10 +213,10 @@ export default function Home() {
   const noteColors = [
     'from-yellow-400 to-orange-400',
     'from-pink-400 to-rose-400',
-    'from-blue-400 to-cyan-400',
+    'from-pink-400 to-rose-400',
     'from-green-400 to-emerald-400',
-    'from-purple-400 to-violet-400',
-    'from-indigo-400 to-blue-400',
+    'from-rose-400 to-pink-400',
+    'from-pink-400 to-rose-400',
     'from-red-400 to-pink-400',
     'from-teal-400 to-green-400'
   ];
@@ -312,7 +312,8 @@ export default function Home() {
 
   const renderMessage = (message: Message, index: number) => {
     const IconComponent = noteIcons[index % noteIcons.length];
-    const colorClass = noteColors[index % noteIcons.length];
+    const neonColors = ['#FF4081', '#B39DDB', '#00E5FF', '#1DE9B6', '#FFEB3B'];
+    const currentNeonColor = neonColors[index % neonColors.length];
     const rotation = getRandomRotation();
     const delay = getRandomDelay(index);
 
@@ -331,30 +332,30 @@ export default function Home() {
       }}
       onClick={() => handleMessageClick(message)}
     >
-        <div className={`bg-gradient-to-br ${colorClass} p-3 sm:p-4 rounded-md shadow-md hover:shadow-lg transition-all duration-300 relative h-[160px] sm:h-[140px] flex flex-col border border-white/10 overflow-hidden`}>
+        <div className="bg-[#1E1E1E] p-3 sm:p-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 relative h-[160px] sm:h-[140px] flex flex-col border-2 overflow-hidden" style={{ borderColor: currentNeonColor, boxShadow: `0 0 8px ${currentNeonColor}` }}>
           {/* Note pin effect */}
-          <div className="absolute -top-1.5 left-1/2 transform -translate-x-1/2 w-2.5 h-2.5 sm:w-2.5 sm:h-2.5 bg-red-500 rounded-full shadow-md border border-white/20"></div>
+          <div className="absolute -top-1.5 left-1/2 transform -translate-x-1/2 w-2.5 h-2.5 sm:w-2.5 sm:h-2.5 bg-[#FF4081] rounded-full shadow-md border-2 border-white/20"></div>
           
           {/* Sender name - small and in corner */}
-          <div className="absolute top-2 left-2 text-white/90 text-xs sm:text-xs font-medium bg-black/30 px-2 py-1 rounded-full backdrop-blur-sm border border-white/20 max-w-[100px] truncate">
+          <div className="absolute top-2 left-2 text-[#FFFFFF]/90 text-xs sm:text-xs font-medium bg-[#2A2A2A]/80 px-2 py-1 rounded-full backdrop-blur-sm border-2 border-white/20 max-w-[100px] truncate">
             {message.name}
           </div>
           
           {/* Message content - main focus with flex-grow to push date to bottom */}
           <div className="text-center pt-6 sm:pt-6 flex-grow flex items-center justify-center px-2">
-            <p className="text-white/95 text-xs sm:text-sm leading-relaxed line-clamp-4 sm:line-clamp-4 break-words">
+            <p className="text-[#FFFFFF]/95 text-xs sm:text-sm leading-relaxed line-clamp-4 sm:line-clamp-4 break-words">
               {truncatedContent}
             </p>
           </div>
           
           {/* Date - now positioned at bottom without absolute positioning */}
-          <div className="text-white/70 text-xs sm:text-xs text-center mt-2 bg-black/20 px-2 py-1 rounded-full backdrop-blur-sm">
+          <div className="text-[#B0BEC5]/80 text-xs sm:text-xs text-center mt-2 bg-[#2A2A2A]/80 px-2 py-1 rounded-full backdrop-blur-sm border-2 border-white/20">
             {new Date(message.createdAt).toLocaleDateString('vi-VN')}
           </div>
           
           {/* Hover effect overlay */}
-          <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-md flex items-center justify-center">
-            <div className="bg-white/95 text-gray-800 px-2 py-1 rounded-full text-xs font-medium shadow-lg">
+          <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl flex items-center justify-center">
+            <div className="bg-[#FFFFFF]/95 text-[#1E1E1E] px-2 py-1 rounded-full text-xs font-medium shadow-lg">
               Xem chi tiết
             </div>
           </div>
@@ -364,24 +365,24 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-[#121212]">
       <Navigation />
       <main className="pt-16 md:pt-24 max-w-5xl mx-auto px-3 sm:px-4 lg:px-6 py-6 sm:py-8">
         {/* Header Section */}
         <div className="text-center mb-8 px-3 sm:px-0">
           <div className="relative mb-4">
-            <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-3 leading-tight bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+            <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-[#FFFFFF] mb-3 leading-tight">
               Chào mừng đến với Góc Truyện của Tôi
             </h1>
-            <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-yellow-400 rounded-full animate-pulse"></div>
+            <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-[#FFEB3B] rounded-full animate-pulse"></div>
           </div>
-          <p className="text-xs sm:text-sm text-gray-300 mb-6 px-3 sm:px-0">
+          <p className="text-xs sm:text-sm text-[#B0BEC5] mb-6 px-3 sm:px-0">
             Nơi lưu trữ những câu chuyện, suy nghĩ và sáng tác văn học của tôi
           </p>
           <div className="flex justify-center px-3 sm:px-0">
             <Link 
               href="/stories" 
-              className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-md text-xs sm:text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:scale-102 flex items-center justify-center gap-2"
+              className="w-full sm:w-auto bg-[#FF4081] hover:bg-[#FF4081]/92 text-white px-6 py-3 rounded-lg text-xs sm:text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:scale-102 flex items-center justify-center gap-2"
             >
               <BookOpen size={18} />
               Đọc Truyện của Tôi
@@ -392,16 +393,16 @@ export default function Home() {
         {/* Messages Section */}
         <div className="mb-8 px-3 sm:px-0">
           <div className="text-center mb-6">
-            <div className="bg-gray-900/50 rounded-md p-4 border border-gray-800 mb-4">
-              <h2 className="text-base sm:text-lg font-bold text-white mb-3 flex items-center justify-center gap-2">
-                <div className="w-1.5 h-3 bg-blue-500 rounded-full"></div>
-                <MessageSquare size={20} className="text-blue-400" />
+            <div className="bg-[#1E1E1E] rounded-2xl p-4 border-2 border-[#FF4081] shadow-[0_0_8px_#FF4081] mb-4">
+              <h2 className="text-base sm:text-lg font-bold text-[#FFFFFF] mb-3 flex items-center justify-center gap-2">
+                <div className="w-1.5 h-3 bg-[#FF4081] rounded-full"></div>
+                <MessageSquare size={20} className="text-[#FF4081]" />
                 Tin Nhắn từ Độc Giả
               </h2>
-              <p className="text-xs text-gray-300 mb-3">
+              <p className="text-xs text-[#B0BEC5] mb-3">
                 Những lời động viên và góp ý quý báu từ các bạn
               </p>
-              <div className="text-xs text-gray-400 bg-gray-800/50 px-2 py-1 rounded border border-gray-700">
+              <div className="text-xs text-[#B0BEC5] bg-[#2A2A2A] px-2 py-1 rounded border-2 border-[#FF4081]/30">
                 <span className="hidden md:inline">Layout: 5 hàng × 4 tin (ngẫu nhiên)</span>
                 <span className="md:hidden">Layout: 3 hàng × 2 tin (ngẫu nhiên)</span>
               </div>
@@ -410,7 +411,7 @@ export default function Home() {
 
           {isLoading ? (
             <div className="text-center py-8">
-              <div className="bg-gray-900/50 rounded-md p-4 border border-gray-800">
+              <div className="bg-[#1E1E1E] rounded-2xl p-4 border-2 border-[#FF4081] shadow-[0_0_8px_#FF4081]">
                 <div className="relative w-12 h-12 md:w-16 md:h-16 mx-auto mb-3">
                   <Image
                     src="/reading.gif"
@@ -420,18 +421,18 @@ export default function Home() {
                     className="rounded-md w-full h-full object-cover"
                   />
                 </div>
-                <p className="text-gray-300 text-xs">Đang tải tin nhắn...</p>
+                <p className="text-[#B0BEC5] text-xs">Đang tải tin nhắn...</p>
               </div>
             </div>
           ) : displayedMessages.length === 0 ? (
             <div className="text-center py-8">
-              <div className="bg-gray-900/50 rounded-md p-4 border border-gray-800">
-                <MessageSquare size={32} className="text-gray-500 mx-auto mb-3" />
-                <p className="text-gray-400 text-xs">Chưa có tin nhắn nào từ độc giả</p>
-                <p className="text-gray-500 mt-2 text-xs">Hãy là người đầu tiên để lại tin nhắn!</p>
+              <div className="bg-[#1E1E1E] rounded-2xl p-4 border-2 border-[#FF4081] shadow-[0_0_8px_#FF4081]">
+                <MessageSquare size={32} className="text-[#FF4081] mx-auto mb-3" />
+                <p className="text-[#B0BEC5] text-xs">Chưa có tin nhắn nào từ độc giả</p>
+                <p className="text-[#B0BEC5] mt-2 text-xs">Hãy là người đầu tiên để lại tin nhắn!</p>
                 <Link
                   href="/contact"
-                  className="inline-block mt-3 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium transition-colors duration-200 text-xs"
+                  className="inline-block mt-3 bg-[#FF4081] hover:bg-[#FF4081]/92 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 text-xs shadow-md hover:shadow-lg"
                 >
                   Gửi Tin Nhắn
                 </Link>
@@ -444,16 +445,16 @@ export default function Home() {
               {/* Show more messages info if there are more */}
               {messages.length > displayedMessages.length && (
                 <div className="text-center mt-6">
-                  <div className="bg-gray-900/50 rounded-md p-4 border border-gray-800">
+                  <div className="bg-[#1E1E1E] rounded-2xl p-4 border-2 border-[#1DE9B6] shadow-[0_0_8px_#1DE9B6]">
                     <div className="flex items-center justify-center gap-2 mb-3">
-                      <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
-                      <p className="text-gray-300 text-xs">
+                      <div className="w-1.5 h-1.5 bg-[#1DE9B6] rounded-full animate-pulse"></div>
+                      <p className="text-[#B0BEC5] text-xs">
                         Còn {messages.length - displayedMessages.length} tin nhắn khác
                       </p>
                     </div>
                     <Link
                       href="/contact"
-                      className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-xs font-medium transition-colors duration-200"
+                      className="inline-flex items-center gap-2 bg-[#FF4081] hover:bg-[#FF4081]/92 text-white px-4 py-2 rounded-lg text-xs font-medium transition-all duration-200 shadow-md hover:shadow-lg"
                     >
                       <MessageSquare size={14} />
                       Gửi Tin Nhắn Mới
@@ -467,19 +468,19 @@ export default function Home() {
 
         {/* Call to Action */}
         <div className="text-center">
-          <div className="bg-gradient-to-r from-blue-900/30 to-purple-900/30 rounded-md p-4 sm:p-6 border border-blue-700/50 backdrop-blur-sm">
+          <div className="bg-[#1E1E1E] rounded-2xl p-4 sm:p-6 border-2 border-[#FF4081] shadow-[0_0_8px_#FF4081]">
             <div className="flex items-center justify-center gap-2 mb-3">
-              <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
-              <h3 className="text-base sm:text-lg font-bold text-white">
+              <div className="w-2 h-2 bg-[#FF4081] rounded-full animate-pulse"></div>
+              <h3 className="text-base sm:text-lg font-bold text-[#FFFFFF]">
                 Bạn có muốn để lại tin nhắn không?
               </h3>
             </div>
-            <p className="text-gray-300 mb-4 text-xs">
+            <p className="text-[#B0BEC5] mb-4 text-xs">
               Chia sẻ cảm nhận, góp ý hoặc đơn giản là lời động viên cho tôi
             </p>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-2.5 rounded-md font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:scale-102 text-xs"
+              className="inline-flex items-center gap-2 bg-[#FF4081] hover:bg-[#FF4081]/92 text-white px-6 py-2.5 rounded-lg font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:scale-102 text-xs"
             >
               <MessageSquare size={16} />
               Gửi Tin Nhắn Ngay
@@ -491,9 +492,9 @@ export default function Home() {
       {/* Message Popup/Dialog */}
       {showPopup && selectedMessage && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-3">
-          <div className="bg-gray-900 rounded-md shadow-2xl max-w-md w-full max-h-[80vh] overflow-hidden border border-gray-700">
+          <div className="bg-[#1E1E1E] rounded-2xl shadow-2xl max-w-md w-full max-h-[80vh] overflow-hidden border-2 border-[#FF4081] shadow-[0_0_8px_#FF4081]">
             {/* Header */}
-            <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-3 text-white">
+            <div className="bg-[#FF4081] p-3 text-white">
               <div className="flex items-center justify-between">
                 <h3 className="text-xs font-semibold flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
@@ -512,8 +513,8 @@ export default function Home() {
             {/* Content */}
             <div className="p-4">
               <div className="mb-4">
-                <div className="bg-gray-800/50 rounded-md p-3 border border-gray-700">
-                  <p className="text-gray-200 leading-relaxed text-xs">
+                <div className="bg-[#2A2A2A] rounded-lg p-3 border-2 border-[#FF4081]/30">
+                  <p className="text-[#FFFFFF] leading-relaxed text-xs">
                     {selectedMessage.content}
                   </p>
                 </div>
@@ -521,12 +522,12 @@ export default function Home() {
               
               {/* Admin Reply */}
               {selectedMessage.reply && (
-                <div className="mb-4 p-3 bg-green-900/20 border border-green-700/50 rounded-md">
+                <div className="mb-4 p-3 bg-[#1DE9B6]/10 border-2 border-[#1DE9B6]/30 rounded-lg">
                   <div className="flex items-center gap-2 mb-2">
-                    <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
-                    <span className="text-xs font-medium text-green-300">Trả lời của Admin</span>
+                    <div className="w-1.5 h-1.5 bg-[#1DE9B6] rounded-full"></div>
+                    <span className="text-xs font-medium text-[#1DE9B6]">Trả lời của Admin</span>
                   </div>
-                  <p className="text-green-200 leading-relaxed text-xs">
+                  <p className="text-[#1DE9B6] leading-relaxed text-xs">
                     {selectedMessage.reply}
                   </p>
                 </div>
@@ -535,64 +536,61 @@ export default function Home() {
               {/* Guest Replies Section */}
               {selectedMessage.guestReplies && selectedMessage.guestReplies.length > 0 && (
                 <div className="mb-4">
-                  <h4 className="text-xs font-medium text-gray-300 mb-2 flex items-center gap-2">
-                    <div className="w-1 h-1 bg-blue-400 rounded-full"></div>
+                  <h4 className="text-xs font-medium text-[#B0BEC5] mb-2 flex items-center gap-2">
+                    <div className="w-1 h-1 bg-[#FF4081] rounded-full"></div>
                     Câu trả lời của guests ({selectedMessage.guestReplies.length}):
                   </h4>
                   <div className="space-y-2">
                     {selectedMessage.guestReplies.map((reply, index) => (
-                      <div key={reply._id || index} className="p-2 bg-blue-900/20 border border-blue-700/50 rounded-md">
+                      <div key={reply._id || index} className="p-2 bg-[#FF4081]/10 border-2 border-[#FF4081]/30 rounded-lg">
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="text-xs font-medium text-blue-300">{reply.guestName}</span>
-                          <span className="text-xs text-blue-400">({reply.guestEmail})</span>
-                          <span className="text-xs text-blue-500">
+                          <span className="text-xs font-medium text-[#FF4081]">{reply.guestName}</span>
+                          <span className="text-xs text-[#FF4081]/80">({reply.guestEmail})</span>
+                          <span className="text-xs text-[#FF4081]/60">
                             {new Date(reply.createdAt).toLocaleDateString('vi-VN')}
                           </span>
                         </div>
-                        <p className="text-xs text-blue-200">{reply.content}</p>
+                        <p className="text-xs text-[#FF4081]/90">{reply.content}</p>
                       </div>
                     ))}
                   </div>
                 </div>
               )}
               
-              {/* Guest Information Form */}
-              {/* This section is removed as per the edit hint */}
-              
               {/* Reply Input Section */}
               {!isAuthenticated ? (
-                <div className="mb-4 p-3 bg-gray-800/50 border border-gray-700 rounded-md">
+                <div className="mb-4 p-3 bg-[#2A2A2A] border-2 border-[#B0BEC5]/30 rounded-lg">
                   <div className="flex items-center gap-2 mb-2">
-                    <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-                    <span className="text-xs font-medium text-gray-300">Đăng nhập để trả lời</span>
+                    <div className="w-1.5 h-1.5 bg-[#B0BEC5] rounded-full"></div>
+                    <span className="text-xs font-medium text-[#B0BEC5]">Đăng nhập để trả lời</span>
                   </div>
-                  <p className="text-xs text-gray-400 mb-3">Bạn cần đăng nhập để có thể trả lời tin nhắn này</p>
+                  <p className="text-xs text-[#B0BEC5] mb-3">Bạn cần đăng nhập để có thể trả lời tin nhắn này</p>
                   <Link
                     href="/auth"
-                    className="inline-block px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-md transition-colors duration-200"
+                    className="inline-block px-3 py-2 bg-[#FF4081] hover:bg-[#FF4081]/92 text-white text-xs font-medium rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
                   >
                     Đăng nhập ngay
                   </Link>
                 </div>
               ) : (
-                <div className="mb-4 p-3 bg-yellow-900/20 border border-yellow-700/50 rounded-md">
+                <div className="mb-4 p-3 bg-[#FFEB3B]/10 border-2 border-[#FFEB3B]/30 rounded-lg">
                   <div className="flex items-center gap-2 mb-2">
-                    <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full"></div>
-                    <span className="text-xs font-medium text-yellow-300">Thêm câu trả lời của bạn</span>
+                    <div className="w-1.5 h-1.5 bg-[#FFEB3B] rounded-full"></div>
+                    <span className="text-xs font-medium text-[#FFEB3B]">Thêm câu trả lời của bạn</span>
                   </div>
                   <div className="space-y-2">
                     <textarea
                       value={replyText}
                       onChange={(e) => setReplyText(e.target.value)}
                       placeholder="Nhập nội dung trả lời..."
-                      className="w-full px-3 py-2 bg-gray-800 border border-yellow-600/50 rounded-md text-gray-200 text-xs placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                      className="w-full px-3 py-2 bg-[#2A2A2A] border-2 border-[#FFEB3B]/50 rounded-lg text-[#FFFFFF] text-xs placeholder-[#B0BEC5] focus:outline-none focus:ring-2 focus:ring-[#FFEB3B] focus:border-transparent"
                       rows={3}
                     />
                     <div className="flex justify-end">
                       <button
                         onClick={handleSendReply}
                         disabled={!replyText.trim() || isSendingReply}
-                        className="px-3 py-2 bg-yellow-600 hover:bg-yellow-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white text-xs font-medium rounded-md transition-colors duration-200"
+                        className="px-3 py-2 bg-[#FFEB3B] hover:bg-[#FFEB3B]/90 disabled:bg-[#2A2A2A] disabled:cursor-not-allowed text-[#1E1E1E] text-xs font-medium rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
                       >
                         {isSendingReply ? 'Đang thêm...' : 'Thêm câu trả lời'}
                       </button>
@@ -602,17 +600,17 @@ export default function Home() {
               )}
               
               {/* Footer */}
-              <div className="flex items-center justify-between text-xs text-gray-400 border-t border-gray-700 pt-3">
+              <div className="flex items-center justify-between text-xs text-[#B0BEC5] border-t-2 border-[#FF4081]/30 pt-3">
                 <span>Ngày gửi: {new Date(selectedMessage.createdAt).toLocaleDateString('vi-VN')}</span>
                 <span>{selectedMessage.content.length}/255 ký tự</span>
               </div>
             </div>
             
             {/* Action buttons */}
-            <div className="bg-gray-800 px-4 py-3 flex justify-center">
+            <div className="bg-[#2A2A2A] px-4 py-3 flex justify-center">
               <button
                 onClick={closePopup}
-                className="bg-gray-600 hover:bg-gray-500 text-gray-200 py-2 px-6 rounded-md font-medium transition-colors duration-200 text-xs"
+                className="bg-[#2A2A2A] hover:bg-[#1E1E1E] text-[#B0BEC5] py-2 px-6 rounded-lg font-medium transition-all duration-200 text-xs border-2 border-[#FF4081]/30 hover:border-[#FF4081]/50"
               >
                 Đóng
               </button>
@@ -624,21 +622,21 @@ export default function Home() {
       {/* Notification Toast */}
       {notification && (
         <div className="fixed top-20 left-3 right-3 z-50 max-w-sm mx-auto">
-          <div className={`rounded-md shadow-lg p-3 border backdrop-blur-sm ${
+          <div className={`rounded-2xl shadow-lg p-3 border-2 ${
             notification.type === 'success' 
-              ? 'bg-green-900/30 border-green-700/50 text-green-300' 
-              : 'bg-red-900/30 border-red-700/50 text-red-300'
+              ? 'bg-[#1DE9B6]/10 border-[#1DE9B6] text-[#1DE9B6]' 
+              : 'bg-[#FF4081]/10 border-[#FF4081] text-[#FF4081]'
           }`}>
             <div className="flex items-start">
               <div className="flex-shrink-0">
                 {notification.type === 'success' ? (
-                  <div className="w-4 h-4 bg-green-400 rounded-full flex items-center justify-center">
+                  <div className="w-4 h-4 bg-[#1DE9B6] rounded-full flex items-center justify-center">
                     <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
                   </div>
                 ) : (
-                  <div className="w-4 h-4 bg-red-400 rounded-full flex items-center justify-center">
+                  <div className="w-4 h-4 bg-[#FF4081] rounded-full flex items-center justify-center">
                     <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
                     </svg>
@@ -653,9 +651,9 @@ export default function Home() {
                   onClick={() => setNotification(null)}
                   className={`inline-flex rounded-md p-1 ${
                     notification.type === 'success' 
-                      ? 'text-green-300 hover:bg-green-900/20' 
-                      : 'text-red-300 hover:bg-red-900/20'
-                  } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-green-600`}
+                      ? 'text-[#1DE9B6] hover:bg-[#1DE9B6]/10' 
+                      : 'text-[#FF4081] hover:bg-[#FF4081]/10'
+                  } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#121212] focus:ring-[#FF4081] transition-all duration-200`}
                 >
                   <span className="sr-only">Đóng</span>
                   <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">

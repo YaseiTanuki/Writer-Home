@@ -132,7 +132,7 @@ export default function AdminUsers() {
   const getRoleBadge = (role: string) => {
     if (role === 'admin') {
       return (
-        <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-semibold rounded-full bg-purple-900/20 text-purple-400 border border-purple-700">
+        <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-semibold rounded-full bg-rose-900/20 text-rose-400 border border-rose-700">
           <Shield size={10} className="mr-1 sm:w-3" />
           <span className="hidden sm:inline">Admin</span>
           <span className="sm:hidden">A</span>
@@ -140,11 +140,11 @@ export default function AdminUsers() {
       );
     }
     return (
-      <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-semibold rounded-full bg-blue-900/20 text-blue-400 border border-blue-700">
-        <User size={10} className="mr-1 sm:w-3" />
-        <span className="hidden sm:inline">User</span>
-        <span className="sm:hidden">U</span>
-      </span>
+              <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-semibold rounded-full bg-pink-900/20 text-pink-400 border border-pink-700">
+          <User size={10} className="mr-1 sm:w-3" />
+          <span className="hidden sm:inline">User</span>
+          <span className="sm:hidden">U</span>
+        </span>
     );
   };
 
@@ -302,7 +302,7 @@ export default function AdminUsers() {
               </div>
               <div className="text-xs sm:text-sm text-gray-300 mt-1">
                 <span className="inline-flex items-center gap-1">
-                  <div className="w-1 h-1 bg-blue-400 rounded-full"></div>
+                  <div className="w-1 h-1 bg-pink-400 rounded-full"></div>
                   Tổng cộng {users.length} người dùng • {getActiveUsersCount()} hoạt động • {getAdminUsersCount()} admin
                 </span>
               </div>
@@ -342,7 +342,7 @@ export default function AdminUsers() {
 
                     {/* Message Count and Last Login */}
                     <div className="flex flex-col gap-1 sm:gap-2 items-end">
-                      <div className="flex items-center gap-1 text-xs text-blue-400">
+                      <div className="flex items-center gap-1 text-xs text-pink-400">
                         <Mail size={14} />
                         <span>{user.messageCount} tin nhắn</span>
                       </div>
@@ -365,7 +365,7 @@ export default function AdminUsers() {
                   <div className="flex items-center gap-2 sm:gap-3 mt-3 sm:mt-4">
                     <button
                       onClick={() => setSelectedUser(user)}
-                      className="inline-flex items-center justify-center gap-1 px-3 py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800/50 hover:bg-gray-700/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 backdrop-blur-sm"
+                      className="inline-flex items-center justify-center gap-1 px-3 py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800/50 hover:bg-gray-700/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 transition-all duration-200 backdrop-blur-sm"
                     >
                       <Edit3 size={14} className="sm:w-4" />
                       <span className="hidden sm:inline">Xem</span>
@@ -400,24 +400,24 @@ export default function AdminUsers() {
 
         {/* Info Box */}
         <div className="mt-4 sm:mt-6 px-2 sm:px-4">
-          <div className="bg-blue-900/20 border border-blue-700/50 rounded-md p-3 sm:p-4 backdrop-blur-sm">
+          <div className="bg-pink-900/20 border border-pink-700/50 rounded-md p-3 sm:p-4 backdrop-blur-sm">
             <div className="flex items-start">
               <div className="flex-shrink-0">
-                <div className="w-1.5 h-1.5 bg-blue-400 rounded-full mt-1.5"></div>
+                <div className="w-1.5 h-1.5 bg-pink-400 rounded-full mt-1.5"></div>
               </div>
               <div className="ml-2 sm:ml-3">
-                <h3 className="text-xs sm:text-sm font-medium text-blue-400">Quản lý người dùng guest</h3>
-                <div className="mt-1 sm:mt-2 text-xs sm:text-sm text-blue-300 space-y-1">
+                <h3 className="text-xs sm:text-sm font-medium text-pink-400">Quản lý người dùng guest</h3>
+                <div className="mt-1 sm:mt-2 text-xs sm:text-sm text-pink-300 space-y-1">
                   <p className="flex items-center gap-1">
-                    <div className="w-1 h-1 bg-blue-400 rounded-full"></div>
+                    <div className="w-1 h-1 bg-pink-400 rounded-full"></div>
                     Hiển thị thông tin từ bảng guest
                   </p>
                   <p className="flex items-center gap-1">
-                    <div className="w-1 h-1 bg-blue-400 rounded-full"></div>
+                    <div className="w-1 h-1 bg-pink-400 rounded-full"></div>
                     Đếm số lượng tin nhắn đã gửi
                   </p>
                   <p className="flex items-center gap-1">
-                    <div className="w-1 h-1 bg-blue-400 rounded-full"></div>
+                    <div className="w-1 h-1 bg-pink-400 rounded-full"></div>
                     Theo dõi hoạt động đăng nhập
                   </p>
                 </div>
@@ -460,7 +460,7 @@ export default function AdminUsers() {
                     <div>
                       <label className="block text-xs sm:text-sm font-medium text-gray-300">Số tin nhắn:</label>
                       <div className="mt-1">
-                        <span className="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-blue-900/20 text-blue-400 border border-blue-700">
+                        <span className="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-pink-900/20 text-pink-400 border border-pink-700">
                           {selectedUser.messageCount} tin nhắn
                         </span>
                       </div>

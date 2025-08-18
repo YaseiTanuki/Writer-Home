@@ -49,9 +49,9 @@ export default function MobileBottomNav() {
   return (
     <>
       {/* Mobile Top Bar - Only Logo */}
-      <div className="md:hidden bg-black border-b border-gray-800 fixed top-0 left-0 right-0 z-40">
+      <div className="md:hidden bg-[#121212] border-b-2 border-[#FF4081]/30 fixed top-0 left-0 right-0 z-40">
         <div className="flex justify-center items-center h-14">
-          <Link href="/" className="text-lg font-bold text-blue-400 flex items-center gap-2">
+          <Link href="/" className="text-lg font-bold text-[#FF4081] flex items-center gap-2">
             <BookOpen size={20} />
             Góc Truyện
           </Link>
@@ -59,15 +59,15 @@ export default function MobileBottomNav() {
       </div>
 
       {/* Mobile Bottom Navigation */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-black border-t border-gray-800">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#121212] border-t-2 border-[#FF4081]/30">
         <div className="flex items-center justify-around px-1 py-2">
           {/* Home */}
           <Link
             href="/"
-            className={`flex flex-col items-center justify-center w-16 py-2 transition-colors duration-200 ${
+            className={`flex flex-col items-center justify-center w-16 py-2 transition-all duration-200 ${
               isActive('/') 
-                ? 'text-blue-400' 
-                : 'text-gray-300 hover:text-white'
+                ? 'text-[#FF4081]' 
+                : 'text-[#B0BEC5] hover:text-[#FFFFFF]'
             }`}
           >
             <Home size={20} />
@@ -77,10 +77,10 @@ export default function MobileBottomNav() {
           {/* Stories */}
           <Link
             href="/stories"
-            className={`flex flex-col items-center justify-center w-16 py-2 transition-colors duration-200 ${
+            className={`flex flex-col items-center justify-center w-16 py-2 transition-all duration-200 ${
               isActive('/stories') || pathname.startsWith('/stories/')
-                ? 'text-blue-400' 
-                : 'text-gray-300 hover:text-white'
+                ? 'text-[#FF4081]' 
+                : 'text-[#B0BEC5] hover:text-[#FFFFFF]'
             }`}
           >
             <BookOpen size={20} />
@@ -91,7 +91,7 @@ export default function MobileBottomNav() {
           {isAdminAuthenticated ? (
             <button
               onClick={toggleMenu}
-              className="flex flex-col items-center justify-center w-16 py-2 text-gray-300 hover:text-white transition-colors duration-200"
+              className="flex flex-col items-center justify-center w-16 py-2 text-[#B0BEC5] hover:text-[#FFFFFF] transition-all duration-200"
             >
               <Plus size={20} />
               <span className="text-xs mt-1 text-center">Tạo Mới</span>
@@ -99,7 +99,7 @@ export default function MobileBottomNav() {
           ) : (
             <Link
               href="/contact"
-              className="flex flex-col items-center justify-center w-16 py-2 text-gray-300 hover:text-white transition-colors duration-200"
+              className="flex flex-col items-center justify-center w-16 py-2 text-[#B0BEC5] hover:text-[#FFFFFF] transition-all duration-200"
             >
               <Mail size={20} />
               <span className="text-xs mt-1 text-center">Nhắn tin</span>
@@ -109,10 +109,10 @@ export default function MobileBottomNav() {
           {/* About */}
           <Link
             href="/about"
-            className={`flex flex-col items-center justify-center w-16 py-2 transition-colors duration-200 ${
+            className={`flex flex-col items-center justify-center w-16 py-2 transition-all duration-200 ${
               isActive('/about')
-                ? 'text-blue-400' 
-                : 'text-gray-300 hover:text-white'
+                ? 'text-[#FF4081]' 
+                : 'text-[#B0BEC5] hover:text-[#FFFFFF]'
             }`}
           >
             <Info size={20} />
@@ -124,7 +124,7 @@ export default function MobileBottomNav() {
             {isGuestAuthenticated ? (
               <button
                 onClick={handleGuestSignOut}
-                className="flex flex-col items-center justify-center w-full py-2 text-gray-300 hover:text-white transition-colors duration-200"
+                className="flex flex-col items-center justify-center w-full py-2 text-[#B0BEC5] hover:text-[#FFFFFF] transition-all duration-200"
               >
                 <LogOut size={20} />
                 <span className="text-xs mt-1 text-center">Đăng xuất</span>
@@ -132,7 +132,7 @@ export default function MobileBottomNav() {
             ) : isAdminAuthenticated ? (
               <Link
                 href="/admin"
-                className="flex flex-col items-center justify-center w-full py-2 text-gray-300 hover:text-white transition-colors duration-200"
+                className="flex flex-col items-center justify-center w-full py-2 text-[#B0BEC5] hover:text-[#FFFFFF] transition-all duration-200"
               >
                 <UserCircle size={20} />
                 <span className="text-xs mt-1 text-center">Quản trị</span>
@@ -140,7 +140,7 @@ export default function MobileBottomNav() {
             ) : (
               <Link
                 href="/auth"
-                className="flex flex-col items-center justify-center w-full py-2 text-gray-300 hover:text-white transition-colors duration-200"
+                className="flex flex-col items-center justify-center w-full py-2 text-[#B0BEC5] hover:text-[#FFFFFF] transition-all duration-200"
               >
                 <LogIn size={20} />
                 <span className="text-xs mt-1 text-center">Đăng Nhập</span>
@@ -151,16 +151,16 @@ export default function MobileBottomNav() {
       </div>
 
       {/* Mobile Menu Modal - Opens when Create button is clicked */}
-      <div className={`${isMenuOpen ? 'block' : 'hidden'} md:hidden fixed inset-0 z-50 bg-black bg-opacity-50`}>
-        <div className="absolute bottom-20 left-4 right-4 bg-gray-900 rounded-lg shadow-xl border border-gray-700">
+      <div className={`${isMenuOpen ? 'block' : 'hidden'} md:hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-sm`}>
+        <div className="absolute bottom-20 left-4 right-4 bg-[#1E1E1E] rounded-2xl shadow-xl border-2 border-[#FF4081] shadow-[0_0_8px_#FF4081]">
           <div className="p-4">
             <div className="flex items-center justify-between mb-4">
-                             <h3 className="text-lg font-medium text-white">
+                             <h3 className="text-lg font-medium text-[#FFFFFF]">
                  {isAdminAuthenticated ? 'Tạo Mới' : 'Nhắn tin'}
                </h3>
               <button
                 onClick={closeMenu}
-                className="text-gray-400 hover:text-white transition-colors duration-200"
+                className="text-[#B0BEC5] hover:text-[#FFFFFF] transition-all duration-200"
               >
                 <X size={20} />
               </button>
@@ -172,7 +172,7 @@ export default function MobileBottomNav() {
                   <Link
                     href="/admin/new-story"
                     onClick={closeMenu}
-                    className="flex items-center gap-3 p-3 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800 transition-colors duration-200"
+                    className="flex items-center gap-3 p-3 rounded-lg text-[#B0BEC5] hover:text-[#FFFFFF] hover:bg-[#FF4081]/10 transition-all duration-200 border-2 border-transparent hover:border-[#FF4081]/30"
                   >
                     <BookOpen size={20} />
                     <span>Truyện Mới</span>
@@ -180,7 +180,7 @@ export default function MobileBottomNav() {
                   <Link
                     href="/admin/new-chapter"
                     onClick={closeMenu}
-                    className="flex items-center gap-3 p-3 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800 transition-colors duration-200"
+                    className="flex items-center gap-3 p-3 rounded-lg text-[#B0BEC5] hover:text-[#FFFFFF] hover:bg-[#1DE9B6]/10 transition-all duration-200 border-2 border-transparent hover:border-[#1DE9B6]/30"
                   >
                     <Plus size={20} />
                     <span>Chương Mới</span>
@@ -191,7 +191,7 @@ export default function MobileBottomNav() {
                   <Link
                     href="/contact"
                     onClick={closeMenu}
-                    className="flex items-center gap-3 p-3 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800 transition-colors duration-200"
+                    className="flex items-center gap-3 p-3 rounded-lg text-[#B0BEC5] hover:text-[#FFFFFF] hover:bg-[#B39DDB]/10 transition-all duration-200 border-2 border-transparent hover:border-[#B39DDB]/30"
                   >
                     <Mail size={20} />
                     <span>Liên hệ & Góp ý</span>
@@ -199,7 +199,7 @@ export default function MobileBottomNav() {
                   <Link
                     href="/messages"
                     onClick={closeMenu}
-                    className="flex items-center gap-3 p-3 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800 transition-colors duration-200"
+                    className="flex items-center gap-3 p-3 rounded-lg text-[#B0BEC5] hover:text-[#FFFFFF] hover:bg-[#00E5FF]/10 transition-all duration-200 border-2 border-transparent hover:border-[#00E5FF]/30"
                   >
                     <Mail size={20} />
                     <span>Xem tin nhắn</span>
@@ -209,16 +209,16 @@ export default function MobileBottomNav() {
             </div>
 
             {/* Authentication section */}
-            <div className="pt-3 border-t border-gray-700 mt-4">
+            <div className="pt-3 border-t-2 border-[#FF4081]/30 mt-4">
               {isGuestAuthenticated ? (
                 <div className="space-y-2">
-                  <div className="text-sm text-gray-400 px-3 py-2 bg-gray-800 rounded-lg">
+                  <div className="text-sm text-[#B0BEC5] px-3 py-2 bg-[#2A2A2A] rounded-lg border-2 border-[#B39DDB]/30">
                     <User size={16} className="inline mr-2" />
                     {guest?.displayName}
                   </div>
                   <button
                     onClick={handleGuestSignOut}
-                    className="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-red-400 hover:bg-red-900/20 transition-colors duration-200 flex items-center gap-2"
+                    className="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-[#B0BEC5] hover:text-[#FF4081] hover:bg-[#FF4081]/10 transition-all duration-200 flex items-center gap-2 border-2 border-transparent hover:border-[#FF4081]/30"
                   >
                     <LogOut size={16} />
                     Đăng Xuất Google
@@ -227,7 +227,7 @@ export default function MobileBottomNav() {
               ) : isAdminAuthenticated ? (
                 <button
                   onClick={handleAdminLogout}
-                  className="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-red-400 hover:bg-red-900/20 transition-colors duration-200 flex items-center gap-2"
+                  className="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-[#B0BEC5] hover:text-[#FF4081] hover:bg-[#FF4081]/10 transition-all duration-200 flex items-center gap-2 border-2 border-transparent hover:border-[#FF4081]/30"
                 >
                   <LogOut size={16} />
                   Đăng Xuất Admin

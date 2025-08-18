@@ -119,7 +119,7 @@ export default function EditStoryPage() {
         <div className="pt-16 md:pt-24 max-w-4xl mx-auto px-4 py-8">
           <div className="text-center">
             <p className="text-red-400 text-xs">Không tìm thấy truyện</p>
-            <Link href="/admin" className="text-center text-blue-400 hover:text-blue-300 text-xs">
+                          <Link href="/admin" className="text-center text-pink-400 hover:text-pink-300 text-xs">
               Quay lại trang quản lý
             </Link>
           </div>

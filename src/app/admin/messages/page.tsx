@@ -174,19 +174,19 @@ export default function AdminMessages() {
             </Link>
             <div className="flex items-center gap-2 sm:gap-3">
               <div className="relative">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-md flex items-center justify-center shadow-md">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-pink-500 to-rose-500 rounded-md flex items-center justify-center shadow-md">
                   <Mail size={16} className="sm:w-5 text-white" />
                 </div>
                 <div className="absolute -top-1 right-0 w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
               </div>
               <div>
                 <div className="relative mb-1">
-                  <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Góc Truyện</h1>
+                  <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-pink-300 to-rose-400 bg-clip-text text-transparent">Góc Truyện</h1>
                   <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-yellow-400 rounded-full animate-pulse"></div>
                 </div>
                 <div className="text-xs sm:text-sm text-gray-400">
                   <span className="inline-flex items-center gap-1">
-                    <div className="w-1 h-1 bg-blue-400 rounded-full"></div>
+                    <div className="w-1 h-1 bg-pink-400 rounded-full"></div>
                     Quản lý tin nhắn
                   </span>
                 </div>
@@ -197,7 +197,7 @@ export default function AdminMessages() {
           <div className="flex items-center gap-2 sm:gap-3">
             <div className="text-right">
               <p className="text-xs sm:text-sm text-gray-400">Tổng tin nhắn</p>
-              <p className="text-lg sm:text-xl font-bold text-blue-400">{messages.length}</p>
+              <p className="text-lg sm:text-xl font-bold text-pink-400">{messages.length}</p>
             </div>
             <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-gray-700 to-gray-600 rounded-full flex items-center justify-center shadow-md">
               <span className="text-xs sm:text-sm font-medium text-white">N</span>
@@ -268,7 +268,7 @@ export default function AdminMessages() {
                   <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-3 sm:mt-4">
                     <Link
                       href={`/admin/messages/${message._id}`}
-                      className="inline-flex items-center justify-center gap-1 px-2 py-1.5 sm:px-3 sm:py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+                      className="inline-flex items-center justify-center gap-1 px-2 py-1.5 sm:px-3 sm:py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 transition-colors duration-200"
                     >
                       <MessageSquare size={12} className="sm:w-4" />
                       <span className="hidden sm:inline">Xem</span>
@@ -446,7 +446,7 @@ export default function AdminMessages() {
                           setTimeout(() => setNotification(null), 5000);
                         }
                       }}
-                      className="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 sm:px-3 sm:py-1 rounded text-xs"
+                      className="bg-pink-600 hover:bg-pink-700 text-white px-2 py-1 sm:px-3 sm:py-1 rounded text-xs"
                     >
                       Test API
                     </button>

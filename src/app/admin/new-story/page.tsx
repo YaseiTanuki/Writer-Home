@@ -153,8 +153,8 @@ export default function NewStoryPage() {
         <div className="mb-6 mt-4 px-4">
           <div className="text-center">
             <div className="relative mb-4">
-              <h1 className="text-lg sm:text-xl font-bold text-white mb-2 leading-tight flex items-center justify-center gap-2 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                <Sparkles size={20} className="text-blue-400 w-5 h-5" />
+              <h1 className="text-lg sm:text-xl font-bold text-white mb-2 leading-tight flex items-center justify-center gap-2 bg-gradient-to-r from-pink-300 to-rose-400 bg-clip-text text-transparent">
+                <Sparkles size={20} className="text-pink-300 w-5 h-5" />
                 Viết Truyện Mới
               </h1>
               <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-yellow-400 rounded-full animate-pulse"></div>
@@ -185,7 +185,7 @@ export default function NewStoryPage() {
                 value={formData.title}
                 onChange={handleInputChange}
                 onBlur={() => handleBlur('title')}
-                className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs bg-gray-800 text-white placeholder-gray-400"
+                className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-xs bg-gray-800 text-white placeholder-gray-400"
                 placeholder="Nhập tiêu đề truyện..."
                 required
               />
@@ -206,7 +206,7 @@ export default function NewStoryPage() {
                 onChange={handleInputChange}
                 onBlur={() => handleBlur('description')}
                 rows={2}
-                className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs bg-gray-800 text-white placeholder-gray-400"
+                className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-xs bg-gray-800 text-white placeholder-gray-400"
                 placeholder="Nhập mô tả ngắn gọn về truyện..."
                 required
               />
@@ -256,7 +256,7 @@ export default function NewStoryPage() {
                 name="status"
                 value={formData.status}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs bg-gray-800 text-white"
+                className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-xs bg-gray-800 text-white"
               >
                 <option value="draft">Bản thảo</option>
                 <option value="public">Xuất bản</option>
@@ -287,7 +287,7 @@ export default function NewStoryPage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-2.5 rounded-md text-xs font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-md hover:shadow-lg hover:scale-105"
+                className="w-full bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 text-white px-6 py-2.5 rounded-md text-xs font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-md hover:shadow-lg hover:scale-105"
               >
                 {isSubmitting ? (
                   <>

@@ -114,7 +114,7 @@ export default function StoriesPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-black pt-16 md:pt-24">
+      <div className="min-h-screen bg-[#121212] pt-16 md:pt-24">
         <Navigation />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
@@ -127,7 +127,7 @@ export default function StoriesPage() {
                 className="rounded-lg w-full h-full object-cover"
               />
             </div>
-            <p className="mt-4 text-gray-300 text-xs">Đang tải...</p>
+            <p className="mt-4 text-[#B0BEC5] text-xs">Đang tải...</p>
           </div>
         </div>
       </div>
@@ -135,19 +135,19 @@ export default function StoriesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black pt-16 md:pt-24">
+    <div className="min-h-screen bg-[#121212] pt-16 md:pt-24">
       <Navigation />
       
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-blue-900/30 via-purple-900/30 to-indigo-900/30 rounded-md shadow-lg p-4 sm:p-6 mb-6 sm:mb-8 mx-4 sm:mx-0 border border-blue-700/50 backdrop-blur-sm">
+      <div className="bg-[#1E1E1E] rounded-2xl shadow-lg p-4 sm:p-6 mb-6 sm:mb-8 mx-4 sm:mx-0 border-2 border-[#FF4081] shadow-[0_0_8px_#FF4081] backdrop-blur-sm">
         <div className="text-center">
           <div className="relative mb-3">
-            <h1 className="text-lg sm:text-2xl font-bold text-white mb-2 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+            <h1 className="text-lg sm:text-2xl font-bold text-[#FFFFFF] mb-2">
               Thư Viện Truyện
             </h1>
-            <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-yellow-400 rounded-full animate-pulse"></div>
+            <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-[#FFEB3B] rounded-full animate-pulse"></div>
           </div>
-          <p className="text-xs sm:text-sm text-gray-300">
+          <p className="text-xs sm:text-sm text-[#B0BEC5]">
             Khám phá những câu chuyện thú vị từ các tác giả tài năng
           </p>
         </div>
@@ -156,24 +156,24 @@ export default function StoriesPage() {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-0 sm:px-4 lg:px-8 py-0 sm:py-8">
         {/* Enhanced Filters - Simplified Layout */}
-        <div className="bg-gray-900/50 rounded-md shadow-lg p-3 sm:p-4 mb-4 sm:mb-6 border border-gray-700 backdrop-blur-sm mx-4 sm:mx-0">
+        <div className="bg-[#1E1E1E] rounded-2xl shadow-lg p-3 sm:p-4 mb-4 sm:mb-6 border-2 border-[#B39DDB] shadow-[0_0_8px_#B39DDB] backdrop-blur-sm mx-4 sm:mx-0">
           {/* Main Search Bar - Always Visible */}
           <div className="mb-3">
             <form onSubmit={(e) => { e.preventDefault(); handleSearch(); }}>
               <div className="relative">
-                <div className="w-1 h-1 bg-blue-400 rounded-full absolute left-2 top-1/2 transform -translate-y-1/2"></div>
-                <Search size={14} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <div className="w-1 h-1 bg-[#FF4081] rounded-full absolute left-2 top-1/2 transform -translate-y-1/2"></div>
+                <Search size={14} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#B0BEC5]" />
                 <input
                   type="text"
                   id="search"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Tìm kiếm theo tên truyện, mô tả, tác giả, thể loại..."
-                  className="w-full pl-8 pr-3 py-1.5 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-xs bg-gray-800/50 text-white placeholder-gray-400 transition-all duration-200"
+                  className="w-full pl-8 pr-3 py-1.5 border-2 border-[#B39DDB]/30 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#B39DDB] focus:border-[#B39DDB] text-xs bg-[#2A2A2A] text-[#FFFFFF] placeholder-[#B0BEC5] transition-all duration-200"
                 />
               </div>
             </form>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-[#B0BEC5]/80 mt-1">
               Tìm kiếm trong tên truyện, mô tả, tác giả và thể loại
             </p>
           </div>
@@ -182,13 +182,13 @@ export default function StoriesPage() {
           <div className="flex items-center justify-between gap-3">
             {/* View Mode Toggle */}
             <div className="flex items-center gap-2">
-              <div className="flex bg-gray-700/50 rounded-md p-0.5 backdrop-blur-sm">
+              <div className="flex bg-[#2A2A2A] rounded-lg p-0.5 backdrop-blur-sm">
                 <button
                   onClick={() => setViewMode('grid')}
                   className={`px-2 py-1 rounded text-xs font-medium transition-all duration-200 ${
                     viewMode === 'grid' 
-                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md' 
-                      : 'text-gray-400 hover:text-white hover:bg-gray-600/50'
+                      ? 'bg-[#FF4081] text-white shadow-md' 
+                      : 'text-[#B0BEC5] hover:text-[#FFFFFF] hover:bg-[#2A2A2A]'
                   }`}
                 >
                   Grid
@@ -197,8 +197,8 @@ export default function StoriesPage() {
                   onClick={() => setViewMode('list')}
                   className={`px-2 py-1 rounded text-xs font-medium transition-all duration-200 ${
                     viewMode === 'list' 
-                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md' 
-                      : 'text-gray-400 hover:text-white hover:bg-gray-600/50'
+                      ? 'bg-[#FF4081] text-white shadow-md' 
+                      : 'text-[#B0BEC5] hover:text-[#FFFFFF] hover:bg-[#2A2A2A]'
                   }`}
                 >
                   List
@@ -209,13 +209,13 @@ export default function StoriesPage() {
             {/* Results Summary and Clear Filters */}
             {searchTerm.trim() && (
               <div className="flex items-center gap-2">
-                <div className="w-1 h-1 bg-blue-400 rounded-full animate-pulse"></div>
-                <span className="text-xs text-blue-400">
+                <div className="w-1 h-1 bg-[#FF4081] rounded-full animate-pulse"></div>
+                <span className="text-xs text-[#FF4081]">
                   {totalStories} truyện
                 </span>
                 <button
                   onClick={clearFilters}
-                  className="inline-flex items-center gap-1 text-red-400 hover:text-red-300 text-xs font-medium transition-all duration-200 bg-red-900/20 hover:bg-red-900/30 px-1.5 py-0.5 rounded hover:scale-105"
+                  className="inline-flex items-center gap-1 text-[#FF4081] hover:text-[#FF4081]/80 text-xs font-medium transition-all duration-200 bg-[#FF4081]/10 hover:bg-[#FF4081]/20 px-1.5 py-0.5 rounded hover:scale-105"
                 >
                   <Trash2 size={12} />
                   Xóa bộ lọc
@@ -228,25 +228,25 @@ export default function StoriesPage() {
         {/* Stories Display */}
         {isLoading ? (
           <div className="text-center py-12 px-4 sm:px-0">
-            <div className="bg-gray-900/50 rounded-lg p-8 border border-gray-800">
-              <div className="text-gray-400 text-sm mb-2">Đang tải...</div>
+            <div className="bg-[#1E1E1E] rounded-2xl p-8 border-2 border-[#FF4081] shadow-[0_0_8px_#FF4081]">
+              <div className="text-[#B0BEC5] text-sm mb-2">Đang tải...</div>
             </div>
           </div>
         ) : filteredStories.length === 0 ? (
           <div className="text-center py-12 px-4 sm:px-0">
-            <div className="bg-gray-900/50 rounded-lg p-8 border border-gray-800">
-              <BookOpen size={48} className="text-gray-500 mx-auto mb-4" />
-              <div className="text-gray-400 text-sm mb-2">
+            <div className="bg-[#1E1E1E] rounded-2xl p-8 border-2 border-[#FF4081] shadow-[0_0_8px_#FF4081]">
+              <BookOpen size={48} className="text-[#FF4081] mx-auto mb-4" />
+              <div className="text-[#B0BEC5] text-sm mb-2">
                 {stories.length === 0 ? 'Chưa có truyện nào được xuất bản.' : 'Không tìm thấy truyện phù hợp với bộ lọc.'}
               </div>
               {searchTerm.trim() && (
-                <div className="text-gray-500 text-xs mb-4">
+                <div className="text-[#B0BEC5]/80 text-xs mb-4">
                   Hãy thử điều chỉnh bộ lọc hoặc xóa một số điều kiện tìm kiếm.
                 </div>
               )}
               <button
                 onClick={clearFilters}
-                className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors text-xs"
+                className="inline-flex items-center gap-2 bg-[#FF4081] hover:bg-[#FF4081]/90 text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 text-xs shadow-md hover:shadow-lg"
               >
                 <Trash2 size={16} />
                 Xóa bộ lọc
@@ -257,8 +257,8 @@ export default function StoriesPage() {
           <>
             {/* Search Loading Overlay */}
             {isSearching && (
-              <div className="absolute inset-0 bg-black/50 flex items-center justify-center z-10 rounded-lg">
-                <div className="bg-gray-800 p-4 rounded-lg">
+              <div className="absolute inset-0 bg-black/50 flex items-center justify-center z-10 rounded-2xl">
+                <div className="bg-[#1E1E1E] p-4 rounded-2xl border-2 border-[#FF4081] shadow-[0_0_8px_#FF4081]">
                   <div className="relative w-12 h-12 mx-auto mb-2">
                     <Image
                       src="/reading.gif"
@@ -268,7 +268,7 @@ export default function StoriesPage() {
                       className="rounded-lg w-full h-full object-cover"
                     />
                   </div>
-                  <p className="text-white text-xs">Đang tìm kiếm...</p>
+                  <p className="text-[#FFFFFF] text-xs">Đang tìm kiếm...</p>
                 </div>
               </div>
             )}
@@ -278,113 +278,121 @@ export default function StoriesPage() {
                 ? 'grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6' 
                 : 'space-y-4'
             } relative`}>
-              {filteredStories.map((story) => (
-                <Link
-                  key={story._id}
-                  href={`/stories/${story._id}`}
-                  className={`bg-gray-900/50 rounded-md shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group border border-gray-700 hover:border-blue-500/50 backdrop-blur-sm hover:scale-105 ${
-                    viewMode === 'list' ? 'flex items-start gap-4' : 'block'
-                  }`}
-                >
-                  {/* Cover Image */}
-                  <div className={`${
-                    viewMode === 'list' 
-                      ? 'w-20 h-28 flex-shrink-0 rounded-l-lg' 
-                      : 'w-full h-40 lg:h-48 xl:h-56'
-                  } bg-gray-200`}>
-                    {story.coverImage ? (
-                      <img
-                        src={story.coverImage}
-                        alt={story.title}
-                        className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ${
-                          viewMode === 'list' ? 'rounded-l-lg' : ''
+              {filteredStories.map((story, index) => {
+                const neonColors = ['#FF4081', '#B39DDB', '#00E5FF', '#1DE9B6', '#FFEB3B'];
+                const currentNeonColor = neonColors[index % neonColors.length];
+                
+                return (
+                  <Link
+                    key={story._id}
+                    href={`/stories/${story._id}`}
+                    className={`bg-[#1E1E1E] rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group border-2 backdrop-blur-sm hover:scale-105 ${
+                      viewMode === 'list' ? 'flex items-start gap-4' : 'block'
+                    }`}
+                    style={{ borderColor: currentNeonColor, boxShadow: `0 0 8px ${currentNeonColor}` }}
+                  >
+                    {/* Cover Image */}
+                    <div className={`${
+                      viewMode === 'list' 
+                        ? 'w-20 h-28 flex-shrink-0 rounded-l-2xl' 
+                        : 'w-full h-40 lg:h-48 xl:h-56'
+                    } bg-[#2A2A2A]`}>
+                      {story.coverImage ? (
+                        <img
+                          src={story.coverImage}
+                          alt={story.title}
+                          className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ${
+                            viewMode === 'list' ? 'rounded-l-2xl' : ''
+                          }`}
+                        />
+                      ) : (
+                        <div className={`w-full h-full flex items-center justify-center ${
+                          viewMode === 'list' ? 'rounded-l-2xl' : ''
                         }`}
-                      />
-                    ) : (
-                      <div className={`w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center ${
-                        viewMode === 'list' ? 'rounded-l-lg' : ''
-                      }`}>
-                        <BookOpen size={viewMode === 'list' ? 24 : 48} className="text-white" />
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Story Info */}
-                  <div className={`${viewMode === 'list' ? 'flex-1 py-3 pr-3' : 'p-3 lg:p-4'}`}>
-                    <h3 className={`font-semibold text-white mb-2 group-hover:text-blue-400 transition-colors duration-200 leading-tight ${
-                      viewMode === 'list' ? 'text-xs' : 'text-xs lg:text-sm'
-                    }`}>
-                      {story.title}
-                    </h3>
-                    
-                    <p className={`text-gray-300 mb-2 line-clamp-2 leading-relaxed ${
-                      viewMode === 'list' ? 'text-xs' : 'text-xs lg:text-sm'
-                    }`}>
-                      {story.description}
-                    </p>
-
-                    {/* Categories */}
-                    <div className="flex flex-wrap gap-1 mb-2">
-                      {story.category.slice(0, 2).map((catId) => {
-                        const category = categories.find(c => c._id === catId);
-                        return category ? (
-                          <span
-                            key={catId}
-                            className={`inline-flex px-1.5 py-0.5 text-xs font-semibold rounded-full`}
-                            style={{ 
-                              backgroundColor: `${category.color}20`, 
-                              color: category.color 
-                            }}
-                          >
-                            {category.name}
-                          </span>
-                        ) : null;
-                      })}
-                      {story.category.length > 2 && (
-                        <span className="text-xs text-gray-400">
-                          +{story.category.length - 2} thể loại khác
-                        </span>
+                        style={{ backgroundColor: currentNeonColor }}
+                        >
+                          <BookOpen size={viewMode === 'list' ? 24 : 48} className="text-white" />
+                        </div>
                       )}
                     </div>
 
-                    {/* Stats and Status */}
-                    <div className={`flex items-center justify-between gap-2 ${
-                      viewMode === 'list' ? 'text-xs' : 'text-xs'
-                    }`}>
-                      <div className="flex items-center gap-2 text-gray-400">
-                        {story.likeCount !== undefined && (
-                          <span className="flex items-center gap-1">
-                            <Heart size={10} />
-                            {story.likeCount}
-                          </span>
-                        )}
-                        {story.commentCount !== undefined && (
-                          <span className="flex items-center gap-1">
-                            <MessageCircle size={10} />
-                            {story.commentCount}
-                          </span>
-                        )}
-                        {story.viewCount !== undefined && (
-                          <span className="flex items-center gap-1">
-                            <Eye size={10} />
-                            {story.viewCount}
+                    {/* Story Info */}
+                    <div className={`${viewMode === 'list' ? 'flex-1 py-3 pr-3' : 'p-3 lg:p-4'}`}>
+                      <h3 className={`font-semibold text-[#FFFFFF] mb-2 group-hover:text-[#FF4081] transition-colors duration-200 leading-tight ${
+                        viewMode === 'list' ? 'text-xs' : 'text-xs lg:text-sm'
+                      }`}>
+                        {story.title}
+                      </h3>
+                      
+                      <p className={`text-[#B0BEC5] mb-2 line-clamp-2 leading-relaxed ${
+                        viewMode === 'list' ? 'text-xs' : 'text-xs lg:text-sm'
+                      }`}>
+                        {story.description}
+                      </p>
+
+                      {/* Categories */}
+                      <div className="flex flex-wrap gap-1 mb-2">
+                        {story.category.slice(0, 2).map((catId) => {
+                          const category = categories.find(c => c._id === catId);
+                          return category ? (
+                            <span
+                              key={catId}
+                              className={`inline-flex px-1.5 py-0.5 text-xs font-semibold rounded-full`}
+                              style={{ 
+                                backgroundColor: `${category.color}20`, 
+                                color: category.color 
+                              }}
+                            >
+                              {category.name}
+                            </span>
+                          ) : null;
+                        })}
+                        {story.category.length > 2 && (
+                          <span className="text-xs text-[#B0BEC5]">
+                            +{story.category.length - 2} thể loại khác
                           </span>
                         )}
                       </div>
-                      
-                      <div className="flex items-center gap-2">
-                        <span className="inline-flex items-center gap-1 px-1.5 py-0.5 text-xs font-semibold rounded-full bg-green-900/20 text-green-400 border border-green-700">
-                          <CheckCircle size={10} />
-                          {story.status === 'public' ? 'Đã xuất bản' : 'Bản thảo'}
-                        </span>
-                        <span className="text-gray-400">
-                          {new Date(story.createdAt).toLocaleDateString('vi-VN')}
-                        </span>
+
+                      {/* Stats and Status */}
+                      <div className={`flex items-center justify-between gap-2 ${
+                        viewMode === 'list' ? 'text-xs' : 'text-xs'
+                      }`}>
+                        <div className="flex items-center gap-2 text-[#B0BEC5]">
+                          {story.likeCount !== undefined && (
+                            <span className="flex items-center gap-1">
+                              <Heart size={10} />
+                              {story.likeCount}
+                            </span>
+                          )}
+                          {story.commentCount !== undefined && (
+                            <span className="flex items-center gap-1">
+                              <MessageCircle size={10} />
+                              {story.commentCount}
+                            </span>
+                          )}
+                          {story.viewCount !== undefined && (
+                            <span className="flex items-center gap-1">
+                              <Eye size={10} />
+                              {story.viewCount}
+                            </span>
+                          )}
+                        </div>
+                        
+                        <div className="flex items-center gap-2">
+                          <span className="inline-flex items-center gap-1 px-1.5 py-0.5 text-xs font-semibold rounded-full bg-[#1DE9B6]/20 text-[#1DE9B6] border-2 border-[#1DE9B6]/50">
+                            <CheckCircle size={10} />
+                            {story.status === 'public' ? 'Đã xuất bản' : 'Bản thảo'}
+                          </span>
+                          <span className="text-[#B0BEC5]">
+                            {new Date(story.createdAt).toLocaleDateString('vi-VN')}
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </Link>
-              ))}
+                  </Link>
+                );
+              })}
             </div>
 
             {/* Load More Button */}
@@ -393,7 +401,7 @@ export default function StoriesPage() {
                 <button
                   onClick={loadMoreStories}
                   disabled={isLoadingMore}
-                  className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-md font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 text-xs"
+                  className="inline-flex items-center gap-2 bg-[#FF4081] hover:bg-[#FF4081]/90 disabled:bg-[#2A2A2A] disabled:cursor-not-allowed text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 text-xs"
                 >
                   {isLoadingMore ? (
                     <>
@@ -412,7 +420,7 @@ export default function StoriesPage() {
             )}
 
             {/* Pagination Info */}
-            <div className="text-center mt-4 text-xs text-gray-400">
+            <div className="text-center mt-4 text-xs text-[#B0BEC5]">
               Trang {currentPage} / {totalPages} • Hiển thị {filteredStories.length} / {totalStories} truyện
             </div>
           </>

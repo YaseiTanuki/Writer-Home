@@ -170,10 +170,10 @@ export default function NewChapterPage() {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
             <div className="text-center sm:text-left">
               <div className="relative mb-3">
-                <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-2 leading-tight flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                  <Sparkles size={20} className="text-blue-400 sm:w-6 sm:h-6 md:w-7 md:h-7" />
+                <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-2 leading-tight flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-pink-400 to-rose-400 bg-clip-text text-transparent">
+                  <Sparkles size={20} className="text-pink-400 sm:w-6 sm:h-6 md:w-7 md:h-7" />
                   Tạo Chương Mới
-                  <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+                  <div className="w-2 h-2 bg-pink-400 rounded-full animate-pulse"></div>
                 </h1>
               </div>
               <div className="flex items-center gap-2">
@@ -200,7 +200,7 @@ export default function NewChapterPage() {
             {/* Story Selection */}
             <div className="bg-gray-900/50 rounded-md border border-gray-700 p-3 sm:p-4 backdrop-blur-sm">
               <label htmlFor="storyId" className="block text-xs sm:text-sm font-medium text-gray-300 mb-1.5 sm:mb-2 flex items-center gap-2">
-                <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
+                <div className="w-1.5 h-1.5 bg-pink-400 rounded-full"></div>
                 Chọn truyện *
               </label>
               <select
@@ -209,7 +209,7 @@ export default function NewChapterPage() {
                 value={formData.storyId}
                 onChange={handleStoryChange}
                 onBlur={() => handleBlur('storyId')}
-                className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm bg-gray-800/50 text-white backdrop-blur-sm transition-all duration-200"
+                className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-sm bg-gray-800/50 text-white backdrop-blur-sm transition-all duration-200"
                 required
               >
                 <option value="">-- Chọn truyện --</option>
@@ -224,7 +224,7 @@ export default function NewChapterPage() {
                   <div className="flex items-center gap-2">
                     <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full"></div>
                     <p className="text-xs sm:text-sm text-yellow-300">
-                      Chưa có truyện nào. Vui lòng <Link href="/admin/new-story" className="text-blue-400 hover:underline">tạo truyện trước</Link>.
+                      Chưa có truyện nào. Vui lòng <Link href="/admin/new-story" className="text-pink-400 hover:underline">tạo truyện trước</Link>.
                     </p>
                   </div>
                 </div>
@@ -242,7 +242,7 @@ export default function NewChapterPage() {
             {/* Chapter Number - Auto-calculated */}
             <div className="bg-gray-900/50 rounded-md border border-gray-700 p-3 sm:p-4 backdrop-blur-sm">
               <label htmlFor="chapterNumber" className="block text-xs sm:text-sm font-medium text-gray-300 mb-1.5 sm:mb-2 flex items-center gap-2">
-                <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
+                <div className="w-1.5 h-1.5 bg-rose-400 rounded-full"></div>
                 Số chương * (Tự động tính)
               </label>
               <input
@@ -252,7 +252,7 @@ export default function NewChapterPage() {
                 value={formData.chapterNumber}
                 onChange={handleInputChange}
                 min="1"
-                className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm bg-gray-800/50 text-white backdrop-blur-sm transition-all duration-200"
+                className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-500 text-sm bg-gray-800/50 text-white backdrop-blur-sm transition-all duration-200"
                 required
                 readOnly
               />
@@ -290,7 +290,7 @@ export default function NewChapterPage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-md text-sm sm:text-base font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 sm:gap-3 shadow-md hover:shadow-lg hover:scale-105"
+                className="w-full bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-md text-sm sm:text-base font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 sm:gap-3 shadow-md hover:shadow-lg hover:scale-105"
               >
                 {isSubmitting ? (
                   <>

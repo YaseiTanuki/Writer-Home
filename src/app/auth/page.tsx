@@ -44,8 +44,8 @@ export default function AuthPage() {
         <div className="text-center">
           <div className="relative mb-6 sm:mb-8">
             <div className="flex items-center justify-center gap-2 sm:gap-3 mb-4">
-              <LogIn size={28} className="text-blue-400 sm:w-8 sm:h-8" />
-              <h1 className="text-lg sm:text-2xl font-bold text-white bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Chọn loại đăng nhập</h1>
+              <LogIn size={28} className="text-pink-400 sm:w-8 sm:h-8" />
+              <h1 className="text-lg sm:text-2xl font-bold text-white bg-gradient-to-r from-pink-300 to-rose-400 bg-clip-text text-transparent">Chọn loại đăng nhập</h1>
             </div>
             <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-yellow-400 rounded-full animate-pulse"></div>
           </div>
@@ -68,7 +68,7 @@ export default function AuthPage() {
             <button
               onClick={() => handleSelectLoginType('guest')}
               disabled={isLoading}
-              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-blue-800 disabled:to-purple-800 text-white px-6 sm:px-8 py-4 sm:py-6 rounded-md font-medium transition-all duration-300 flex items-center justify-center gap-3 sm:gap-4 shadow-lg hover:shadow-xl hover:scale-105"
+              className="w-full bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 disabled:from-pink-800 disabled:to-rose-800 text-white px-6 sm:px-8 py-4 sm:py-6 rounded-md font-medium transition-all duration-300 flex items-center justify-center gap-3 sm:gap-4 shadow-lg hover:shadow-xl hover:scale-105"
             >
               {isLoading ? (
                 <>
@@ -98,7 +98,7 @@ export default function AuthPage() {
             <button
               onClick={() => handleSelectLoginType('admin')}
               disabled={isLoading}
-              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 disabled:from-purple-800 disabled:to-pink-800 text-white px-6 sm:px-8 py-4 sm:py-6 rounded-md font-medium transition-all duration-300 flex items-center justify-center gap-3 sm:gap-4 shadow-lg hover:shadow-xl hover:scale-105"
+              className="w-full bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 disabled:from-rose-800 disabled:to-pink-800 text-white px-6 sm:px-8 py-4 sm:py-6 rounded-md font-medium transition-all duration-300 flex items-center justify-center gap-3 sm:gap-4 shadow-lg hover:shadow-xl hover:scale-105"
             >
               <Shield size={28} className="sm:w-8 sm:h-8" />
               <div className="text-center">

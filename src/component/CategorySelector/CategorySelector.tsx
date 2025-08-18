@@ -23,7 +23,7 @@ export default function CategorySelector({
   const [newCategory, setNewCategory] = useState({
     name: '',
     description: '',
-    color: '#3B82F6'
+    color: '#ec4899'
   });
   const [isCreating, setIsCreating] = useState(false);
   const [error, setError] = useState('');
@@ -73,7 +73,7 @@ export default function CategorySelector({
       onChange([...selectedCategories, response.category._id]);
       
       // Reset form
-      setNewCategory({ name: '', description: '', color: '#3B82F6' });
+      setNewCategory({ name: '', description: '', color: '#ec4899' });
       setShowCreateForm(false);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Có lỗi xảy ra khi tạo thể loại');
@@ -116,8 +116,8 @@ export default function CategorySelector({
         
         {/* Selected Categories Display */}
         {selectedCategories.length > 0 && (
-          <div className="mb-3 p-3 bg-blue-900/20 border border-blue-700 rounded-md">
-            <div className="text-xs sm:text-sm text-blue-400 mb-2">
+          <div className="mb-3 p-3 bg-pink-900/20 border border-pink-700 rounded-md">
+            <div className="text-xs sm:text-sm text-pink-400 mb-2">
               Thể loại đã chọn:
             </div>
             <div className="flex flex-wrap gap-2">
@@ -126,13 +126,13 @@ export default function CategorySelector({
                 return category ? (
                   <span
                     key={catId}
-                    className="inline-flex items-center px-3 py-1 text-sm font-medium rounded-full bg-blue-900/20 text-blue-400 border border-blue-700"
+                    className="inline-flex items-center px-3 py-1 text-sm font-medium rounded-full bg-pink-900/20 text-pink-400 border border-pink-700"
                   >
                     {category.name}
                     <button
                       type="button"
                       onClick={() => handleCategoryToggle(catId)}
-                      className="ml-2 text-blue-400 hover:text-blue-300 hover:bg-blue-800 rounded-full w-5 h-5 flex items-center justify-center"
+                      className="ml-2 text-pink-400 hover:text-pink-300 hover:bg-pink-800 rounded-full w-5 h-5 flex items-center justify-center"
                     >
                       <X size={14} />
                     </button>
@@ -154,7 +154,7 @@ export default function CategorySelector({
               placeholder="Tìm kiếm thể loại..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-3 py-2 border border-gray-600 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-800 text-white placeholder-gray-400"
+              className="w-full pl-10 pr-3 py-2 border border-gray-600 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 bg-gray-800 text-white placeholder-gray-400"
             />
             {searchTerm && (
               <button
@@ -182,7 +182,7 @@ export default function CategorySelector({
                 onClick={() => handleCategoryToggle(category._id)}
                 className={`p-2 rounded-md text-xs font-medium transition-all duration-200 flex items-center justify-between ${
                   selectedCategories.includes(category._id)
-                    ? 'bg-blue-600 text-white shadow-lg scale-105'
+                    ? 'bg-pink-600 text-white shadow-lg scale-105'
                     : 'bg-gray-800 text-gray-300 hover:bg-gray-700 hover:scale-102'
                 }`}
                 style={{
@@ -209,7 +209,7 @@ export default function CategorySelector({
           <button
             type="button"
             onClick={() => setShowCreateForm(!showCreateForm)}
-            className="text-xs sm:text-sm text-blue-400 hover:text-blue-300 font-medium"
+            className="text-xs sm:text-sm text-pink-400 hover:text-pink-300 font-medium"
           >
             {showCreateForm ? '✕ Hủy' : '+ Tạo thể loại mới'}
           </button>
@@ -225,7 +225,7 @@ export default function CategorySelector({
                     type="text"
                     value={newCategory.name}
                     onChange={(e) => setNewCategory(prev => ({ ...prev, name: e.target.value }))}
-                    className="w-full px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-600 rounded-md text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-700 text-white placeholder-gray-400"
+                    className="w-full px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-600 rounded-md text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 bg-gray-700 text-white placeholder-gray-400"
                     placeholder="Nhập tên thể loại..."
                   />
                 </div>
@@ -251,7 +251,7 @@ export default function CategorySelector({
                   value={newCategory.description}
                   onChange={(e) => setNewCategory(prev => ({ ...prev, description: e.target.value }))}
                   rows={2}
-                  className="w-full px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-600 rounded-md text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-700 text-white placeholder-gray-400"
+                  className="w-full px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-600 rounded-md text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 bg-gray-700 text-white placeholder-gray-400"
                   placeholder="Mô tả ngắn gọn về thể loại..."
                 />
               </div>
@@ -267,7 +267,7 @@ export default function CategorySelector({
                   type="button"
                   onClick={handleCreateCategory}
                   disabled={isCreating}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1.5 sm:gap-2"
+                  className="bg-pink-600 hover:bg-pink-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1.5 sm:gap-2"
                 >
                   {isCreating ? (
                     <>
@@ -293,7 +293,7 @@ export default function CategorySelector({
                   type="button"
                   onClick={() => {
                     setShowCreateForm(false);
-                    setNewCategory({ name: '', description: '', color: '#3B82F6' });
+                    setNewCategory({ name: '', description: '', color: '#ec4899' });
                     setError('');
                   }}
                   className="flex-1 sm:flex-none bg-gray-700 hover:bg-gray-600 text-gray-300 px-3 sm:px-4 py-1.5 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-colors duration-200 border border-gray-600"

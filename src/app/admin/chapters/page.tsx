@@ -306,7 +306,7 @@ export default function AdminChapters() {
               </Link>
               <div>
                 <div className="relative mb-1">
-                  <h1 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
+                  <h1 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-green-400 to-pink-400 bg-clip-text text-transparent">
                   <FileText size={20} className="text-green-400 sm:w-6" />
                   <span className="hidden sm:inline">Quản Lý Chương</span>
                   <span className="sm:hidden">Chương</span>
@@ -339,7 +339,7 @@ export default function AdminChapters() {
               )}
               <Link
                 href="/admin/new-chapter"
-                className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white px-2 sm:px-6 py-1.5 sm:py-3 rounded-md font-medium transition-all duration-300 text-xs sm:text-sm flex items-center gap-1 sm:gap-2 w-full sm:w-auto justify-center shadow-md hover:shadow-lg hover:scale-105"
+                className="bg-gradient-to-r from-green-600 to-pink-600 hover:from-green-700 hover:to-pink-700 text-white px-2 sm:px-6 py-1.5 sm:py-3 rounded-md font-medium transition-all duration-300 text-xs sm:text-sm flex items-center gap-1 sm:gap-2 w-full sm:w-auto justify-center shadow-md hover:shadow-lg hover:scale-105"
               >
                 <Plus size={14} className="sm:w-4" />
                 <span className="hidden sm:inline">Tạo Chương Mới</span>
@@ -434,7 +434,7 @@ export default function AdminChapters() {
 
                     {/* Word Count - Hidden on mobile */}
                     <div className="hidden sm:flex flex-shrink-0">
-                      <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-blue-900/20 text-blue-400 border border-blue-700">
+                      <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-pink-900/20 text-pink-400 border border-pink-700">
                         {chapter.content ? Math.ceil(chapter.content.length / 1000) : 0} nghìn từ
                       </span>
                     </div>
@@ -442,7 +442,7 @@ export default function AdminChapters() {
 
                   {/* Word Count - Mobile */}
                   <div className="sm:hidden mt-1.5 sm:mt-2">
-                    <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-blue-900/20 text-blue-400 border border-blue-700">
+                    <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-pink-900/20 text-pink-400 border border-pink-700">
                       {chapter.content ? Math.ceil(chapter.content.length / 1000) : 0} nghìn từ
                     </span>
                   </div>
@@ -451,7 +451,7 @@ export default function AdminChapters() {
                   <div className="flex items-center gap-1.5 sm:gap-3 mt-2 sm:mt-4">
                     <Link
                       href={`/admin/chapters/${chapter._id}/edit`}
-                      className="inline-flex items-center justify-center gap-1 px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+                      className="inline-flex items-center justify-center gap-1 px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 transition-colors duration-200"
                     >
                       <Edit3 size={12} className="sm:w-4" />
                       <span className="hidden sm:inline">Sửa</span>

@@ -98,11 +98,11 @@ export default function AdminStories() {
 
   if (isLoading || !isAuthenticated) {
     return (
-      <div className="min-h-screen bg-black">
+      <div className="min-h-screen bg-[#121212]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:8 py-12">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-400 mx-auto"></div>
-            <p className="mt-4 text-gray-300 text-sm">Đang tải...</p>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#FF4081] mx-auto"></div>
+            <p className="mt-4 text-[#B0BEC5] text-sm">Đang tải...</p>
           </div>
         </div>
       </div>
@@ -110,7 +110,7 @@ export default function AdminStories() {
   }
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-[#121212]">
       <Navigation />
       
       {/* Main Content */}
@@ -121,22 +121,22 @@ export default function AdminStories() {
             <div className="flex items-center gap-3 sm:gap-4">
               <Link
                 href="/admin"
-                className="p-1.5 sm:p-2 rounded-md bg-gray-800/50 hover:bg-gray-700/50 transition-all duration-200 backdrop-blur-sm border border-gray-700"
+                className="p-1.5 sm:p-2 rounded-md bg-[#1E1E1E] hover:bg-[#2A2A2A] transition-all duration-200 backdrop-blur-sm border-2 border-[#FF4081]/30 hover:border-[#FF4081]/50"
               >
-                <ArrowLeft size={16} className="text-gray-300" />
+                <ArrowLeft size={16} className="text-[#FF4081]" />
               </Link>
               <div>
                 <div className="relative mb-2">
-                  <h1 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                    <BookOpen size={20} className="text-blue-400" />
+                  <h1 className="text-lg sm:text-xl font-bold text-[#FFFFFF] flex items-center gap-2 sm:gap-3">
+                    <BookOpen size={20} className="text-[#FF4081]" />
                     <span className="hidden sm:inline">Quản Lý Truyện</span>
                     <span className="sm:hidden">Truyện</span>
                   </h1>
-                  <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-yellow-400 rounded-full animate-pulse"></div>
+                  <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-[#FFEB3B] rounded-full animate-pulse"></div>
                 </div>
-                <div className="text-xs sm:text-sm text-gray-300 mt-1">
+                <div className="text-xs sm:text-sm text-[#B0BEC5] mt-1">
                   <span className="inline-flex items-center gap-1">
-                    <div className="w-1 h-1 bg-blue-400 rounded-full"></div>
+                    <div className="w-1 h-1 bg-[#FF4081] rounded-full"></div>
                     Tổng cộng {stories.length} truyện
                   </span>
                 </div>
@@ -144,7 +144,7 @@ export default function AdminStories() {
             </div>
             <Link
               href="/admin/new-story"
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-3 sm:px-6 py-2 sm:py-3 rounded-md font-medium transition-all duration-300 text-xs sm:text-sm flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto justify-center shadow-md hover:shadow-lg hover:scale-105"
+              className="bg-[#FF4081] hover:bg-[#FF4081]/92 text-white px-3 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-all duration-300 text-xs sm:text-sm flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto justify-center shadow-md hover:shadow-lg hover:scale-105"
             >
               <Plus size={16} className="sm:w-[18px]" />
               <span className="hidden sm:inline">Tạo Truyện Mới</span>
@@ -155,155 +155,162 @@ export default function AdminStories() {
 
         {/* Stories List - Mobile Optimized */}
         <div className="space-y-3 sm:space-y-4">
-          {stories.map((story) => (
-            <div key={story._id} className="bg-gray-900/50 rounded-md border border-gray-700 p-4 sm:p-6 hover:bg-gray-800/50 transition-all duration-200 backdrop-blur-sm hover:scale-102">
-              <div className="flex items-start gap-3 sm:gap-4">
-                {/* Cover Image */}
-                <div className="flex-shrink-0">
-                  {story.coverImage ? (
-                    <img 
-                      className="h-16 w-16 sm:h-20 sm:w-20 rounded-lg object-cover" 
-                      src={story.coverImage} 
-                      alt={story.title} 
-                    />
-                  ) : (
-                    <div className="h-16 w-16 sm:h-20 sm:w-20 rounded-lg bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
-                      <BookOpen size={20} className="text-white sm:w-6" />
-                    </div>
-                  )}
-                </div>
-
-                {/* Content */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-start justify-between gap-2 sm:gap-4">
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-sm sm:text-lg font-semibold text-white truncate mb-1 sm:mb-2">
-                        {story.title}
-                      </h3>
-                      
-                      {/* Description - Hidden on mobile */}
-                      <p className="hidden sm:block text-sm text-gray-300 mb-2 line-clamp-2">
-                        {story.description}
-                      </p>
-                      
-                      {/* Date */}
-                      <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-400">
-                        <Calendar size={14} className="sm:w-4" />
-                        <span>{new Date(story.createdAt).toLocaleDateString('vi-VN')}</span>
+          {stories.map((story, index) => {
+            const neonColors = ['#FF4081', '#B39DDB', '#00E5FF', '#1DE9B6', '#FFEB3B'];
+            const currentNeonColor = neonColors[index % neonColors.length];
+            
+            return (
+              <div key={story._id} className="bg-[#1E1E1E] rounded-2xl border-2 p-4 sm:p-6 hover:shadow-lg transition-all duration-200 backdrop-blur-sm hover:scale-102" style={{ borderColor: currentNeonColor, boxShadow: `0 0 8px ${currentNeonColor}` }}>
+                <div className="flex items-start gap-3 sm:gap-4">
+                  {/* Cover Image */}
+                  <div className="flex-shrink-0">
+                    {story.coverImage ? (
+                      <img 
+                        className="h-16 w-16 sm:h-20 sm:w-20 rounded-lg object-cover" 
+                        src={story.coverImage} 
+                        alt={story.title} 
+                      />
+                    ) : (
+                      <div className="h-16 w-16 sm:h-20 sm:w-20 rounded-lg flex items-center justify-center" style={{ backgroundColor: currentNeonColor }}>
+                        <BookOpen size={20} className="text-white sm:w-6" />
                       </div>
-                    </div>
-
-                    {/* Status Badge */}
-                    <div className="flex-shrink-0">
-                      {story.status === 'public' ? (
-                        <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full bg-green-900/20 text-green-400 border border-green-700 whitespace-nowrap">
-                          <CheckCircle size={12} className="sm:w-3" />
-                          <span className="hidden sm:inline">Đã xuất bản</span>
-                          <span className="sm:hidden">XB</span>
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full bg-red-900/20 text-red-400 border border-red-700 whitespace-nowrap">
-                          <AlertTriangle size={12} className="sm:w-3" />
-                          <span className="hidden sm:inline">Bản thảo</span>
-                          <span className="sm:hidden">BT</span>
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Categories - Hidden on mobile */}
-                  <div className="hidden sm:flex flex-wrap gap-1 mt-2">
-                    {story.category.slice(0, 3).map((catId) => {
-                      const category = categories.find(c => c._id === catId);
-                      return category ? (
-                        <span
-                          key={catId}
-                          className="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
-                          style={{ 
-                            backgroundColor: `${category.color}20`, 
-                            color: category.color 
-                          }}
-                        >
-                          {category.name}
-                        </span>
-                      ) : null;
-                    })}
-                    {story.category.length > 3 && (
-                      <span className="text-xs text-gray-400">
-                        +{story.category.length - 3}
-                      </span>
                     )}
                   </div>
 
-                  {/* Action Buttons */}
-                  <div className="flex items-center gap-2 sm:gap-3 mt-3 sm:mt-4">
-                    <Link
-                      href={`/admin/stories/${story._id}/edit`}
-                      className="inline-flex items-center justify-center gap-1 px-3 py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
-                    >
-                      <Edit3 size={14} className="sm:w-4" />
-                      <span className="hidden sm:inline">Sửa</span>
-                      <span className="sm:hidden">Sửa</span>
-                    </Link>
-                    <button
-                      onClick={() => handleDeleteStory(story._id, story.title)}
-                      className="inline-flex items-center justify-center gap-1 px-3 py-2 border border-red-600 text-xs sm:text-sm font-medium rounded-md text-red-400 bg-gray-800 hover:bg-red-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
-                    >
-                      <Trash2 size={14} className="sm:w-4" />
-                      <span className="hidden sm:inline">Xóa</span>
-                      <span className="sm:hidden">Xóa</span>
-                    </button>
+                  {/* Content */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start justify-between gap-2 sm:gap-4">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-sm sm:text-lg font-semibold text-[#FFFFFF] truncate mb-1 sm:mb-2">
+                          {story.title}
+                        </h3>
+                        
+                        {/* Description - Hidden on mobile */}
+                        <p className="hidden sm:block text-sm text-[#B0BEC5] mb-2 line-clamp-2">
+                          {story.description}
+                        </p>
+                        
+                        {/* Date */}
+                        <div className="flex items-center gap-2 text-xs sm:text-sm text-[#B0BEC5]">
+                          <Calendar size={14} className="sm:w-4" />
+                          <span>{new Date(story.createdAt).toLocaleDateString('vi-VN')}</span>
+                        </div>
+                      </div>
+
+                      {/* Status Badge */}
+                      <div className="flex-shrink-0">
+                        {story.status === 'public' ? (
+                          <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full bg-[#1DE9B6]/20 text-[#1DE9B6] border-2 border-[#1DE9B6]/50 whitespace-nowrap">
+                            <CheckCircle size={12} className="sm:w-3" />
+                            <span className="hidden sm:inline">Đã xuất bản</span>
+                            <span className="sm:hidden">XB</span>
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full bg-[#FFEB3B]/20 text-[#FFEB3B] border-2 border-[#FFEB3B]/50 whitespace-nowrap">
+                            <AlertTriangle size={12} className="sm:w-3" />
+                            <span className="hidden sm:inline">Bản thảo</span>
+                            <span className="sm:hidden">BT</span>
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Categories - Hidden on mobile */}
+                    <div className="hidden sm:flex flex-wrap gap-1 mt-2">
+                      {story.category.slice(0, 3).map((catId) => {
+                        const category = categories.find(c => c._id === catId);
+                        return category ? (
+                          <span
+                            key={catId}
+                            className="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
+                            style={{ 
+                              backgroundColor: `${category.color}20`, 
+                              color: category.color 
+                            }}
+                          >
+                            {category.name}
+                          </span>
+                        ) : null;
+                      })}
+                      {story.category.length > 3 && (
+                        <span className="text-xs text-[#B0BEC5]">
+                          +{story.category.length - 3}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex items-center gap-2 sm:gap-3 mt-3 sm:mt-4">
+                      <Link
+                        href={`/admin/stories/${story._id}/edit`}
+                        className="inline-flex items-center justify-center gap-1 px-3 py-2 border-2 border-[#B39DDB] text-xs sm:text-sm font-medium rounded-lg text-[#B39DDB] bg-[#1E1E1E] hover:bg-[#B39DDB]/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#B39DDB] transition-colors duration-200"
+                      >
+                        <Edit3 size={14} className="sm:w-4" />
+                        <span className="hidden sm:inline">Sửa</span>
+                        <span className="sm:hidden">Sửa</span>
+                      </Link>
+                      <button
+                        onClick={() => handleDeleteStory(story._id, story.title)}
+                        className="inline-flex items-center justify-center gap-1 px-3 py-2 border-2 border-[#FF4081] text-xs sm:text-sm font-medium rounded-lg text-[#FF4081] bg-[#1E1E1E] hover:bg-[#FF4081]/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FF4081] transition-colors duration-200"
+                      >
+                        <Trash2 size={14} className="sm:w-4" />
+                        <span className="hidden sm:inline">Xóa</span>
+                        <span className="sm:hidden">Xóa</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Empty State */}
         {stories.length === 0 && !isLoadingData && (
           <div className="text-center py-12">
-            <BookOpen size={48} className="mx-auto text-gray-600 mb-4" />
-            <h3 className="text-lg font-medium text-gray-400 mb-2">Chưa có truyện nào</h3>
-            <p className="text-sm text-gray-500 mb-6">Bắt đầu tạo truyện đầu tiên của bạn</p>
-            <Link
-              href="/admin/new-story"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
-            >
-              Tạo Truyện Mới
-            </Link>
+            <div className="bg-[#1E1E1E] rounded-2xl border-2 border-[#FF4081] p-8 max-w-md mx-auto shadow-[0_0_8px_#FF4081]">
+              <BookOpen size={48} className="mx-auto text-[#FF4081] mb-4" />
+              <h3 className="text-lg font-medium text-[#FFFFFF] mb-2">Chưa có truyện nào</h3>
+              <p className="text-sm text-[#B0BEC5] mb-6">Bắt đầu tạo truyện đầu tiên của bạn</p>
+              <Link
+                href="/admin/new-story"
+                className="bg-[#FF4081] hover:bg-[#FF4081]/92 text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg"
+              >
+                Tạo Truyện Mới
+              </Link>
+            </div>
           </div>
         )}
       </div>
 
       {/* Delete Confirmation Modal */}
       {deleteConfirm && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm overflow-y-auto h-full w-full flex items-center justify-center z-50 p-4">
           <div className="relative p-4 sm:p-8 border w-full max-w-md max-h-full">
-            <div className="relative bg-gray-900 rounded-lg shadow border border-gray-800">
+            <div className="relative bg-[#1E1E1E] rounded-2xl shadow-lg border-2 border-[#FF4081] shadow-[0_0_8px_#FF4081]">
               <div className="p-4 sm:p-6 text-center">
-                <svg className="mx-auto mb-4 text-red-400 w-10 h-10 sm:w-12 sm:h-12" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                <svg className="mx-auto mb-4 text-[#FF4081] w-10 h-10 sm:w-12 sm:h-12" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 5v10a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3h.08a3 3 0 0 0 2.92 2h2.08a3 3 0 0 0 2.92-2H15a3 3 0 0 1 3 3Z" />
                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 11V6a3 3 0 1 1 6 0v5a3 3 0 1 1-6 0Z" />
                 </svg>
-                <h3 className="mb-3 sm:mb-5 text-base sm:text-lg font-normal text-white">
+                <h3 className="mb-3 sm:mb-5 text-base sm:text-lg font-normal text-[#FFFFFF]">
                   Bạn có chắc chắn muốn xóa "{deleteConfirm.title}" không?
                 </h3>
-                <p className="mb-3 sm:mb-4 text-xs sm:text-sm text-red-400 bg-red-900/20 p-2 sm:p-3 rounded-md border border-red-700">
+                <p className="mb-3 sm:mb-4 text-xs sm:text-sm text-[#FF4081] bg-[#FF4081]/10 p-2 sm:p-3 rounded-lg border-2 border-[#FF4081]/30">
                   <AlertTriangle size={14} className="inline mr-1 sm:mr-2" />
                   <strong>Lưu ý:</strong> Khi xóa truyện này, tất cả các chương liên quan cũng sẽ bị xóa vĩnh viễn!
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-4">
                   <button
                     onClick={confirmDelete}
-                    className="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-800 font-medium rounded-lg text-xs sm:text-sm px-4 sm:px-5 py-2 sm:py-2.5 text-center"
+                    className="text-white bg-[#FF4081] hover:bg-[#FF4081]/90 focus:ring-4 focus:outline-none focus:ring-[#FF4081]/50 font-medium rounded-lg text-xs sm:text-sm px-4 sm:px-5 py-2 sm:py-2.5 text-center shadow-md hover:shadow-lg"
                     disabled={isDeleting === deleteConfirm.id}
                   >
                     {isDeleting === deleteConfirm.id ? 'Đang xóa...' : 'Xóa'}
                   </button>
                   <button
                     onClick={cancelDelete}
-                    className="text-gray-300 bg-gray-800 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-600 font-medium rounded-lg text-xs sm:text-sm px-4 sm:px-5 py-2 sm:py-2.5 text-center border border-gray-600"
+                    className="text-[#B0BEC5] bg-[#1E1E1E] hover:bg-[#2A2A2A] focus:ring-4 focus:outline-none focus:ring-[#B39DDB]/50 font-medium rounded-lg text-xs sm:text-sm px-4 sm:px-5 py-2 sm:py-2.5 text-center border-2 border-[#B39DDB]/50 hover:border-[#B39DDB] transition-all duration-200"
                   >
                     Hủy
                   </button>
@@ -317,17 +324,17 @@ export default function AdminStories() {
       {/* Notification Toast */}
       {notification && (
         <div className="fixed top-16 sm:top-20 left-2 right-2 sm:left-4 sm:right-4 z-50 max-w-sm mx-auto sm:mx-0">
-          <div className={`rounded-lg shadow-lg p-3 sm:p-4 ${
+          <div className={`rounded-2xl shadow-lg p-3 sm:p-4 border-2 ${
             notification.type === 'success' 
-              ? 'bg-green-900/20 border border-green-700 text-green-400' 
-              : 'bg-red-900/20 border border-red-700 text-red-400'
+              ? 'bg-[#1DE9B6]/10 border-[#1DE9B6] text-[#1DE9B6]' 
+              : 'bg-[#FF4081]/10 border-[#FF4081] text-[#FF4081]'
           }`}>
             <div className="flex items-start">
               <div className="flex-shrink-0">
                 {notification.type === 'success' ? (
-                  <CheckCircle size={18} className="text-green-400 sm:w-5" />
+                  <CheckCircle size={18} className="text-[#1DE9B6] sm:w-5" />
                 ) : (
-                  <AlertTriangle size={18} className="text-red-400 sm:w-5" />
+                  <AlertTriangle size={18} className="text-[#FF4081] sm:w-5" />
                 )}
               </div>
               <div className="ml-2 sm:ml-3 flex-1">
@@ -338,9 +345,9 @@ export default function AdminStories() {
                   onClick={() => setNotification(null)}
                   className={`inline-flex rounded-md p-1 sm:p-1.5 ${
                     notification.type === 'success' 
-                      ? 'text-green-400 hover:bg-green-900/20' 
-                      : 'text-red-400 hover:bg-red-900/20'
-                  } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-green-600`}
+                      ? 'text-[#1DE9B6] hover:bg-[#1DE9B6]/10' 
+                      : 'text-[#FF4081] hover:bg-[#FF4081]/10'
+                  } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#121212] focus:ring-[#FF4081] transition-all duration-200`}
                 >
                   <span className="sr-only">Đóng</span>
                   <svg className="h-3 w-3 sm:h-4 sm:w-4" fill="currentColor" viewBox="0 0 20 20">

@@ -39,10 +39,10 @@ export default function LoginPage() {
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <div className="flex items-center justify-center gap-2 sm:gap-3 mb-4 sm:mb-6">
             <div className="relative">
-              <LogIn size={28} className="text-blue-400 sm:w-8 sm:h-8" />
+              <LogIn size={28} className="text-pink-400 sm:w-8 sm:h-8" />
               <div className="absolute -top-1 -right-1 w-1.5 h-1.5 bg-yellow-400 rounded-full animate-pulse"></div>
             </div>
-            <h2 className="text-center text-lg sm:text-2xl font-extrabold text-white bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+            <h2 className="text-center text-lg sm:text-2xl font-extrabold text-white bg-gradient-to-r from-pink-300 to-rose-400 bg-clip-text text-transparent">
               Đăng nhập vào tài khoản
             </h2>
           </div>

@@ -36,10 +36,10 @@ export default function GuestReplies({ message, onDeleteReply, isAdmin = false }
                       }}
                     />
                   ) : null}
-                  <div className={`h-6 w-6 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center ${reply.guestPicture ? 'hidden' : ''}`}>
+                  <div className={`h-6 w-6 rounded-full bg-gradient-to-br from-pink-400 to-rose-600 flex items-center justify-center ${reply.guestPicture ? 'hidden' : ''}`}>
                     <User size={12} className="text-white" />
                   </div>
-                  <span className="text-sm font-medium text-blue-400">{reply.guestName}</span>
+                  <span className="text-sm font-medium text-pink-400">{reply.guestName}</span>
                   <span className="text-xs text-gray-500">({reply.guestEmail})</span>
                   <span className="text-xs text-gray-500">
                     {new Date(reply.createdAt).toLocaleDateString('vi-VN')}
@@ -49,8 +49,8 @@ export default function GuestReplies({ message, onDeleteReply, isAdmin = false }
                 
                 {/* Nested Replies */}
                 {reply.replies && reply.replies.length > 0 && (
-                  <div className="mt-3 ml-4 border-l-2 border-blue-500 pl-3">
-                    <h5 className="text-xs font-medium text-blue-300 mb-2">Replies ({reply.replies.length})</h5>
+                  <div className="mt-3 ml-4 border-l-2 border-pink-500 pl-3">
+                    <h5 className="text-xs font-medium text-pink-300 mb-2">Replies ({reply.replies.length})</h5>
                     <div className="space-y-2">
                       {reply.replies.map((nestedReply, nestedIndex) => (
                         <div key={nestedReply._id || nestedIndex} className="bg-gray-600 rounded-md p-2">
@@ -69,10 +69,10 @@ export default function GuestReplies({ message, onDeleteReply, isAdmin = false }
                                     }}
                                   />
                                 ) : null}
-                                <div className={`h-5 w-5 rounded-full bg-gradient-to-br from-blue-300 to-blue-500 flex items-center justify-center ${nestedReply.guestPicture ? 'hidden' : ''}`}>
+                                <div className={`h-5 w-5 rounded-full bg-gradient-to-br from-pink-300 to-pink-500 flex items-center justify-center ${nestedReply.guestPicture ? 'hidden' : ''}`}>
                                   <User size={10} className="text-white" />
                                 </div>
-                                <span className="text-xs font-medium text-blue-300">{nestedReply.guestName}</span>
+                                <span className="text-xs font-medium text-pink-300">{nestedReply.guestName}</span>
                                 <span className="text-xs text-gray-500">({nestedReply.guestEmail})</span>
                                 <span className="text-xs text-gray-500">
                                   {new Date(nestedReply.createdAt).toLocaleDateString('vi-VN')}

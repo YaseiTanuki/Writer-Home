@@ -34,12 +34,12 @@ export default function Navigation() {
   };
 
   return (
-    <nav className="bg-black border-b border-gray-800 shadow-lg fixed top-0 left-0 right-0 z-50 hidden md:block">
+    <nav className="bg-[#121212] border-b-2 border-[#FF4081]/30 shadow-lg fixed top-0 left-0 right-0 z-50 hidden md:block">
       <div className="max-w-7xl mx-auto px-0 sm:px-4 lg:px-8">
         <div className="flex justify-between items-center h-14 sm:h-16">
           {/* Logo/Brand */}
           <div className="flex items-center">
-            <Link href="/" className="text-sm sm:text-xl font-bold text-blue-400 flex items-center gap-2">
+            <Link href="/" className="text-sm sm:text-xl font-bold text-[#FF4081] flex items-center gap-2">
               <BookOpen size={24} />
               Góc Truyện
             </Link>
@@ -49,10 +49,10 @@ export default function Navigation() {
           <div className="flex items-center space-x-3 sm:space-x-4">
             <Link 
               href="/" 
-              className={`px-2 sm:px-3 py-2 rounded-md text-xs font-medium transition-colors duration-200 flex items-center gap-2 ${
+              className={`px-2 sm:px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-2 ${
                 isActive('/') 
-                  ? 'text-blue-400 bg-blue-900/20' 
-                  : 'text-gray-300 hover:text-white hover:bg-gray-800'
+                  ? 'text-[#FF4081] bg-[#FF4081]/10 border-2 border-[#FF4081]' 
+                  : 'text-[#B0BEC5] hover:text-[#FFFFFF] hover:bg-[#1E1E1E] border-2 border-transparent hover:border-[#FF4081]/30'
               }`}
             >
               <Home size={16} />
@@ -60,10 +60,10 @@ export default function Navigation() {
             </Link>
             <Link 
               href="/stories" 
-              className={`px-2 sm:px-3 py-2 rounded-md text-xs font-medium transition-colors duration-200 flex items-center gap-2 ${
+              className={`px-2 sm:px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-2 ${
                 isActive('/stories') || pathname.startsWith('/stories/')
-                  ? 'text-blue-400 bg-blue-900/20' 
-                  : 'text-gray-300 hover:text-white hover:bg-gray-800'
+                  ? 'text-[#FF4081] bg-[#FF4081]/10 border-2 border-[#FF4081]' 
+                  : 'text-[#B0BEC5] hover:text-[#FFFFFF] hover:bg-[#1E1E1E] border-2 border-transparent hover:border-[#FF4081]/30'
               }`}
             >
               <BookOpen size={16} />
@@ -71,10 +71,10 @@ export default function Navigation() {
             </Link>
             <Link 
               href="/about" 
-              className={`px-2 sm:px-3 py-2 rounded-md text-xs font-medium transition-colors duration-200 flex items-center gap-2 ${
+              className={`px-2 sm:px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-2 ${
                 isActive('/about')
-                  ? 'text-blue-400 bg-blue-900/20' 
-                  : 'text-gray-300 hover:text-white hover:bg-gray-800'
+                  ? 'text-[#FF4081] bg-[#FF4081]/10 border-2 border-[#FF4081]' 
+                  : 'text-[#B0BEC5] hover:text-[#FFFFFF] hover:bg-[#1E1E1E] border-2 border-transparent hover:border-[#FF4081]/30'
               }`}
             >
               <Info size={16} />
@@ -82,10 +82,10 @@ export default function Navigation() {
             </Link>
             <Link 
               href="/contact" 
-              className={`px-2 sm:px-3 py-2 rounded-md text-xs font-medium transition-colors duration-200 flex items-center gap-2 ${
+              className={`px-2 sm:px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-2 ${
                 isActive('/contact')
-                  ? 'text-blue-400 bg-blue-900/20' 
-                  : 'text-gray-300 hover:text-white hover:bg-gray-800'
+                  ? 'text-[#FF4081] bg-[#FF4081]/10 border-2 border-[#FF4081]' 
+                  : 'text-[#B0BEC5] hover:text-[#FFFFFF] hover:bg-[#1E1E1E] border-2 border-transparent hover:border-[#FF4081]/30'
               }`}
             >
               <Mail size={16} />
@@ -98,13 +98,13 @@ export default function Navigation() {
             {/* Guest Authentication */}
             {isGuestAuthenticated ? (
               <div className="flex items-center space-x-2">
-                <span className="text-xs text-gray-300 px-2 py-1 rounded bg-gray-800">
+                <span className="text-xs text-[#B0BEC5] px-2 py-1 rounded-lg bg-[#1E1E1E] border-2 border-[#B39DDB]/50">
                   <User size={14} className="inline mr-1" />
                   {guest?.displayName}
                 </span>
                 <button
                   onClick={handleGuestSignOut}
-                  className="px-2 sm:px-3 py-2 rounded-md text-xs font-medium text-gray-300 hover:text-red-400 hover:bg-red-900/20 transition-colors duration-200 flex items-center gap-2"
+                  className="px-2 sm:px-3 py-2 rounded-lg text-xs font-medium text-[#B0BEC5] hover:text-[#FF4081] hover:bg-[#FF4081]/10 transition-all duration-200 flex items-center gap-2 border-2 border-transparent hover:border-[#FF4081]/50"
                 >
                   <LogOut size={16} />
                   Đăng Xuất
@@ -116,10 +116,10 @@ export default function Navigation() {
                 <>
                   <Link 
                     href="/admin" 
-                    className={`px-2 sm:px-3 py-2 rounded-md text-xs font-medium transition-colors duration-200 flex items-center gap-2 ${
+                    className={`px-2 sm:px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-2 ${
                       pathname.startsWith('/admin')
-                        ? 'text-blue-400 bg-blue-900/20' 
-                        : 'text-gray-300 hover:text-white hover:bg-gray-800'
+                        ? 'text-[#FF4081] bg-[#FF4081]/10 border-2 border-[#FF4081]' 
+                        : 'text-[#B0BEC5] hover:text-[#FFFFFF] hover:bg-[#1E1E1E] border-2 border-transparent hover:border-[#FF4081]/30'
                     }`}
                   >
                     <Settings size={16} />
@@ -127,7 +127,7 @@ export default function Navigation() {
                   </Link>
                   <button
                     onClick={handleAdminLogout}
-                    className="px-2 sm:px-3 py-2 rounded-md text-xs font-medium text-gray-300 hover:text-red-400 hover:bg-red-900/20 transition-colors duration-200 flex items-center gap-2"
+                    className="px-2 sm:px-3 py-2 rounded-lg text-xs font-medium text-[#B0BEC5] hover:text-[#FF4081] hover:bg-[#FF4081]/10 transition-all duration-200 flex items-center gap-2 border-2 border-transparent hover:border-[#FF4081]/50"
                   >
                     <LogOut size={16} />
                     Đăng Xuất Admin
@@ -136,7 +136,7 @@ export default function Navigation() {
               ) : (
                 <Link
                   href="/auth"
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-md text-xs font-medium transition-colors duration-200 flex items-center gap-2"
+                  className="bg-[#FF4081] hover:bg-[#FF4081]/92 text-white px-3 sm:px-4 py-2 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-2 shadow-md hover:shadow-lg"
                 >
                   <LogIn size={16} />
                   Đăng Nhập
