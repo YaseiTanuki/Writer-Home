@@ -104,7 +104,7 @@ export const storyService = {
 
   // Get all categories
   async getCategories(): Promise<{ categories: Category[]; count: number }> {
-    const response = await fetch('http://localhost:8111/api/categories', {
+    const response = await fetch('https://writer-home-backend.vercel.app/api/categories', {
       method: 'GET',
       mode: 'cors',
       credentials: 'omit',
@@ -130,7 +130,7 @@ export const storyService = {
       throw new Error('Authentication required. Please login first.');
     }
 
-    const response = await fetch('http://localhost:8111/api/categories', {
+    const response = await fetch('https://writer-home-backend.vercel.app/api/categories', {
       method: 'POST',
       mode: 'cors',
       credentials: 'omit',
@@ -158,7 +158,7 @@ export const storyService = {
       throw new Error('Authentication required. Please login first.');
     }
 
-    const response = await fetch(`http://localhost:8111/api/categories/${id}`, {
+    const response = await fetch(`https://writer-home-backend.vercel.app/api/categories/${id}`, {
       method: 'PUT',
       mode: 'cors',
       credentials: 'omit',
@@ -186,7 +186,7 @@ export const storyService = {
       throw new Error('Authentication required. Please login first.');
     }
 
-    const response = await fetch(`http://localhost:8111/api/categories/${id}`, {
+    const response = await fetch(`https://writer-home-backend.vercel.app/api/categories/${id}`, {
       method: 'DELETE',
       mode: 'cors',
       credentials: 'omit',
@@ -206,7 +206,7 @@ export const storyService = {
 
   // Get all messages
   async getMessages(): Promise<{ messages: Message[]; count: number }> {
-    const response = await fetch('http://localhost:8111/api/messages', {
+    const response = await fetch('https://writer-home-backend.vercel.app/api/messages', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -238,7 +238,7 @@ export const storyService = {
       throw new Error('Authentication required. Please login first.');
     }
 
-    const response = await fetch('http://localhost:8111/api/messages', {
+    const response = await fetch('https://writer-home-backend.vercel.app/api/messages', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -264,7 +264,7 @@ export const storyService = {
       throw new Error('Authentication required. Please login first.');
     }
 
-    const response = await fetch('http://localhost:8111/api/users', {
+    const response = await fetch('https://writer-home-backend.vercel.app/api/users', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -289,7 +289,7 @@ export const storyService = {
       throw new Error('Authentication required. Please login first.');
     }
 
-    const response = await fetch(`http://localhost:8111/api/users/${userId}`, {
+    const response = await fetch(`https://writer-home-backend.vercel.app/api/users/${userId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -307,7 +307,7 @@ export const storyService = {
 
   // Add a guest reply to a message
   async addGuestReply(replyData: CreateGuestReplyRequest): Promise<{ message: string; data: Message }> {
-    const response = await fetch('http://localhost:8111/api/messages/guest-reply', {
+    const response = await fetch('https://writer-home-backend.vercel.app/api/messages/guest-reply', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -338,7 +338,7 @@ export const storyService = {
       throw new Error('Authentication required. Please login first.');
     }
 
-    const response = await fetch(`http://localhost:8111/api/messages/${messageId}/guest-reply/${replyIndex}`, {
+    const response = await fetch(`https://writer-home-backend.vercel.app/api/messages/${messageId}/guest-reply/${replyIndex}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -363,7 +363,7 @@ export const storyService = {
       throw new Error('Authentication required. Please login first.');
     }
 
-    const response = await fetch(`http://localhost:8111/api/messages/${messageId}/guest-reply/${replyIndex}/nested/${nestedReplyIndex}`, {
+    const response = await fetch(`https://writer-home-backend.vercel.app/api/messages/${messageId}/guest-reply/${replyIndex}/nested/${nestedReplyIndex}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

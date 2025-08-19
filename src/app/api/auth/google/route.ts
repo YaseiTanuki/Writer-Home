@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Call backend API
-    const backendResponse = await fetch('http://localhost:8111/api/auth/google', {
+    const backendResponse = await fetch('https://writer-home-backend.vercel.app/api/auth/google', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

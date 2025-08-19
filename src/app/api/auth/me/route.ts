@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Call backend API
-    const backendResponse = await fetch('http://localhost:8111/api/auth/me', {
+    const backendResponse = await fetch('https://writer-home-backend.vercel.app/api/auth/me', {
       method: 'GET',
       headers: {
         'Authorization': authHeader,

@@ -14,7 +14,7 @@ export interface LoginCredentials {
   password: string;
 }
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8111';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://writer-home-backend.vercel.app';
 
 export class AuthService {
   private static getStoredTokens(): AuthTokens | null {

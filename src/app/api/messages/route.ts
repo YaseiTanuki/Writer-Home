@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const BACKEND_URL = 'http://localhost:8111';
+const BACKEND_URL = 'https://writer-home-backend.vercel.app';
 
 export async function GET(request: NextRequest) {
   try {
