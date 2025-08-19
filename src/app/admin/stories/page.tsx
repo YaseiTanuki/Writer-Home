@@ -101,7 +101,7 @@ export default function AdminStories() {
       <div className="min-h-screen bg-[#121212]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:8 py-12">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#FF4081] mx-auto"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#00E5FF] mx-auto"></div>
             <p className="mt-4 text-[#B0BEC5] text-sm">Đang tải...</p>
           </div>
         </div>
@@ -121,30 +121,30 @@ export default function AdminStories() {
             <div className="flex items-center gap-3 sm:gap-4">
               <Link
                 href="/admin"
-                className="p-1.5 sm:p-2 rounded-md bg-[#1E1E1E] hover:bg-[#2A2A2A] transition-all duration-200 backdrop-blur-sm border-2 border-[#FF4081]/30 hover:border-[#FF4081]/50"
+                className="p-1.5 sm:p-2 rounded-md bg-[#1E1E1E] hover:bg-[#2A2A2A] transition-all duration-200 backdrop-blur-sm border-2 border-[#D2691E]/30 hover:border-[#D2691E]/50"
               >
-                <ArrowLeft size={16} className="text-[#FF4081]" />
+                <ArrowLeft size={16} className="text-[#00E5FF]" />
               </Link>
               <div>
                 <div className="relative mb-2">
                   <h1 className="text-lg sm:text-xl font-bold text-[#FFFFFF] flex items-center gap-2 sm:gap-3">
-                    <BookOpen size={20} className="text-[#FF4081]" />
+                    <BookOpen size={20} className="text-[#00E5FF]" />
                     <span className="hidden sm:inline">Quản Lý Truyện</span>
                     <span className="sm:hidden">Truyện</span>
                   </h1>
-                  <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-[#FFEB3B] rounded-full animate-pulse"></div>
+                  <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-[#D2691E] rounded-full animate-pulse"></div>
                 </div>
                 <div className="text-xs sm:text-sm text-[#B0BEC5] mt-1">
-                  <span className="inline-flex items-center gap-1">
-                    <div className="w-1 h-1 bg-[#FF4081] rounded-full"></div>
-                    Tổng cộng {stories.length} truyện
-                  </span>
+                                      <span className="inline-flex items-center gap-1">
+                      <div className="w-1 h-1 bg-[#00E5FF] rounded-full"></div>
+                      Tổng cộng {stories.length} truyện
+                    </span>
                 </div>
               </div>
             </div>
             <Link
               href="/admin/new-story"
-              className="bg-[#FF4081] hover:bg-[#FF4081]/92 text-white px-3 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-all duration-300 text-xs sm:text-sm flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto justify-center shadow-md hover:shadow-lg hover:scale-105"
+              className="bg-[#00E5FF] hover:bg-[#00E5FF]/90 text-[#1E1E1E] px-3 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-all duration-300 text-xs sm:text-sm flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto justify-center shadow-md hover:shadow-lg hover:scale-105"
             >
               <Plus size={16} className="sm:w-[18px]" />
               <span className="hidden sm:inline">Tạo Truyện Mới</span>
@@ -156,7 +156,7 @@ export default function AdminStories() {
         {/* Stories List - Mobile Optimized */}
         <div className="space-y-3 sm:space-y-4">
           {stories.map((story, index) => {
-            const neonColors = ['#FF4081', '#B39DDB', '#00E5FF', '#1DE9B6', '#FFEB3B'];
+            const neonColors = ['#D2691E', '#D2691E', '#D2691E', '#D2691E', '#D2691E'];
             const currentNeonColor = neonColors[index % neonColors.length];
             
             return (
@@ -200,13 +200,13 @@ export default function AdminStories() {
                       {/* Status Badge */}
                       <div className="flex-shrink-0">
                         {story.status === 'public' ? (
-                          <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full bg-[#1DE9B6]/20 text-[#1DE9B6] border-2 border-[#1DE9B6]/50 whitespace-nowrap">
+                          <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full bg-[#F4A460]/20 text-[#F4A460] border-2 border-[#F4A460]/50 whitespace-nowrap">
                             <CheckCircle size={12} className="sm:w-3" />
                             <span className="hidden sm:inline">Đã xuất bản</span>
                             <span className="sm:hidden">XB</span>
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full bg-[#FFEB3B]/20 text-[#FFEB3B] border-2 border-[#FFEB3B]/50 whitespace-nowrap">
+                          <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full bg-[#F4A460]/20 text-[#F4A460] border-2 border-[#F4A460]/50 whitespace-nowrap">
                             <AlertTriangle size={12} className="sm:w-3" />
                             <span className="hidden sm:inline">Bản thảo</span>
                             <span className="sm:hidden">BT</span>
@@ -243,7 +243,7 @@ export default function AdminStories() {
                     <div className="flex items-center gap-2 sm:gap-3 mt-3 sm:mt-4">
                       <Link
                         href={`/admin/stories/${story._id}/edit`}
-                        className="inline-flex items-center justify-center gap-1 px-3 py-2 border-2 border-[#B39DDB] text-xs sm:text-sm font-medium rounded-lg text-[#B39DDB] bg-[#1E1E1E] hover:bg-[#B39DDB]/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#B39DDB] transition-colors duration-200"
+                        className="inline-flex items-center justify-center gap-1 px-3 py-2 border-2 border-[#00E5FF] text-xs sm:text-sm font-medium rounded-lg text-[#00E5FF] bg-[#1E1E1E] hover:bg-[#00E5FF]/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#00E5FF] transition-colors duration-200"
                       >
                         <Edit3 size={14} className="sm:w-4" />
                         <span className="hidden sm:inline">Sửa</span>
@@ -251,7 +251,7 @@ export default function AdminStories() {
                       </Link>
                       <button
                         onClick={() => handleDeleteStory(story._id, story.title)}
-                        className="inline-flex items-center justify-center gap-1 px-3 py-2 border-2 border-[#FF4081] text-xs sm:text-sm font-medium rounded-lg text-[#FF4081] bg-[#1E1E1E] hover:bg-[#FF4081]/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FF4081] transition-colors duration-200"
+                        className="inline-flex items-center justify-center gap-1 px-3 py-2 border-2 border-[#00E5FF] text-xs sm:text-sm font-medium rounded-lg text-[#00E5FF] bg-[#1E1E1E] hover:bg-[#00E5FF]/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#00E5FF] transition-colors duration-200"
                       >
                         <Trash2 size={14} className="sm:w-4" />
                         <span className="hidden sm:inline">Xóa</span>
@@ -268,13 +268,13 @@ export default function AdminStories() {
         {/* Empty State */}
         {stories.length === 0 && !isLoadingData && (
           <div className="text-center py-12">
-            <div className="bg-[#1E1E1E] rounded-2xl border-2 border-[#FF4081] p-8 max-w-md mx-auto shadow-[0_0_8px_#FF4081]">
-              <BookOpen size={48} className="mx-auto text-[#FF4081] mb-4" />
+            <div className="bg-[#1E1E1E] rounded-2xl border-2 border-[#D2691E] p-8 max-w-md mx-auto shadow-[0_0_8px_#D2691E]">
+              <BookOpen size={48} className="mx-auto text-[#00E5FF] mb-4" />
               <h3 className="text-lg font-medium text-[#FFFFFF] mb-2">Chưa có truyện nào</h3>
               <p className="text-sm text-[#B0BEC5] mb-6">Bắt đầu tạo truyện đầu tiên của bạn</p>
               <Link
                 href="/admin/new-story"
-                className="bg-[#FF4081] hover:bg-[#FF4081]/92 text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg"
+                className="bg-[#00E5FF] hover:bg-[#00E5FF]/90 text-[#1E1E1E] px-6 py-3 rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg"
               >
                 Tạo Truyện Mới
               </Link>
@@ -287,30 +287,30 @@ export default function AdminStories() {
       {deleteConfirm && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm overflow-y-auto h-full w-full flex items-center justify-center z-50 p-4">
           <div className="relative p-4 sm:p-8 border w-full max-w-md max-h-full">
-            <div className="relative bg-[#1E1E1E] rounded-2xl shadow-lg border-2 border-[#FF4081] shadow-[0_0_8px_#FF4081]">
+            <div className="relative bg-[#1E1E1E] rounded-2xl shadow-lg border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E]">
               <div className="p-4 sm:p-6 text-center">
-                <svg className="mx-auto mb-4 text-[#FF4081] w-10 h-10 sm:w-12 sm:h-12" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                                  <svg className="mx-auto mb-4 text-[#00E5FF] w-10 h-10 sm:w-12 sm:h-12" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 5v10a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3h.08a3 3 0 0 0 2.92 2h2.08a3 3 0 0 0 2.92-2H15a3 3 0 0 1 3 3Z" />
                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 11V6a3 3 0 1 1 6 0v5a3 3 0 1 1-6 0Z" />
                 </svg>
                 <h3 className="mb-3 sm:mb-5 text-base sm:text-lg font-normal text-[#FFFFFF]">
                   Bạn có chắc chắn muốn xóa "{deleteConfirm.title}" không?
                 </h3>
-                <p className="mb-3 sm:mb-4 text-xs sm:text-sm text-[#FF4081] bg-[#FF4081]/10 p-2 sm:p-3 rounded-lg border-2 border-[#FF4081]/30">
+                <p className="mb-3 sm:mb-4 text-xs sm:text-sm text-[#00E5FF] bg-[#00E5FF]/10 p-2 sm:p-3 rounded-lg border-2 border-[#00E5FF]/30">
                   <AlertTriangle size={14} className="inline mr-1 sm:mr-2" />
                   <strong>Lưu ý:</strong> Khi xóa truyện này, tất cả các chương liên quan cũng sẽ bị xóa vĩnh viễn!
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-4">
                   <button
                     onClick={confirmDelete}
-                    className="text-white bg-[#FF4081] hover:bg-[#FF4081]/90 focus:ring-4 focus:outline-none focus:ring-[#FF4081]/50 font-medium rounded-lg text-xs sm:text-sm px-4 sm:px-5 py-2 sm:py-2.5 text-center shadow-md hover:shadow-lg"
+                    className="text-[#1E1E1E] bg-[#00E5FF] hover:bg-[#00E5FF]/90 focus:ring-4 focus:outline-none focus:ring-[#00E5FF]/50 font-medium rounded-lg text-xs sm:text-sm px-4 sm:px-5 py-2 sm:py-2.5 text-center shadow-md hover:shadow-lg"
                     disabled={isDeleting === deleteConfirm.id}
                   >
                     {isDeleting === deleteConfirm.id ? 'Đang xóa...' : 'Xóa'}
                   </button>
                   <button
                     onClick={cancelDelete}
-                    className="text-[#B0BEC5] bg-[#1E1E1E] hover:bg-[#2A2A2A] focus:ring-4 focus:outline-none focus:ring-[#B39DDB]/50 font-medium rounded-lg text-xs sm:text-sm px-4 sm:px-5 py-2 sm:py-2.5 text-center border-2 border-[#B39DDB]/50 hover:border-[#B39DDB] transition-all duration-200"
+                    className="text-[#B0BEC5] bg-[#1E1E1E] hover:bg-[#2A2A2A] focus:ring-4 focus:outline-none focus:ring-[#00E5FF]/50 font-medium rounded-lg text-xs sm:text-sm px-4 sm:px-5 py-2 sm:py-2.5 text-center border-2 border-[#00E5FF]/50 hover:border-[#00E5FF] transition-all duration-200"
                   >
                     Hủy
                   </button>
@@ -326,15 +326,15 @@ export default function AdminStories() {
         <div className="fixed top-16 sm:top-20 left-2 right-2 sm:left-4 sm:right-4 z-50 max-w-sm mx-auto sm:mx-0">
           <div className={`rounded-2xl shadow-lg p-3 sm:p-4 border-2 ${
             notification.type === 'success' 
-              ? 'bg-[#1DE9B6]/10 border-[#1DE9B6] text-[#1DE9B6]' 
-              : 'bg-[#FF4081]/10 border-[#FF4081] text-[#FF4081]'
+              ? 'bg-[#F4A460]/10 border-[#F4A460] text-[#F4A460]' 
+              : 'bg-[#00E5FF]/10 border-[#00E5FF] text-[#00E5FF]'
           }`}>
             <div className="flex items-start">
               <div className="flex-shrink-0">
                 {notification.type === 'success' ? (
-                  <CheckCircle size={18} className="text-[#1DE9B6] sm:w-5" />
+                  <CheckCircle size={18} className="text-[#F4A460] sm:w-5" />
                 ) : (
-                  <AlertTriangle size={18} className="text-[#FF4081] sm:w-5" />
+                  <AlertTriangle size={18} className="text-[#00E5FF] sm:w-5" />
                 )}
               </div>
               <div className="ml-2 sm:ml-3 flex-1">
@@ -345,9 +345,9 @@ export default function AdminStories() {
                   onClick={() => setNotification(null)}
                   className={`inline-flex rounded-md p-1 sm:p-1.5 ${
                     notification.type === 'success' 
-                      ? 'text-[#1DE9B6] hover:bg-[#1DE9B6]/10' 
-                      : 'text-[#FF4081] hover:bg-[#FF4081]/10'
-                  } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#121212] focus:ring-[#FF4081] transition-all duration-200`}
+                                        ? 'text-[#F4A460] hover:bg-[#F4A460]/10' 
+                  : 'text-[#00E5FF] hover:bg-[#00E5FF]/10'
+                  } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#121212] focus:ring-[#00E5FF] transition-all duration-200`}
                 >
                   <span className="sr-only">Đóng</span>
                   <svg className="h-3 w-3 sm:h-4 sm:w-4" fill="currentColor" viewBox="0 0 20 20">

@@ -211,14 +211,14 @@ export default function Home() {
   };
 
   const noteColors = [
-    'from-yellow-400 to-orange-400',
-    'from-pink-400 to-rose-400',
-    'from-pink-400 to-rose-400',
-    'from-green-400 to-emerald-400',
-    'from-rose-400 to-pink-400',
-    'from-pink-400 to-rose-400',
-    'from-red-400 to-pink-400',
-    'from-teal-400 to-green-400'
+    'from-[#D2691E] to-[#C97C4B]',
+    'from-[#D2691E] to-[#F4A460]',
+    'from-[#D2691E] to-[#E9967A]',
+    'from-[#C97C4B] to-[#D2691E]',
+    'from-[#F4A460] to-[#D2691E]',
+    'from-[#E9967A] to-[#D2691E]',
+    'from-[#D2691E] to-[#C97C4B]',
+    'from-[#C97C4B] to-[#F4A460]'
   ];
 
   const noteIcons = [Heart, Star, Sparkles, Quote, MessageSquare];
@@ -312,7 +312,7 @@ export default function Home() {
 
   const renderMessage = (message: Message, index: number) => {
     const IconComponent = noteIcons[index % noteIcons.length];
-    const neonColors = ['#FF4081', '#B39DDB', '#00E5FF', '#1DE9B6', '#FFEB3B'];
+    const neonColors = ['#D2691E', '#D2691E', '#D2691E', '#D2691E', '#D2691E'];
     const currentNeonColor = neonColors[index % neonColors.length];
     const rotation = getRandomRotation();
     const delay = getRandomDelay(index);
@@ -334,7 +334,7 @@ export default function Home() {
     >
         <div className="bg-[#1E1E1E] p-3 sm:p-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 relative h-[160px] sm:h-[140px] flex flex-col border-2 overflow-hidden" style={{ borderColor: currentNeonColor, boxShadow: `0 0 8px ${currentNeonColor}` }}>
           {/* Note pin effect */}
-          <div className="absolute -top-1.5 left-1/2 transform -translate-x-1/2 w-2.5 h-2.5 sm:w-2.5 sm:h-2.5 bg-[#FF4081] rounded-full shadow-md border-2 border-white/20"></div>
+          <div className="absolute -top-1.5 left-1/2 transform -translate-x-1/2 w-2.5 h-2.5 sm:w-2.5 sm:h-2.5 bg-[#D2691E] rounded-full shadow-md border-2 border-white/20"></div>
           
           {/* Sender name - small and in corner */}
           <div className="absolute top-2 left-2 text-[#FFFFFF]/90 text-xs sm:text-xs font-medium bg-[#2A2A2A]/80 px-2 py-1 rounded-full backdrop-blur-sm border-2 border-white/20 max-w-[100px] truncate">
@@ -374,7 +374,7 @@ export default function Home() {
             <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-[#FFFFFF] mb-3 leading-tight">
               Chào mừng đến với Góc Truyện của Tôi
             </h1>
-            <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-[#FFEB3B] rounded-full animate-pulse"></div>
+            <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-[#D2691E] rounded-full animate-pulse"></div>
           </div>
           <p className="text-xs sm:text-sm text-[#B0BEC5] mb-6 px-3 sm:px-0">
             Nơi lưu trữ những câu chuyện, suy nghĩ và sáng tác văn học của tôi
@@ -382,7 +382,7 @@ export default function Home() {
           <div className="flex justify-center px-3 sm:px-0">
             <Link 
               href="/stories" 
-              className="w-full sm:w-auto bg-[#FF4081] hover:bg-[#FF4081]/92 text-white px-6 py-3 rounded-lg text-xs sm:text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:scale-102 flex items-center justify-center gap-2"
+              className="w-full sm:w-auto bg-[#D2691E] hover:bg-[#C97C4B] text-white px-6 py-3 rounded-lg text-xs sm:text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:scale-102 flex items-center justify-center gap-2"
             >
               <BookOpen size={18} />
               Đọc Truyện của Tôi
@@ -393,16 +393,16 @@ export default function Home() {
         {/* Messages Section */}
         <div className="mb-8 px-3 sm:px-0">
           <div className="text-center mb-6">
-            <div className="bg-[#1E1E1E] rounded-2xl p-4 border-2 border-[#FF4081] shadow-[0_0_8px_#FF4081] mb-4">
+            <div className="bg-[#1E1E1E] rounded-2xl p-4 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E] mb-4">
               <h2 className="text-base sm:text-lg font-bold text-[#FFFFFF] mb-3 flex items-center justify-center gap-2">
-                <div className="w-1.5 h-3 bg-[#FF4081] rounded-full"></div>
-                <MessageSquare size={20} className="text-[#FF4081]" />
+                <div className="w-1.5 h-3 bg-[#D2691E] rounded-full"></div>
+                <MessageSquare size={20} className="text-[#D2691E]" />
                 Tin Nhắn từ Độc Giả
               </h2>
               <p className="text-xs text-[#B0BEC5] mb-3">
                 Những lời động viên và góp ý quý báu từ các bạn
               </p>
-              <div className="text-xs text-[#B0BEC5] bg-[#2A2A2A] px-2 py-1 rounded border-2 border-[#FF4081]/30">
+              <div className="text-xs text-[#B0BEC5] bg-[#2A2A2A] px-2 py-1 rounded border-2 border-[#D2691E]/30">
                 <span className="hidden md:inline">Layout: 5 hàng × 4 tin (ngẫu nhiên)</span>
                 <span className="md:hidden">Layout: 3 hàng × 2 tin (ngẫu nhiên)</span>
               </div>
@@ -411,32 +411,32 @@ export default function Home() {
 
           {isLoading ? (
             <div className="text-center py-8">
-              <div className="bg-[#1E1E1E] rounded-2xl p-4 border-2 border-[#FF4081] shadow-[0_0_8px_#FF4081]">
-                <div className="relative w-12 h-12 md:w-16 md:h-16 mx-auto mb-3">
-                  <Image
-                    src="/reading.gif"
-                    alt="Loading messages..."
-                    width={64}
-                    height={64}
-                    className="rounded-md w-full h-full object-cover"
-                  />
-                </div>
-                <p className="text-[#B0BEC5] text-xs">Đang tải tin nhắn...</p>
+                          <div className="bg-[#1E1E1E] rounded-2xl p-4 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E]">
+              <div className="relative w-12 h-12 md:w-16 md:h-16 mx-auto mb-3">
+                <Image
+                  src="/reading.gif"
+                  alt="Loading messages..."
+                  width={64}
+                  height={64}
+                  className="rounded-md w-full h-full object-cover"
+                />
               </div>
+              <p className="text-[#B0BEC5] text-xs">Đang tải tin nhắn...</p>
+            </div>
             </div>
           ) : displayedMessages.length === 0 ? (
             <div className="text-center py-8">
-              <div className="bg-[#1E1E1E] rounded-2xl p-4 border-2 border-[#FF4081] shadow-[0_0_8px_#FF4081]">
-                <MessageSquare size={32} className="text-[#FF4081] mx-auto mb-3" />
-                <p className="text-[#B0BEC5] text-xs">Chưa có tin nhắn nào từ độc giả</p>
-                <p className="text-[#B0BEC5] mt-2 text-xs">Hãy là người đầu tiên để lại tin nhắn!</p>
-                <Link
-                  href="/contact"
-                  className="inline-block mt-3 bg-[#FF4081] hover:bg-[#FF4081]/92 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 text-xs shadow-md hover:shadow-lg"
-                >
-                  Gửi Tin Nhắn
-                </Link>
-              </div>
+                          <div className="bg-[#1E1E1E] rounded-2xl p-4 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E]">
+              <MessageSquare size={32} className="text-[#D2691E] mx-auto mb-3" />
+              <p className="text-[#B0BEC5] text-xs">Chưa có tin nhắn nào từ độc giả</p>
+              <p className="text-[#B0BEC5] mt-2 text-xs">Hãy là người đầu tiên để lại tin nhắn!</p>
+              <Link
+                href="/contact"
+                className="inline-block mt-3 bg-[#D2691E] hover:bg-[#C97C4B] text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 text-xs shadow-md hover:shadow-lg"
+              >
+                Gửi Tin Nhắn
+              </Link>
+            </div>
             </div>
           ) : (
             <>
@@ -445,16 +445,16 @@ export default function Home() {
               {/* Show more messages info if there are more */}
               {messages.length > displayedMessages.length && (
                 <div className="text-center mt-6">
-                  <div className="bg-[#1E1E1E] rounded-2xl p-4 border-2 border-[#1DE9B6] shadow-[0_0_8px_#1DE9B6]">
+                  <div className="bg-[#1E1E1E] rounded-2xl p-4 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E]">
                     <div className="flex items-center justify-center gap-2 mb-3">
-                      <div className="w-1.5 h-1.5 bg-[#1DE9B6] rounded-full animate-pulse"></div>
+                      <div className="w-1.5 h-1.5 bg-[#D2691E] rounded-full animate-pulse"></div>
                       <p className="text-[#B0BEC5] text-xs">
                         Còn {messages.length - displayedMessages.length} tin nhắn khác
                       </p>
                     </div>
                     <Link
                       href="/contact"
-                      className="inline-flex items-center gap-2 bg-[#FF4081] hover:bg-[#FF4081]/92 text-white px-4 py-2 rounded-lg text-xs font-medium transition-all duration-200 shadow-md hover:shadow-lg"
+                      className="inline-flex items-center gap-2 bg-[#D2691E] hover:bg-[#C97C4B] text-white px-4 py-2 rounded-lg text-xs font-medium transition-all duration-200 shadow-md hover:shadow-lg"
                     >
                       <MessageSquare size={14} />
                       Gửi Tin Nhắn Mới
@@ -468,9 +468,9 @@ export default function Home() {
 
         {/* Call to Action */}
         <div className="text-center">
-          <div className="bg-[#1E1E1E] rounded-2xl p-4 sm:p-6 border-2 border-[#FF4081] shadow-[0_0_8px_#FF4081]">
+          <div className="bg-[#1E1E1E] rounded-2xl p-4 sm:p-6 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E]">
             <div className="flex items-center justify-center gap-2 mb-3">
-              <div className="w-2 h-2 bg-[#FF4081] rounded-full animate-pulse"></div>
+              <div className="w-2 h-2 bg-[#D2691E] rounded-full animate-pulse"></div>
               <h3 className="text-base sm:text-lg font-bold text-[#FFFFFF]">
                 Bạn có muốn để lại tin nhắn không?
               </h3>
@@ -480,7 +480,7 @@ export default function Home() {
             </p>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 bg-[#FF4081] hover:bg-[#FF4081]/92 text-white px-6 py-2.5 rounded-lg font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:scale-102 text-xs"
+              className="inline-flex items-center gap-2 bg-[#D2691E] hover:bg-[#C97C4B] text-white px-6 py-2.5 rounded-lg font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:scale-102 text-xs"
             >
               <MessageSquare size={16} />
               Gửi Tin Nhắn Ngay
@@ -492,9 +492,9 @@ export default function Home() {
       {/* Message Popup/Dialog */}
       {showPopup && selectedMessage && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-3">
-          <div className="bg-[#1E1E1E] rounded-2xl shadow-2xl max-w-md w-full max-h-[80vh] overflow-hidden border-2 border-[#FF4081] shadow-[0_0_8px_#FF4081]">
+          <div className="bg-[#1E1E1E] rounded-2xl shadow-2xl max-w-md w-full max-h-[80vh] overflow-hidden border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E]">
             {/* Header */}
-            <div className="bg-[#FF4081] p-3 text-white">
+            <div className="bg-[#D2691E] p-3 text-white">
               <div className="flex items-center justify-between">
                 <h3 className="text-xs font-semibold flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
@@ -513,7 +513,7 @@ export default function Home() {
             {/* Content */}
             <div className="p-4">
               <div className="mb-4">
-                <div className="bg-[#2A2A2A] rounded-lg p-3 border-2 border-[#FF4081]/30">
+                <div className="bg-[#2A2A2A] rounded-lg p-3 border-2 border-[#D2691E]/30">
                   <p className="text-[#FFFFFF] leading-relaxed text-xs">
                     {selectedMessage.content}
                   </p>
@@ -522,12 +522,12 @@ export default function Home() {
               
               {/* Admin Reply */}
               {selectedMessage.reply && (
-                <div className="mb-4 p-3 bg-[#1DE9B6]/10 border-2 border-[#1DE9B6]/30 rounded-lg">
+                <div className="mb-4 p-3 bg-[#F4A460]/10 border-2 border-[#F4A460]/30 rounded-lg">
                   <div className="flex items-center gap-2 mb-2">
-                    <div className="w-1.5 h-1.5 bg-[#1DE9B6] rounded-full"></div>
-                    <span className="text-xs font-medium text-[#1DE9B6]">Trả lời của Admin</span>
+                    <div className="w-1.5 h-1.5 bg-[#F4A460] rounded-full"></div>
+                    <span className="text-xs font-medium text-[#F4A460]">Trả lời của Admin</span>
                   </div>
-                  <p className="text-[#1DE9B6] leading-relaxed text-xs">
+                  <p className="text-[#F4A460] leading-relaxed text-xs">
                     {selectedMessage.reply}
                   </p>
                 </div>
@@ -537,20 +537,20 @@ export default function Home() {
               {selectedMessage.guestReplies && selectedMessage.guestReplies.length > 0 && (
                 <div className="mb-4">
                   <h4 className="text-xs font-medium text-[#B0BEC5] mb-2 flex items-center gap-2">
-                    <div className="w-1 h-1 bg-[#FF4081] rounded-full"></div>
+                    <div className="w-1 h-1 bg-[#D2691E] rounded-full"></div>
                     Câu trả lời của guests ({selectedMessage.guestReplies.length}):
                   </h4>
                   <div className="space-y-2">
                     {selectedMessage.guestReplies.map((reply, index) => (
-                      <div key={reply._id || index} className="p-2 bg-[#FF4081]/10 border-2 border-[#FF4081]/30 rounded-lg">
+                      <div key={reply._id || index} className="p-2 bg-[#D2691E]/10 border-2 border-[#D2691E]/30 rounded-lg">
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="text-xs font-medium text-[#FF4081]">{reply.guestName}</span>
-                          <span className="text-xs text-[#FF4081]/80">({reply.guestEmail})</span>
-                          <span className="text-xs text-[#FF4081]/60">
+                          <span className="text-xs font-medium text-[#D2691E]">{reply.guestName}</span>
+                          <span className="text-xs text-[#D2691E]/80">({reply.guestEmail})</span>
+                          <span className="text-xs text-[#D2691E]/60">
                             {new Date(reply.createdAt).toLocaleDateString('vi-VN')}
                           </span>
                         </div>
-                        <p className="text-xs text-[#FF4081]/90">{reply.content}</p>
+                        <p className="text-xs text-[#D2691E]/90">{reply.content}</p>
                       </div>
                     ))}
                   </div>
@@ -567,30 +567,30 @@ export default function Home() {
                   <p className="text-xs text-[#B0BEC5] mb-3">Bạn cần đăng nhập để có thể trả lời tin nhắn này</p>
                   <Link
                     href="/auth"
-                    className="inline-block px-3 py-2 bg-[#FF4081] hover:bg-[#FF4081]/92 text-white text-xs font-medium rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
+                    className="inline-block px-3 py-2 bg-[#D2691E] hover:bg-[#C97C4B] text-white text-xs font-medium rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
                   >
                     Đăng nhập ngay
                   </Link>
                 </div>
               ) : (
-                <div className="mb-4 p-3 bg-[#FFEB3B]/10 border-2 border-[#FFEB3B]/30 rounded-lg">
+                <div className="mb-4 p-3 bg-[#F4A460]/10 border-2 border-[#F4A460]/30 rounded-lg">
                   <div className="flex items-center gap-2 mb-2">
-                    <div className="w-1.5 h-1.5 bg-[#FFEB3B] rounded-full"></div>
-                    <span className="text-xs font-medium text-[#FFEB3B]">Thêm câu trả lời của bạn</span>
+                    <div className="w-1.5 h-1.5 bg-[#F4A460] rounded-full"></div>
+                    <span className="text-xs font-medium text-[#F4A460]">Thêm câu trả lời của bạn</span>
                   </div>
                   <div className="space-y-2">
                     <textarea
                       value={replyText}
                       onChange={(e) => setReplyText(e.target.value)}
                       placeholder="Nhập nội dung trả lời..."
-                      className="w-full px-3 py-2 bg-[#2A2A2A] border-2 border-[#FFEB3B]/50 rounded-lg text-[#FFFFFF] text-xs placeholder-[#B0BEC5] focus:outline-none focus:ring-2 focus:ring-[#FFEB3B] focus:border-transparent"
+                      className="w-full px-3 py-2 bg-[#2A2A2A] border-2 border-[#F4A460]/50 rounded-lg text-[#FFFFFF] text-xs placeholder-[#B0BEC5] focus:outline-none focus:ring-2 focus:ring-[#F4A460] focus:border-transparent"
                       rows={3}
                     />
                     <div className="flex justify-end">
                       <button
                         onClick={handleSendReply}
                         disabled={!replyText.trim() || isSendingReply}
-                        className="px-3 py-2 bg-[#FFEB3B] hover:bg-[#FFEB3B]/90 disabled:bg-[#2A2A2A] disabled:cursor-not-allowed text-[#1E1E1E] text-xs font-medium rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
+                        className="px-3 py-2 bg-[#F4A460] hover:bg-[#F4A460]/90 disabled:bg-[#2A2A2A] disabled:cursor-not-allowed text-[#1E1E1E] text-xs font-medium rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
                       >
                         {isSendingReply ? 'Đang thêm...' : 'Thêm câu trả lời'}
                       </button>
@@ -600,7 +600,7 @@ export default function Home() {
               )}
               
               {/* Footer */}
-              <div className="flex items-center justify-between text-xs text-[#B0BEC5] border-t-2 border-[#FF4081]/30 pt-3">
+              <div className="flex items-center justify-between text-xs text-[#B0BEC5] border-t-2 border-[#D2691E]/30 pt-3">
                 <span>Ngày gửi: {new Date(selectedMessage.createdAt).toLocaleDateString('vi-VN')}</span>
                 <span>{selectedMessage.content.length}/255 ký tự</span>
               </div>
@@ -610,7 +610,7 @@ export default function Home() {
             <div className="bg-[#2A2A2A] px-4 py-3 flex justify-center">
               <button
                 onClick={closePopup}
-                className="bg-[#2A2A2A] hover:bg-[#1E1E1E] text-[#B0BEC5] py-2 px-6 rounded-lg font-medium transition-all duration-200 text-xs border-2 border-[#FF4081]/30 hover:border-[#FF4081]/50"
+                className="bg-[#2A2A2A] hover:bg-[#1E1E1E] text-[#B0BEC5] py-2 px-6 rounded-lg font-medium transition-all duration-200 text-xs border-2 border-[#D2691E]/30 hover:border-[#D2691E]/50"
               >
                 Đóng
               </button>
@@ -624,19 +624,19 @@ export default function Home() {
         <div className="fixed top-20 left-3 right-3 z-50 max-w-sm mx-auto">
           <div className={`rounded-2xl shadow-lg p-3 border-2 ${
             notification.type === 'success' 
-              ? 'bg-[#1DE9B6]/10 border-[#1DE9B6] text-[#1DE9B6]' 
-              : 'bg-[#FF4081]/10 border-[#FF4081] text-[#FF4081]'
+              ? 'bg-[#F4A460]/10 border-[#F4A460] text-[#F4A460]' 
+              : 'bg-[#D2691E]/10 border-[#D2691E] text-[#D2691E]'
           }`}>
             <div className="flex items-start">
               <div className="flex-shrink-0">
                 {notification.type === 'success' ? (
-                  <div className="w-4 h-4 bg-[#1DE9B6] rounded-full flex items-center justify-center">
+                  <div className="w-4 h-4 bg-[#F4A460] rounded-full flex items-center justify-center">
                     <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                     </svg>
                   </div>
                 ) : (
-                  <div className="w-4 h-4 bg-[#FF4081] rounded-full flex items-center justify-center">
+                  <div className="w-4 h-4 bg-[#D2691E] rounded-full flex items-center justify-center">
                     <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
                     </svg>
@@ -651,9 +651,9 @@ export default function Home() {
                   onClick={() => setNotification(null)}
                   className={`inline-flex rounded-md p-1 ${
                     notification.type === 'success' 
-                      ? 'text-[#1DE9B6] hover:bg-[#1DE9B6]/10' 
-                      : 'text-[#FF4081] hover:bg-[#FF4081]/10'
-                  } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#121212] focus:ring-[#FF4081] transition-all duration-200`}
+                      ? 'text-[#F4A460] hover:bg-[#F4A460]/10' 
+                      : 'text-[#D2691E] hover:bg-[#D2691E]/10'
+                  } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#121212] focus:ring-[#D2691E] transition-all duration-200`}
                 >
                   <span className="sr-only">Đóng</span>
                   <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">

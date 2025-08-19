@@ -66,7 +66,7 @@ export default function MobileBottomNav() {
             href="/"
             className={`flex flex-col items-center justify-center w-16 py-2 transition-all duration-200 ${
               isActive('/') 
-                ? 'text-[#FF4081]' 
+                ? 'text-[#D2691E]' 
                 : 'text-[#B0BEC5] hover:text-[#FFFFFF]'
             }`}
           >
@@ -79,7 +79,7 @@ export default function MobileBottomNav() {
             href="/stories"
             className={`flex flex-col items-center justify-center w-16 py-2 transition-all duration-200 ${
               isActive('/stories') || pathname.startsWith('/stories/')
-                ? 'text-[#FF4081]' 
+                ? 'text-[#D2691E]' 
                 : 'text-[#B0BEC5] hover:text-[#FFFFFF]'
             }`}
           >
@@ -111,7 +111,7 @@ export default function MobileBottomNav() {
             href="/about"
             className={`flex flex-col items-center justify-center w-16 py-2 transition-all duration-200 ${
               isActive('/about')
-                ? 'text-[#FF4081]' 
+                ? 'text-[#D2691E]' 
                 : 'text-[#B0BEC5] hover:text-[#FFFFFF]'
             }`}
           >
@@ -132,7 +132,11 @@ export default function MobileBottomNav() {
             ) : isAdminAuthenticated ? (
               <Link
                 href="/admin"
-                className="flex flex-col items-center justify-center w-full py-2 text-[#B0BEC5] hover:text-[#FFFFFF] transition-all duration-200"
+                className={`flex flex-col items-center justify-center w-full py-2 transition-all duration-200 ${
+                  pathname.startsWith('/admin')
+                    ? 'text-[#D2691E]' 
+                    : 'text-[#B0BEC5] hover:text-[#FFFFFF]'
+                }`}
               >
                 <UserCircle size={20} />
                 <span className="text-xs mt-1 text-center">Quản trị</span>

@@ -12,10 +12,10 @@ export default function AboutPage() {
           <div className="text-center">
             <div className="relative mb-4">
               <h1 className="text-lg sm:text-xl font-bold text-[#FFFFFF] mb-2 leading-tight flex items-center justify-center gap-2">
-                <User size={24} className="text-[#FF4081]" />
+                <User size={24} className="text-[#D2691E]" />
                 Về Tôi
               </h1>
-              <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-[#FFEB3B] rounded-full animate-pulse"></div>
+              <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-[#F4A460] rounded-full animate-pulse"></div>
             </div>
             <p className="text-xs sm:text-sm text-[#B0BEC5]">
               Chia sẻ về con đường viết truyện và sáng tác của mình
@@ -24,16 +24,16 @@ export default function AboutPage() {
         </div>
 
         <div className="prose prose-lg max-w-none">
-          <div className="bg-[#1E1E1E] shadow-lg rounded-2xl p-4 sm:p-6 border-2 border-[#FF4081] shadow-[0_0_8px_#FF4081] backdrop-blur-sm">
+          <div className="bg-[#1E1E1E] shadow-lg rounded-2xl p-4 sm:p-6 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E] backdrop-blur-sm">
             <div className="flex items-center gap-2 sm:gap-3 mb-4">
-              <div className="w-1.5 h-3 bg-[#FF4081] rounded-full"></div>
-              <BookOpen size={20} className="text-[#FF4081]" />
+              <div className="w-1.5 h-3 bg-[#D2691E] rounded-full"></div>
+              <BookOpen size={20} className="text-[#D2691E]" />
               <h2 className="text-base sm:text-lg font-bold text-[#FFFFFF]">Về [Mèo mướp]</h2>
             </div>
             
             <div className="text-[#B0BEC5] space-y-3 text-xs">
               <p>
-                Xin chào, mình là <span className="text-[#FF4081] font-medium">[Mèo mướp]</span>.
+                Xin chào, mình là <span className="text-[#D2691E] font-medium">[Mèo mướp]</span>.
               </p>
               <p>
                 Mình viết truyện như một cách lưu giữ những xúc cảm khó nói thành lời. Ở đây, mỗi con chữ là một nhịp thở, mỗi câu chuyện là một miền mơ nơi trái tim có thể an trú.
@@ -45,8 +45,8 @@ export default function AboutPage() {
                 Với mình, viết là một hành trình. Hành trình ấy có khi dịu dàng như mưa, có khi chênh vênh như gió, nhưng luôn mang theo một niềm tin: câu chuyện chân thành sẽ luôn tìm được người đồng cảm.
               </p>
               
-              <div className="bg-[#2A2A2A] p-3 rounded-lg border-l-4 border-[#FF4081] my-4">
-                <p className="italic text-center text-[#FF4081]">
+              <div className="bg-[#2A2A2A] p-3 rounded-lg border-l-4 border-[#D2691E] my-4">
+                <p className="italic text-center text-[#D2691E]">
                   "Tôi nghe tiếng gió vi vu thầm thì<br/>
                   Rằng rừng sâu có loài mèo say ngủ.<br/>
                   Mèo nằm lặng trong miền phiêu lưu cũ,<br/>
@@ -55,14 +55,14 @@ export default function AboutPage() {
               </div>
               
               <p className="text-center">
-                🌸 <span className="text-[#FF4081]">Cảm ơn bạn đã ghé thăm. Mong những trang chữ nơi đây có thể đồng hành cùng bạn, dù chỉ một đoạn đường ngắn ngủi.</span>
+                🌸 <span className="text-[#D2691E]">Cảm ơn bạn đã ghé thăm. Mong những trang chữ nơi đây có thể đồng hành cùng bạn, dù chỉ một đoạn đường ngắn ngủi.</span>
               </p>
             </div>
 
-            <div className="mt-6 pt-4 border-t-2 border-[#FF4081]/30">
+            <div className="mt-6 pt-4 border-t-2 border-[#D2691E]/30">
               <div className="flex items-center gap-2 sm:gap-3 mb-4">
-                <div className="w-1.5 h-1.5 bg-[#FF4081] rounded-full"></div>
-                <Mail size={18} className="text-[#FF4081]" />
+                <div className="w-1.5 h-1.5 bg-[#D2691E] rounded-full"></div>
+                <Mail size={18} className="text-[#D2691E]" />
                 <h3 className="text-sm font-semibold text-[#FFFFFF]">Liên hệ</h3>
               </div>
               <p className="text-[#B0BEC5] mb-4 text-xs">
@@ -73,7 +73,7 @@ export default function AboutPage() {
               <div className="text-center">
                 <a 
                   href="/contact"
-                  className="inline-flex items-center gap-2 sm:gap-3 bg-[#FF4081] hover:bg-[#FF4081]/92 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:scale-102"
+                  className="inline-flex items-center gap-2 sm:gap-3 bg-[#D2691E] hover:bg-[#C97C4B] text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:scale-102"
                 >
                   <Mail size={16} />
                   Liên hệ với mình

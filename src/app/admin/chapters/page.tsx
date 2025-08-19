@@ -280,7 +280,7 @@ export default function AdminChapters() {
       <div className="min-h-screen bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:8 py-12">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-400 mx-auto"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#00E5FF] mx-auto"></div>
             <p className="mt-4 text-gray-300 text-sm">Đang tải...</p>
           </div>
         </div>
@@ -300,22 +300,22 @@ export default function AdminChapters() {
             <div className="flex items-center gap-2 sm:gap-4">
               <Link
                 href="/admin"
-                className="p-1 sm:p-2 rounded-md bg-gray-800/50 hover:bg-gray-700/50 transition-all duration-200 backdrop-blur-sm border border-gray-700"
+                className="p-1 sm:p-2 rounded-md bg-[#1E1E1E] hover:bg-[#2A2A2A] transition-all duration-200 backdrop-blur-sm border-2 border-[#D2691E]/30 hover:border-[#D2691E]/50"
               >
-                <ArrowLeft size={16} className="text-gray-300 sm:w-[18px]" />
+                <ArrowLeft size={16} className="text-[#00E5FF] sm:w-[18px]" />
               </Link>
               <div>
                 <div className="relative mb-1">
-                  <h1 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-green-400 to-pink-400 bg-clip-text text-transparent">
-                  <FileText size={20} className="text-green-400 sm:w-6" />
+                  <h1 className="text-lg sm:text-xl font-bold text-[#FFFFFF] flex items-center gap-2 sm:gap-3">
+                  <FileText size={20} className="text-[#00E5FF] sm:w-6" />
                   <span className="hidden sm:inline">Quản Lý Chương</span>
                   <span className="sm:hidden">Chương</span>
                 </h1>
-                  <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-yellow-400 rounded-full animate-pulse"></div>
+                  <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-[#D2691E] rounded-full animate-pulse"></div>
                 </div>
                 <div className="text-xs sm:text-sm text-gray-300 mt-0.5 sm:mt-1">
                   <span className="inline-flex items-center gap-1">
-                    <div className="w-1 h-1 bg-green-400 rounded-full"></div>
+                    <div className="w-1 h-1 bg-[#00E5FF] rounded-full"></div>
                     Tổng cộng {chapters.length} chương
                   </span>
                 </div>
@@ -330,7 +330,7 @@ export default function AdminChapters() {
                     setOrphanedChaptersToDelete(orphanedChapters);
                     setShowOrphanedDeleteConfirm(true);
                   }}
-                  className="bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white px-2 sm:px-4 py-1.5 sm:py-3 rounded-md font-medium transition-all duration-300 text-xs sm:text-sm flex items-center gap-1 sm:gap-2 w-full sm:w-auto justify-center shadow-md hover:shadow-lg hover:scale-105"
+                  className="bg-[#00E5FF] hover:bg-[#00E5FF]/90 text-[#1E1E1E] px-2 sm:px-4 py-1.5 sm:py-3 rounded-md font-medium transition-all duration-300 text-xs sm:text-sm flex items-center gap-1 sm:gap-2 w-full sm:w-auto justify-center shadow-md hover:shadow-lg hover:scale-105"
                 >
                   <Trash2 size={14} className="sm:w-4" />
                   <span className="hidden sm:inline">Dọn dẹp chương lỗi</span>
@@ -339,7 +339,7 @@ export default function AdminChapters() {
               )}
               <Link
                 href="/admin/new-chapter"
-                className="bg-gradient-to-r from-green-600 to-pink-600 hover:from-green-700 hover:to-pink-700 text-white px-2 sm:px-6 py-1.5 sm:py-3 rounded-md font-medium transition-all duration-300 text-xs sm:text-sm flex items-center gap-1 sm:gap-2 w-full sm:w-auto justify-center shadow-md hover:shadow-lg hover:scale-105"
+                className="bg-[#00E5FF] hover:bg-[#00E5FF]/90 text-[#1E1E1E] px-2 sm:px-6 py-1.5 sm:py-3 rounded-md font-medium transition-all duration-300 text-xs sm:text-sm flex items-center gap-1 sm:gap-2 w-full sm:w-auto justify-center shadow-md hover:shadow-lg hover:scale-105"
               >
                 <Plus size={14} className="sm:w-4" />
                 <span className="hidden sm:inline">Tạo Chương Mới</span>

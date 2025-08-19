@@ -95,11 +95,11 @@ export default function TiptapEditor({
       <TiptapToolbar editor={editor} />
       <EditorContent 
         editor={editor} 
-        className="min-h-[300px] sm:min-h-[350px] md:min-h-[400px] p-0 sm:p-3 md:p-4 focus:outline-none max-w-none bg-gray-900 text-white"
+        className="min-h-[300px] sm:min-h-[350px] md:min-h-[400px] p-0 sm:p-3 md:p-4 focus:outline-none max-w-none bg-black text-white"
         style={{
           minHeight: '300px',
           padding: '0', // No padding on mobile
-          backgroundColor: '#111827',
+          backgroundColor: '#000000',
           color: '#ffffff',
           fontSize: '12px', // Force mobile font size
         }}
@@ -115,6 +115,31 @@ export default function TiptapEditor({
         .ProseMirror span {
           font-size: 12px !important; /* Force 12px on mobile */
           line-height: 1.25rem !important;
+        }
+        
+        /* Ensure the main editor area has black background */
+        .ProseMirror {
+          background-color: #000000 !important;
+          color: #ffffff !important;
+        }
+        
+        /* Ensure all content inside editor has black background */
+        .ProseMirror p,
+        .ProseMirror div,
+        .ProseMirror span,
+        .ProseMirror h1,
+        .ProseMirror h2,
+        .ProseMirror h3,
+        .ProseMirror h4,
+        .ProseMirror h5,
+        .ProseMirror h6,
+        .ProseMirror ul,
+        .ProseMirror ol,
+        .ProseMirror li,
+        .ProseMirror blockquote,
+        .ProseMirror pre,
+        .ProseMirror code {
+          background-color: #000000 !important;
         }
         
         @media (min-width: 640px) {
@@ -162,7 +187,7 @@ export default function TiptapEditor({
           .ProseMirror h1 * {
             font-size: 18px !important; /* Desktop */
             line-height: 2rem !important;
-            margin-bottom: 1.25rem !important;
+            margin-bottom: 1rem !important;
           }
         }
         
@@ -188,7 +213,7 @@ export default function TiptapEditor({
           .ProseMirror h2 * {
             font-size: 16px !important; /* Desktop */
             line-height: 1.75rem !important;
-            margin-bottom: 1.25rem !important;
+            margin-bottom: 1rem !important;
           }
         }
         
@@ -244,7 +269,7 @@ export default function TiptapEditor({
       `}</style>
       
       {/* Word and Character Count */}
-      <div className="border-t border-gray-800 bg-gray-800 px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 text-xs sm:text-sm text-gray-300 flex justify-between">
+      <div className="border-t border-gray-800 bg-black px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 text-xs sm:text-sm text-gray-300 flex justify-between">
         <span>Từ: {wordCount}</span>
         <span>Ký tự: {charCount}</span>
       </div>

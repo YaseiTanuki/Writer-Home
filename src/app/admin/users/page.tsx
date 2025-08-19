@@ -132,7 +132,7 @@ export default function AdminUsers() {
   const getRoleBadge = (role: string) => {
     if (role === 'admin') {
       return (
-        <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-semibold rounded-full bg-rose-900/20 text-rose-400 border border-rose-700">
+        <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-semibold rounded-full bg-[#00E5FF]/20 text-[#00E5FF] border border-[#00E5FF]/50">
           <Shield size={10} className="mr-1 sm:w-3" />
           <span className="hidden sm:inline">Admin</span>
           <span className="sm:hidden">A</span>
@@ -140,7 +140,7 @@ export default function AdminUsers() {
       );
     }
     return (
-              <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-semibold rounded-full bg-pink-900/20 text-pink-400 border border-pink-700">
+              <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-semibold rounded-full bg-[#F4A460]/20 text-[#F4A460] border border-[#F4A460]/50">
           <User size={10} className="mr-1 sm:w-3" />
           <span className="hidden sm:inline">User</span>
           <span className="sm:hidden">U</span>
@@ -152,21 +152,21 @@ export default function AdminUsers() {
     switch (status) {
       case 'active':
         return (
-          <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-semibold rounded-full bg-green-900/20 text-green-400 border border-green-700">
+          <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-semibold rounded-full bg-[#F4A460]/20 text-[#F4A460] border border-[#F4A460]/50">
             <span className="hidden sm:inline">Hoạt động</span>
             <span className="sm:hidden">OK</span>
           </span>
         );
       case 'inactive':
         return (
-          <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-semibold rounded-full bg-yellow-900/20 text-yellow-400 border border-yellow-700">
+          <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-semibold rounded-full bg-[#E9967A]/20 text-[#E9967A] border border-[#E9967A]/50">
             <span className="hidden sm:inline">Không hoạt động</span>
             <span className="sm:hidden">KO</span>
           </span>
         );
       case 'banned':
         return (
-          <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-semibold rounded-full bg-red-900/20 text-red-400 border border-red-700">
+          <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-semibold rounded-full bg-[#C97C4B]/20 text-[#C97C4B] border border-[#C97C4B]/50">
             <span className="hidden sm:inline">Bị cấm</span>
             <span className="sm:hidden">Cấm</span>
           </span>

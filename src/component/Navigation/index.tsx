@@ -51,7 +51,7 @@ export default function Navigation() {
               href="/" 
               className={`px-2 sm:px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-2 ${
                 isActive('/') 
-                  ? 'text-[#FF4081] bg-[#FF4081]/10 border-2 border-[#FF4081]' 
+                  ? 'text-[#D2691E] bg-[#D2691E]/10 border-2 border-[#D2691E]' 
                   : 'text-[#B0BEC5] hover:text-[#FFFFFF] hover:bg-[#1E1E1E] border-2 border-transparent hover:border-[#FF4081]/30'
               }`}
             >
@@ -62,7 +62,7 @@ export default function Navigation() {
               href="/stories" 
               className={`px-2 sm:px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-2 ${
                 isActive('/stories') || pathname.startsWith('/stories/')
-                  ? 'text-[#FF4081] bg-[#FF4081]/10 border-2 border-[#FF4081]' 
+                  ? 'text-[#D2691E] bg-[#D2691E]/10 border-2 border-[#D2691E]' 
                   : 'text-[#B0BEC5] hover:text-[#FFFFFF] hover:bg-[#1E1E1E] border-2 border-transparent hover:border-[#FF4081]/30'
               }`}
             >
@@ -73,7 +73,7 @@ export default function Navigation() {
               href="/about" 
               className={`px-2 sm:px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-2 ${
                 isActive('/about')
-                  ? 'text-[#FF4081] bg-[#FF4081]/10 border-2 border-[#FF4081]' 
+                  ? 'text-[#D2691E] bg-[#D2691E]/10 border-2 border-[#D2691E]' 
                   : 'text-[#B0BEC5] hover:text-[#FFFFFF] hover:bg-[#1E1E1E] border-2 border-transparent hover:border-[#FF4081]/30'
               }`}
             >
@@ -84,7 +84,7 @@ export default function Navigation() {
               href="/contact" 
               className={`px-2 sm:px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-2 ${
                 isActive('/contact')
-                  ? 'text-[#FF4081] bg-[#FF4081]/10 border-2 border-[#FF4081]' 
+                  ? 'text-[#D2691E] bg-[#D2691E]/10 border-2 border-[#D2691E]' 
                   : 'text-[#B0BEC5] hover:text-[#FFFFFF] hover:bg-[#1E1E1E] border-2 border-transparent hover:border-[#FF4081]/30'
               }`}
             >
@@ -118,7 +118,7 @@ export default function Navigation() {
                     href="/admin" 
                     className={`px-2 sm:px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-2 ${
                       pathname.startsWith('/admin')
-                        ? 'text-[#FF4081] bg-[#FF4081]/10 border-2 border-[#FF4081]' 
+                        ? 'text-[#D2691E] bg-[#D2691E]/10 border-2 border-[#D2691E]' 
                         : 'text-[#B0BEC5] hover:text-[#FFFFFF] hover:bg-[#1E1E1E] border-2 border-transparent hover:border-[#FF4081]/30'
                     }`}
                   >

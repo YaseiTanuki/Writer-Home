@@ -171,7 +171,7 @@ export default function AdminCategories() {
       <div className="min-h-screen bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:8 py-12">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-400 mx-auto"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#00E5FF] mx-auto"></div>
             <p className="mt-4 text-gray-300 text-sm">Đang tải...</p>
           </div>
         </div>
@@ -191,14 +191,14 @@ export default function AdminCategories() {
             <div className="flex items-center gap-3 sm:gap-4">
               <Link
                 href="/admin"
-                className="p-1.5 sm:p-2 rounded-md bg-gray-800/50 hover:bg-gray-700/50 transition-all duration-200 backdrop-blur-sm border border-gray-700"
+                className="p-1.5 sm:p-2 rounded-md bg-[#1E1E1E] hover:bg-[#2A2A2A] transition-all duration-200 backdrop-blur-sm border-2 border-[#D2691E]/30 hover:border-[#D2691E]/50"
               >
-                <ArrowLeft size={16} className="text-gray-300" />
+                <ArrowLeft size={16} className="text-[#00E5FF]" />
               </Link>
               <div>
                 <div className="relative mb-2">
-                  <h1 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-pink-300 to-rose-400 bg-clip-text text-transparent">
-                    <Tag size={20} className="text-pink-300" />
+                  <h1 className="text-lg sm:text-xl font-bold text-[#FFFFFF] flex items-center gap-2 sm:gap-3">
+                                          <Tag size={20} className="text-[#D2691E]" />
                     <span className="hidden sm:inline">Quản Lý Thể Loại</span>
                     <span className="sm:hidden">Thể Loại</span>
                   </h1>

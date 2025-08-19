@@ -129,14 +129,14 @@ export default function AdminMessages() {
   const getStatusBadge = (message: Message) => {
     if (message.reply) {
       return (
-        <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-semibold rounded-full bg-green-900/20 text-green-400 border border-green-700">
+        <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-semibold rounded-full bg-[#F4A460]/20 text-[#F4A460] border border-[#F4A460]/50">
           <span className="hidden sm:inline">Đã trả lời</span>
           <span className="sm:hidden">Đã TL</span>
         </span>
       );
     } else {
       return (
-        <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-semibold rounded-full bg-yellow-900/20 text-yellow-400 border border-yellow-700">
+        <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-semibold rounded-full bg-[#E9967A]/20 text-[#E9967A] border border-[#E9967A]/50">
           <span className="hidden sm:inline">Chưa trả lời</span>
           <span className="sm:hidden">Chưa TL</span>
         </span>
@@ -153,7 +153,7 @@ export default function AdminMessages() {
       <div className="min-h-screen bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:8 py-12">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-400 mx-auto"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#00E5FF] mx-auto"></div>
             <p className="mt-4 text-gray-300 text-sm">Đang tải...</p>
           </div>
         </div>

@@ -185,29 +185,29 @@ export default function ContactPage() {
         <div className="text-center mb-8">
           <div className="relative mb-4">
             <div className="flex items-center justify-center gap-2 sm:gap-3 mb-3">
-              <Mail size={24} className="text-[#FF4081]" />
+                              <Mail size={24} className="text-[#D2691E]" />
               <h1 className="text-lg sm:text-xl font-bold text-[#FFFFFF]">Liên hệ với tôi</h1>
             </div>
-            <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-[#FFEB3B] rounded-full animate-pulse"></div>
+                          <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-[#D2691E] rounded-full animate-pulse"></div>
           </div>
           <p className="text-xs sm:text-sm text-[#B0BEC5]">
             Bạn có góp ý, câu hỏi hoặc muốn chia sẻ cảm nhận về truyện? Hãy để lại tin nhắn cho tôi!
           </p>
         </div>
 
-        <div className="bg-[#1E1E1E] shadow-lg rounded-2xl p-4 sm:p-6 border-2 border-[#FF4081] shadow-[0_0_8px_#FF4081] backdrop-blur-sm">
+                  <div className="bg-[#1E1E1E] shadow-lg rounded-2xl p-4 sm:p-6 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E] backdrop-blur-sm">
           {/* Authentication Required Notice */}
           {!isAuthenticated && (
-            <div className="mb-6 bg-[#FFEB3B]/10 border-2 border-[#FFEB3B]/30 text-[#FFEB3B] px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg flex items-center gap-2 sm:gap-3">
-              <div className="w-1.5 h-1.5 bg-[#FFEB3B] rounded-full"></div>
-              <AlertCircle size={16} className="text-[#FFEB3B]" />
+            <div className="mb-6 bg-[#F4A460]/10 border-2 border-[#F4A460]/30 text-[#F4A460] px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg flex items-center gap-2 sm:gap-3">
+              <div className="w-1.5 h-1.5 bg-[#F4A460] rounded-full"></div>
+              <AlertCircle size={16} className="text-[#F4A460]" />
               <div className="flex-1">
                 <p className="text-xs font-medium">Bạn cần đăng nhập để gửi tin nhắn</p>
-                <p className="text-xs mt-1 text-[#FFEB3B]/80">Tin nhắn sẽ được liên kết với tài khoản của bạn</p>
+                <p className="text-xs mt-1 text-[#F4A460]/80">Tin nhắn sẽ được liên kết với tài khoản của bạn</p>
               </div>
               <button
                 onClick={handleLoginRedirect}
-                className="bg-[#FFEB3B] hover:bg-[#FFEB3B]/90 text-[#1E1E1E] px-3 sm:px-4 py-2 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-2 hover:scale-105 shadow-md hover:shadow-lg"
+                className="bg-[#F4A460] hover:bg-[#F4A460]/90 text-[#1E1E1E] px-3 sm:px-4 py-2 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-2 hover:scale-105 shadow-md hover:shadow-lg"
               >
                 <LogIn size={14} />
                 Đăng Nhập
@@ -217,12 +217,12 @@ export default function ContactPage() {
 
           {/* Daily Limit Notice for Guests */}
           {isGuestAuthenticated && (
-            <div className="mb-6 bg-[#00E5FF]/10 border-2 border-[#00E5FF]/30 text-[#00E5FF] px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg flex items-center gap-2 sm:gap-3">
-              <div className="w-1.5 h-1.5 bg-[#00E5FF] rounded-full"></div>
-              <Clock size={16} className="text-[#00E5FF]" />
+            <div className="mb-6 bg-[#C97C4B]/10 border-2 border-[#C97C4B]/30 text-[#C97C4B] px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg flex items-center gap-2 sm:gap-3">
+              <div className="w-1.5 h-1.5 bg-[#C97C4B] rounded-full"></div>
+              <Clock size={16} className="text-[#C97C4B]" />
               <div>
                 <p className="text-xs font-medium">Giới hạn tin nhắn hàng ngày</p>
-                <p className="text-xs mt-1 text-[#00E5FF]/80">Mỗi tài khoản Google chỉ được gửi tối đa 5 tin nhắn mỗi ngày</p>
+                <p className="text-xs mt-1 text-[#C97C4B]/80">Mỗi tài khoản Google chỉ được gửi tối đa 5 tin nhắn mỗi ngày</p>
               </div>
             </div>
           )}
@@ -231,14 +231,14 @@ export default function ContactPage() {
           {isAuthenticated && messageLimitInfo && (
             <div className={`mb-6 border-2 rounded-lg px-3 sm:px-4 py-2.5 sm:py-3 flex items-center gap-2 sm:gap-3 ${
               canSendMessage 
-                ? 'bg-[#1DE9B6]/10 border-[#1DE9B6]/30 text-[#1DE9B6]' 
-                : 'bg-[#FF4081]/10 border-[#FF4081]/30 text-[#FF4081]'
+                ? 'bg-[#F4A460]/10 border-[#F4A460]/30 text-[#F4A460]' 
+                : 'bg-[#D2691E]/10 border-[#D2691E]/30 text-[#D2691E]'
             }`}>
-              <div className={`w-1.5 h-1.5 rounded-full ${canSendMessage ? 'bg-[#1DE9B6]' : 'bg-[#FF4081]'}`}></div>
+              <div className={`w-1.5 h-1.5 rounded-full ${canSendMessage ? 'bg-[#F4A460]' : 'bg-[#D2691E]'}`}></div>
               {canSendMessage ? (
-                <CheckCircle size={16} className="text-[#1DE9B6]" />
+                <CheckCircle size={16} className="text-[#F4A460]" />
               ) : (
-                <XCircle size={16} className="text-[#FF4081]" />
+                <XCircle size={16} className="text-[#D2691E]" />
               )}
               <div>
                 <p className="text-xs font-medium">
@@ -256,8 +256,8 @@ export default function ContactPage() {
 
           {/* Loading indicator for message limit check */}
           {isCheckingLimit && (
-            <div className="mb-6 bg-[#00E5FF]/10 border-2 border-[#00E5FF]/30 text-[#00E5FF] px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg flex items-center gap-2 sm:gap-3">
-              <div className="w-1.5 h-1.5 bg-[#00E5FF] rounded-full animate-pulse"></div>
+            <div className="mb-6 bg-[#C97C4B]/10 border-2 border-[#C97C4B]/30 text-[#C97C4B] px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg flex items-center gap-2 sm:gap-3">
+              <div className="w-1.5 h-1.5 bg-[#C97C4B] rounded-full animate-pulse"></div>
               <div className="relative w-4 h-4 md:w-5 md:h-5">
                 <Image
                   src="/reading.gif"
@@ -269,29 +269,29 @@ export default function ContactPage() {
               </div>
               <div>
                 <p className="text-xs font-medium">Đang kiểm tra giới hạn tin nhắn...</p>
-                <p className="text-xs mt-1 text-[#00E5FF]/80">Vui lòng chờ một chút</p>
+                <p className="text-xs mt-1 text-[#C97C4B]/80">Vui lòng chờ một chút</p>
               </div>
             </div>
           )}
 
           {submitStatus === 'success' && (
-            <div className="mb-6 bg-[#1DE9B6]/10 border-2 border-[#1DE9B6]/30 text-[#1DE9B6] px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg flex items-center gap-2 sm:gap-3">
-              <div className="w-1.5 h-1.5 bg-[#1DE9B6] rounded-full"></div>
-              <CheckCircle size={16} className="text-[#1DE9B6]" />
+            <div className="mb-6 bg-[#F4A460]/10 border-2 border-[#F4A460]/30 text-[#F4A460] px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg flex items-center gap-2 sm:gap-3">
+              <div className="w-1.5 h-1.5 bg-[#F4A460] rounded-full"></div>
+              <CheckCircle size={16} className="text-[#F4A460]" />
               <div>
                 <p className="text-xs font-medium">Tin nhắn đã được gửi thành công!</p>
-                <p className="text-xs mt-1 text-[#1DE9B6]/80">Cảm ơn bạn đã liên hệ. Tôi sẽ phản hồi sớm nhất có thể.</p>
+                <p className="text-xs mt-1 text-[#F4A460]/80">Cảm ơn bạn đã liên hệ. Tôi sẽ phản hồi sớm nhất có thể.</p>
               </div>
             </div>
           )}
 
           {submitStatus === 'error' && (
-            <div className="mb-6 bg-[#FF4081]/10 border-2 border-[#FF4081]/30 text-[#FF4081] px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg flex items-center gap-2 sm:gap-3">
-              <div className="w-1.5 h-1.5 bg-[#FF4081] rounded-full"></div>
-              <AlertCircle size={16} className="text-[#FF4081]" />
+            <div className="mb-6 bg-[#D2691E]/10 border-2 border-[#D2691E]/30 text-[#D2691E] px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg flex items-center gap-2 sm:gap-3">
+              <div className="w-1.5 h-1.5 bg-[#D2691E] rounded-full"></div>
+              <AlertCircle size={16} className="text-[#D2691E]" />
               <div>
                 <p className="text-xs font-medium">Không thể gửi tin nhắn</p>
-                <p className="text-xs mt-1 text-[#FF4081]/80">{errorMessage}</p>
+                <p className="text-xs mt-1 text-[#D2691E]/80">{errorMessage}</p>
               </div>
             </div>
           )}
@@ -301,7 +301,7 @@ export default function ContactPage() {
               <label htmlFor="name" className="block text-xs font-medium text-[#B0BEC5] mb-2 flex items-center gap-2">
                 <div className="w-1 h-1 bg-[#00E5FF] rounded-full"></div>
                 <User size={14} />
-                Tên của bạn <span className="text-[#FF4081]">*</span>
+                Tên của bạn <span className="text-[#00E5FF]">*</span>
               </label>
               <input
                 type="text"
@@ -322,7 +322,7 @@ export default function ContactPage() {
                 <label htmlFor="email" className="block text-xs font-medium text-[#B0BEC5] mb-2 flex items-center gap-2">
                   <div className="w-1 h-1 bg-[#00E5FF] rounded-full"></div>
                   <Mail size={14} />
-                  Email <span className="text-[#FF4081]">*</span>
+                  Email <span className="text-[#00E5FF]">*</span>
                 </label>
                 <input
                   type="email"
@@ -354,7 +354,7 @@ export default function ContactPage() {
               <label htmlFor="content" className="block text-xs font-medium text-[#B0BEC5] mb-2 flex items-center gap-2">
                 <div className="w-1 h-1 bg-[#00E5FF] rounded-full"></div>
                 <MessageSquare size={14} />
-                Nội dung tin nhắn <span className="text-[#FF4081]">*</span>
+                Nội dung tin nhắn <span className="text-[#00E5FF]">*</span>
               </label>
               <textarea
                 id="content"
@@ -372,7 +372,7 @@ export default function ContactPage() {
                 <span className="text-xs text-[#B0BEC5]">
                   Tin nhắn sẽ được hiển thị trên trang chủ
                 </span>
-                <span className={`text-xs ${formData.content.length >= 255 ? 'text-[#FF4081]' : 'text-[#B0BEC5]'}`}>
+                <span className={`text-xs ${formData.content.length >= 255 ? 'text-[#00E5FF]' : 'text-[#B0BEC5]'}`}>
                   {formData.content.length}/255 ký tự
                 </span>
               </div>
@@ -422,7 +422,7 @@ export default function ContactPage() {
             </div>
           </form>
 
-          <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t-2 border-[#FF4081]/30">
+          <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t-2 border-[#00E5FF]/30">
             <div className="flex items-center gap-2 sm:gap-3 mb-3">
               <div className="w-1.5 h-1.5 bg-[#00E5FF] rounded-full"></div>
               <Info size={18} className="text-[#00E5FF]" />
