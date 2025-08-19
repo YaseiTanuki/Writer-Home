@@ -110,14 +110,15 @@ export default function CategorySelector({
   return (
     <div className={`${className}`}>
       <div className="mb-3">
-        <label className="block text-sm font-medium text-gray-300 mb-2">
-          Thể loại * ({selectedCategories.length} đã chọn)
+        <label className="block text-sm font-medium text-[#B0BEC5] mb-2 flex items-center gap-2">
+          <div className="w-1 h-1 bg-[#00E5FF] rounded-full"></div>
+          Thể loại <span className="text-[#00E5FF]">*</span> ({selectedCategories.length} đã chọn)
         </label>
         
         {/* Selected Categories Display */}
         {selectedCategories.length > 0 && (
-          <div className="mb-3 p-3 bg-pink-900/20 border border-pink-700 rounded-md">
-            <div className="text-xs sm:text-sm text-pink-400 mb-2">
+          <div className="mb-3 p-3 bg-[#00E5FF]/10 border-2 border-[#00E5FF]/30 rounded-lg">
+            <div className="text-xs sm:text-sm text-[#00E5FF] mb-2">
               Thể loại đã chọn:
             </div>
             <div className="flex flex-wrap gap-2">
@@ -126,13 +127,13 @@ export default function CategorySelector({
                 return category ? (
                   <span
                     key={catId}
-                    className="inline-flex items-center px-3 py-1 text-sm font-medium rounded-full bg-pink-900/20 text-pink-400 border border-pink-700"
+                    className="inline-flex items-center px-3 py-1 text-sm font-medium rounded-full bg-[#00E5FF]/20 text-[#00E5FF] border-2 border-[#00E5FF]/30"
                   >
                     {category.name}
                     <button
                       type="button"
                       onClick={() => handleCategoryToggle(catId)}
-                      className="ml-2 text-pink-400 hover:text-pink-300 hover:bg-pink-800 rounded-full w-5 h-5 flex items-center justify-center"
+                      className="ml-2 text-[#00E5FF] hover:text-[#00E5FF]/80 hover:bg-[#00E5FF]/20 rounded-full w-5 h-5 flex items-center justify-center transition-all duration-200"
                     >
                       <X size={14} />
                     </button>
@@ -143,23 +144,21 @@ export default function CategorySelector({
           </div>
         )}
 
-
-
         {/* Search */}
         <div className="mb-3">
           <div className="relative">
-            <Search size={16} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <Search size={16} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#B0BEC5]" />
             <input
               type="text"
               placeholder="Tìm kiếm thể loại..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-3 py-2 border border-gray-600 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 bg-gray-800 text-white placeholder-gray-400"
+              className="w-full pl-10 pr-3 py-2 border-2 border-[#00E5FF]/30 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#00E5FF] focus:border-[#00E5FF] bg-[#2A2A2A] text-[#FFFFFF] placeholder-[#B0BEC5] transition-all duration-200"
             />
             {searchTerm && (
               <button
                 onClick={() => setSearchTerm('')}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-300"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#B0BEC5] hover:text-[#00E5FF] transition-all duration-200"
               >
                 <X size={16} />
               </button>
@@ -169,21 +168,21 @@ export default function CategorySelector({
 
         {/* Available Categories */}
         <div className="mb-3">
-          <div className="text-xs sm:text-sm text-gray-300 mb-2">
+          <div className="text-xs sm:text-sm text-[#B0BEC5] mb-2">
             Chọn từ danh sách có sẵn:
           </div>
           
           {/* Categories Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 max-h-20 overflow-y-auto p-2 border border-gray-700 rounded-md bg-gray-900/50">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 max-h-20 overflow-y-auto p-2 border-2 border-[#00E5FF]/30 rounded-lg bg-[#2A2A2A]">
             {filteredCategories.map((category) => (
               <button
                 key={category._id}
                 type="button"
                 onClick={() => handleCategoryToggle(category._id)}
-                className={`p-2 rounded-md text-xs font-medium transition-all duration-200 flex items-center justify-between ${
+                className={`p-2 rounded-lg text-xs font-medium transition-all duration-300 flex items-center justify-between ${
                   selectedCategories.includes(category._id)
-                    ? 'bg-pink-600 text-white shadow-lg scale-105'
-                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700 hover:scale-102'
+                    ? 'bg-[#00E5FF] text-[#1E1E1E] shadow-lg scale-105'
+                    : 'bg-[#2A2A2A] text-[#B0BEC5] hover:bg-[#2A2A2A]/80 hover:scale-105'
                 }`}
                 style={{
                   border: selectedCategories.includes(category._id) ? 'none' : `2px solid ${category.color}`
@@ -198,66 +197,66 @@ export default function CategorySelector({
           </div>
           
           {filteredCategories.length === 0 && (
-            <div className="text-center py-4 text-gray-400 text-sm">
+            <div className="text-center py-4 text-[#B0BEC5] text-sm">
               {searchTerm ? 'Không tìm thấy thể loại nào phù hợp' : 'Không có thể loại nào'}
             </div>
           )}
         </div>
 
         {/* Create New Category */}
-        <div className="border-t border-gray-800 pt-2 sm:pt-3">
+        <div className="border-t-2 border-[#00E5FF]/30 pt-2 sm:pt-3">
           <button
             type="button"
             onClick={() => setShowCreateForm(!showCreateForm)}
-            className="text-xs sm:text-sm text-pink-400 hover:text-pink-300 font-medium"
+            className="text-xs sm:text-sm text-[#00E5FF] hover:text-[#00E5FF]/80 font-medium transition-all duration-200"
           >
             {showCreateForm ? '✕ Hủy' : '+ Tạo thể loại mới'}
           </button>
           
           {showCreateForm && (
-            <div className="mt-2 sm:mt-3 p-3 sm:p-4 bg-gray-800 rounded-md border border-gray-700">
+            <div className="mt-2 sm:mt-3 p-3 sm:p-4 bg-[#2A2A2A] rounded-lg border-2 border-[#00E5FF]/30">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div>
-                  <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1.5 sm:mb-2">
-                    Tên thể loại *
+                  <label className="block text-xs sm:text-sm font-medium text-[#B0BEC5] mb-1.5 sm:mb-2">
+                    Tên thể loại <span className="text-[#00E5FF]">*</span>
                   </label>
                   <input
                     type="text"
                     value={newCategory.name}
                     onChange={(e) => setNewCategory(prev => ({ ...prev, name: e.target.value }))}
-                    className="w-full px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-600 rounded-md text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 bg-gray-700 text-white placeholder-gray-400"
+                    className="w-full px-2 sm:px-3 py-1.5 sm:py-2 border-2 border-[#00E5FF]/30 rounded-lg text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#00E5FF] focus:border-[#00E5FF] bg-[#2A2A2A] text-[#FFFFFF] placeholder-[#B0BEC5] transition-all duration-200"
                     placeholder="Nhập tên thể loại..."
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1.5 sm:mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-[#B0BEC5] mb-1.5 sm:mb-2">
                     Màu sắc
                   </label>
                   <input
                     type="color"
                     value={newCategory.color}
                     onChange={(e) => setNewCategory(prev => ({ ...prev, color: e.target.value }))}
-                    className="w-full h-8 sm:h-10 border border-gray-600 rounded-md cursor-pointer"
+                    className="w-full h-8 sm:h-10 border-2 border-[#00E5FF]/30 rounded-lg cursor-pointer bg-[#2A2A2A] focus:outline-none focus:ring-2 focus:ring-[#00E5FF] focus:border-[#00E5FF] transition-all duration-200"
                   />
                 </div>
               </div>
               
               <div className="mt-3 sm:mt-4">
-                <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1.5 sm:mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-[#B0BEC5] mb-1.5 sm:mb-2">
                   Mô tả
                 </label>
                 <textarea
                   value={newCategory.description}
                   onChange={(e) => setNewCategory(prev => ({ ...prev, description: e.target.value }))}
                   rows={2}
-                  className="w-full px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-600 rounded-md text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 bg-gray-700 text-white placeholder-gray-400"
+                  className="w-full px-2 sm:px-3 py-1.5 sm:py-2 border-2 border-[#00E5FF]/30 rounded-lg text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#00E5FF] focus:border-[#00E5FF] bg-[#2A2A2A] text-[#FFFFFF] placeholder-[#B0BEC5] transition-all duration-200"
                   placeholder="Mô tả ngắn gọn về thể loại..."
                 />
               </div>
               
               {error && (
-                <div className="mt-2 text-xs sm:text-sm text-red-400">
+                <div className="mt-2 text-xs sm:text-sm text-[#D2691E] bg-[#D2691E]/10 border-2 border-[#D2691E]/30 rounded-lg p-2">
                   {error}
                 </div>
               )}
@@ -267,7 +266,7 @@ export default function CategorySelector({
                   type="button"
                   onClick={handleCreateCategory}
                   disabled={isCreating}
-                  className="bg-pink-600 hover:bg-pink-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1.5 sm:gap-2"
+                  className="bg-[#00E5FF] hover:bg-[#00E5FF]/90 text-[#1E1E1E] px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1.5 sm:gap-2 shadow-md hover:shadow-lg hover:scale-105"
                 >
                   {isCreating ? (
                     <>
@@ -296,7 +295,7 @@ export default function CategorySelector({
                     setNewCategory({ name: '', description: '', color: '#ec4899' });
                     setError('');
                   }}
-                  className="flex-1 sm:flex-none bg-gray-700 hover:bg-gray-600 text-gray-300 px-3 sm:px-4 py-1.5 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-colors duration-200 border border-gray-600"
+                  className="flex-1 sm:flex-none bg-[#2A2A2A] hover:bg-[#2A2A2A]/80 text-[#B0BEC5] px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-all duration-300 border-2 border-[#D2691E] hover:border-[#C97C4B] hover:scale-105"
                 >
                   Hủy
                 </button>

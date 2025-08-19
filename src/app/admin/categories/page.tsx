@@ -214,11 +214,9 @@ export default function AdminCategories() {
             </div>
                          <Link
                href="/admin/new-category"
-               className="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white px-3 sm:px-6 py-2 sm:py-3 rounded-md font-medium transition-all duration-300 text-xs sm:text-sm flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto justify-center shadow-md hover:shadow-lg hover:scale-105"
+               className="bg-[#00E5FF] hover:bg-[#00E5FF]/90 text-[#1E1E1E] px-6 py-3 rounded-lg font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105"
              >
-              <Plus size={16} className="sm:w-[18px]" />
-              <span className="hidden sm:inline">Tạo Thể Loại Mới</span>
-              <span className="sm:hidden">Tạo Loại</span>
+              Tạo Thể Loại Mới
             </Link>
           </div>
         </div>
@@ -290,7 +288,7 @@ export default function AdminCategories() {
                                 type="text"
                                 value={editFormData.name}
                                 onChange={(e) => setEditFormData(prev => ({ ...prev, name: e.target.value }))}
-                                className="w-full px-2 py-1.5 text-xs border border-gray-600 rounded bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-purple-500"
+                                className="w-full px-3 py-2 text-xs border-2 border-[#00E5FF]/30 rounded-lg bg-[#2A2A2A] text-[#FFFFFF] placeholder-[#B0BEC5] focus:outline-none focus:ring-2 focus:ring-[#00E5FF] focus:border-[#00E5FF] transition-all duration-200"
                                 placeholder="Tên thể loại"
                                 required
                               />
@@ -298,28 +296,28 @@ export default function AdminCategories() {
                                 type="color"
                                 value={editFormData.color}
                                 onChange={(e) => setEditFormData(prev => ({ ...prev, color: e.target.value }))}
-                                className="w-full h-8 border border-gray-600 rounded bg-gray-800 cursor-pointer"
+                                className="w-full h-8 border-2 border-[#00E5FF]/30 rounded-lg bg-[#2A2A2A] cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#00E5FF] focus:border-[#00E5FF] transition-all duration-200"
                               />
                             </div>
                             <textarea
                               value={editFormData.description}
                               onChange={(e) => setEditFormData(prev => ({ ...prev, description: e.target.value }))}
-                              className="w-full px-2 py-1.5 text-xs border border-gray-600 rounded bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-purple-500"
+                              className="w-full px-3 py-2 text-xs border-2 border-[#00E5FF]/30 rounded-lg bg-[#2A2A2A] text-[#FFFFFF] placeholder-[#B0BEC5] focus:outline-none focus:ring-2 focus:ring-[#00E5FF] focus:border-[#00E5FF] transition-all duration-200"
                               placeholder="Mô tả thể loại (tùy chọn)"
                               rows={2}
                             />
                             <div className="flex gap-2">
-                                                             <button
-                                 type="submit"
-                                 disabled={isSubmitting}
-                                 className="flex-1 bg-pink-500 hover:bg-pink-600 text-white px-3 py-1.5 text-xs font-medium rounded transition-colors duration-200 disabled:opacity-50"
-                               >
+                              <button
+                                type="submit"
+                                disabled={isSubmitting}
+                                className="flex-1 bg-[#00E5FF] hover:bg-[#00E5FF]/90 text-[#1E1E1E] px-3 py-1.5 text-xs font-medium rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg hover:scale-105"
+                              >
                                 {isSubmitting ? 'Đang lưu...' : 'Lưu'}
                               </button>
                               <button
                                 type="button"
                                 onClick={cancelEdit}
-                                className="flex-1 bg-gray-600 hover:bg-gray-700 text-white px-3 py-1.5 text-xs font-medium rounded transition-colors duration-200"
+                                className="flex-1 bg-[#2A2A2A] hover:bg-[#2A2A2A]/80 text-[#B0BEC5] px-3 py-1.5 text-xs font-medium rounded-lg border-2 border-[#D2691E] hover:border-[#C97C4B] transition-all duration-300 hover:scale-105"
                               >
                                 Hủy
                               </button>
@@ -330,7 +328,7 @@ export default function AdminCategories() {
                         // Normal Edit Button
                         <button
                           onClick={() => handleEditCategory(category)}
-                          className="inline-flex items-center justify-center gap-1 px-3 py-2 border border-gray-600 text-xs sm:text-sm font-medium rounded-md text-gray-300 bg-gray-800/50 hover:bg-gray-700/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 backdrop-blur-sm"
+                          className="inline-flex items-center justify-center gap-1 px-3 py-2 border-2 border-[#00E5FF]/30 text-xs sm:text-sm font-medium rounded-lg text-[#00E5FF] bg-[#2A2A2A] hover:bg-[#00E5FF]/10 focus:outline-none focus:ring-2 focus:ring-[#00E5FF] focus:border-[#00E5FF] transition-all duration-300 backdrop-blur-sm hover:scale-105"
                         >
                           <Edit3 size={14} className="sm:w-4" />
                           <span className="hidden sm:inline">Sửa</span>
@@ -339,7 +337,7 @@ export default function AdminCategories() {
                       )}
                       <button
                         onClick={() => handleDeleteCategory(category._id, category.name)}
-                        className="inline-flex items-center justify-center gap-1 px-3 py-2 border border-red-600 text-xs sm:text-sm font-medium rounded-md text-red-400 bg-gray-800/50 hover:bg-red-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-200 backdrop-blur-sm"
+                        className="inline-flex items-center justify-center gap-1 px-3 py-2 border-2 border-[#DC2626]/30 text-xs sm:text-sm font-medium rounded-lg text-[#DC2626] bg-[#2A2A2A] hover:bg-[#DC2626]/10 focus:outline-none focus:ring-2 focus:ring-[#DC2626] focus:border-[#DC2626] transition-all duration-300 backdrop-blur-sm hover:scale-105"
                         disabled={storyCount > 0}
                         title={storyCount > 0 ? 'Không thể xóa thể loại đang được sử dụng' : ''}
                       >

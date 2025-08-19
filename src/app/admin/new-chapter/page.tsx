@@ -186,22 +186,72 @@ export default function NewChapterPage() {
           </div>
         </div>
 
-        <div className="p-3 sm:p-4 md:p-6">
-          {error && (
-            <div className="mb-4 sm:mb-6 p-3 sm:p-4 rounded-md bg-red-900/20 border border-red-700/50 text-red-300 backdrop-blur-sm">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-red-400 rounded-full"></div>
-                {error}
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Basic Information Section */}
+          <div className="bg-[#1E1E1E] shadow-lg rounded-2xl p-4 sm:p-6 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E] backdrop-blur-sm">
+            <h2 className="text-base font-semibold text-[#FFFFFF] mb-4 flex items-center gap-2">
+              <div className="w-1.5 h-1.5 bg-[#00E5FF] rounded-full"></div>
+              Thông Tin Chương
+            </h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Title */}
+              <div className="md:col-span-2">
+                <label htmlFor="title" className="block text-xs font-medium text-[#B0BEC5] mb-2 flex items-center gap-2">
+                  <div className="w-1 h-1 bg-[#00E5FF] rounded-full"></div>
+                  Tiêu đề chương <span className="text-[#00E5FF]">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="title"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleInputChange}
+                  onBlur={() => handleBlur('title')}
+                  className="w-full px-3 py-2 border-2 border-[#00E5FF]/30 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#00E5FF] focus:border-[#00E5FF] text-xs bg-[#2A2A2A] text-[#FFFFFF] placeholder-[#B0BEC5] transition-all duration-200"
+                  placeholder="Nhập tiêu đề chương..."
+                  required
+                />
+                {getFieldError('title') && (
+                  <p className="text-[#D2691E] text-xs mt-1">{getFieldError('title')}</p>
+                )}
+              </div>
+
+              {/* Chapter Number */}
+              <div>
+                <label htmlFor="chapterNumber" className="block text-xs font-medium text-[#B0BEC5] mb-2 flex items-center gap-2">
+                  <div className="w-1 h-1 bg-[#00E5FF] rounded-full"></div>
+                  Số chương <span className="text-[#00E5FF]">*</span>
+                </label>
+                <input
+                  type="number"
+                  id="chapterNumber"
+                  name="chapterNumber"
+                  value={formData.chapterNumber}
+                  onChange={handleInputChange}
+                  onBlur={() => handleBlur('chapterNumber')}
+                  min="1"
+                  className="w-full px-3 py-2 border-2 border-[#00E5FF]/30 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#00E5FF] focus:border-[#00E5FF] text-xs bg-[#2A2A2A] text-[#FFFFFF] placeholder-[#B0BEC5] transition-all duration-200"
+                  placeholder="1"
+                  required
+                />
+                {getFieldError('chapterNumber') && (
+                  <p className="text-[#D2691E] text-xs mt-1">{getFieldError('chapterNumber')}</p>
+                )}
               </div>
             </div>
-          )}
+          </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5 md:space-y-6">
-            {/* Story Selection */}
-            <div className="bg-gray-900/50 rounded-md border border-gray-700 p-3 sm:p-4 backdrop-blur-sm">
-              <label htmlFor="storyId" className="block text-xs sm:text-sm font-medium text-gray-300 mb-1.5 sm:mb-2 flex items-center gap-2">
-                <div className="w-1.5 h-1.5 bg-pink-400 rounded-full"></div>
-                Chọn truyện *
+          {/* Story Selection Section */}
+          <div className="bg-[#1E1E1E] shadow-lg rounded-2xl p-4 sm:p-6 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E] backdrop-blur-sm">
+            <h2 className="text-base font-semibold text-[#FFFFFF] mb-4 flex items-center gap-2">
+              <div className="w-1.5 h-1.5 bg-[#F4A460] rounded-full"></div>
+              Chọn Truyện
+            </h2>
+            <div>
+              <label htmlFor="storyId" className="block text-xs font-medium text-[#B0BEC5] mb-2 flex items-center gap-2">
+                <div className="w-1 h-1 bg-[#00E5FF] rounded-full"></div>
+                Truyện <span className="text-[#00E5FF]">*</span>
               </label>
               <select
                 id="storyId"
@@ -209,7 +259,7 @@ export default function NewChapterPage() {
                 value={formData.storyId}
                 onChange={handleStoryChange}
                 onBlur={() => handleBlur('storyId')}
-                className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-sm bg-gray-800/50 text-white backdrop-blur-sm transition-all duration-200"
+                className="w-full px-3 py-2 border-2 border-[#00E5FF]/30 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#00E5FF] focus:border-[#00E5FF] text-xs bg-[#2A2A2A] text-[#FFFFFF] transition-all duration-200"
                 required
               >
                 <option value="">-- Chọn truyện --</option>
@@ -220,77 +270,28 @@ export default function NewChapterPage() {
                 ))}
               </select>
               {stories.length === 0 && (
-                <div className="mt-2 p-2 bg-yellow-900/20 border border-yellow-700/50 rounded-md backdrop-blur-sm">
+                <div className="mt-2 p-2 bg-[#F4A460]/10 border-2 border-[#F4A460]/30 rounded-lg backdrop-blur-sm">
                   <div className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full"></div>
-                    <p className="text-xs sm:text-sm text-yellow-300">
-                      Chưa có truyện nào. Vui lòng <Link href="/admin/new-story" className="text-pink-400 hover:underline">tạo truyện trước</Link>.
+                    <div className="w-1.5 h-1.5 bg-[#F4A460] rounded-full"></div>
+                    <p className="text-xs text-[#F4A460]">
+                      Chưa có truyện nào. Vui lòng <Link href="/admin/new-story" className="text-[#00E5FF] hover:underline">tạo truyện trước</Link>.
                     </p>
                   </div>
                 </div>
               )}
               {getFieldError('storyId') && (
-                <div className="mt-2 p-2 bg-red-900/20 border border-red-700/50 rounded-md backdrop-blur-sm">
-                  <div className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 bg-red-400 rounded-full"></div>
-                    <p className="text-xs sm:text-sm text-red-300">{getFieldError('storyId')}</p>
-                  </div>
-                </div>
+                <p className="text-[#D2691E] text-xs mt-1">{getFieldError('storyId')}</p>
               )}
             </div>
+          </div>
 
-            {/* Chapter Number - Auto-calculated */}
-            <div className="bg-gray-900/50 rounded-md border border-gray-700 p-3 sm:p-4 backdrop-blur-sm">
-              <label htmlFor="chapterNumber" className="block text-xs sm:text-sm font-medium text-gray-300 mb-1.5 sm:mb-2 flex items-center gap-2">
-                <div className="w-1.5 h-1.5 bg-rose-400 rounded-full"></div>
-                Số chương * (Tự động tính)
-              </label>
-              <input
-                type="number"
-                id="chapterNumber"
-                name="chapterNumber"
-                value={formData.chapterNumber}
-                onChange={handleInputChange}
-                min="1"
-                className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-500 text-sm bg-gray-800/50 text-white backdrop-blur-sm transition-all duration-200"
-                required
-                readOnly
-              />
-            </div>
-
-            {/* Chapter Title */}
-            <div className="bg-gray-900/50 rounded-md border border-gray-700 p-3 sm:p-4 backdrop-blur-sm">
-              <label htmlFor="title" className="block text-xs sm:text-sm font-medium text-gray-300 mb-1.5 sm:mb-2 flex items-center gap-2">
-                <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
-                Tiêu đề chương *
-              </label>
-              <input
-                type="text"
-                id="title"
-                name="title"
-                value={formData.title}
-                onChange={handleInputChange}
-                onBlur={() => handleBlur('title')}
-                className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 text-sm bg-gray-800/50 text-white placeholder-gray-400 backdrop-blur-sm transition-all duration-200"
-                placeholder="Nhập tiêu đề chương..."
-                required
-              />
-              {getFieldError('title') && (
-                <div className="mt-2 p-2 bg-red-900/20 border border-red-700/50 rounded-md backdrop-blur-sm">
-                  <div className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 bg-red-400 rounded-full"></div>
-                    <p className="text-xs sm:text-sm text-red-300">{getFieldError('title')}</p>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Submit Button */}
+          {/* Action Buttons */}
+          <div className="bg-[#1E1E1E] shadow-lg rounded-2xl p-4 sm:p-6 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E] backdrop-blur-sm">
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 md:gap-4">
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-md text-sm sm:text-base font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 sm:gap-3 shadow-md hover:shadow-lg hover:scale-105"
+                className="w-full bg-[#00E5FF] hover:bg-[#00E5FF]/90 text-[#1E1E1E] px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg text-sm sm:text-base font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 sm:gap-3 shadow-md hover:shadow-lg hover:scale-105"
               >
                 {isSubmitting ? (
                   <>
@@ -314,13 +315,13 @@ export default function NewChapterPage() {
               </button>
               <Link
                 href="/admin"
-                className="flex-1 sm:flex-none bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-md font-medium transition-all duration-300 text-center text-sm sm:text-base shadow-md hover:shadow-lg hover:scale-105"
+                className="flex-1 sm:flex-none bg-[#2A2A2A] hover:bg-[#2A2A2A]/80 text-[#B0BEC5] px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg font-medium transition-all duration-300 text-center text-sm sm:text-base border-2 border-[#D2691E] hover:border-[#C97C4B] hover:scale-105"
               >
                 Hủy
               </Link>
             </div>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
     </div>
   );

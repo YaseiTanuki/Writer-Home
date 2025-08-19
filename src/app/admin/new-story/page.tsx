@@ -183,17 +183,18 @@ export default function NewStoryPage() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Basic Information Section */}
-          <div className="bg-gray-900/50 rounded-md p-4 border border-[#D2691E]">
-            <h2 className="text-base font-semibold text-[#FFF8F0] mb-4 flex items-center gap-2">
-              <div className="w-1.5 h-3 bg-[#00E5FF] rounded-full"></div>
+          <div className="bg-[#1E1E1E] shadow-lg rounded-2xl p-4 sm:p-6 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E] backdrop-blur-sm">
+            <h2 className="text-base font-semibold text-[#FFFFFF] mb-4 flex items-center gap-2">
+              <div className="w-1.5 h-1.5 bg-[#00E5FF] rounded-full"></div>
               Thông Tin Cơ Bản
             </h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Title */}
               <div className="md:col-span-2">
-                <label htmlFor="title" className="block text-xs font-medium text-[#F4E3D2] mb-1.5">
-                  Tiêu đề truyện *
+                <label htmlFor="title" className="block text-xs font-medium text-[#B0BEC5] mb-2 flex items-center gap-2">
+                  <div className="w-1 h-1 bg-[#00E5FF] rounded-full"></div>
+                  Tiêu đề truyện <span className="text-[#00E5FF]">*</span>
                 </label>
                 <input
                   type="text"
@@ -202,19 +203,20 @@ export default function NewStoryPage() {
                   value={formData.title}
                   onChange={handleInputChange}
                   onBlur={() => handleBlur('title')}
-                  className="w-full px-3 py-2 border border-[#00E5FF]/30 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#00E5FF] focus:border-[#00E5FF] text-xs bg-black text-[#FFF8F0] placeholder-[#F4E3D2]/60 transition-all duration-200"
+                  className="w-full px-3 py-2 border-2 border-[#00E5FF]/30 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#00E5FF] focus:border-[#00E5FF] text-xs bg-[#2A2A2A] text-[#FFFFFF] placeholder-[#B0BEC5] transition-all duration-200"
                   placeholder="Nhập tiêu đề truyện..."
                   required
                 />
                 {getFieldError('title') && (
-                  <p className="text-red-300 text-xs mt-1">{getFieldError('title')}</p>
+                  <p className="text-[#D2691E] text-xs mt-1">{getFieldError('title')}</p>
                 )}
               </div>
 
               {/* Description */}
               <div className="md:col-span-2">
-                <label htmlFor="description" className="block text-xs font-medium text-[#F4E3D2] mb-1.5">
-                  Mô tả truyện *
+                <label htmlFor="description" className="block text-xs font-medium text-[#B0BEC5] mb-2 flex items-center gap-2">
+                  <div className="w-1 h-1 bg-[#00E5FF] rounded-full"></div>
+                  Mô tả truyện <span className="text-[#00E5FF]">*</span>
                 </label>
                 <textarea
                   id="description"
@@ -223,18 +225,19 @@ export default function NewStoryPage() {
                   onChange={handleInputChange}
                   onBlur={() => handleBlur('description')}
                   rows={2}
-                  className="w-full px-3 py-2 border border-[#00E5FF]/30 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#00E5FF] focus:border-[#00E5FF] text-xs bg-black text-[#FFF8F0] placeholder-[#F4E3D2]/60 transition-all duration-200 resize-none"
+                  className="w-full px-3 py-2 border-2 border-[#00E5FF]/30 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#00E5FF] focus:border-[#00E5FF] text-xs bg-[#2A2A2A] text-[#FFFFFF] placeholder-[#B0BEC5] resize-none transition-all duration-200"
                   placeholder="Nhập mô tả ngắn gọn về truyện..."
                   required
                 />
                 {getFieldError('description') && (
-                  <p className="text-red-300 text-xs mt-1">{getFieldError('description')}</p>
+                  <p className="text-[#D2691E] text-xs mt-1">{getFieldError('description')}</p>
                 )}
               </div>
 
               {/* Status */}
               <div>
-                <label htmlFor="status" className="block text-xs font-medium text-[#F4E3D2] mb-1.5">
+                <label htmlFor="status" className="block text-xs font-medium text-[#B0BEC5] mb-2 flex items-center gap-2">
+                  <div className="w-1 h-1 bg-[#00E5FF] rounded-full"></div>
                   Trạng thái
                 </label>
                 <select
@@ -242,7 +245,7 @@ export default function NewStoryPage() {
                   name="status"
                   value={formData.status}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-[#00E5FF]/30 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#00E5FF] focus:border-[#00E5FF] text-xs bg-black text-[#FFF8F0] transition-all duration-200"
+                  className="w-full px-3 py-2 border-2 border-[#00E5FF]/30 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#00E5FF] focus:border-[#00E5FF] text-xs bg-[#2A2A2A] text-[#FFFFFF] transition-all duration-200"
                 >
                   <option value="draft">Bản thảo</option>
                   <option value="public">Xuất bản</option>
@@ -252,9 +255,9 @@ export default function NewStoryPage() {
           </div>
 
           {/* Categories Section */}
-          <div className="bg-gray-900/50 rounded-md p-4 border border-[#D2691E]">
-            <h2 className="text-base font-semibold text-[#FFF8F0] mb-4 flex items-center gap-2">
-              <div className="w-1.5 h-3 bg-[#F4A460] rounded-full"></div>
+          <div className="bg-[#1E1E1E] shadow-lg rounded-2xl p-4 sm:p-6 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E] backdrop-blur-sm">
+            <h2 className="text-base font-semibold text-[#FFFFFF] mb-4 flex items-center gap-2">
+              <div className="w-1.5 h-1.5 bg-[#F4A460] rounded-full"></div>
               Thể Loại Truyện
             </h2>
             <CategorySelector
@@ -265,14 +268,14 @@ export default function NewStoryPage() {
               }}
             />
             {getFieldError('category') && (
-              <p className="text-red-300 text-xs mt-1">{getFieldError('category')}</p>
+              <p className="text-[#D2691E] text-xs mt-1">{getFieldError('category')}</p>
             )}
           </div>
 
           {/* Cover Image Section */}
-          <div className="bg-gray-900/50 rounded-md p-4 border border-[#D2691E]">
-            <h2 className="text-base font-semibold text-[#FFF8F0] mb-4 flex items-center gap-2">
-              <div className="w-1.5 h-3 bg-[#E9967A] rounded-full"></div>
+          <div className="bg-[#1E1E1E] shadow-lg rounded-2xl p-4 sm:p-6 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E] backdrop-blur-sm">
+            <h2 className="text-base font-semibold text-[#FFFFFF] mb-4 flex items-center gap-2">
+              <div className="w-1.5 h-1.5 bg-[#E9967A] rounded-full"></div>
               Ảnh Bìa Truyện
             </h2>
             <ImageUpload
@@ -284,17 +287,17 @@ export default function NewStoryPage() {
               }}
             />
             {getFieldError('coverImage') && (
-              <p className="text-red-300 text-xs mt-1">{getFieldError('coverImage')}</p>
+              <p className="text-[#D2691E] text-xs mt-1">{getFieldError('coverImage')}</p>
             )}
           </div>
 
           {/* Story Content Section */}
-          <div className="bg-gray-900/50 rounded-md p-4 border border-[#D2691E]">
-            <h2 className="text-base font-semibold text-[#FFF8F0] mb-4 flex items-center gap-2">
-              <div className="w-1.5 h-3 bg-[#C97C4B] rounded-full"></div>
+          <div className="bg-[#1E1E1E] shadow-lg rounded-2xl p-4 sm:p-6 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E] backdrop-blur-sm">
+            <h2 className="text-base font-semibold text-[#FFFFFF] mb-4 flex items-center gap-2">
+              <div className="w-1.5 h-1.5 bg-[#C97C4B] rounded-full"></div>
               Nội Dung Truyện
             </h2>
-            <div className="border border-[#00E5FF]/30 rounded-md overflow-hidden">
+            <div className="border-2 border-[#00E5FF]/30 rounded-lg overflow-hidden">
               <TiptapEditor
                 content={storyContent}
                 onChange={(content) => {
@@ -305,17 +308,17 @@ export default function NewStoryPage() {
               />
             </div>
             {getFieldError('content') && (
-              <p className="text-red-300 text-xs mt-1">{getFieldError('content')}</p>
+              <p className="text-[#D2691E] text-xs mt-1">{getFieldError('content')}</p>
             )}
           </div>
 
           {/* Action Buttons */}
-          <div className="bg-gray-900/50 rounded-md p-4 border border-[#D2691E]">
+          <div className="bg-[#1E1E1E] shadow-lg rounded-2xl p-4 sm:p-6 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E] backdrop-blur-sm">
             <div className="flex flex-col sm:flex-row gap-3">
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex-1 bg-[#00E5FF] hover:bg-[#00E5FF]/90 text-[#1E1E1E] px-6 py-3 rounded-md text-sm font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-md hover:shadow-lg transform hover:scale-102"
+                className="flex-1 bg-[#00E5FF] hover:bg-[#00E5FF]/90 text-[#1E1E1E] px-6 py-3 rounded-lg text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-md hover:shadow-lg hover:scale-105"
               >
                 {isSubmitting ? (
                   <>
@@ -341,7 +344,7 @@ export default function NewStoryPage() {
               <button
                 type="button"
                 onClick={() => router.push('/admin')}
-                className="flex-1 sm:flex-none bg-black hover:bg-gray-900 text-[#F4E3D2] px-6 py-3 rounded-md font-medium transition-all duration-200 text-center text-sm border border-[#D2691E] hover:border-[#C97C4B] transform hover:scale-102"
+                className="flex-1 sm:flex-none bg-[#2A2A2A] hover:bg-[#2A2A2A]/80 text-[#B0BEC5] px-6 py-3 rounded-lg font-medium transition-all duration-300 text-center text-sm border-2 border-[#D2691E] hover:border-[#C97C4B] hover:scale-105"
               >
                 Hủy Bỏ
               </button>

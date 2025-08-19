@@ -217,19 +217,19 @@ export default function EditStoryPage() {
          </div>
 
          {/* Story Info Banner */}
-         <div className="mb-6 p-3 sm:p-4 rounded-md bg-gradient-to-r from-blue-900/30 to-purple-900/30 border border-blue-700/50 backdrop-blur-sm">
+         <div className="mb-6 p-3 sm:p-4 rounded-lg bg-[#00E5FF]/10 border-2 border-[#00E5FF]/30 backdrop-blur-sm">
            <div className="flex items-center gap-2">
-             <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
-             <p className="text-xs sm:text-sm font-medium text-blue-200">
-               Đang chỉnh sửa truyện: <span className="text-white font-bold">{story.title}</span>
+             <div className="w-2 h-2 bg-[#00E5FF] rounded-full animate-pulse"></div>
+             <p className="text-xs sm:text-sm font-medium text-[#00E5FF]">
+               Đang chỉnh sửa truyện: <span className="text-[#FFFFFF] font-bold">{story.title}</span>
              </p>
            </div>
          </div>
 
          {error && (
-           <div className="mb-4 p-3 rounded-md bg-red-900/20 border border-red-700/50 text-red-300 text-xs">
+           <div className="mb-4 p-3 rounded-lg bg-[#D2691E]/10 border-2 border-[#D2691E]/30 text-[#D2691E] text-xs backdrop-blur-sm">
              <div className="flex items-center gap-2">
-               <div className="w-1.5 h-1.5 bg-red-400 rounded-full"></div>
+               <div className="w-1.5 h-1.5 bg-[#D2691E] rounded-full"></div>
                {error}
              </div>
            </div>
@@ -237,17 +237,18 @@ export default function EditStoryPage() {
 
          <form onSubmit={handleSubmit} className="space-y-6">
            {/* Basic Information Section */}
-           <div className="bg-gray-900/50 rounded-md p-4 border border-gray-800">
-             <h2 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
-               <div className="w-1.5 h-3 bg-blue-500 rounded-full"></div>
+           <div className="bg-[#1E1E1E] shadow-lg rounded-2xl p-4 sm:p-6 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E] backdrop-blur-sm">
+             <h2 className="text-base font-semibold text-[#FFFFFF] mb-4 flex items-center gap-2">
+               <div className="w-1.5 h-1.5 bg-[#00E5FF] rounded-full"></div>
                Thông Tin Cơ Bản
              </h2>
              
              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                {/* Title */}
                <div className="md:col-span-2">
-                 <label htmlFor="title" className="block text-xs font-medium text-gray-200 mb-1.5">
-                   Tiêu đề truyện *
+                 <label htmlFor="title" className="block text-xs font-medium text-[#B0BEC5] mb-2 flex items-center gap-2">
+                   <div className="w-1 h-1 bg-[#00E5FF] rounded-full"></div>
+                   Tiêu đề truyện <span className="text-[#00E5FF]">*</span>
                  </label>
                  <input
                    type="text"
@@ -255,7 +256,7 @@ export default function EditStoryPage() {
                    name="title"
                    value={formData.title}
                    onChange={handleInputChange}
-                   className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs bg-gray-800 text-white placeholder-gray-400 transition-all duration-200"
+                   className="w-full px-3 py-2 border-2 border-[#00E5FF]/30 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#00E5FF] focus:border-[#00E5FF] text-xs bg-[#2A2A2A] text-[#FFFFFF] placeholder-[#B0BEC5] transition-all duration-200"
                    placeholder="Nhập tiêu đề truyện..."
                    required
                  />
@@ -263,8 +264,9 @@ export default function EditStoryPage() {
 
                {/* Description */}
                <div className="md:col-span-2">
-                 <label htmlFor="description" className="block text-xs font-medium text-gray-200 mb-1.5">
-                   Mô tả truyện *
+                 <label htmlFor="description" className="block text-xs font-medium text-[#B0BEC5] mb-2 flex items-center gap-2">
+                   <div className="w-1 h-1 bg-[#00E5FF] rounded-full"></div>
+                   Mô tả truyện <span className="text-[#00E5FF]">*</span>
                  </label>
                  <textarea
                    id="description"
@@ -272,7 +274,7 @@ export default function EditStoryPage() {
                    value={formData.description}
                    onChange={handleInputChange}
                    rows={2}
-                   className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs bg-gray-800 text-white placeholder-gray-400 transition-all duration-200 resize-none"
+                   className="w-full px-3 py-2 border-2 border-[#00E5FF]/30 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#00E5FF] focus:border-[#00E5FF] text-xs bg-[#2A2A2A] text-[#FFFFFF] placeholder-[#B0BEC5] transition-all duration-200 resize-none"
                    placeholder="Nhập mô tả ngắn gọn về truyện..."
                    required
                  />
@@ -280,7 +282,8 @@ export default function EditStoryPage() {
 
                {/* Status */}
                <div>
-                 <label htmlFor="status" className="block text-xs font-medium text-gray-200 mb-1.5">
+                 <label htmlFor="status" className="block text-xs font-medium text-[#B0BEC5] mb-2 flex items-center gap-2">
+                   <div className="w-1 h-1 bg-[#00E5FF] rounded-full"></div>
                    Trạng thái
                  </label>
                  <select
@@ -288,7 +291,7 @@ export default function EditStoryPage() {
                    name="status"
                    value={formData.status}
                    onChange={handleInputChange}
-                   className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs bg-gray-800 text-white transition-all duration-200"
+                   className="w-full px-3 py-2 border-2 border-[#00E5FF]/30 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#00E5FF] focus:border-[#00E5FF] text-xs bg-[#2A2A2A] text-[#FFFFFF] transition-all duration-200"
                  >
                    <option value="draft">Bản thảo</option>
                    <option value="public">Xuất bản</option>
@@ -298,9 +301,9 @@ export default function EditStoryPage() {
            </div>
 
            {/* Categories Section */}
-           <div className="bg-gray-900/50 rounded-md p-4 border border-gray-800">
-             <h2 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
-               <div className="w-1.5 h-3 bg-green-500 rounded-full"></div>
+           <div className="bg-[#1E1E1E] shadow-lg rounded-2xl p-4 sm:p-6 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E] backdrop-blur-sm">
+             <h2 className="text-base font-semibold text-[#FFFFFF] mb-4 flex items-center gap-2">
+               <div className="w-1.5 h-1.5 bg-[#F4A460] rounded-full"></div>
                Thể Loại Truyện
              </h2>
              <CategorySelector
@@ -310,9 +313,9 @@ export default function EditStoryPage() {
            </div>
 
            {/* Cover Image Section */}
-           <div className="bg-gray-900/50 rounded-md p-4 border border-gray-800">
-             <h2 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
-               <div className="w-1.5 h-3 bg-purple-500 rounded-full"></div>
+           <div className="bg-[#1E1E1E] shadow-lg rounded-2xl p-4 sm:p-6 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E] backdrop-blur-sm">
+             <h2 className="text-base font-semibold text-[#FFFFFF] mb-4 flex items-center gap-2">
+               <div className="w-1.5 h-1.5 bg-[#E9967A] rounded-full"></div>
                Ảnh Bìa Truyện
              </h2>
              <ImageUpload
@@ -323,12 +326,12 @@ export default function EditStoryPage() {
            </div>
 
            {/* Story Content Section */}
-           <div className="bg-gray-900/50 rounded-md p-4 border border-gray-800">
-             <h2 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
-               <div className="w-1.5 h-3 bg-yellow-500 rounded-full"></div>
+           <div className="bg-[#1E1E1E] shadow-lg rounded-2xl p-4 sm:p-6 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E] backdrop-blur-sm">
+             <h2 className="text-base font-semibold text-[#FFFFFF] mb-4 flex items-center gap-2">
+               <div className="w-1.5 h-1.5 bg-[#C97C4B] rounded-full"></div>
                Nội Dung Truyện
              </h2>
-             <div className="border border-gray-700 rounded-md overflow-hidden">
+             <div className="border-2 border-[#00E5FF]/30 rounded-lg overflow-hidden">
                <TiptapEditor
                  content={formData.content}
                  onChange={(content) => setFormData(prev => ({ ...prev, content }))}
@@ -338,12 +341,12 @@ export default function EditStoryPage() {
            </div>
 
            {/* Action Buttons */}
-           <div className="bg-gray-900/50 rounded-md p-4 border border-gray-800">
+           <div className="bg-[#1E1E1E] shadow-lg rounded-2xl p-4 sm:p-6 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E] backdrop-blur-sm">
              <div className="flex flex-col sm:flex-row gap-3">
                <button
                  type="submit"
                  disabled={isSubmitting}
-                 className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-3 rounded-md text-sm font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-md hover:shadow-lg transform hover:scale-102"
+                 className="flex-1 bg-[#00E5FF] hover:bg-[#00E5FF]/90 text-[#1E1E1E] px-6 py-3 rounded-lg text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-md hover:shadow-lg hover:scale-105"
                  onClick={() => console.log('Submit button clicked')}
                >
                  {isSubmitting ? (
@@ -369,7 +372,7 @@ export default function EditStoryPage() {
                
                <Link
                  href="/admin"
-                 className="flex-1 sm:flex-none bg-gray-700 hover:bg-gray-600 text-gray-200 px-6 py-3 rounded-md font-medium transition-all duration-200 text-center text-sm border border-gray-600 hover:border-gray-500 transform hover:scale-102"
+                 className="flex-1 sm:flex-none bg-[#2A2A2A] hover:bg-[#2A2A2A]/80 text-[#B0BEC5] px-6 py-3 rounded-lg font-medium transition-all duration-300 text-center text-sm border-2 border-[#D2691E] hover:border-[#C97C4B] hover:scale-105"
                >
                  Hủy Bỏ
                </Link>
