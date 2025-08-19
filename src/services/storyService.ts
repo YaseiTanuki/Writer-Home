@@ -1,4 +1,4 @@
-import { apiRequest } from '../lib/auth';
+import { apiRequest, AuthService } from '../lib/auth';
 import { 
   Story, 
   Chapter, 
@@ -123,12 +123,20 @@ export const storyService = {
 
   // Create a new category (requires authentication)
   async createCategory(categoryData: CreateCategoryRequest): Promise<{ message: string; category: Category }> {
+    // Get JWT token from AuthService
+    const token = AuthService.getAccessToken();
+    
+    if (!token) {
+      throw new Error('Authentication required. Please login first.');
+    }
+
     const response = await fetch('http://localhost:8111/api/categories', {
       method: 'POST',
       mode: 'cors',
       credentials: 'omit',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
       },
       body: JSON.stringify(categoryData),
     });
@@ -143,12 +151,20 @@ export const storyService = {
 
   // Update a category (requires authentication)
   async updateCategory(id: string, categoryData: UpdateCategoryRequest): Promise<{ message: string; category: Category }> {
+    // Get JWT token from AuthService
+    const token = AuthService.getAccessToken();
+    
+    if (!token) {
+      throw new Error('Authentication required. Please login first.');
+    }
+
     const response = await fetch(`http://localhost:8111/api/categories/${id}`, {
       method: 'PUT',
       mode: 'cors',
       credentials: 'omit',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
       },
       body: JSON.stringify(categoryData),
     });
@@ -163,12 +179,20 @@ export const storyService = {
 
   // Delete a category (requires authentication)
   async deleteCategory(id: string): Promise<{ message: string }> {
+    // Get JWT token from AuthService
+    const token = AuthService.getAccessToken();
+    
+    if (!token) {
+      throw new Error('Authentication required. Please login first.');
+    }
+
     const response = await fetch(`http://localhost:8111/api/categories/${id}`, {
       method: 'DELETE',
       mode: 'cors',
       credentials: 'omit',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
       },
     });
 
@@ -207,10 +231,18 @@ export const storyService = {
 
   // Reply to a message (admin only)
   async replyMessage(messageId: string, reply: string): Promise<{ message: string; data: Message }> {
+    // Get JWT token from AuthService
+    const token = AuthService.getAccessToken();
+    
+    if (!token) {
+      throw new Error('Authentication required. Please login first.');
+    }
+
     const response = await fetch('http://localhost:8111/api/messages', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
       },
       body: JSON.stringify({ messageId, reply }),
     });
@@ -225,10 +257,18 @@ export const storyService = {
 
   // Get all users (for admin dashboard)
   async getUsers(): Promise<{ users: any[]; count: number }> {
+    // Get JWT token from AuthService
+    const token = AuthService.getAccessToken();
+    
+    if (!token) {
+      throw new Error('Authentication required. Please login first.');
+    }
+
     const response = await fetch('http://localhost:8111/api/users', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
       },
     });
 
@@ -242,10 +282,18 @@ export const storyService = {
 
   // Delete a user and all related messages
   async deleteUser(userId: string): Promise<{ message: string; deletedMessages: number; deletedUser: any }> {
+    // Get JWT token from AuthService
+    const token = AuthService.getAccessToken();
+    
+    if (!token) {
+      throw new Error('Authentication required. Please login first.');
+    }
+
     const response = await fetch(`http://localhost:8111/api/users/${userId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
       },
     });
 
@@ -283,10 +331,18 @@ export const storyService = {
 
   // Delete a guest reply (admin only)
   async deleteGuestReply(messageId: string, replyIndex: number): Promise<{ message: string; data: Message }> {
+    // Get JWT token from AuthService
+    const token = AuthService.getAccessToken();
+    
+    if (!token) {
+      throw new Error('Authentication required. Please login first.');
+    }
+
     const response = await fetch(`http://localhost:8111/api/messages/${messageId}/guest-reply/${replyIndex}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
       },
     });
 
@@ -300,10 +356,18 @@ export const storyService = {
 
   // Delete a nested guest reply (admin only)
   async deleteNestedGuestReply(messageId: string, replyIndex: number, nestedReplyIndex: number): Promise<{ message: string; data: Message }> {
+    // Get JWT token from AuthService
+    const token = AuthService.getAccessToken();
+    
+    if (!token) {
+      throw new Error('Authentication required. Please login first.');
+    }
+
     const response = await fetch(`http://localhost:8111/api/messages/${messageId}/guest-reply/${replyIndex}/nested/${nestedReplyIndex}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
       },
     });
 

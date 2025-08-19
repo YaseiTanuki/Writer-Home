@@ -35,7 +35,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-black">
       <Navigation />
-              <div className="flex flex-col justify-center py-12 sm:px-6 lg:px-8 pt-16 md:pt-24">
+              <div className="flex flex-col justify-center py-4 sm:py-6 sm:px-6 lg:px-8 pt-16 md:pt-24">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <div className="flex items-center justify-center gap-2 sm:gap-3 mb-4 sm:mb-6">
             <div className="relative">

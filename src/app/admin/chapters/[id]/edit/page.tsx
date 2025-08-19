@@ -140,7 +140,7 @@ export default function EditChapterPage() {
     return (
       <div className="min-h-screen bg-black">
         <Navigation />
-        <div className="pt-16 md:pt-24 lg:pt-32 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="pt-16 md:pt-24 lg:pt-32 w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
           <div className="text-center">
             <div className="relative w-16 h-16 md:w-20 md:h-20 mx-auto mb-4">
               <Image
@@ -162,7 +162,7 @@ export default function EditChapterPage() {
     return (
       <div className="min-h-screen bg-black">
         <Navigation />
-        <div className="pt-16 md:pt-24 lg:pt-32 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="pt-16 md:pt-24 lg:pt-32 w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
           <div className="text-center">
             <p className="text-red-400">Không tìm thấy chương</p>
             <Link href="/admin" className="text-blue-400 hover:text-blue-300 mt-4 block">

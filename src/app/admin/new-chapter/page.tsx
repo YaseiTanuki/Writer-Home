@@ -149,7 +149,7 @@ export default function NewChapterPage() {
     return (
       <div className="min-h-screen bg-black">
         <Navigation />
-        <div className="pt-16 md:pt-24 lg:pt-32 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="pt-16 md:pt-24 lg:pt-32 w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
           <div className="text-center">
             <div className="relative w-16 h-16 md:w-20 md:h-20 mx-auto mb-4">
               <Image
@@ -239,7 +239,7 @@ export default function NewChapterPage() {
       <Navigation />
       
       {/* Main Content */}
-      <div className="pt-16 md:pt-24 lg:pt-32 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="pt-16 md:pt-24 lg:pt-32 w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
         {/* Page Title */}
         <div className="mb-4 sm:mb-6 md:mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">

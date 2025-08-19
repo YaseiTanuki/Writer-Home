@@ -35,19 +35,7 @@ export default function AdminChapters() {
     }
   }, [isAuthenticated]);
 
-  // Debug logging khi dữ liệu thay đổi
-  useEffect(() => {
-    if (chapters.length > 0 && stories.length > 0) {
-      console.log('Chapters data:', chapters.map(c => ({ id: c._id, storyId: c.storyId, title: c.title })));
-      console.log('Stories data:', stories.map(s => ({ id: s._id, title: s.title })));
-      
-      // Kiểm tra các chương không liên kết
-      const orphanedChapters = chapters.filter(chapter => !isChapterLinkedToStory(chapter));
-      if (orphanedChapters.length > 0) {
-        console.log('Orphaned chapters:', orphanedChapters);
-      }
-    }
-  }, [chapters, stories]);
+
 
   const loadData = async () => {
     try {
@@ -57,37 +45,8 @@ export default function AdminChapters() {
         storyService.getStories()
       ]);
       
-      console.log('Raw chapters response:', chaptersResponse);
-      console.log('Raw stories response:', storiesResponse);
-      
       setChapters(chaptersResponse.chapters);
       setStories(storiesResponse.stories);
-      
-      // Debug logging sau khi set state
-      setTimeout(() => {
-        console.log('State after setState - Chapters:', chaptersResponse.chapters);
-        console.log('State after setState - Stories:', storiesResponse.stories);
-        
-        // Kiểm tra cấu trúc dữ liệu
-        if (chaptersResponse.chapters && chaptersResponse.chapters.length > 0) {
-          const firstChapter = chaptersResponse.chapters[0];
-          console.log('First chapter structure:', {
-            _id: firstChapter._id,
-            storyId: firstChapter.storyId,
-            storyIdType: typeof firstChapter.storyId,
-            title: firstChapter.title
-          });
-        }
-        
-        if (storiesResponse.stories && storiesResponse.stories.length > 0) {
-          const firstStory = storiesResponse.stories[0];
-          console.log('First story structure:', {
-            _id: firstStory._id,
-            _idType: typeof firstStory._id,
-            title: firstStory.title
-          });
-        }
-      }, 100);
       
     } catch (err) {
       console.error('Failed to load data:', err);
@@ -183,60 +142,43 @@ export default function AdminChapters() {
   const getStoryTitle = (storyId: any) => {
     if (!storyId) return 'Không có truyện';
     
-    // Debug logging
-    console.log('Looking for storyId:', storyId, 'Type:', typeof storyId);
-    console.log('Available stories:', stories.map(s => ({ id: s._id, idType: typeof s._id, title: s.title })));
-    
     // Xử lý trường hợp storyId là object (MongoDB ObjectId)
     let actualStoryId = storyId;
     if (typeof storyId === 'object' && storyId !== null) {
       // Nếu storyId là object, lấy _id từ nó
       if (storyId._id) {
         actualStoryId = storyId._id;
-        console.log('Extracted _id from storyId object:', actualStoryId);
       } else {
         // Nếu không có _id, thử toString()
         actualStoryId = storyId.toString();
-        console.log('Converted storyId object to string:', actualStoryId);
       }
     }
     
     // Thử tìm kiếm với nhiều cách khác nhau
     let story = stories.find(s => s._id === actualStoryId);
-    console.log('Direct match result:', story);
     
     if (!story) {
       // Thử với string conversion
       story = stories.find(s => String(s._id) === String(actualStoryId));
-      console.log('String conversion match result:', story);
     }
     
     if (!story) {
       // Thử với toString() method
       story = stories.find(s => s._id.toString() === actualStoryId.toString());
-      console.log('toString() match result:', story);
     }
     
     if (!story) {
       // Thử với loose comparison
       story = stories.find(s => s._id == actualStoryId);
-      console.log('Loose comparison match result:', story);
     }
     
     if (!story) {
       // Kiểm tra xem có phải do dữ liệu chưa load xong không
       if (isLoadingData) return 'Đang tải...';
       
-      // Log tất cả các storyId có sẵn để debug
-      const availableStoryIds = stories.map(s => s._id);
-      console.log('Available story IDs:', availableStoryIds);
-      console.log('Looking for ID:', actualStoryId);
-      console.log('StoryId exists in available IDs:', availableStoryIds.includes(actualStoryId));
-      
       return 'Truyện không tồn tại';
     }
     
-    console.log('Final found story:', story);
     return story.title;
   };
 
@@ -349,28 +291,7 @@ export default function AdminChapters() {
           </div>
         </div>
 
-        {/* Debug Panel - Temporary */}
-        {process.env.NODE_ENV === 'development' && (
-          <div className="bg-gray-800 border border-gray-700 rounded-lg p-2 sm:p-4 mb-2 sm:mb-4">
-            <h3 className="text-xs sm:text-sm font-medium text-white mb-1 sm:mb-2">Debug Info</h3>
-            <div className="text-xs text-gray-300 space-y-0.5 sm:space-y-1">
-              <p>Chapters count: {chapters.length}</p>
-              <p>Stories count: {stories.length}</p>
-              <p>Loading: {isLoadingData ? 'Yes' : 'No'}</p>
-              {chapters.length > 0 && (
-                <div>
-                  <p>First chapter storyId: {String(chapters[0].storyId)} (Type: {typeof chapters[0].storyId})</p>
-                  {typeof chapters[0].storyId === 'object' && chapters[0].storyId && (
-                    <p>StoryId object details: {JSON.stringify(chapters[0].storyId)}</p>
-                  )}
-                </div>
-              )}
-              {stories.length > 0 && (
-                <p>First story _id: {String(stories[0]._id)} (Type: {typeof stories[0]._id})</p>
-              )}
-            </div>
-          </div>
-        )}
+
 
         {/* Chapters List - Mobile Optimized */}
         <div className="space-y-2 sm:space-y-4">

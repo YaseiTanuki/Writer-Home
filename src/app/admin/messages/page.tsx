@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Mail, Edit3, Trash2, ArrowLeft, User, Clock, MessageSquare, Calendar, Reply, Send } from 'lucide-react';
+import { Mail, Edit3, Trash2, ArrowLeft, User, Clock, MessageSquare, Calendar } from 'lucide-react';
 import { useAuth } from '../../../contexts/AuthContext';
 import Navigation from '../../../component/Navigation';
 import { storyService } from '../../../services/storyService';
@@ -17,8 +17,6 @@ export default function AdminMessages() {
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState<{ id: string; name: string } | null>(null);
   const [notification, setNotification] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
-  const [replyText, setReplyText] = useState('');
-  const [isReplying, setIsReplying] = useState<string | null>(null);
   
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -89,43 +87,6 @@ export default function AdminMessages() {
     setDeleteConfirm(null);
   };
 
-  const handleReply = async (messageId: string) => {
-    if (!replyText.trim()) return;
-    
-    try {
-      console.log('Sending reply:', { messageId, reply: replyText });
-      setIsReplying('loading');
-      const response = await storyService.replyMessage(messageId, replyText);
-      console.log('Reply response:', response);
-      
-      // Reload data to get the latest state from database
-      await loadData();
-      
-      setReplyText('');
-      setIsReplying(null);
-      
-      setNotification({ 
-        type: 'success', 
-        message: 'Đã trả lời tin nhắn thành công!' 
-      });
-      
-      // Auto hide notification after 3 seconds
-      setTimeout(() => setNotification(null), 3000);
-    } catch (err) {
-      console.error('Failed to reply to message:', err);
-      const errorMessage = err instanceof Error ? err.message : 'Có lỗi xảy ra khi trả lời';
-      setNotification({ 
-        type: 'error', 
-        message: `Lỗi: ${errorMessage}` 
-      });
-      
-      // Auto hide error notification after 5 seconds
-      setTimeout(() => setNotification(null), 5000);
-    } finally {
-      setIsReplying(null);
-    }
-  };
-
   const getStatusBadge = (message: Message) => {
     if (message.reply) {
       return (
@@ -151,7 +112,7 @@ export default function AdminMessages() {
   if (isLoading || !isAuthenticated) {
     return (
       <div className="min-h-screen bg-black">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:8 py-12">
+        <div className="w-full px-4 sm:px-6 lg:8 py-4 sm:py-6">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#00E5FF] mx-auto"></div>
             <p className="mt-4 text-gray-300 text-sm">Đang tải...</p>
@@ -275,17 +236,6 @@ export default function AdminMessages() {
                       <span className="sm:hidden">Xem</span>
                     </Link>
                     
-                    {!message.reply && isReplying !== message._id && (
-                      <button
-                        onClick={() => setIsReplying(message._id)}
-                        className="inline-flex items-center justify-center gap-1 px-2 py-1.5 sm:px-3 sm:py-2 border border-green-600 text-xs sm:text-sm font-medium rounded-md text-green-400 bg-gray-800 hover:bg-green-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200"
-                      >
-                        <Reply size={12} className="sm:w-4" />
-                        <span className="hidden sm:inline">Trả lời</span>
-                        <span className="sm:hidden">TL</span>
-                      </button>
-                    )}
-                    
                     <button
                       onClick={() => handleDeleteMessage(message._id, message.name)}
                       className="inline-flex items-center justify-center gap-1 px-2 py-1.5 sm:px-3 sm:py-2 border border-red-600 text-xs sm:text-sm font-medium rounded-md text-red-400 bg-gray-800 hover:bg-red-900/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
@@ -296,94 +246,6 @@ export default function AdminMessages() {
                     </button>
                   </div>
                   
-                  {/* Reply Section */}
-                  {isReplying === message._id && (
-                    <div className="w-full mt-3">
-                      {/* Reply Section - Desktop */}
-                      <div className="hidden sm:flex items-center gap-2">
-                        <textarea
-                          value={replyText}
-                          onChange={(e) => setReplyText(e.target.value)}
-                          placeholder="Nhập nội dung trả lời..."
-                          className="flex-1 px-3 py-2 bg-gray-800 border border-gray-600 rounded-md text-white text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                          rows={2}
-                        />
-                        <button
-                          onClick={() => handleReply(message._id)}
-                          disabled={!replyText.trim()}
-                          className="px-3 py-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white text-sm font-medium rounded-md transition-colors duration-200"
-                        >
-                          Gửi
-                        </button>
-                        <button
-                          onClick={() => {
-                            setIsReplying(null);
-                            setReplyText('');
-                          }}
-                          className="px-3 py-2 border border-gray-600 text-gray-300 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors duration-200"
-                        >
-                          Hủy
-                        </button>
-                      </div>
-                      
-                      {/* Reply Section - Mobile (Modal) */}
-                      <div className="sm:hidden">
-                        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50 p-4">
-                          <div className="relative p-4 border w-full max-w-md max-h-full">
-                            <div className="relative bg-gray-900 rounded-lg shadow border border-gray-800">
-                              <div className="p-4">
-                                <div className="flex items-center justify-between mb-4">
-                                  <h3 className="text-lg font-medium text-white">Trả lời tin nhắn</h3>
-                                  <button
-                                    onClick={() => {
-                                      setIsReplying(null);
-                                      setReplyText('');
-                                    }}
-                                    className="text-gray-400 hover:text-gray-300"
-                                  >
-                                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                  </button>
-                                </div>
-                                
-                                <div className="mb-4">
-                                  <label className="block text-sm font-medium text-gray-300 mb-2">Nội dung trả lời:</label>
-                                  <textarea
-                                    value={replyText}
-                                    onChange={(e) => setReplyText(e.target.value)}
-                                    placeholder="Nhập nội dung trả lời..."
-                                    className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md text-white text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                                    rows={4}
-                                  />
-                                </div>
-                                
-                                <div className="flex justify-end gap-3">
-                                  <button
-                                    onClick={() => {
-                                      setIsReplying(null);
-                                      setReplyText('');
-                                    }}
-                                    className="px-4 py-2 border border-gray-600 text-gray-300 text-sm font-medium rounded-md hover:bg-gray-700 transition-colors duration-200"
-                                  >
-                                    Hủy
-                                  </button>
-                                  <button
-                                    onClick={() => handleReply(message._id)}
-                                    disabled={!replyText.trim()}
-                                    className="px-4 py-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white text-sm font-medium rounded-md transition-colors duration-200"
-                                  >
-                                    Gửi
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                  
                 </div>
               </div>
             </div>
@@ -392,7 +254,7 @@ export default function AdminMessages() {
 
         {/* Empty State */}
         {messages.length === 0 && !isLoadingData && (
-          <div className="text-center py-12">
+          <div className="text-center py-6 sm:py-8">
             <Mail size={48} className="mx-auto text-gray-600 mb-4" />
             <h3 className="text-lg font-medium text-gray-400 mb-2">Chưa có tin nhắn nào</h3>
             <p className="text-sm text-gray-500 mb-6">Chưa có tin nhắn nào trong hộp thư</p>
@@ -414,44 +276,11 @@ export default function AdminMessages() {
                   <p>• Tin nhắn chưa đọc sẽ được đánh dấu màu đỏ</p>
                   <p>• Đánh dấu "Đã trả lời" khi bạn đã phản hồi người gửi</p>
                   <p>• Xóa tin nhắn không còn cần thiết để giữ gọn hộp thư</p>
-                  <p>• Bấm "Xem" để xem chi tiết tin nhắn và quản lý guest replies</p>
+                  <p>• Bấm "Xem" để xem chi tiết tin nhắn và trả lời</p>
                   <p>• Guest có thể trả lời lẫn nhau tạo thành thread comment</p>
                   <p>• Quản lý và xóa các câu trả lời của guest trên trang chi tiết</p>
                 </div>
                 
-                {/* Test API Button */}
-                {process.env.NODE_ENV === 'development' && (
-                  <div className="mt-3">
-                    <button
-                      onClick={async () => {
-                        try {
-                          const response = await fetch('/api/messages', {
-                            headers: {
-                              'Content-Type': 'application/json',
-                            },
-                          });
-                          const data = await response.json();
-                          console.log('API Test Response:', data);
-                          setNotification({
-                            type: 'success',
-                            message: `API Test: ${response.status} - ${data.count} messages`
-                          });
-                          setTimeout(() => setNotification(null), 3000);
-                        } catch (error) {
-                          console.error('API Test Error:', error);
-                          setNotification({
-                            type: 'error',
-                            message: `API Test Error: ${error}`
-                          });
-                          setTimeout(() => setNotification(null), 5000);
-                        }
-                      }}
-                      className="bg-pink-600 hover:bg-pink-700 text-white px-2 py-1 sm:px-3 sm:py-1 rounded text-xs"
-                    >
-                      Test API
-                    </button>
-                  </div>
-                )}
               </div>
             </div>
           </div>

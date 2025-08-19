@@ -267,7 +267,7 @@ export default function AdminStories() {
 
         {/* Empty State */}
         {stories.length === 0 && !isLoadingData && (
-          <div className="text-center py-12">
+          <div className="text-center py-6 sm:py-8">
             <div className="bg-[#1E1E1E] rounded-2xl border-2 border-[#D2691E] p-8 max-w-md mx-auto shadow-[0_0_8px_#D2691E]">
               <BookOpen size={48} className="mx-auto text-[#00E5FF] mb-4" />
               <h3 className="text-lg font-medium text-[#FFFFFF] mb-2">Chưa có truyện nào</h3>

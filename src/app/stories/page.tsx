@@ -116,7 +116,7 @@ export default function StoriesPage() {
     return (
       <div className="min-h-screen bg-[#121212] pt-16 md:pt-24">
         <Navigation />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
           <div className="text-center">
             <div className="relative w-16 h-16 md:w-20 md:h-20 mx-auto mb-4">
               <Image
@@ -154,7 +154,7 @@ export default function StoriesPage() {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-0 sm:px-4 lg:px-8 py-0 sm:py-8">
+              <div className="w-full px-0 sm:px-4 lg:px-8 py-0 sm:py-4">
         {/* Enhanced Filters - Simplified Layout */}
         <div className="bg-[#1E1E1E] rounded-2xl shadow-lg p-3 sm:p-4 mb-4 sm:mb-6 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E] backdrop-blur-sm mx-4 sm:mx-0">
           {/* Main Search Bar - Always Visible */}
@@ -226,14 +226,14 @@ export default function StoriesPage() {
         </div>
 
         {/* Stories Display */}
-        {isLoading ? (
-          <div className="text-center py-12 px-4 sm:px-0">
+                 {isLoading ? (
+           <div className="text-center py-6 sm:py-8 px-4 sm:px-0">
             <div className="bg-[#1E1E1E] rounded-2xl p-8 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E]">
               <div className="text-[#B0BEC5] text-sm mb-2">Đang tải...</div>
             </div>
           </div>
-        ) : filteredStories.length === 0 ? (
-          <div className="text-center py-12 px-4 sm:px-0">
+                 ) : filteredStories.length === 0 ? (
+           <div className="text-center py-6 sm:py-8 px-4 sm:px-0">
             <div className="bg-[#1E1E1E] rounded-2xl p-8 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E]">
               <BookOpen size={48} className="text-[#D2691E] mx-auto mb-4" />
               <div className="text-[#B0BEC5] text-sm mb-2">

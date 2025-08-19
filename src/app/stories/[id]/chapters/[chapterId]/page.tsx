@@ -83,7 +83,7 @@ export default function ChapterReaderPage() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-black">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
           <div className="text-center">
             <div className="relative w-16 h-16 md:w-20 md:h-20 mx-auto mb-4">
               <Image
@@ -104,7 +104,7 @@ export default function ChapterReaderPage() {
   if (error || !story || !chapter) {
     return (
       <div className="min-h-screen bg-black">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
           <div className="text-center">
             <div className="bg-red-900/20 border border-red-700 text-red-400 px-4 py-3 rounded text-xs">
               {error || 'Không tìm thấy chương'}
@@ -124,14 +124,14 @@ export default function ChapterReaderPage() {
   if (story.status !== 'public') {
     return (
       <div className="min-h-screen bg-black">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
           <div className="text-center">
             <div className="bg-yellow-900/20 border border-yellow-700 text-yellow-400 px-4 py-3 rounded text-xs">
               Truyện này chưa được xuất bản
             </div>
             <button 
               onClick={() => router.push('/stories')}
-              className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-xs"
+              className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-6"
             >
               Quay lại danh sách
             </button>
@@ -144,7 +144,7 @@ export default function ChapterReaderPage() {
   if ((chapter.status || 'public') !== 'public') {
     return (
       <div className="min-h-screen bg-black">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
           <div className="text-center">
             <div className="bg-yellow-900/20 border border-yellow-700 text-yellow-400 px-4 py-3 rounded text-xs">
               Chương này chưa được xuất bản
@@ -169,7 +169,7 @@ export default function ChapterReaderPage() {
       <Navigation />
       
       {/* Main Content */}
-      <div className="pt-16 md:pt-24 max-w-4xl mx-auto px-0 sm:px-4 lg:px-8 py-0 sm:py-8">
+      <div className="pt-16 md:pt-24 w-full px-0 sm:px-4 lg:px-8 py-0 sm:py-4">
         {/* Chapter Header */}
         <div className="bg-gray-900/50 rounded-md shadow-lg p-3 sm:p-4 lg:p-6 mb-4 sm:mb-6 lg:mb-8 border border-gray-700 backdrop-blur-sm mx-4 sm:mx-0">
           <div className="text-center mb-3 sm:mb-4 lg:mb-6">

@@ -388,7 +388,7 @@ export default function AdminUsers() {
 
         {/* Empty State */}
         {users.length === 0 && !isLoadingData && (
-          <div className="text-center py-12">
+          <div className="text-center py-6 sm:py-8">
             <div className="relative mb-4">
               <Users size={40} className="mx-auto text-gray-500 mb-2" />
               <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-red-400 rounded-full animate-pulse"></div>
