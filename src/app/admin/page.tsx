@@ -112,7 +112,7 @@ export default function AdminDashboard() {
             <div className="flex items-center justify-center w-10 h-10 mx-auto mb-2 bg-[#00E5FF]/20 rounded-md shadow-md">
               <FileText size={20} className="text-[#00E5FF]" />
             </div>
-            <p className="text-xl font-bold text-[#FFFFFF] mb-1">{chapters.length}</p>
+            <p className="text-xl font-bold text-[#FFFFFF] mb-1">{chapters.filter(c => (c.status || 'public') === 'public').length}</p>
             <p className="text-xs text-[#00E5FF]">Chương</p>
           </div>
           <div className="bg-[#1E1E1E] rounded-2xl p-3 text-center border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E]">
@@ -169,7 +169,7 @@ export default function AdminDashboard() {
                 <FileText size={24} className="text-[#00E5FF]" />
               </div>
               <div className="text-right">
-                <div className="text-2xl font-bold text-[#00E5FF]">{chapters.length}</div>
+                <div className="text-2xl font-bold text-[#00E5FF]">{chapters.filter(c => (c.status || 'public') === 'public').length}</div>
                 <div className="text-xs text-[#B0BEC5]">chương</div>
               </div>
             </div>

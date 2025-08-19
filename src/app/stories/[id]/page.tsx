@@ -201,7 +201,9 @@ export default function StoryDetailPage() {
                 {/* Stats */}
                 <div className="grid grid-cols-2 gap-3 sm:gap-4 pt-3 sm:pt-4 border-t border-gray-800">
                   <div className="text-center">
-                    <div className="text-sm sm:text-xl lg:text-2xl font-bold text-blue-400">{chapters.length}</div>
+                    <div className="text-sm sm:text-xl lg:text-2xl font-bold text-blue-400">
+                      {chapters.filter(chapter => chapter.status === 'public').length}
+                    </div>
                     <div className="text-xs text-gray-300 flex items-center justify-center gap-1">
                       <FileText size={14} />
                       Chương
@@ -245,7 +247,7 @@ export default function StoryDetailPage() {
             <div className="bg-gray-900 rounded-lg shadow p-3 sm:p-4 lg:p-6 border border-gray-800">
               <h2 className="text-sm sm:text-xl font-bold text-white mb-4 sm:mb-6 flex items-center gap-2">
                 <BookOpen size={20} />
-                Danh sách chương ({chapters.length})
+                Danh sách chương ({chapters.filter(chapter => chapter.status === 'public').length})
               </h2>
               
               {chapters.length === 0 ? (
@@ -257,6 +259,7 @@ export default function StoryDetailPage() {
               ) : (
                 <div className="space-y-2 sm:space-y-3">
                   {chapters
+                    .filter(chapter => (chapter.status || 'public') === 'public')
                     .sort((a, b) => a.chapterNumber - b.chapterNumber)
                     .map((chapter) => (
                       <Link
@@ -276,9 +279,22 @@ export default function StoryDetailPage() {
                             )}
                           </div>
                           <div className="ml-3 sm:ml-4 flex-shrink-0">
-                            <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 text-xs font-medium rounded-full bg-green-900/20 text-green-400 border border-green-700">
-                              <CheckCircle size={14} />
-                              Đã xuất bản
+                            <span className={`inline-flex items-center gap-1 px-2 sm:px-3 py-1 text-xs font-medium rounded-full border ${
+                              (chapter.status || 'public') === 'public' 
+                                ? 'bg-green-900/20 text-green-400 border-green-700' 
+                                : 'bg-yellow-900/20 text-yellow-400 border-yellow-700'
+                            }`}>
+                              {(chapter.status || 'public') === 'public' ? (
+                                <>
+                                  <CheckCircle size={14} />
+                                  Đã xuất bản
+                                </>
+                              ) : (
+                                <>
+                                  <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
+                                  Bản nháp
+                                </>
+                              )}
                             </span>
                           </div>
                         </div>

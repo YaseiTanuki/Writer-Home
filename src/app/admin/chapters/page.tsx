@@ -316,7 +316,7 @@ export default function AdminChapters() {
                 <div className="text-xs sm:text-sm text-gray-300 mt-0.5 sm:mt-1">
                   <span className="inline-flex items-center gap-1">
                     <div className="w-1 h-1 bg-[#00E5FF] rounded-full"></div>
-                    Tổng cộng {chapters.length} chương
+                    Tổng cộng {chapters.filter(c => (c.status || 'public') === 'public').length} chương
                   </span>
                 </div>
               </div>
@@ -407,45 +407,48 @@ export default function AdminChapters() {
 
                 {/* Content */}
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-start justify-between gap-1.5 sm:gap-4">
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-sm sm:text-lg font-semibold text-white truncate mb-1 sm:mb-2">
-                        {chapter.title}
-                      </h3>
-                      
-                      {/* Story Title */}
-                      <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-gray-400 mb-1.5 sm:mb-2">
-                        <BookOpen size={12} className="sm:w-4" />
-                        <span className={`truncate ${
-                          !isChapterLinkedToStory(chapter)
-                            ? 'text-red-400' 
-                            : 'text-gray-400'
-                        }`}>
-                          {getStoryTitle(chapter.storyId)}
-                        </span>
-                      </div>
-                      
-                      {/* Date */}
-                      <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-gray-400">
-                        <Calendar size={12} className="sm:w-4" />
-                        <span>{new Date(chapter.createdAt).toLocaleDateString('vi-VN')}</span>
-                      </div>
-                    </div>
+                                     <div className="flex items-start justify-between gap-1.5 sm:gap-4 mb-1.5 sm:mb-2">
+                     <div className="flex-1 min-w-0">
+                       <h3 className="text-sm sm:text-lg font-semibold text-white truncate">
+                         {chapter.title}
+                       </h3>
+                     </div>
 
-                    {/* Word Count - Hidden on mobile */}
-                    <div className="hidden sm:flex flex-shrink-0">
-                      <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-pink-900/20 text-pink-400 border border-pink-700">
-                        {chapter.content ? Math.ceil(chapter.content.length / 1000) : 0} nghìn từ
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Word Count - Mobile */}
-                  <div className="sm:hidden mt-1.5 sm:mt-2">
-                    <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-pink-900/20 text-pink-400 border border-pink-700">
-                      {chapter.content ? Math.ceil(chapter.content.length / 1000) : 0} nghìn từ
-                    </span>
-                  </div>
+                     {/* Word Count - Always visible on right side */}
+                     <div className="flex flex-shrink-0">
+                       <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-pink-900/20 text-pink-400 border border-pink-700">
+                         {chapter.content ? Math.ceil(chapter.content.length / 1000) : 0} nghìn từ
+                       </span>
+                     </div>
+                   </div>
+                   
+                   {/* Story Title */}
+                   <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-gray-400 mb-1.5 sm:mb-2">
+                     <BookOpen size={12} className="sm:w-4" />
+                     <span className={`truncate ${
+                       !isChapterLinkedToStory(chapter)
+                         ? 'text-red-400' 
+                         : 'text-gray-400'
+                     }`}>
+                       {getStoryTitle(chapter.storyId)}
+                     </span>
+                   </div>
+                   
+                   {/* Status */}
+                   <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-gray-400 mb-1.5 sm:mb-2">
+                     <div className={`w-2 h-2 rounded-full ${
+                       (chapter.status || 'public') === 'public' ? 'bg-green-400' : 'bg-yellow-400'
+                     }`}></div>
+                     <span className={(chapter.status || 'public') === 'public' ? 'text-green-400' : 'text-yellow-400'}>
+                       {(chapter.status || 'public') === 'public' ? 'Công khai' : 'Bản nháp'}
+                     </span>
+                   </div>
+                   
+                   {/* Date */}
+                   <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-gray-400">
+                     <Calendar size={12} className="sm:w-4" />
+                     <span>{new Date(chapter.createdAt).toLocaleDateString('vi-VN')}</span>
+                   </div>
 
                   {/* Action Buttons */}
                   <div className="flex items-center gap-1.5 sm:gap-3 mt-2 sm:mt-4">

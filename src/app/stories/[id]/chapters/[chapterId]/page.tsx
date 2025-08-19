@@ -141,6 +141,26 @@ export default function ChapterReaderPage() {
     );
   }
 
+  if ((chapter.status || 'public') !== 'public') {
+    return (
+      <div className="min-h-screen bg-black">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="text-center">
+            <div className="bg-yellow-900/20 border border-yellow-700 text-yellow-400 px-4 py-3 rounded text-xs">
+              Chương này chưa được xuất bản
+            </div>
+            <button 
+              onClick={() => router.push(`/stories/${storyId}`)}
+              className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-xs"
+            >
+              Quay lại truyện
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const previousChapter = getPreviousChapter();
   const nextChapter = getNextChapter();
 

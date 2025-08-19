@@ -20,6 +20,7 @@ export interface Chapter {
   title: string;
   content: string;
   chapterNumber: number;
+  status: 'draft' | 'public';
   likeCount?: number;
   commentCount?: number;
   viewCount?: number;
@@ -91,12 +92,14 @@ export interface CreateChapterRequest {
   title: string;
   content: string;
   chapterNumber: number;
+  status?: 'draft' | 'public';
 }
 
 export interface UpdateChapterRequest {
   title?: string;
   content?: string;
   chapterNumber?: number;
+  status?: 'draft' | 'public';
 }
 
 export interface CreateCategoryRequest {

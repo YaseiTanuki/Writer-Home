@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useAuth } from '../../../contexts/AuthContext';
@@ -29,6 +29,80 @@ export default function NewStoryPage() {
 
   const [storyContent, setStoryContent] = useState('');
   const imageUploadRef = useRef<{ uploadImage: () => Promise<string>; hasNewFile: () => boolean }>(null);
+
+  // Load draft on component mount
+  useEffect(() => {
+    const savedDraft = localStorage.getItem('storyDraft');
+    if (savedDraft) {
+      try {
+        const draft = JSON.parse(savedDraft);
+        setFormData(draft.formData);
+        setStoryContent(draft.content);
+      } catch (err) {
+        console.error('Failed to load draft:', err);
+      }
+    }
+  }, []); // Empty dependency array - only run once on mount
+
+  // Auto-save draft functionality
+  useEffect(() => {
+    // Auto-save draft every 30 seconds
+    const autoSaveInterval = setInterval(() => {
+      if (formData.title || storyContent.trim()) {
+        const draft = {
+          formData,
+          content: storyContent,
+          timestamp: Date.now()
+        };
+        localStorage.setItem('storyDraft', JSON.stringify(draft));
+      }
+    }, 30000);
+
+    // Save draft before page unload
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (formData.title || storyContent.trim()) {
+        const draft = {
+          formData,
+          content: storyContent,
+          timestamp: Date.now()
+        };
+        localStorage.setItem('storyDraft', JSON.stringify(draft));
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      clearInterval(autoSaveInterval);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      // Save draft on component unmount
+      if (formData.title || storyContent.trim()) {
+        const draft = {
+          formData,
+          content: storyContent,
+          timestamp: Date.now()
+        };
+        localStorage.setItem('storyDraft', JSON.stringify(draft));
+      }
+    };
+  }, [formData, storyContent]);
+
+  const saveDraft = () => {
+    if (formData.title || storyContent.trim()) {
+      const draft = {
+        formData,
+        content: storyContent,
+        timestamp: Date.now()
+      };
+      localStorage.setItem('storyDraft', JSON.stringify(draft));
+    }
+  };
+
+  const clearDraft = () => {
+    localStorage.removeItem('storyDraft');
+  };
 
   // Redirect if not authenticated
   if (!isLoading && !isAuthenticated) {
@@ -134,8 +208,11 @@ export default function NewStoryPage() {
       
       const response = await storyService.createStory(storyData);
       
-      // Redirect to admin dashboard on success
-      router.push('/admin');
+      // Clear draft on successful creation
+      clearDraft();
+      
+      // Redirect to stories list on success
+      router.push('/admin/stories');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Có lỗi xảy ra khi tạo truyện');
     } finally {
@@ -164,13 +241,36 @@ export default function NewStoryPage() {
 
         {/* Creation Banner */}
         <div className="mb-6 p-3 sm:p-4 rounded-md bg-gradient-to-r from-[#D2691E]/20 to-[#C97C4B]/20 border border-[#D2691E]/50 backdrop-blur-sm">
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-[#00E5FF] rounded-full animate-pulse"></div>
-            <p className="text-xs sm:text-sm font-medium text-[#F4E3D2]">
-              Sẵn sàng tạo truyện mới? Hãy điền đầy đủ thông tin bên dưới
-            </p>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-[#00E5FF] rounded-full animate-pulse"></div>
+              <p className="text-xs sm:text-sm font-medium text-[#F4E3D2]">
+                Sẵn sàng tạo truyện mới? Hãy điền đầy đủ thông tin bên dưới
+              </p>
+            </div>
+            {localStorage.getItem('storyDraft') && (
+              <button
+                type="button"
+                onClick={clearDraft}
+                className="text-xs text-[#00E5FF] hover:text-[#00E5FF]/80 underline"
+              >
+                Xóa bản thảo
+              </button>
+            )}
           </div>
         </div>
+
+        {/* Draft Loaded Banner */}
+        {localStorage.getItem('storyDraft') && (
+          <div className="mb-4 p-3 rounded-md bg-[#00E5FF]/10 border border-[#00E5FF]/30 backdrop-blur-sm">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-[#00E5FF] rounded-full"></div>
+              <p className="text-xs text-[#00E5FF]">
+                📝 Bản thảo đã được tải tự động. Bạn có thể tiếp tục chỉnh sửa hoặc xóa để bắt đầu mới.
+              </p>
+            </div>
+          </div>
+        )}
 
         {error && (
           <div className="mb-4 p-3 rounded-md bg-red-900/20 border border-red-700/50 text-red-300 text-xs backdrop-blur-sm">
@@ -343,7 +443,7 @@ export default function NewStoryPage() {
               
               <button
                 type="button"
-                onClick={() => router.push('/admin')}
+                onClick={() => router.push('/admin/stories')}
                 className="flex-1 sm:flex-none bg-[#2A2A2A] hover:bg-[#2A2A2A]/80 text-[#B0BEC5] px-6 py-3 rounded-lg font-medium transition-all duration-300 text-center text-sm border-2 border-[#D2691E] hover:border-[#C97C4B] hover:scale-105"
               >
                 Hủy Bỏ

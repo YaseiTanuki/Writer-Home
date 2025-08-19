@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -21,11 +21,82 @@ export default function NewChapterPage() {
     title: '',
     storyId: '',
     content: '',
-    chapterNumber: 1
+    chapterNumber: 1,
+    status: 'draft'
   });
 
   const [stories, setStories] = useState<Story[]>([]);
   const [isLoadingStories, setIsLoadingStories] = useState(true);
+
+  // Auto-save draft functionality
+  const saveDraft = useCallback(() => {
+    if (formData.title || formData.storyId) {
+      const draft = {
+        formData,
+        timestamp: Date.now()
+      };
+      localStorage.setItem('chapterDraft', JSON.stringify(draft));
+    }
+  }, [formData]);
+
+  const clearDraft = useCallback(() => {
+    localStorage.removeItem('chapterDraft');
+  }, []);
+
+  // Load draft on component mount
+  useEffect(() => {
+    const savedDraft = localStorage.getItem('chapterDraft');
+    if (savedDraft) {
+      try {
+        const draft = JSON.parse(savedDraft);
+        setFormData(draft.formData);
+      } catch (err) {
+        console.error('Failed to load draft:', err);
+      }
+    }
+  }, []); // Empty dependency array - only run once on mount
+
+  // Auto-save draft functionality
+  useEffect(() => {
+    // Auto-save draft every 30 seconds
+    const autoSaveInterval = setInterval(() => {
+      if (formData.title || formData.storyId) {
+        const draft = {
+          formData,
+          timestamp: Date.now()
+        };
+        localStorage.setItem('chapterDraft', JSON.stringify(draft));
+      }
+    }, 30000);
+
+    // Save draft before page unload
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (formData.title || formData.storyId) {
+        const draft = {
+          formData,
+          timestamp: Date.now()
+        };
+        localStorage.setItem('chapterDraft', JSON.stringify(draft));
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      clearInterval(autoSaveInterval);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      // Save draft on component unmount
+      if (formData.title || formData.storyId) {
+        const draft = {
+          formData,
+          timestamp: Date.now()
+        };
+        localStorage.setItem('chapterDraft', JSON.stringify(draft));
+      }
+    };
+  }, [formData]);
 
   // Redirect if not authenticated
   if (!isLoading && !isAuthenticated) {
@@ -144,11 +215,15 @@ export default function NewChapterPage() {
         storyId: formData.storyId,
         title: formData.title,
         chapterNumber: formData.chapterNumber,
+        status: formData.status,
         content: '' // Will be filled in the next step
       };
       
       // Store in localStorage for the next step
       localStorage.setItem('tempChapter', JSON.stringify(tempChapter));
+      
+      // Clear draft on successful creation
+      clearDraft();
       
       // Navigate to content writing page
       router.push(`/admin/new-chapter/content`);
@@ -186,7 +261,71 @@ export default function NewChapterPage() {
           </div>
         </div>
 
+        {/* Draft Loaded Banner */}
+        {localStorage.getItem('chapterDraft') && (
+          <div className="mb-4 p-3 rounded-md bg-[#00E5FF]/10 border border-[#00E5FF]/30 backdrop-blur-sm">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-[#00E5FF] rounded-full"></div>
+                <p className="text-xs text-[#00E5FF]">
+                  📝 Bản thảo đã được tải tự động. Bạn có thể tiếp tục chỉnh sửa hoặc xóa để bắt đầu mới.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={clearDraft}
+                className="text-xs text-[#00E5FF] hover:text-[#00E5FF]/80 underline"
+              >
+                Xóa bản thảo
+              </button>
+            </div>
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Story Selection Section */}
+          <div className="bg-[#1E1E1E] shadow-lg rounded-2xl p-4 sm:p-6 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E] backdrop-blur-sm">
+            <h2 className="text-base font-semibold text-[#FFFFFF] mb-4 flex items-center gap-2">
+              <div className="w-1.5 h-1.5 bg-[#F4A460] rounded-full"></div>
+              Chọn Truyện
+            </h2>
+            <div>
+              <label htmlFor="storyId" className="block text-xs font-medium text-[#B0BEC5] mb-2 flex items-center gap-2">
+                <div className="w-1 h-1 bg-[#00E5FF] rounded-full"></div>
+                Truyện <span className="text-[#00E5FF]">*</span>
+              </label>
+              <select
+                id="storyId"
+                name="storyId"
+                value={formData.storyId}
+                onChange={handleStoryChange}
+                onBlur={() => handleBlur('storyId')}
+                className="w-full px-3 py-2 border-2 border-[#00E5FF]/30 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#00E5FF] focus:border-[#00E5FF] text-xs bg-[#2A2A2A] text-[#FFFFFF] transition-all duration-200"
+                required
+              >
+                <option value="">-- Chọn truyện --</option>
+                {stories.map((story) => (
+                  <option key={story._id} value={story._id}>
+                    {story.title}
+                  </option>
+                ))}
+              </select>
+              {stories.length === 0 && (
+                <div className="mt-2 p-2 bg-[#F4A460]/10 border-2 border-[#F4A460]/30 rounded-lg backdrop-blur-sm">
+                  <div className="flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 bg-[#F4A460] rounded-full"></div>
+                    <p className="text-xs text-[#F4A460]">
+                      Chưa có truyện nào. Vui lòng <Link href="/admin/new-story" className="text-[#00E5FF] hover:underline">tạo truyện trước</Link>.
+                    </p>
+                  </div>
+                </div>
+              )}
+              {getFieldError('storyId') && (
+                <p className="text-[#D2691E] text-xs mt-1">{getFieldError('storyId')}</p>
+              )}
+            </div>
+          </div>
+
           {/* Basic Information Section */}
           <div className="bg-[#1E1E1E] shadow-lg rounded-2xl p-4 sm:p-6 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E] backdrop-blur-sm">
             <h2 className="text-base font-semibold text-[#FFFFFF] mb-4 flex items-center gap-2">
@@ -239,49 +378,26 @@ export default function NewChapterPage() {
                   <p className="text-[#D2691E] text-xs mt-1">{getFieldError('chapterNumber')}</p>
                 )}
               </div>
-            </div>
-          </div>
 
-          {/* Story Selection Section */}
-          <div className="bg-[#1E1E1E] shadow-lg rounded-2xl p-4 sm:p-6 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E] backdrop-blur-sm">
-            <h2 className="text-base font-semibold text-[#FFFFFF] mb-4 flex items-center gap-2">
-              <div className="w-1.5 h-1.5 bg-[#F4A460] rounded-full"></div>
-              Chọn Truyện
-            </h2>
-            <div>
-              <label htmlFor="storyId" className="block text-xs font-medium text-[#B0BEC5] mb-2 flex items-center gap-2">
-                <div className="w-1 h-1 bg-[#00E5FF] rounded-full"></div>
-                Truyện <span className="text-[#00E5FF]">*</span>
-              </label>
-              <select
-                id="storyId"
-                name="storyId"
-                value={formData.storyId}
-                onChange={handleStoryChange}
-                onBlur={() => handleBlur('storyId')}
-                className="w-full px-3 py-2 border-2 border-[#00E5FF]/30 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#00E5FF] focus:border-[#00E5FF] text-xs bg-[#2A2A2A] text-[#FFFFFF] transition-all duration-200"
-                required
-              >
-                <option value="">-- Chọn truyện --</option>
-                {stories.map((story) => (
-                  <option key={story._id} value={story._id}>
-                    {story.title}
-                  </option>
-                ))}
-              </select>
-              {stories.length === 0 && (
-                <div className="mt-2 p-2 bg-[#F4A460]/10 border-2 border-[#F4A460]/30 rounded-lg backdrop-blur-sm">
-                  <div className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 bg-[#F4A460] rounded-full"></div>
-                    <p className="text-xs text-[#F4A460]">
-                      Chưa có truyện nào. Vui lòng <Link href="/admin/new-story" className="text-[#00E5FF] hover:underline">tạo truyện trước</Link>.
-                    </p>
-                  </div>
-                </div>
-              )}
-              {getFieldError('storyId') && (
-                <p className="text-[#D2691E] text-xs mt-1">{getFieldError('storyId')}</p>
-              )}
+              {/* Status */}
+              <div>
+                <label htmlFor="status" className="block text-xs font-medium text-[#B0BEC5] mb-2 flex items-center gap-2">
+                  <div className="w-1 h-1 bg-[#00E5FF] rounded-full"></div>
+                  Trạng thái <span className="text-[#00E5FF]">*</span>
+                </label>
+                <select
+                  id="status"
+                  name="status"
+                  value={formData.status}
+                  onChange={handleInputChange}
+                  onBlur={() => handleBlur('status')}
+                  className="w-full px-3 py-2 border-2 border-[#00E5FF]/30 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#00E5FF] focus:border-[#00E5FF] text-xs bg-[#2A2A2A] text-[#FFFFFF] transition-all duration-200"
+                  required
+                >
+                  <option value="draft">Bản nháp</option>
+                  <option value="public">Công khai</option>
+                </select>
+              </div>
             </div>
           </div>
 

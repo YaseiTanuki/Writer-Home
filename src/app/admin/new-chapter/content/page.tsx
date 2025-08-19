@@ -15,6 +15,7 @@ interface TempChapter {
   storyId: string;
   title: string;
   chapterNumber: number;
+  status: 'draft' | 'public';
   content: string;
 }
 
@@ -147,6 +148,7 @@ export default function ChapterContentPage() {
         storyId: tempChapter.storyId,
         title: tempChapter.title,
         chapterNumber: tempChapter.chapterNumber,
+        status: tempChapter.status,
         content: content
       };
       
@@ -155,8 +157,8 @@ export default function ChapterContentPage() {
       // Clear temp data
       localStorage.removeItem('tempChapter');
       
-      // Redirect to admin dashboard on success
-      router.push('/admin');
+      // Redirect to chapters list on success
+      router.push('/admin/chapters');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Có lỗi xảy ra khi tạo chương');
     } finally {
@@ -220,6 +222,15 @@ export default function ChapterContentPage() {
                   Số chương:
                 </label>
                 <p className="text-xs sm:text-sm text-white font-medium">{tempChapter.chapterNumber}</p>
+              </div>
+              <div className="bg-gray-800/50 rounded-md p-2 backdrop-blur-sm">
+                <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1 flex items-center gap-2">
+                  <div className="w-1 h-1 bg-blue-400 rounded-full"></div>
+                  Trạng thái:
+                </label>
+                <p className="text-xs sm:text-sm text-white font-medium">
+                  {tempChapter.status === 'draft' ? 'Bản nháp' : 'Công khai'}
+                </p>
               </div>
               <div className="sm:col-span-2 bg-gray-800/50 rounded-md p-2 backdrop-blur-sm">
                 <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1 flex items-center gap-2">
@@ -337,7 +348,7 @@ export default function ChapterContentPage() {
                   )}
                 </button>
                 <Link
-                  href="/admin"
+                  href="/admin/chapters"
                   className="flex-1 sm:flex-none bg-[#2A2A2A] hover:bg-[#2A2A2A]/80 text-[#B0BEC5] px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg font-medium transition-all duration-300 text-center text-sm sm:text-base border-2 border-[#D2691E] hover:border-[#C97C4B] hover:scale-105"
                 >
                   Hủy

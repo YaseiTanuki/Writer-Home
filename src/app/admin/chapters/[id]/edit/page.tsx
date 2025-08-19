@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -25,8 +25,85 @@ export default function EditChapterPage() {
   const [formData, setFormData] = useState<UpdateChapterRequest>({
     title: '',
     content: '',
-    chapterNumber: 1
+    chapterNumber: 1,
+    status: 'draft'
   });
+
+  // Auto-save draft functionality
+  const saveDraft = useCallback(() => {
+    if (formData.title || formData.content) {
+      const draft = {
+        formData,
+        chapterId,
+        timestamp: Date.now()
+      };
+      localStorage.setItem(`chapterEditDraft_${chapterId}`, JSON.stringify(draft));
+    }
+  }, [formData, chapterId]);
+
+  const clearDraft = useCallback(() => {
+    localStorage.removeItem(`chapterEditDraft_${chapterId}`);
+  }, [chapterId]);
+
+  // Load draft on component mount
+  useEffect(() => {
+    const savedDraft = localStorage.getItem(`chapterEditDraft_${chapterId}`);
+    if (savedDraft) {
+      try {
+        const draft = JSON.parse(savedDraft);
+        if (draft.chapterId === chapterId) {
+          setFormData(draft.formData);
+        }
+      } catch (err) {
+        console.error('Failed to load draft:', err);
+      }
+    }
+  }, [chapterId]); // Only depend on chapterId, not formData
+
+  // Auto-save draft functionality
+  useEffect(() => {
+    // Auto-save draft every 30 seconds
+    const autoSaveInterval = setInterval(() => {
+      if (formData.title || formData.content) {
+        const draft = {
+          formData,
+          chapterId,
+          timestamp: Date.now()
+        };
+        localStorage.setItem(`chapterEditDraft_${chapterId}`, JSON.stringify(draft));
+      }
+    }, 30000);
+
+    // Save draft before page unload
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (formData.title || formData.content) {
+        const draft = {
+          formData,
+          chapterId,
+          timestamp: Date.now()
+        };
+        localStorage.setItem(`chapterEditDraft_${chapterId}`, JSON.stringify(draft));
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      clearInterval(autoSaveInterval);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      // Save draft on component unmount
+      if (formData.title || formData.content) {
+        const draft = {
+          formData,
+          chapterId,
+          timestamp: Date.now()
+        };
+        localStorage.setItem(`chapterEditDraft_${chapterId}`, JSON.stringify(draft));
+      }
+    };
+  }, [formData, chapterId]);
 
   // Redirect if not authenticated
   if (!isLoading && !isAuthenticated) {
@@ -48,7 +125,8 @@ export default function EditChapterPage() {
       setFormData({
         title: response.chapter.title,
         content: response.chapter.content,
-        chapterNumber: response.chapter.chapterNumber
+        chapterNumber: response.chapter.chapterNumber,
+        status: response.chapter.status
       });
     } catch (err) {
       setError('Không thể tải thông tin chương');
@@ -96,7 +174,7 @@ export default function EditChapterPage() {
     );
   }
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     if (name === 'chapterNumber') {
       setFormData(prev => ({ ...prev, [name]: parseInt(value) || 1 }));
@@ -119,8 +197,11 @@ export default function EditChapterPage() {
       
       await storyService.updateChapter(chapterId, formData);
       
-      // Redirect to admin dashboard on success
-      router.push('/admin');
+      // Clear draft on successful update
+      clearDraft();
+      
+      // Redirect to chapters list on success
+      router.push('/admin/chapters');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Có lỗi xảy ra khi cập nhật chương');
     } finally {
@@ -149,8 +230,31 @@ export default function EditChapterPage() {
             </div>
           </div>
           
+          {localStorage.getItem(`chapterEditDraft_${chapterId}`) && (
+            <button
+              type="button"
+              onClick={clearDraft}
+              className="text-xs text-blue-400 hover:text-blue-300 underline"
+            >
+              Xóa bản thảo
+            </button>
+          )}
         </div>
       </div>
+
+      {/* Draft Loaded Banner */}
+      {localStorage.getItem(`chapterEditDraft_${chapterId}`) && (
+        <div className="mb-4 px-4 sm:px-6 lg:px-8">
+          <div className="p-3 rounded-md bg-blue-900/20 border border-blue-700/50 backdrop-blur-sm">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+              <p className="text-xs text-blue-300">
+                📝 Bản thảo đã được tải tự động. Bạn có thể tiếp tục chỉnh sửa hoặc xóa để bắt đầu mới.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Form Container */}
       <div className="px-4 sm:px-6 lg:px-8 mb-6">
@@ -198,6 +302,25 @@ export default function EditChapterPage() {
               placeholder="Nhập tiêu đề chương..."
               required
             />
+          </div>
+
+          {/* Chapter Status */}
+          <div className="bg-gray-900/50 rounded-md border border-gray-700 p-3 sm:p-4 backdrop-blur-sm">
+            <label htmlFor="status" className="block text-xs sm:text-sm font-medium text-gray-200 mb-1.5 sm:mb-2 flex items-center gap-2">
+              <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
+              Trạng thái *
+            </label>
+            <select
+              id="status"
+              name="status"
+              value={formData.status}
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 text-sm bg-gray-800/50 text-white backdrop-blur-sm transition-all duration-200"
+              required
+            >
+              <option value="draft">Bản nháp</option>
+              <option value="public">Công khai</option>
+            </select>
           </div>
         </form>
       </div>
@@ -251,7 +374,7 @@ export default function EditChapterPage() {
             )}
           </button>
           <Link
-            href="/admin"
+            href="/admin/chapters"
             className="flex-1 sm:flex-none bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-md font-medium transition-all duration-300 text-center text-sm sm:text-base shadow-md hover:shadow-lg hover:scale-105"
           >
             Hủy
