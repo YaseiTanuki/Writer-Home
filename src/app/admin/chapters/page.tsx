@@ -139,7 +139,7 @@ export default function AdminChapters() {
     setOrphanedChaptersToDelete([]);
   };
 
-  const getStoryTitle = (storyId: any) => {
+  const getStoryTitle = (storyId: string | { _id: string; title: string } | null) => {
     if (!storyId) return 'Không có truyện';
     
     // Xử lý trường hợp storyId là object (MongoDB ObjectId)
@@ -183,7 +183,7 @@ export default function AdminChapters() {
   };
 
   // Helper function để extract storyId từ chapter
-  const extractStoryId = (storyId: any): string => {
+  const extractStoryId = (storyId: string | { _id: string } | null): string => {
     if (!storyId) return '';
     
     if (typeof storyId === 'object' && storyId !== null) {

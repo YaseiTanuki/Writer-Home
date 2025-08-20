@@ -72,7 +72,7 @@ class GoogleAuthService {
           // Initialize Google Sign-In
           window.google.accounts.id.initialize({
             client_id: GOOGLE_CLIENT_ID,
-            callback: async (response: any) => {
+            callback: async (response: { credential: string }) => {
               try {
                 console.log('Google OAuth: Callback received');
                 
@@ -225,8 +225,22 @@ declare global {
     google: {
       accounts: {
         id: {
-          initialize: (config: any) => void;
-          renderButton: (element: HTMLElement, options: any) => void;
+          initialize: (config: { 
+            client_id: string; 
+            callback: (response: { credential: string }) => void;
+            auto_select?: boolean;
+            cancel_on_tap_outside?: boolean;
+            prompt_parent_id?: string;
+            use_fedcm_for_prompt?: boolean;
+          }) => void;
+          renderButton: (element: HTMLElement, options: { 
+            theme?: string; 
+            size?: string; 
+            type?: string;
+            text?: string;
+            shape?: string;
+            logo_alignment?: string;
+          }) => void;
         };
       };
     };

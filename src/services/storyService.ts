@@ -14,6 +14,19 @@ import {
   CreateGuestReplyRequest
 } from '../types/story';
 
+interface User {
+  _id: string;
+  displayName: string;
+  email: string;
+  picture?: string;
+  role?: string;
+  status?: string;
+  lastActive?: string;
+  lastLogin?: string;
+  messageCount: number;
+  createdAt: string;
+}
+
 export const storyService = {
   // Get all stories with optional filters
   async getStories(params?: { 
@@ -256,7 +269,7 @@ export const storyService = {
   },
 
   // Get all users (for admin dashboard)
-  async getUsers(): Promise<{ users: any[]; count: number }> {
+  async getUsers(): Promise<{ users: User[]; count: number }> {
     // Get JWT token from AuthService
     const token = AuthService.getAccessToken();
     
@@ -281,7 +294,7 @@ export const storyService = {
   },
 
   // Delete a user and all related messages
-  async deleteUser(userId: string): Promise<{ message: string; deletedMessages: number; deletedUser: any }> {
+  async deleteUser(userId: string): Promise<{ message: string; deletedMessages: number; deletedUser: User }> {
     // Get JWT token from AuthService
     const token = AuthService.getAccessToken();
     
