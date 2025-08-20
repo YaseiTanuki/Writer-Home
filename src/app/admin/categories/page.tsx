@@ -11,7 +11,7 @@ import { UpdateCategoryRequest } from '../../../types/story';
 import Navigation from '../../../component/Navigation';
 
 export default function AdminCategories() {
-  const { user, isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
   const [categories, setCategories] = useState<Category[]>([]);
   const [stories, setStories] = useState<Story[]>([]);
@@ -410,7 +410,7 @@ export default function AdminCategories() {
                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 11V6a3 3 0 1 1 6 0v5a3 3 0 1 1-6 0Z" />
               </svg>
               <h3 className="mb-3 sm:mb-5 text-base sm:text-lg font-normal text-white">
-                Bạn có chắc chắn muốn xóa thể loại "{deleteConfirm.name}" không?
+                Bạn có chắc chắn muốn xóa thể loại &ldquo;{deleteConfirm.name}&rdquo; không?
               </h3>
               <p className="mb-3 sm:mb-4 text-xs sm:text-sm text-gray-300">
                 Hành động này không thể hoàn tác.

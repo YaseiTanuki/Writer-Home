@@ -294,7 +294,7 @@ export default function AdminStories() {
                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 11V6a3 3 0 1 1 6 0v5a3 3 0 1 1-6 0Z" />
                 </svg>
                 <h3 className="mb-3 sm:mb-5 text-base sm:text-lg font-normal text-[#FFFFFF]">
-                  Bạn có chắc chắn muốn xóa "{deleteConfirm.title}" không?
+                  Bạn có chắc chắn muốn xóa &ldquo;{deleteConfirm.title}&rdquo; không?
                 </h3>
                 <p className="mb-3 sm:mb-4 text-xs sm:text-sm text-[#00E5FF] bg-[#00E5FF]/10 p-2 sm:p-3 rounded-lg border-2 border-[#00E5FF]/30">
                   <AlertTriangle size={14} className="inline mr-1 sm:mr-2" />

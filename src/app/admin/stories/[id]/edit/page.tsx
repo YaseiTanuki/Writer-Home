@@ -44,17 +44,6 @@ export default function EditStoryPage() {
   });
 
   // Auto-save draft functionality
-  const saveDraft = useCallback(() => {
-    if (formData.title || formData.description || formData.content) {
-      const draft = {
-        formData,
-        storyId,
-        timestamp: Date.now()
-      };
-      localStorage.setItem(`storyEditDraft_${storyId}`, JSON.stringify(draft));
-    }
-  }, [formData, storyId]);
-
   const clearDraft = useCallback(() => {
     localStorage.removeItem(`storyEditDraft_${storyId}`);
   }, [storyId]);
@@ -119,19 +108,20 @@ export default function EditStoryPage() {
     };
   }, [formData, storyId]);
 
-  // Redirect if not authenticated
-  if (!isLoading && !isAuthenticated) {
-    console.log('User not authenticated, redirecting to login');
-    router.push('/login');
-    return null;
-  }
-
+  // Load story when authenticated
   useEffect(() => {
     console.log('useEffect triggered:', { isAuthenticated, storyId });
     if (isAuthenticated && storyId) {
       loadStory();
     }
   }, [isAuthenticated, storyId]);
+
+  // Redirect if not authenticated
+  if (!isLoading && !isAuthenticated) {
+    console.log('User not authenticated, redirecting to login');
+    router.push('/login');
+    return null;
+  }
 
   const loadStory = async () => {
     try {

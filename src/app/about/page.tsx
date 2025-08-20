@@ -1,6 +1,6 @@
 'use client';
 
-import { User, BookOpen, Sparkles, Heart, Target, Mail } from 'lucide-react';
+import { User, BookOpen, Mail } from 'lucide-react';
 
 export default function AboutPage() {
   return (
@@ -47,10 +47,10 @@ export default function AboutPage() {
               
               <div className="bg-[#2A2A2A] p-3 rounded-lg border-l-4 border-[#D2691E] my-4">
                 <p className="italic text-center text-[#D2691E]">
-                  "Tôi nghe tiếng gió vi vu thầm thì<br/>
+                  &ldquo;Tôi nghe tiếng gió vi vu thầm thì<br/>
                   Rằng rừng sâu có loài mèo say ngủ.<br/>
                   Mèo nằm lặng trong miền phiêu lưu cũ,<br/>
-                  Khẽ lưu tên vào mộng mị thu du."
+                  Khẽ lưu tên vào mộng mị thu du.&rdquo;
                 </p>
               </div>
               

@@ -9,7 +9,7 @@ import { storyService } from '../../../../../services/storyService';
 import { Chapter, UpdateChapterRequest } from '../../../../../types/story';
 import TiptapEditor from '../../../../../component/TiptapEditor';
 import Navigation from '../../../../../component/Navigation';
-import { Edit3, ArrowLeft } from 'lucide-react';
+import { Edit3 } from 'lucide-react';
 
 export default function EditChapterPage() {
   const { user, isAuthenticated, isLoading } = useAuth();
@@ -30,17 +30,6 @@ export default function EditChapterPage() {
   });
 
   // Auto-save draft functionality
-  const saveDraft = useCallback(() => {
-    if (formData.title || formData.content) {
-      const draft = {
-        formData,
-        chapterId,
-        timestamp: Date.now()
-      };
-      localStorage.setItem(`chapterEditDraft_${chapterId}`, JSON.stringify(draft));
-    }
-  }, [formData, chapterId]);
-
   const clearDraft = useCallback(() => {
     localStorage.removeItem(`chapterEditDraft_${chapterId}`);
   }, [chapterId]);
@@ -105,17 +94,18 @@ export default function EditChapterPage() {
     };
   }, [formData, chapterId]);
 
-  // Redirect if not authenticated
-  if (!isLoading && !isAuthenticated) {
-    router.push('/login');
-    return null;
-  }
-
+  // Load chapter when authenticated
   useEffect(() => {
     if (isAuthenticated && chapterId) {
       loadChapter();
     }
   }, [isAuthenticated, chapterId]);
+
+  // Redirect if not authenticated
+  if (!isLoading && !isAuthenticated) {
+    router.push('/login');
+    return null;
+  }
 
   const loadChapter = async () => {
     try {

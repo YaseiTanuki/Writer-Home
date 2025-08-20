@@ -43,6 +43,40 @@ export default function TiptapToolbar({ editor }: TiptapToolbarProps) {
   const [linkUrl, setLinkUrl] = useState('');
   const [textColor, setTextColor] = useState('');
   const [highlightColor, setHighlightColor] = useState('');
+
+  // Calculate features per page based on container width
+  useEffect(() => {
+    const calculateFeaturesPerPage = () => {
+      if (containerRef.current) {
+        const containerWidth = containerRef.current.offsetWidth;
+        const buttonWidth = 40; // Approximate button width (32px + padding)
+        const gap = 4; // Gap between buttons
+        const navigationWidth = 120; // Width for navigation arrows and page indicator
+        
+        const availableWidth = containerWidth - navigationWidth;
+        const calculatedFeatures = Math.floor(availableWidth / (buttonWidth + gap));
+        
+        // Ensure at least 7 features and at most 11 features per page (increased by 3)
+        const clampedFeatures = Math.max(7, Math.min(11, calculatedFeatures));
+        setFeaturesPerPage(clampedFeatures);
+      }
+    };
+
+    calculateFeaturesPerPage();
+    
+    // Recalculate on window resize
+    const handleResize = () => {
+      calculateFeaturesPerPage();
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Reset to first page when features per page changes
+  useEffect(() => {
+    setCurrentPage(0);
+  }, [featuresPerPage]);
   
   if (!editor) {
     return null;
@@ -327,35 +361,6 @@ export default function TiptapToolbar({ editor }: TiptapToolbarProps) {
     }
   ];
 
-  // Calculate features per page based on container width
-  useEffect(() => {
-    const calculateFeaturesPerPage = () => {
-      if (containerRef.current) {
-        const containerWidth = containerRef.current.offsetWidth;
-        const buttonWidth = 40; // Approximate button width (32px + padding)
-        const gap = 4; // Gap between buttons
-        const navigationWidth = 120; // Width for navigation arrows and page indicator
-        
-        const availableWidth = containerWidth - navigationWidth;
-        const calculatedFeatures = Math.floor(availableWidth / (buttonWidth + gap));
-        
-        // Ensure at least 7 features and at most 11 features per page (increased by 3)
-        const clampedFeatures = Math.max(7, Math.min(11, calculatedFeatures));
-        setFeaturesPerPage(clampedFeatures);
-      }
-    };
-
-    calculateFeaturesPerPage();
-    
-    // Recalculate on window resize
-    const handleResize = () => {
-      calculateFeaturesPerPage();
-    };
-    
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
   const totalPages = Math.ceil(allFeatures.length / featuresPerPage);
   const startIndex = currentPage * featuresPerPage;
   const endIndex = startIndex + featuresPerPage;
@@ -368,11 +373,6 @@ export default function TiptapToolbar({ editor }: TiptapToolbarProps) {
   const prevPage = () => {
     setCurrentPage((prev) => (prev - 1 + totalPages) % totalPages);
   };
-
-  // Reset to first page when features per page changes
-  useEffect(() => {
-    setCurrentPage(0);
-  }, [featuresPerPage]);
 
   return (
     <div className="border-b border-gray-800 bg-gray-800 p-1.5 sm:p-2" ref={containerRef}>

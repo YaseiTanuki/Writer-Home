@@ -189,4 +189,6 @@ const ImageUpload = forwardRef<{ uploadImage: () => Promise<string>; hasNewFile:
   );
 });
 
+ImageUpload.displayName = 'ImageUpload';
+
 export default ImageUpload;

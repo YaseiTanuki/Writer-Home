@@ -8,10 +8,10 @@ import { useAuth } from '../../../contexts/AuthContext';
 import { storyService } from '../../../services/storyService';
 import { CreateChapterRequest, Story } from '../../../types/story';
 import Navigation from '../../../component/Navigation';
-import { Sparkles, BookOpen, Home, Plus, ArrowLeft } from 'lucide-react';
+import { Sparkles, Plus } from 'lucide-react';
 
 export default function NewChapterPage() {
-  const { user, isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -29,16 +29,6 @@ export default function NewChapterPage() {
   const [isLoadingStories, setIsLoadingStories] = useState(true);
 
   // Auto-save draft functionality
-  const saveDraft = useCallback(() => {
-    if (formData.title || formData.storyId) {
-      const draft = {
-        formData,
-        timestamp: Date.now()
-      };
-      localStorage.setItem('chapterDraft', JSON.stringify(draft));
-    }
-  }, [formData]);
-
   const clearDraft = useCallback(() => {
     localStorage.removeItem('chapterDraft');
   }, []);
@@ -98,17 +88,18 @@ export default function NewChapterPage() {
     };
   }, [formData]);
 
-  // Redirect if not authenticated
-  if (!isLoading && !isAuthenticated) {
-    router.push('/login');
-    return null;
-  }
-
+  // Load stories when authenticated
   useEffect(() => {
     if (isAuthenticated) {
       loadStories();
     }
   }, [isAuthenticated]);
+
+  // Redirect if not authenticated
+  if (!isLoading && !isAuthenticated) {
+    router.push('/login');
+    return null;
+  }
 
   const loadStories = async () => {
     try {

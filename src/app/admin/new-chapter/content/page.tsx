@@ -9,7 +9,7 @@ import { storyService } from '../../../../services/storyService';
 import { CreateChapterRequest, Story } from '../../../../types/story';
 import TiptapEditor from '../../../../component/TiptapEditor';
 import Navigation from '../../../../component/Navigation';
-import { Sparkles, BookOpen, Home, Plus, X, FileText } from 'lucide-react';
+import { Sparkles, Plus, X, FileText } from 'lucide-react';
 
 interface TempChapter {
   storyId: string;
@@ -20,7 +20,7 @@ interface TempChapter {
 }
 
 export default function ChapterContentPage() {
-  const { user, isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -31,17 +31,18 @@ export default function ChapterContentPage() {
   const [content, setContent] = useState('');
   const [isLoadingData, setIsLoadingData] = useState(true);
 
-  // Redirect if not authenticated
-  if (!isLoading && !isAuthenticated) {
-    router.push('/login');
-    return null;
-  }
-
+  // Load temp chapter when authenticated
   useEffect(() => {
     if (isAuthenticated) {
       loadTempChapter();
     }
   }, [isAuthenticated]);
+
+  // Redirect if not authenticated
+  if (!isLoading && !isAuthenticated) {
+    router.push('/login');
+    return null;
+  }
 
   const loadTempChapter = async () => {
     try {

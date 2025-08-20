@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '../../contexts/AuthContext';
@@ -18,7 +17,7 @@ import {
 
 export default function Navigation() {
   const pathname = usePathname();
-  const { user, isAuthenticated: isAdminAuthenticated, logout: adminLogout } = useAuth();
+  const { isAuthenticated: isAdminAuthenticated, logout: adminLogout } = useAuth();
   const { guest, isAuthenticated: isGuestAuthenticated, signOut: guestSignOut } = useGuest();
 
   const isActive = (path: string) => {
