@@ -1,6 +1,6 @@
-# Writer Home Frontend
+# Meo Meo Ký Frontend
 
-Frontend application for the Writer Home project, built with Next.js 15, React 19, and TypeScript.
+Frontend application for the Meo Meo Ký project, built with Next.js 15, React 19, and TypeScript.
 
 ## Features
 

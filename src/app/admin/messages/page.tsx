@@ -142,7 +142,7 @@ export default function AdminMessages() {
               </div>
               <div>
                 <div className="relative mb-1">
-                  <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-pink-300 to-rose-400 bg-clip-text text-transparent">Góc Truyện</h1>
+                  <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-pink-300 to-rose-400 bg-clip-text text-transparent">Meo Meo Ký</h1>
                   <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-yellow-400 rounded-full animate-pulse"></div>
                 </div>
                 <div className="text-xs sm:text-sm text-gray-400">

@@ -40,7 +40,7 @@ export default function Navigation() {
           <div className="flex items-center">
             <Link href="/" className="text-sm sm:text-xl font-bold text-[#FF4081] flex items-center gap-2">
               <BookOpen size={24} />
-              Góc Truyện
+              Meo Meo Ký
             </Link>
           </div>
 

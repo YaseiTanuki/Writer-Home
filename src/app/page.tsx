@@ -372,7 +372,7 @@ export default function Home() {
         <div className="text-center mb-8 px-3 sm:px-0">
           <div className="relative mb-4">
             <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-[#FFFFFF] mb-3 leading-tight">
-              Chào mừng đến với Góc Truyện của Tôi
+              Chào mừng đến với Meo Meo Ký
             </h1>
             <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-[#D2691E] rounded-full animate-pulse"></div>
           </div>

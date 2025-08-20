@@ -6,7 +6,7 @@ import Navigation from "../component/Navigation";
 import MobileBottomNav from "../component/Navigation/MobileBottomNav";
 
 export const metadata: Metadata = {
-  title: "Góc Truyện - Writer Home",
+  title: "Meo Meo Ký",
   description: "Nơi lưu trữ những câu chuyện, suy nghĩ và sáng tác văn học",
 };
 

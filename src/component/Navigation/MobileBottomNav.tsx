@@ -53,7 +53,7 @@ export default function MobileBottomNav() {
         <div className="flex justify-center items-center h-12">
           <Link href="/" className="text-base font-bold text-[#D2691E] flex items-center gap-2">
             <BookOpen size={18} />
-            Góc Truyện
+            Meo Meo Ký
           </Link>
         </div>
       </div>
