@@ -3,14 +3,13 @@
 import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
-import { Mail, ArrowLeft, User, Trash2, Reply } from 'lucide-react';
+import { Mail, ArrowLeft, User, Trash2 } from 'lucide-react';
 import { useAuth } from '../../../../contexts/AuthContext';
-import Navigation from '../../../../component/Navigation';
 import { storyService } from '../../../../services/storyService';
 import { Message } from '../../../../types/story';
 
 export default function MessageDetail() {
-  const { user, isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
   const params = useParams();
   const messageId = params.messageId as string;
@@ -51,18 +50,12 @@ export default function MessageDetail() {
       if (foundMessage) {
         setMessage(foundMessage);
       } else {
-        setNotification({ 
-          type: 'error', 
-          message: 'Không tìm thấy tin nhắn!' 
-        });
+        setNotification({ type: 'error', message: 'Không tìm thấy tin nhắn!' });
         setTimeout(() => router.push('/admin/messages'), 2000);
       }
     } catch (err) {
       console.error('Failed to load message:', err);
-      setNotification({ 
-        type: 'error', 
-        message: 'Không thể tải dữ liệu tin nhắn!' 
-      });
+      setNotification({ type: 'error', message: 'Không thể tải dữ liệu tin nhắn!' });
     } finally {
       setIsLoadingData(false);
     }
@@ -70,30 +63,17 @@ export default function MessageDetail() {
 
   const handleReply = async () => {
     if (!replyText.trim() || !message) return;
-    
     try {
       setIsReplying(true);
-      const response = await storyService.replyMessage(message._id, replyText);
-      console.log('Reply response:', response);
-      
-      // Reload message to get the latest state
+      await storyService.replyMessage(message._id, replyText);
       await loadMessage();
-      
       setReplyText('');
-      setNotification({ 
-        type: 'success', 
-        message: 'Đã trả lời tin nhắn thành công!' 
-      });
-      
+      setNotification({ type: 'success', message: 'Đã trả lời tin nhắn thành công!' });
       setTimeout(() => setNotification(null), 3000);
     } catch (err) {
       console.error('Failed to reply to message:', err);
       const errorMessage = err instanceof Error ? err.message : 'Có lỗi xảy ra khi trả lời';
-      setNotification({ 
-        type: 'error', 
-        message: `Lỗi: ${errorMessage}` 
-      });
-      
+      setNotification({ type: 'error', message: `Lỗi: ${errorMessage}` });
       setTimeout(() => setNotification(null), 5000);
     } finally {
       setIsReplying(false);
@@ -102,30 +82,16 @@ export default function MessageDetail() {
 
   const handleDeleteGuestReply = async (replyIndex: number) => {
     if (!message) return;
-    
     try {
       setIsDeletingGuestReply({ replyIndex });
-      
-      const response = await storyService.deleteGuestReply(message._id, replyIndex);
-      console.log('Delete guest reply response:', response);
-      
-      // Reload message to get the latest state
+      await storyService.deleteGuestReply(message._id, replyIndex);
       await loadMessage();
-      
-      setNotification({ 
-        type: 'success', 
-        message: 'Đã xóa câu trả lời của guest thành công!' 
-      });
-      
+      setNotification({ type: 'success', message: 'Đã xóa câu trả lời của guest thành công!' });
       setTimeout(() => setNotification(null), 3000);
     } catch (err) {
       console.error('Failed to delete guest reply:', err);
       const errorMessage = err instanceof Error ? err.message : 'Có lỗi xảy ra khi xóa câu trả lời';
-      setNotification({ 
-        type: 'error', 
-        message: `Lỗi: ${errorMessage}` 
-      });
-      
+      setNotification({ type: 'error', message: `Lỗi: ${errorMessage}` });
       setTimeout(() => setNotification(null), 5000);
     } finally {
       setIsDeletingGuestReply(null);
@@ -142,31 +108,18 @@ export default function MessageDetail() {
 
   const handleUpdateReply = async () => {
     if (!editReplyText.trim() || !message) return;
-    
     try {
       setIsUpdatingReply(true);
-      const response = await storyService.replyMessage(message._id, editReplyText);
-      console.log('Update reply response:', response);
-      
-      // Reload message to get the latest state
+      await storyService.replyMessage(message._id, editReplyText);
       await loadMessage();
-      
       setIsEditingReply(false);
       setEditReplyText('');
-      setNotification({ 
-        type: 'success', 
-        message: 'Đã cập nhật câu trả lời thành công!' 
-      });
-      
+      setNotification({ type: 'success', message: 'Đã cập nhật câu trả lời thành công!' });
       setTimeout(() => setNotification(null), 3000);
     } catch (err) {
       console.error('Failed to update reply:', err);
       const errorMessage = err instanceof Error ? err.message : 'Có lỗi xảy ra khi cập nhật câu trả lời';
-      setNotification({ 
-        type: 'error', 
-        message: `Lỗi: ${errorMessage}` 
-      });
-      
+      setNotification({ type: 'error', message: `Lỗi: ${errorMessage}` });
       setTimeout(() => setNotification(null), 5000);
     } finally {
       setIsUpdatingReply(false);
@@ -181,36 +134,21 @@ export default function MessageDetail() {
   // Delete admin reply
   const handleDeleteReply = async () => {
     if (!message) return;
-    
-    // Show confirmation modal instead of browser confirm
     setShowDeleteConfirm(true);
   };
   
   const confirmDeleteReply = async () => {
     if (!message) return;
-    
     try {
       setIsDeletingReply(true);
-      const response = await storyService.replyMessage(message._id, ''); // Empty string to remove reply
-      console.log('Delete reply response:', response);
-      
-      // Reload message to get the latest state
+      await storyService.replyMessage(message._id, ''); // Empty string to remove reply
       await loadMessage();
-      
-      setNotification({ 
-        type: 'success', 
-        message: 'Đã xóa câu trả lời của admin thành công!' 
-      });
-      
+      setNotification({ type: 'success', message: 'Đã xóa câu trả lời của admin thành công!' });
       setTimeout(() => setNotification(null), 3000);
     } catch (err) {
       console.error('Failed to delete reply:', err);
       const errorMessage = err instanceof Error ? err.message : 'Có lỗi xảy ra khi xóa câu trả lời';
-      setNotification({ 
-        type: 'error', 
-        message: `Lỗi: ${errorMessage}` 
-      });
-      
+      setNotification({ type: 'error', message: `Lỗi: ${errorMessage}` });
       setTimeout(() => setNotification(null), 5000);
     } finally {
       setIsDeletingReply(false);
@@ -224,7 +162,7 @@ export default function MessageDetail() {
 
   if (isLoading || !isAuthenticated) {
     return (
-      <div className="min-h-screen bg-black">
+      <div className="min-h-screen bg-[#1e1e2e]">
         <div className="max-w-4xl mx-auto px-4 py-8">
           <div className="text-center">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-yellow-400 mx-auto"></div>
@@ -238,7 +176,6 @@ export default function MessageDetail() {
   if (isLoadingData) {
     return (
       <div className="min-h-screen bg-gray-900">
-        <Navigation />
         <div className="max-w-4xl mx-auto px-4 py-8">
           <div className="text-center">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-yellow-400 mx-auto"></div>
@@ -252,7 +189,6 @@ export default function MessageDetail() {
   if (!message) {
     return (
       <div className="min-h-screen bg-gray-900">
-        <Navigation />
         <div className="max-w-4xl mx-auto px-4 py-8">
           <div className="text-center">
             <p className="text-gray-300 text-base">Không tìm thấy tin nhắn</p>
@@ -266,18 +202,17 @@ export default function MessageDetail() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      <Navigation />
+    <div className="min-h-screen bg-gray-900 text-[#cdd6f4]">
       
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex items-center gap-3 mb-6">
-          <Link href="/admin/messages" className="inline-flex items-center justify-center p-2 text-gray-400 hover:text-white transition-all duration-200 rounded-md bg-gray-800/50 hover:bg-gray-700/50 backdrop-blur-sm border border-gray-700">
+          <Link href="/admin/messages" className="inline-flex items-center justify-center p-2 text-gray-400 hover:text-[#cdd6f4] transition-all duration-200 rounded-md bg-gray-800/50 hover:bg-gray-700/50 backdrop-blur-sm border border-gray-700">
             <ArrowLeft size={16} />
           </Link>
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-gradient-to-r from-pink-600 to-rose-600 rounded-lg flex items-center justify-center">
-              <Mail size={16} className="text-white" />
+              <Mail size={16} className="text-[#cdd6f4]" />
             </div>
             <div>
               <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-pink-400 to-rose-400 bg-clip-text text-transparent">Chi tiết tin nhắn</h1>
@@ -307,13 +242,13 @@ export default function MessageDetail() {
                 />
               ) : null}
               <div className={`h-16 w-16 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center ${message.guestPicture ? 'hidden' : ''}`}>
-                <User size={20} className="text-white" />
+                <User size={20} className="text-[#cdd6f4]" />
               </div>
             </div>
 
             {/* Message Info */}
             <div className="flex-1 min-w-0">
-              <h2 className="text-base font-semibold text-white mb-1">
+              <h2 className="text-base font-semibold text-[#cdd6f4] mb-1">
                 {message.guestName || message.name}
               </h2>
               <p className="text-gray-300 text-sm mb-1">{message.email}</p>
@@ -323,7 +258,7 @@ export default function MessageDetail() {
               
               {/* Content */}
               <div className="bg-gray-700 rounded-md p-3">
-                <p className="text-white text-sm whitespace-pre-wrap">{message.content}</p>
+                <p className="text-[#cdd6f4] text-sm whitespace-pre-wrap">{message.content}</p>
               </div>
             </div>
           </div>
@@ -341,14 +276,14 @@ export default function MessageDetail() {
                 value={replyText}
                 onChange={(e) => setReplyText(e.target.value)}
                 placeholder="Nhập nội dung trả lời..."
-                className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md text-white text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md text-[#cdd6f4] text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                 rows={3}
               />
               <div className="flex justify-end">
                 <button
                   onClick={handleReply}
                   disabled={!replyText.trim() || isReplying}
-                  className="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white text-sm font-medium rounded-md transition-colors duration-200"
+                  className="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-[#cdd6f4] text-sm font-medium rounded-md transition-colors duration-200"
                 >
                   {isReplying ? 'Đang gửi...' : 'Gửi trả lời'}
                 </button>
@@ -365,14 +300,14 @@ export default function MessageDetail() {
               <div className="flex items-center gap-2">
                 <button
                   onClick={handleEditReply}
-                  className="px-2.5 py-1 bg-pink-600 hover:bg-pink-700 text-white text-xs font-medium rounded-md transition-colors duration-200"
+                  className="px-2.5 py-1 bg-pink-600 hover:bg-pink-700 text-[#cdd6f4] text-xs font-medium rounded-md transition-colors duration-200"
                 >
                   Sửa
                 </button>
                 <button
                   onClick={handleDeleteReply}
                   disabled={isDeletingReply}
-                  className="px-2.5 py-1 bg-red-600 hover:bg-red-700 disabled:bg-red-500 disabled:cursor-not-allowed text-white text-xs font-medium rounded-md transition-colors duration-200"
+                  className="px-2.5 py-1 bg-red-600 hover:bg-red-700 disabled:bg-red-500 disabled:cursor-not-allowed text-[#cdd6f4] text-xs font-medium rounded-md transition-colors duration-200"
                 >
                   {isDeletingReply ? 'Đang xóa...' : 'Xóa'}
                 </button>
@@ -385,7 +320,7 @@ export default function MessageDetail() {
                   value={editReplyText}
                   onChange={(e) => setEditReplyText(e.target.value)}
                   placeholder="Nhập nội dung trả lời..."
-                  className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md text-white text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                  className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md text-[#cdd6f4] text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
                   rows={3}
                 />
                 <div className="flex justify-end gap-2">
@@ -398,7 +333,7 @@ export default function MessageDetail() {
                   <button
                     onClick={handleUpdateReply}
                     disabled={!editReplyText.trim() || isUpdatingReply}
-                    className="px-3 py-1.5 bg-pink-600 hover:bg-pink-700 disabled:bg-pink-500 disabled:cursor-not-allowed text-white text-xs font-medium rounded-md transition-colors duration-200"
+                    className="px-3 py-1.5 bg-pink-600 hover:bg-pink-700 disabled:bg-pink-500 disabled:cursor-not-allowed text-[#cdd6f4] text-xs font-medium rounded-md transition-colors duration-200"
                   >
                     {isUpdatingReply ? 'Đang cập nhật...' : 'Cập nhật'}
                   </button>
@@ -492,7 +427,7 @@ export default function MessageDetail() {
         <div className="flex justify-center mt-6">
           <Link
             href="/admin/messages"
-            className="px-4 py-2 bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white text-sm font-medium rounded-md shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300"
+            className="px-4 py-2 bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-[#cdd6f4] text-sm font-medium rounded-md shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300"
           >
             Quay lại danh sách tin nhắn
           </Link>
@@ -510,7 +445,7 @@ export default function MessageDetail() {
               </div>
               
               {/* Title */}
-              <h3 className="text-base font-medium text-white text-center mb-2">
+              <h3 className="text-base font-medium text-[#cdd6f4] text-center mb-2">
                 Xác nhận xóa
               </h3>
               
@@ -530,7 +465,7 @@ export default function MessageDetail() {
                 <button
                   onClick={confirmDeleteReply}
                   disabled={isDeletingReply}
-                  className="flex-1 px-3 py-2 bg-red-600 hover:bg-red-700 disabled:bg-red-500 disabled:cursor-not-allowed text-white text-sm font-medium rounded-md transition-colors duration-200"
+                  className="flex-1 px-3 py-2 bg-red-600 hover:bg-red-700 disabled:bg-red-500 disabled:cursor-not-allowed text-[#cdd6f4] text-sm font-medium rounded-md transition-colors duration-200"
                 >
                   {isDeletingReply ? 'Đang xóa...' : 'Xóa'}
                 </button>

@@ -2,11 +2,9 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Navigation from '../../component/Navigation';
 import { useGuest } from '../../contexts/GuestContext';
-import { LogIn, Shield, Users, ArrowLeft, Mail } from 'lucide-react';
+import { LogIn, Shield, Users, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
 
 export default function AuthPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -29,94 +27,89 @@ export default function AuthPage() {
         // Redirect to home page after successful Google login
         router.push('/');
       } catch (error) {
-        setError(error instanceof Error ? error.message : 'Google sign-in failed');
+        if (error instanceof Error && error.message !== 'cancelled') {
+          setError(error instanceof Error ? error.message : 'Google sign-in failed');
+        }
+      } finally {
         setIsLoading(false);
       }
     }
   };
 
   return (
-    <div className="min-h-screen bg-black">
-      <Navigation />
-      <div className="pt-16 md:pt-24 w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
-        
-        {/* Main Selection Screen */}
-        <div className="text-center">
-          <div className="relative mb-6 sm:mb-8">
-            <div className="flex items-center justify-center gap-2 sm:gap-3 mb-4">
-              <LogIn size={28} className="text-pink-400 sm:w-8 sm:h-8" />
-              <h1 className="text-lg sm:text-2xl font-bold text-white bg-gradient-to-r from-pink-300 to-rose-400 bg-clip-text text-transparent">Chọn loại đăng nhập</h1>
+    <div className="min-h-screen flex items-center justify-center px-4" style={{ backgroundColor: '#1e1e2e' }}>
+      <div className="w-full max-w-sm">
+
+        {/* Header */}
+        <div className="text-center mb-8">
+          <div
+            className="inline-flex items-center justify-center w-12 h-12 rounded-2xl mb-4"
+            style={{ backgroundColor: 'rgba(203,166,247,0.12)', border: '1px solid rgba(203,166,247,0.25)' }}
+          >
+            <LogIn size={20} style={{ color: '#cba6f7' }} />
+          </div>
+          <h1 className="text-xl font-bold mb-1" style={{ color: '#cdd6f4' }}>Chọn cách đăng nhập</h1>
+          <p className="text-xs" style={{ color: '#6c7086' }}>Bạn muốn đăng nhập bằng cách nào?</p>
+        </div>
+
+        {/* Error */}
+        {error && (
+          <div
+            className="mb-6 flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs"
+            style={{ backgroundColor: 'rgba(243,139,168,0.08)', border: '1px solid rgba(243,139,168,0.2)', color: '#f38ba8' }}
+          >
+            <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: '#f38ba8' }} />
+            {error}
+          </div>
+        )}
+
+        <div className="space-y-3">
+          {/* Google OAuth */}
+          <button
+            onClick={() => handleSelectLoginType('guest')}
+            disabled={isLoading}
+            className="w-full flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-200 hover:opacity-90 disabled:opacity-40"
+            style={{ backgroundColor: '#313244', border: '1px solid #45475a' }}
+          >
+            <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-xl" style={{ backgroundColor: 'rgba(137,180,250,0.12)' }}>
+              {isLoading
+                ? <div className="w-5 h-5 border-2 rounded-full animate-spin" style={{ borderColor: '#89b4fa', borderTopColor: 'transparent' }} />
+                : <Users size={20} style={{ color: '#89b4fa' }} />}
             </div>
-            <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-yellow-400 rounded-full animate-pulse"></div>
-          </div>
-          
-          <p className="text-xs sm:text-base text-gray-300 mb-8 sm:mb-12">
-            Bạn muốn đăng nhập bằng cách nào?
-          </p>
-
-          {error && (
-            <div className="mb-4 sm:mb-6 bg-red-900/20 border border-red-700/50 text-red-300 px-3 sm:px-4 py-2.5 sm:py-3 rounded-md text-xs backdrop-blur-sm">
-              <div className="flex items-center gap-2">
-                <div className="w-1.5 h-1.5 bg-red-400 rounded-full"></div>
-                {error}
+            <div className="text-left">
+              <div className="text-sm font-semibold" style={{ color: '#cdd6f4' }}>
+                {isLoading ? 'Đang xử lý...' : 'Đăng nhập với Google'}
               </div>
+              <div className="text-xs" style={{ color: '#6c7086' }}>Người dùng khách</div>
             </div>
-          )}
+          </button>
 
-          <div className="space-y-4 sm:space-y-6">
-            {/* Google OAuth Option */}
-            <button
-              onClick={() => handleSelectLoginType('guest')}
-              disabled={isLoading}
-              className="w-full bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 disabled:from-pink-800 disabled:to-rose-800 text-white px-6 sm:px-8 py-4 sm:py-6 rounded-md font-medium transition-all duration-300 flex items-center justify-center gap-3 sm:gap-4 shadow-lg hover:shadow-xl hover:scale-105"
-            >
-              {isLoading ? (
-                <>
-                  <div className="relative w-4 h-4 sm:w-5 sm:h-5">
-                    <Image
-                      src="/reading.gif"
-                      alt="Processing..."
-                      width={20}
-                      height={20}
-                      className="rounded w-full h-full object-cover"
-                    />
-                  </div>
-                  <span className="text-xs sm:text-base">Đang xử lý...</span>
-                </>
-              ) : (
-                <>
-                  <Users size={28} className="sm:w-8 sm:h-8" />
-                  <div className="text-center">
-                    <div className="text-sm sm:text-xl font-bold">Đăng nhập với Google</div>
-                    <div className="text-xs opacity-90">Người dùng khách</div>
-                  </div>
-                </>
-              )}
-            </button>
+          {/* Admin login */}
+          <button
+            onClick={() => handleSelectLoginType('admin')}
+            disabled={isLoading}
+            className="w-full flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-200 hover:opacity-90 disabled:opacity-40"
+            style={{ backgroundColor: '#313244', border: '1px solid #45475a' }}
+          >
+            <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-xl" style={{ backgroundColor: 'rgba(203,166,247,0.12)' }}>
+              <Shield size={20} style={{ color: '#cba6f7' }} />
+            </div>
+            <div className="text-left">
+              <div className="text-sm font-semibold" style={{ color: '#cdd6f4' }}>Đăng nhập quản trị</div>
+              <div className="text-xs" style={{ color: '#6c7086' }}>Admin</div>
+            </div>
+          </button>
+        </div>
 
-            {/* Admin Login Option */}
-            <button
-              onClick={() => handleSelectLoginType('admin')}
-              disabled={isLoading}
-              className="w-full bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 disabled:from-rose-800 disabled:to-pink-800 text-white px-6 sm:px-8 py-4 sm:py-6 rounded-md font-medium transition-all duration-300 flex items-center justify-center gap-3 sm:gap-4 shadow-lg hover:shadow-xl hover:scale-105"
-            >
-              <Shield size={28} className="sm:w-8 sm:h-8" />
-              <div className="text-center">
-                <div className="text-sm sm:text-xl font-bold">Đăng nhập quản trị</div>
-                <div className="text-xs opacity-90">Admin</div>
-              </div>
-            </button>
-          </div>
-
-          <div className="mt-6 sm:mt-8">
-            <Link 
-              href="/"
-              className="text-gray-400 hover:text-white transition-colors duration-200 flex items-center justify-center gap-1.5 sm:gap-2"
-            >
-              <ArrowLeft size={14} className="sm:w-4 sm:h-4" />
-              <span className="text-xs sm:text-base">Quay về trang chủ</span>
-            </Link>
-          </div>
+        <div className="mt-6 text-center">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1.5 text-xs transition-colors duration-200"
+            style={{ color: '#6c7086' }}
+          >
+            <ArrowLeft size={13} />
+            Quay về trang chủ
+          </Link>
         </div>
       </div>
     </div>

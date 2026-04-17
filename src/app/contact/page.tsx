@@ -2,13 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Navigation from '../../component/Navigation';
 import { storyService } from '../../services/storyService';
 import { CreateMessageRequest } from '../../types/story';
 import { useGuest } from '../../contexts/GuestContext';
 import { useAuth } from '../../contexts/AuthContext';
 import { Mail, User, MessageSquare, Send, CheckCircle, AlertCircle, Info, LogIn, Clock, XCircle } from 'lucide-react';
-import Image from 'next/image';
 
 interface MessageLimitInfo {
   email: string;
@@ -160,148 +158,150 @@ export default function ContactPage() {
   // Loading screen
   if (isPageLoading) {
     return (
-      <div className="min-h-screen bg-[#121212] flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#1e1e2e' }}>
         <div className="text-center">
-          <div className="relative w-24 h-24 md:w-32 md:h-32 mx-auto mb-4 md:mb-6">
-            <Image
-              src="/reading.gif"
-              alt="Loading..."
-              width={96}
-              height={96}
-              className="rounded-lg w-full h-full object-cover"
-            />
-          </div>
-          <h2 className="text-sm md:text-2xl font-bold text-[#FFFFFF] mb-2">Đang tải...</h2>
-          <p className="text-xs md:text-base text-[#B0BEC5]">Vui lòng chờ một chút</p>
+          <div className="w-8 h-8 border-2 rounded-full animate-spin mx-auto mb-4" style={{ borderColor: '#cba6f7', borderTopColor: 'transparent' }} />
+          <p className="text-sm" style={{ color: '#a6adc8' }}>Đang tải...</p>
         </div>
       </div>
     );
   }
 
+  // CTP inline palette
+  const bg      = '#1e1e2e';
+  const card    = '#313244';
+  const border  = '#45475a';
+  const textMain = '#cdd6f4';
+  const textSub  = '#a6adc8';
+  const muted    = '#6c7086';
+  const mauve    = '#cba6f7';
+  const blue     = '#89b4fa';
+  const green    = '#a6e3a1';
+  const red      = '#f38ba8';
+  const yellow   = '#f9e2af';
+  const surface  = '#181825';
+
   return (
-    <div className="min-h-screen bg-[#121212]">
-      <Navigation />
-      <div className="pt-16 md:pt-24 max-w-4xl mx-auto px-3 sm:px-4 lg:px-6 py-6 sm:py-8">
+    <div className="min-h-screen" style={{ backgroundColor: bg }}>
+      <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+
+        {/* Header */}
         <div className="text-center mb-8">
-          <div className="relative mb-4">
-            <div className="flex items-center justify-center gap-2 sm:gap-3 mb-3">
-                              <Mail size={24} className="text-[#D2691E]" />
-              <h1 className="text-lg sm:text-xl font-bold text-[#FFFFFF]">Liên hệ với tôi</h1>
-            </div>
-                          <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-[#D2691E] rounded-full animate-pulse"></div>
+          <div
+            className="inline-flex items-center gap-2 mb-4 px-4 py-1.5 rounded-full text-xs font-medium"
+            style={{ color: mauve, backgroundColor: 'rgba(203,166,247,0.10)', border: `1px solid rgba(203,166,247,0.25)` }}
+          >
+            <Mail size={12} />
+            Liên hệ
           </div>
-          <p className="text-xs sm:text-sm text-[#B0BEC5]">
-            Bạn có góp ý, câu hỏi hoặc muốn chia sẻ cảm nhận về truyện? Hãy để lại tin nhắn cho tôi!
+          <h1 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: textMain }}>Liên hệ với tôi</h1>
+          <p className="text-sm" style={{ color: muted }}>
+            Bạn có góp ý, câu hỏi hoặc muốn chia sẻ cảm nhận về truyện? Hãy để lại tin nhắn!
           </p>
         </div>
 
-                  <div className="bg-[#1E1E1E] shadow-lg rounded-2xl p-4 sm:p-6 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E] backdrop-blur-sm">
-          {/* Authentication Required Notice */}
+        {/* Main card */}
+        <div className="rounded-2xl p-5 sm:p-8" style={{ backgroundColor: card, border: `1px solid ${border}` }}>
+
+          {/* Auth required notice */}
           {!isAuthenticated && (
-            <div className="mb-6 bg-[#F4A460]/10 border-2 border-[#F4A460]/30 text-[#F4A460] px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg flex items-center gap-2 sm:gap-3">
-              <div className="w-1.5 h-1.5 bg-[#F4A460] rounded-full"></div>
-              <AlertCircle size={16} className="text-[#F4A460]" />
+            <div
+              className="mb-6 flex items-start gap-3 px-4 py-3 rounded-xl"
+              style={{ backgroundColor: 'rgba(249,226,175,0.08)', border: `1px solid rgba(249,226,175,0.2)` }}
+            >
+              <AlertCircle size={16} style={{ color: yellow, flexShrink: 0, marginTop: '2px' }} />
               <div className="flex-1">
-                <p className="text-xs font-medium">Bạn cần đăng nhập để gửi tin nhắn</p>
-                <p className="text-xs mt-1 text-[#F4A460]/80">Tin nhắn sẽ được liên kết với tài khoản của bạn</p>
+                <p className="text-xs font-medium mb-0.5" style={{ color: yellow }}>Bạn cần đăng nhập để gửi tin nhắn</p>
+                <p className="text-xs" style={{ color: textSub }}>Tin nhắn sẽ được liên kết với tài khoản của bạn</p>
               </div>
               <button
                 onClick={handleLoginRedirect}
-                className="bg-[#F4A460] hover:bg-[#F4A460]/90 text-[#1E1E1E] px-3 sm:px-4 py-2 rounded-lg text-xs font-medium transition-all duration-200 flex items-center gap-2 hover:scale-105 shadow-md hover:shadow-lg"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 hover:opacity-90"
+                style={{ backgroundColor: '#cba6f7', color: '#11111b' }}
               >
-                <LogIn size={14} />
+                <LogIn size={13} />
                 Đăng Nhập
               </button>
             </div>
           )}
 
-          {/* Daily Limit Notice for Guests */}
+          {/* Daily limit notice */}
           {isGuestAuthenticated && (
-            <div className="mb-6 bg-[#C97C4B]/10 border-2 border-[#C97C4B]/30 text-[#C97C4B] px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg flex items-center gap-2 sm:gap-3">
-              <div className="w-1.5 h-1.5 bg-[#C97C4B] rounded-full"></div>
-              <Clock size={16} className="text-[#C97C4B]" />
+            <div
+              className="mb-6 flex items-start gap-3 px-4 py-3 rounded-xl"
+              style={{ backgroundColor: 'rgba(137,180,250,0.08)', border: `1px solid rgba(137,180,250,0.2)` }}
+            >
+              <Clock size={15} style={{ color: blue, flexShrink: 0, marginTop: '2px' }} />
               <div>
-                <p className="text-xs font-medium">Giới hạn tin nhắn hàng ngày</p>
-                <p className="text-xs mt-1 text-[#C97C4B]/80">Mỗi tài khoản Google chỉ được gửi tối đa 5 tin nhắn mỗi ngày</p>
+                <p className="text-xs font-medium mb-0.5" style={{ color: blue }}>Giới hạn tin nhắn hàng ngày</p>
+                <p className="text-xs" style={{ color: textSub }}>Mỗi tài khoản Google chỉ được gửi tối đa 5 tin nhắn mỗi ngày</p>
               </div>
             </div>
           )}
 
-          {/* Message Limit Status */}
+          {/* Message limit status */}
           {isAuthenticated && messageLimitInfo && (
-            <div className={`mb-6 border-2 rounded-lg px-3 sm:px-4 py-2.5 sm:py-3 flex items-center gap-2 sm:gap-3 ${
-              canSendMessage 
-                ? 'bg-[#F4A460]/10 border-[#F4A460]/30 text-[#F4A460]' 
-                : 'bg-[#D2691E]/10 border-[#D2691E]/30 text-[#D2691E]'
-            }`}>
-              <div className={`w-1.5 h-1.5 rounded-full ${canSendMessage ? 'bg-[#F4A460]' : 'bg-[#D2691E]'}`}></div>
-              {canSendMessage ? (
-                <CheckCircle size={16} className="text-[#F4A460]" />
-              ) : (
-                <XCircle size={16} className="text-[#D2691E]" />
-              )}
+            <div
+              className="mb-6 flex items-start gap-3 px-4 py-3 rounded-xl"
+              style={{
+                backgroundColor: canSendMessage ? 'rgba(166,227,161,0.08)' : 'rgba(243,139,168,0.08)',
+                border: `1px solid ${canSendMessage ? 'rgba(166,227,161,0.2)' : 'rgba(243,139,168,0.2)'}`,
+              }}
+            >
+              {canSendMessage
+                ? <CheckCircle size={15} style={{ color: green, flexShrink: 0, marginTop: '2px' }} />
+                : <XCircle size={15} style={{ color: red, flexShrink: 0, marginTop: '2px' }} />}
               <div>
-                <p className="text-xs font-medium">
-                  {canSendMessage ? 'Bạn có thể gửi tin nhắn' : 'Bạn đã đạt giới hạn tin nhắn hôm nay'}
+                <p className="text-xs font-medium mb-0.5" style={{ color: canSendMessage ? green : red }}>
+                  {canSendMessage ? 'Bạn có thể gửi tin nhắn' : 'Bạn đã đạt giới hạn hôm nay'}
                 </p>
-                <p className="text-xs mt-1">
-                  {canSendMessage 
-                    ? `Hôm nay bạn đã gửi ${messageLimitInfo.todayMessageCount}/5 tin nhắn. Còn lại ${remainingMessages} tin nhắn.`
-                    : `Hôm nay bạn đã gửi ${messageLimitInfo.todayMessageCount}/5 tin nhắn. Vui lòng thử lại vào ngày mai.`
-                  }
+                <p className="text-xs" style={{ color: textSub }}>
+                  {canSendMessage
+                    ? `Đã gửi ${messageLimitInfo.todayMessageCount}/5 hôm nay · Còn lại ${remainingMessages} tin nhắn`
+                    : `Đã gửi ${messageLimitInfo.todayMessageCount}/5. Vui lòng thử lại ngày mai.`}
                 </p>
               </div>
             </div>
           )}
 
-          {/* Loading indicator for message limit check */}
+          {/* Checking limit */}
           {isCheckingLimit && (
-            <div className="mb-6 bg-[#C97C4B]/10 border-2 border-[#C97C4B]/30 text-[#C97C4B] px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg flex items-center gap-2 sm:gap-3">
-              <div className="w-1.5 h-1.5 bg-[#C97C4B] rounded-full animate-pulse"></div>
-              <div className="relative w-4 h-4 md:w-5 md:h-5">
-                <Image
-                  src="/reading.gif"
-                  alt="Checking..."
-                  width={16}
-                  height={16}
-                  className="rounded w-full h-full object-cover"
-                />
-              </div>
-              <div>
-                <p className="text-xs font-medium">Đang kiểm tra giới hạn tin nhắn...</p>
-                <p className="text-xs mt-1 text-[#C97C4B]/80">Vui lòng chờ một chút</p>
-              </div>
+            <div className="mb-6 flex items-center gap-3 px-4 py-3 rounded-xl" style={{ backgroundColor: 'rgba(137,180,250,0.06)', border: `1px solid rgba(137,180,250,0.15)` }}>
+              <div className="w-3.5 h-3.5 border border-current rounded-full animate-spin flex-shrink-0" style={{ color: blue, borderTopColor: 'transparent' }} />
+              <p className="text-xs" style={{ color: textSub }}>Đang kiểm tra giới hạn tin nhắn...</p>
             </div>
           )}
 
+          {/* Success */}
           {submitStatus === 'success' && (
-            <div className="mb-6 bg-[#F4A460]/10 border-2 border-[#F4A460]/30 text-[#F4A460] px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg flex items-center gap-2 sm:gap-3">
-              <div className="w-1.5 h-1.5 bg-[#F4A460] rounded-full"></div>
-              <CheckCircle size={16} className="text-[#F4A460]" />
+            <div className="mb-6 flex items-start gap-3 px-4 py-3 rounded-xl" style={{ backgroundColor: 'rgba(166,227,161,0.08)', border: '1px solid rgba(166,227,161,0.2)' }}>
+              <CheckCircle size={15} style={{ color: green, flexShrink: 0, marginTop: '2px' }} />
               <div>
-                <p className="text-xs font-medium">Tin nhắn đã được gửi thành công!</p>
-                <p className="text-xs mt-1 text-[#F4A460]/80">Cảm ơn bạn đã liên hệ. Tôi sẽ phản hồi sớm nhất có thể.</p>
+                <p className="text-xs font-medium mb-0.5" style={{ color: green }}>Tin nhắn đã được gửi thành công!</p>
+                <p className="text-xs" style={{ color: textSub }}>Cảm ơn bạn đã liên hệ. Tôi sẽ phản hồi sớm nhất có thể.</p>
               </div>
             </div>
           )}
 
+          {/* Error */}
           {submitStatus === 'error' && (
-            <div className="mb-6 bg-[#D2691E]/10 border-2 border-[#D2691E]/30 text-[#D2691E] px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg flex items-center gap-2 sm:gap-3">
-              <div className="w-1.5 h-1.5 bg-[#D2691E] rounded-full"></div>
-              <AlertCircle size={16} className="text-[#D2691E]" />
+            <div className="mb-6 flex items-start gap-3 px-4 py-3 rounded-xl" style={{ backgroundColor: 'rgba(243,139,168,0.08)', border: '1px solid rgba(243,139,168,0.2)' }}>
+              <AlertCircle size={15} style={{ color: red, flexShrink: 0, marginTop: '2px' }} />
               <div>
-                <p className="text-xs font-medium">Không thể gửi tin nhắn</p>
-                <p className="text-xs mt-1 text-[#D2691E]/80">{errorMessage}</p>
+                <p className="text-xs font-medium mb-0.5" style={{ color: red }}>Không thể gửi tin nhắn</p>
+                <p className="text-xs" style={{ color: textSub }}>{errorMessage}</p>
               </div>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-5">
+
+            {/* Name */}
             <div>
-              <label htmlFor="name" className="block text-xs font-medium text-[#B0BEC5] mb-2 flex items-center gap-2">
-                <div className="w-1 h-1 bg-[#00E5FF] rounded-full"></div>
-                <User size={14} />
-                Tên của bạn <span className="text-[#00E5FF]">*</span>
+              <label htmlFor="name" className="flex items-center gap-1.5 text-xs font-medium mb-1.5" style={{ color: textSub }}>
+                <User size={13} />
+                Tên của bạn <span style={{ color: mauve }}>*</span>
               </label>
               <input
                 type="text"
@@ -310,19 +310,19 @@ export default function ContactPage() {
                 required
                 value={formData.name}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border-2 border-[#00E5FF]/30 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#00E5FF] focus:border-[#00E5FF] bg-[#2A2A2A] text-[#FFFFFF] placeholder-[#B0BEC5] text-xs transition-all duration-200"
-                placeholder="Nhập tên của bạn"
                 disabled={!isAuthenticated}
+                placeholder="Nhập tên của bạn"
+                className="w-full px-3 py-2 rounded-lg text-xs outline-none transition-all duration-200 disabled:opacity-50"
+                style={{ backgroundColor: surface, color: textMain, border: `1px solid ${border}`, caretColor: mauve }}
               />
             </div>
 
-            {/* Email field - hidden for guests, shown for admins */}
+            {/* Email (non-guest only) */}
             {!isGuestAuthenticated && (
               <div>
-                <label htmlFor="email" className="block text-xs font-medium text-[#B0BEC5] mb-2 flex items-center gap-2">
-                  <div className="w-1 h-1 bg-[#00E5FF] rounded-full"></div>
-                  <Mail size={14} />
-                  Email <span className="text-[#00E5FF]">*</span>
+                <label htmlFor="email" className="flex items-center gap-1.5 text-xs font-medium mb-1.5" style={{ color: textSub }}>
+                  <Mail size={13} />
+                  Email <span style={{ color: mauve }}>*</span>
                 </label>
                 <input
                   type="email"
@@ -331,108 +331,78 @@ export default function ContactPage() {
                   required
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border-2 border-[#00E5FF]/30 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#00E5FF] focus:border-[#00E5FF] bg-[#2A2A2A] text-[#FFFFFF] placeholder-[#B0BEC5] text-xs transition-all duration-200"
-                  placeholder="your.email@example.com"
                   disabled={!isAuthenticated}
+                  placeholder="your.email@example.com"
+                  className="w-full px-3 py-2 rounded-lg text-xs outline-none transition-all duration-200 disabled:opacity-50"
+                  style={{ backgroundColor: surface, color: textMain, border: `1px solid ${border}`, caretColor: mauve }}
                 />
               </div>
             )}
 
             {/* Guest email info */}
             {isGuestAuthenticated && (
-              <div className="bg-[#2A2A2A] border-2 border-[#00E5FF]/30 rounded-lg p-3 backdrop-blur-sm">
-                <div className="flex items-center gap-2 text-xs text-[#B0BEC5]">
-                  <div className="w-1 h-1 bg-[#00E5FF] rounded-full"></div>
-                  <Mail size={14} />
-                  <span>Email: <span className="text-[#00E5FF]">{guest?.email}</span></span>
-                </div>
-                <p className="text-xs text-[#B0BEC5]/80 mt-1">Email sẽ được tự động lấy từ tài khoản Google của bạn</p>
+              <div className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs" style={{ backgroundColor: surface, border: `1px solid ${border}` }}>
+                <Mail size={13} style={{ color: blue }} />
+                <span style={{ color: textSub }}>Email:&nbsp;</span>
+                <span style={{ color: blue }}>{guest?.email}</span>
               </div>
             )}
 
+            {/* Message content */}
             <div>
-              <label htmlFor="content" className="block text-xs font-medium text-[#B0BEC5] mb-2 flex items-center gap-2">
-                <div className="w-1 h-1 bg-[#00E5FF] rounded-full"></div>
-                <MessageSquare size={14} />
-                Nội dung tin nhắn <span className="text-[#00E5FF]">*</span>
+              <label htmlFor="content" className="flex items-center gap-1.5 text-xs font-medium mb-1.5" style={{ color: textSub }}>
+                <MessageSquare size={13} />
+                Nội dung tin nhắn <span style={{ color: mauve }}>*</span>
               </label>
               <textarea
                 id="content"
                 name="content"
                 required
-                rows={6}
+                rows={5}
                 maxLength={255}
                 value={formData.content}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border-2 border-[#00E5FF]/30 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#00E5FF] focus:border-[#00E5FF] bg-[#2A2A2A] text-[#FFFFFF] placeholder-[#B0BEC5] text-xs transition-all duration-200"
-                placeholder={isAuthenticated ? "Viết tin nhắn của bạn ở đây... (tối đa 255 ký tự)" : "Bạn cần đăng nhập để gửi tin nhắn"}
                 disabled={!isAuthenticated}
+                placeholder={isAuthenticated ? 'Viết tin nhắn của bạn... (tối đa 255 ký tự)' : 'Bạn cần đăng nhập để gửi tin nhắn'}
+                className="w-full px-3 py-2 rounded-lg text-xs outline-none transition-all duration-200 resize-none disabled:opacity-50"
+                style={{ backgroundColor: surface, color: textMain, border: `1px solid ${border}`, caretColor: mauve }}
               />
-              <div className="flex justify-between items-center mt-1">
-                <span className="text-xs text-[#B0BEC5]">
-                  Tin nhắn sẽ được hiển thị trên trang chủ
-                </span>
-                <span className={`text-xs ${formData.content.length >= 255 ? 'text-[#00E5FF]' : 'text-[#B0BEC5]'}`}>
-                  {formData.content.length}/255 ký tự
+              <div className="flex justify-between mt-1">
+                <span className="text-xs" style={{ color: muted }}>Tin nhắn sẽ xuất hiện trên trang chủ</span>
+                <span className="text-xs" style={{ color: formData.content.length >= 255 ? red : muted }}>
+                  {formData.content.length}/255
                 </span>
               </div>
             </div>
 
-            <div className="flex items-center justify-between">
-              <button
-                type="submit"
-                disabled={!isAuthenticated || isSubmitting || formData.content.length > 255 || !canSendMessage}
-                className="bg-[#00E5FF] hover:bg-[#00E5FF]/90 text-[#1E1E1E] px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:scale-102 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 sm:gap-3"
-              >
-                {!isAuthenticated ? (
-                  <>
-                    <LogIn size={16} />
-                    Cần Đăng Nhập
-                  </>
-                ) : isSubmitting ? (
-                  <>
-                    <div className="relative w-4 h-4 md:w-5 md:h-5">
-                      <Image
-                        src="/reading.gif"
-                        alt="Sending..."
-                        width={16}
-                        height={16}
-                        className="rounded w-full h-full object-cover"
-                      />
-                    </div>
-                    Đang gửi...
-                  </>
-                ) : formData.content.length > 255 ? (
-                  <>
-                    <AlertCircle size={16} />
-                    Vượt quá 255 ký tự
-                  </>
-                ) : !canSendMessage ? (
-                  <>
-                    <XCircle size={16} />
-                    Đã đạt giới hạn hôm nay
-                  </>
-                ) : (
-                  <>
-                    <Send size={16} />
-                    Gửi tin nhắn
-                  </>
-                )}
-              </button>
-            </div>
+            {/* Submit */}
+            <button
+              type="submit"
+              disabled={!isAuthenticated || isSubmitting || formData.content.length > 255 || !canSendMessage}
+              className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5 disabled:opacity-40 disabled:cursor-not-allowed disabled:translate-y-0"
+              style={{ backgroundColor: mauve, color: '#11111b' }}
+            >
+              {!isAuthenticated ? (<><LogIn size={15} />Cần Đăng Nhập</>) :
+               isSubmitting ? (<><div className="w-3.5 h-3.5 border border-[#11111b] rounded-full animate-spin" style={{ borderTopColor: 'transparent' }} />Đang gửi...</>) :
+               formData.content.length > 255 ? (<><AlertCircle size={15} />Vượt quá 255 ký tự</>) :
+               !canSendMessage ? (<><XCircle size={15} />Đã đạt giới hạn hôm nay</>) :
+               (<><Send size={15} />Gửi tin nhắn</>)}
+            </button>
           </form>
 
-          <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t-2 border-[#00E5FF]/30">
-            <div className="flex items-center gap-2 sm:gap-3 mb-3">
-              <div className="w-1.5 h-1.5 bg-[#00E5FF] rounded-full"></div>
-              <Info size={18} className="text-[#00E5FF]" />
-              <h3 className="text-base sm:text-lg font-medium text-[#FFFFFF]">Thông tin liên hệ khác</h3>
+          {/* Extra info */}
+          <div className="mt-8 pt-6" style={{ borderTop: `1px solid ${border}` }}>
+            <div className="flex items-center gap-2 mb-3">
+              <Info size={15} style={{ color: blue }} />
+              <h3 className="text-sm font-semibold" style={{ color: textMain }}>Thông tin thêm</h3>
             </div>
-            <div className="text-[#B0BEC5] space-y-2">
-              <p className="text-xs">• Bạn cũng có thể góp ý trực tiếp trong phần bình luận của từng chương</p>
-              <p className="text-xs">• Tôi sẽ cố gắng phản hồi tất cả tin nhắn trong thời gian sớm nhất</p>
-              <p className="text-xs">• Cảm ơn bạn đã dành thời gian đọc truyện của tôi!</p>
-            </div>
+            <ul className="space-y-1.5">
+              {['Bạn cũng có thể góp ý trong phần bình luận của từng chương', 'Tôi sẽ cố gắng phản hồi tất cả tin nhắn trong thời gian sớm nhất', 'Cảm ơn bạn đã dành thời gian đọc truyện của tôi!'].map(txt => (
+                <li key={txt} className="flex items-start gap-2 text-xs" style={{ color: textSub }}>
+                  <span style={{ color: mauve, flexShrink: 0 }}>·</span>{txt}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>

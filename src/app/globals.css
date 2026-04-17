@@ -1,139 +1,191 @@
 @import "tailwindcss";
 
+/* ── Catppuccin Mocha Design Tokens ── */
 :root {
-  /* Dark Mode Theme Colors */
-  --background: #121212;
-  --foreground: #FFFFFF;
-  --card-bg: #1E1E1E;
-  --card-bg-alt: #2A2A2A;
-  --border-color: #333333;
-  --hover-bg: #1a1a1a;
-  
-  /* Neon Border Colors */
-  --neon-pink: #FF4081;
-  --neon-lavender: #B39DDB;
-  --neon-mint: #00E5FF;
-  --neon-teal: #1DE9B6;
-  --neon-yellow: #FFEB3B;
-  
-  /* Text Colors */
-  --text-primary: #FFFFFF;
-  --text-secondary: #B0BEC5;
-  
-  /* Accent Colors */
-  --accent: #FF4081;
-  --accent-hover: #E91E63;
+  /* Base layers */
+  --ctp-crust:    #11111b;
+  --ctp-mantle:   #181825;
+  --ctp-base:     #1e1e2e;
+
+  /* Surface layers */
+  --ctp-surface0: #313244;
+  --ctp-surface1: #45475a;
+  --ctp-surface2: #585b70;
+
+  /* Overlay / muted */
+  --ctp-overlay0: #6c7086;
+  --ctp-overlay1: #7f849c;
+  --ctp-overlay2: #9399b2;
+
+  /* Text hierarchy */
+  --ctp-subtext0: #a6adc8;
+  --ctp-subtext1: #bac2de;
+  --ctp-text:     #cdd6f4;
+
+  /* Accent palette */
+  --ctp-lavender: #b4befe;
+  --ctp-blue:     #89b4fa;
+  --ctp-sapphire: #74c7ec;
+  --ctp-sky:      #89dceb;
+  --ctp-teal:     #94e2d5;
+  --ctp-green:    #a6e3a1;
+  --ctp-yellow:   #f9e2af;
+  --ctp-peach:    #fab387;
+  --ctp-maroon:   #eba0ac;
+  --ctp-red:      #f38ba8;
+  --ctp-mauve:    #cba6f7;
+  --ctp-pink:     #f5c2e7;
+  --ctp-flamingo: #f2cdcd;
+  --ctp-rosewater:#f5e0dc;
+
+  /* Semantic aliases */
+  --background:   var(--ctp-base);
+  --foreground:   var(--ctp-text);
+  --card-bg:      var(--ctp-surface0);
+  --card-bg-alt:  var(--ctp-surface1);
+  --border-color: var(--ctp-surface1);
+  --hover-bg:     var(--ctp-surface0);
+  --text-primary:   var(--ctp-text);
+  --text-secondary: var(--ctp-subtext0);
+  --accent:       var(--ctp-mauve);
+  --accent-hover: var(--ctp-lavender);
 }
 
-
+/* ── Base ── */
+html {
+  background: var(--ctp-base);
+  color-scheme: dark;
+}
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', 'Meiryo', sans-serif;
+  background: var(--ctp-base);
+  color: var(--ctp-text);
+  font-family: 'Inter', 'Noto Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Mobile Bottom Navigation Spacing */
+/* Mobile bottom nav spacing */
 @media (max-width: 768px) {
   body {
-    padding-bottom: 80px; /* Space for bottom navigation */
+    padding-bottom: 64px;
   }
 }
 
-/* Tiptap Editor Styles */
+/* ── Custom Scrollbar (Catppuccin) ── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--ctp-mantle);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--ctp-surface1);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ctp-surface2);
+}
+
+/* ── Tiptap / ProseMirror Editor ── */
 .ProseMirror {
   outline: none;
   min-height: 400px;
   padding: 1rem;
-  line-height: 1.6;
-  background: var(--card-bg);
-  color: var(--foreground);
-  border: 1px solid var(--border-color);
-  border-radius: 0.5rem;
+  line-height: 1.7;
+  background: var(--ctp-surface0);
+  color: var(--ctp-text);
+  border: 1px solid var(--ctp-surface1);
+  border-radius: 0.75rem;
+  caret-color: var(--ctp-mauve);
 }
 
 .ProseMirror p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
   float: left;
-  color: #888888;
+  color: var(--ctp-overlay0);
   pointer-events: none;
   height: 0;
 }
 
 .ProseMirror h1 {
   font-size: 2em;
-  font-weight: bold;
-  margin: 1em 0 0.5em 0;
-  color: var(--foreground);
+  font-weight: 700;
+  margin: 1em 0 0.5em;
+  color: var(--ctp-text);
 }
 
 .ProseMirror h2 {
   font-size: 1.5em;
-  font-weight: bold;
-  margin: 1em 0 0.5em 0;
-  color: var(--foreground);
+  font-weight: 600;
+  margin: 1em 0 0.5em;
+  color: var(--ctp-text);
 }
 
 .ProseMirror h3 {
   font-size: 1.17em;
-  font-weight: bold;
-  margin: 1em 0 0.5em 0;
-  color: var(--foreground);
+  font-weight: 600;
+  margin: 1em 0 0.5em;
+  color: var(--ctp-text);
 }
 
 .ProseMirror ul,
 .ProseMirror ol {
   padding-left: 1.5em;
   margin: 1em 0;
-  color: var(--foreground);
+  color: var(--ctp-text);
 }
 
 .ProseMirror blockquote {
-  border-left: 3px solid var(--accent);
+  border-left: 3px solid var(--ctp-mauve);
   margin: 1em 0;
   padding-left: 1em;
   font-style: italic;
-  color: #cccccc;
-  background: var(--card-bg);
+  color: var(--ctp-subtext1);
+  background: var(--ctp-surface0);
+  border-radius: 0 0.5rem 0.5rem 0;
 }
 
 .ProseMirror code {
-  background-color: var(--card-bg);
+  background: var(--ctp-mantle);
   padding: 0.2em 0.4em;
-  border-radius: 3px;
-  font-family: monospace;
-  color: var(--foreground);
-  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.875em;
+  color: var(--ctp-peach);
+  border: 1px solid var(--ctp-surface1);
 }
 
 .ProseMirror pre {
-  background-color: var(--card-bg);
+  background: var(--ctp-mantle);
   padding: 1em;
-  border-radius: 5px;
+  border-radius: 0.75rem;
   overflow-x: auto;
-  color: var(--foreground);
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--ctp-surface1);
 }
 
 .ProseMirror pre code {
-  background-color: transparent;
+  background: transparent;
   padding: 0;
-  color: var(--foreground);
+  color: var(--ctp-text);
   border: none;
+  font-size: 0.875em;
 }
 
 .ProseMirror a {
-  color: var(--accent);
+  color: var(--ctp-blue);
   text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .ProseMirror a:hover {
-  color: var(--accent-hover);
+  color: var(--ctp-lavender);
 }
 
-/* Chapter Reader Styles */
+/* ── Chapter Reader ── */
 .chapter-content {
-  line-height: var(--custom-line-height, 1.6) !important;
+  line-height: var(--custom-line-height, 1.8) !important;
 }
 
 .chapter-content p,
@@ -150,18 +202,11 @@ body {
   line-height: inherit !important;
 }
 
-/* Override any conflicting Tailwind classes */
 .chapter-content.leading-relaxed,
 .chapter-content.leading-normal,
 .chapter-content.leading-tight,
-.chapter-content.leading-loose {
-  line-height: var(--custom-line-height, 1.6) !important;
-}
-
-.chapter-content.prose {
-  line-height: var(--custom-line-height, 1.6) !important;
-}
-
+.chapter-content.leading-loose,
+.chapter-content.prose,
 .chapter-content.prose p,
 .chapter-content.prose div,
 .chapter-content.prose span,
@@ -173,55 +218,30 @@ body {
 .chapter-content.prose h6,
 .chapter-content.prose li,
 .chapter-content.prose blockquote {
-  line-height: inherit !important;
+  line-height: var(--custom-line-height, 1.8) !important;
 }
 
-/* Force line-height for all text elements */
 .chapter-content * {
   line-height: inherit !important;
 }
 
-/* Admin Page Title Font Rendering */
+/* ── Admin Title ── */
 .admin-title {
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: normal;
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 600;
   font-size: 1.5rem;
   line-height: 1.2;
-  letter-spacing: 0.01em;
-  color: #ffffff;
-  text-shadow: none;
-  -webkit-font-smoothing: auto;
-  -moz-osx-font-smoothing: auto;
-  text-rendering: geometricPrecision;
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  -webkit-transform: translateZ(0);
-  -webkit-backface-visibility: hidden;
-  -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
-  text-size-adjust: 100%;
+  letter-spacing: -0.01em;
+  color: var(--ctp-text);
+  -webkit-font-smoothing: antialiased;
 }
 
 .admin-title-mobile {
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: normal;
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 600;
   font-size: 1.25rem;
   line-height: 1.2;
-  letter-spacing: 0.01em;
-  color: #ffffff;
-  text-shadow: none;
-  -webkit-font-smoothing: auto;
-  -moz-osx-font-smoothing: auto;
-  text-rendering: geometricPrecision;
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  -webkit-transform: translateZ(0);
-  -webkit-backface-visibility: hidden;
-  -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
-  text-size-adjust: 100%;
+  letter-spacing: -0.01em;
+  color: var(--ctp-text);
+  -webkit-font-smoothing: antialiased;
 }

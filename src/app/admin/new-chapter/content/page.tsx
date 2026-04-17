@@ -8,7 +8,6 @@ import { useAuth } from '../../../../contexts/AuthContext';
 import { storyService } from '../../../../services/storyService';
 import { CreateChapterRequest, Story } from '../../../../types/story';
 import TiptapEditor from '../../../../component/TiptapEditor';
-import Navigation from '../../../../component/Navigation';
 import { Sparkles, Plus, X, FileText } from 'lucide-react';
 
 interface TempChapter {
@@ -83,8 +82,7 @@ export default function ChapterContentPage() {
 
   if (isLoading || isLoadingData) {
     return (
-      <div className="min-h-screen bg-black">
-        <Navigation />
+      <div className="min-h-screen bg-[#181825]">
         <div className="pt-16 md:pt-24 lg:pt-32">
           <div className="max-w-6xl mx-auto px-3 sm:px-4 lg:px-8 py-6 sm:py-8">
             <div className="text-center">
@@ -95,6 +93,7 @@ export default function ChapterContentPage() {
                   width={80}
                   height={80}
                   className="rounded-lg w-full h-full object-cover"
+                  unoptimized
                 />
               </div>
               <p className="mt-4 text-gray-300">Đang tải...</p>
@@ -107,8 +106,7 @@ export default function ChapterContentPage() {
 
   if (!tempChapter || !story) {
     return (
-      <div className="min-h-screen bg-black">
-        <Navigation />
+      <div className="min-h-screen bg-[#181825]">
         <div className="pt-16 md:pt-24 lg:pt-32">
           <div className="max-w-6xl mx-auto px-3 sm:px-4 lg:px-8 py-6 sm:py-8">
             <div className="text-center">
@@ -119,7 +117,7 @@ export default function ChapterContentPage() {
               <p className="mt-4 text-gray-300 mb-6">Không thể tải thông tin chương. Vui lòng thử lại.</p>
               <Link
                 href="/admin/new-chapter"
-                className="inline-flex items-center justify-center px-4 py-2 bg-pink-600 text-white rounded-md hover:bg-pink-700 transition-colors duration-200"
+                className="inline-flex items-center justify-center px-4 py-2 bg-pink-600 text-[#cdd6f4] rounded-md hover:bg-pink-700 transition-colors duration-200"
               >
                 Quay lại
               </Link>
@@ -175,8 +173,7 @@ export default function ChapterContentPage() {
   };
 
   return (
-    <div className="min-h-screen bg-black">
-      <Navigation />
+    <div className="min-h-screen bg-[#181825]">
       
       {/* Main Content */}
       <div className="pt-16 md:pt-24 lg:pt-32">
@@ -185,7 +182,7 @@ export default function ChapterContentPage() {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="text-center sm:text-left">
               <div className="relative mb-3">
-                <h1 className="text-xl sm:text-2xl font-bold text-white mb-2 leading-tight flex items-center gap-3 bg-gradient-to-r from-pink-400 to-rose-400 bg-clip-text text-transparent">
+                <h1 className="text-xl sm:text-2xl font-bold text-[#cdd6f4] mb-2 leading-tight flex items-center gap-3 bg-gradient-to-r from-pink-400 to-rose-400 bg-clip-text text-transparent">
                   <Sparkles size={20} className="text-pink-400" />
                   Viết Nội Dung Chương
                   <div className="w-2 h-2 bg-pink-400 rounded-full animate-pulse"></div>
@@ -204,7 +201,7 @@ export default function ChapterContentPage() {
         {/* Chapter Info */}
         <div className="p-3 sm:p-4 md:p-6 mb-4 sm:mb-6 md:mb-8">
           <div className="bg-gray-900/50 rounded-md border border-gray-700 p-3 sm:p-4 backdrop-blur-sm">
-            <h3 className="text-base sm:text-lg font-medium text-white mb-3 sm:mb-4 flex items-center gap-2">
+            <h3 className="text-base sm:text-lg font-medium text-[#cdd6f4] mb-3 sm:mb-4 flex items-center gap-2">
               <FileText size={18} className="sm:w-5 sm:h-5" />
               Thông Tin Chương
               <div className="w-1.5 h-1.5 bg-pink-400 rounded-full"></div>
@@ -215,21 +212,21 @@ export default function ChapterContentPage() {
                   <div className="w-1 h-1 bg-rose-400 rounded-full"></div>
                   Truyện:
                 </label>
-                <p className="text-xs sm:text-sm text-white font-medium">{story.title}</p>
+                <p className="text-xs sm:text-sm text-[#cdd6f4] font-medium">{story.title}</p>
               </div>
               <div className="bg-gray-800/50 rounded-md p-2 backdrop-blur-sm">
                 <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1 flex items-center gap-2">
                   <div className="w-1 h-1 bg-green-400 rounded-full"></div>
                   Số chương:
                 </label>
-                <p className="text-xs sm:text-sm text-white font-medium">{tempChapter.chapterNumber}</p>
+                <p className="text-xs sm:text-sm text-[#cdd6f4] font-medium">{tempChapter.chapterNumber}</p>
               </div>
               <div className="bg-gray-800/50 rounded-md p-2 backdrop-blur-sm">
                 <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1 flex items-center gap-2">
                   <div className="w-1 h-1 bg-blue-400 rounded-full"></div>
                   Trạng thái:
                 </label>
-                <p className="text-xs sm:text-sm text-white font-medium">
+                <p className="text-xs sm:text-sm text-[#cdd6f4] font-medium">
                   {tempChapter.status === 'draft' ? 'Bản nháp' : 'Công khai'}
                 </p>
               </div>
@@ -238,7 +235,7 @@ export default function ChapterContentPage() {
                   <div className="w-1 h-1 bg-yellow-400 rounded-full"></div>
                   Tiêu đề chương:
                 </label>
-                <p className="text-xs sm:text-sm text-white font-medium">{tempChapter.title}</p>
+                <p className="text-xs sm:text-sm text-[#cdd6f4] font-medium">{tempChapter.title}</p>
               </div>
             </div>
           </div>
@@ -264,22 +261,22 @@ export default function ChapterContentPage() {
                 <div className="flex items-center gap-8 sm:gap-12">
                   {/* Font Size Controls */}
                   <div className="flex items-center gap-2">
-                    <button className="w-7 h-7 bg-gray-700 hover:bg-gray-600 rounded-md flex items-center justify-center text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium">
+                    <button className="w-7 h-7 bg-gray-700 hover:bg-gray-600 rounded-md flex items-center justify-center text-gray-300 hover:text-[#cdd6f4] transition-colors duration-200 text-sm font-medium">
                       -
                     </button>
-                    <span className="text-sm text-white font-medium min-w-[50px] text-center">16px</span>
-                    <button className="w-7 h-7 bg-gray-700 hover:bg-gray-600 rounded-md flex items-center justify-center text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium">
+                    <span className="text-sm text-[#cdd6f4] font-medium min-w-[50px] text-center">16px</span>
+                    <button className="w-7 h-7 bg-gray-700 hover:bg-gray-600 rounded-md flex items-center justify-center text-gray-300 hover:text-[#cdd6f4] transition-colors duration-200 text-sm font-medium">
                       +
                     </button>
                   </div>
                   
                   {/* Line Height Controls */}
                   <div className="flex items-center gap-2">
-                    <button className="w-7 h-7 bg-gray-700 hover:bg-gray-600 rounded-md flex items-center justify-center text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium">
+                    <button className="w-7 h-7 bg-gray-700 hover:bg-gray-600 rounded-md flex items-center justify-center text-gray-300 hover:text-[#cdd6f4] transition-colors duration-200 text-sm font-medium">
                       ↓
                     </button>
-                    <span className="text-sm text-white font-medium min-w-[50px] text-center">1.6</span>
-                    <button className="w-7 h-7 bg-gray-700 hover:bg-gray-600 rounded-md flex items-center justify-center text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium">
+                    <span className="text-sm text-[#cdd6f4] font-medium min-w-[50px] text-center">1.6</span>
+                    <button className="w-7 h-7 bg-gray-700 hover:bg-gray-600 rounded-md flex items-center justify-center text-gray-300 hover:text-[#cdd6f4] transition-colors duration-200 text-sm font-medium">
                       ↑
                     </button>
                   </div>
@@ -326,7 +323,7 @@ export default function ChapterContentPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-[#00E5FF] hover:bg-[#00E5FF]/90 text-[#1E1E1E] px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg text-sm sm:text-base font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 sm:gap-3 shadow-md hover:shadow-lg hover:scale-105"
+                  className="w-full bg-[#89b4fa] hover:bg-[#89b4fa]/90 text-[#11111b] px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg text-sm sm:text-base font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 sm:gap-3 shadow-md hover:shadow-lg hover:scale-105"
                 >
                   {isSubmitting ? (
                     <>
@@ -337,6 +334,7 @@ export default function ChapterContentPage() {
                           width={20}
                           height={20}
                           className="rounded w-full h-full object-cover"
+                          unoptimized
                         />
                       </div>
                       <span className="text-sm sm:text-base">Đang tạo...</span>
@@ -350,7 +348,7 @@ export default function ChapterContentPage() {
                 </button>
                 <Link
                   href="/admin/chapters"
-                  className="flex-1 sm:flex-none bg-[#2A2A2A] hover:bg-[#2A2A2A]/80 text-[#B0BEC5] px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg font-medium transition-all duration-300 text-center text-sm sm:text-base border-2 border-[#D2691E] hover:border-[#C97C4B] hover:scale-105"
+                  className="flex-1 sm:flex-none bg-[#313244] hover:bg-[#313244]/80 text-[#a6adc8] px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg font-medium transition-all duration-300 text-center text-sm sm:text-base border border-[#45475a] hover:border-[#cba6f7] hover:scale-105"
                 >
                   Hủy
                 </Link>

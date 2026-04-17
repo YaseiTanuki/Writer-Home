@@ -1,13 +1,40 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Navigation from "../component/Navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { BookOpen, MessageSquare, Heart, Star, Sparkles, Quote, X } from 'lucide-react';
+import { BookOpen, MessageSquare, Heart, Star, Sparkles, Quote, X, Feather } from 'lucide-react';
 import { storyService } from "../services/storyService";
 import { useAuth } from "../contexts/AuthContext";
 import { useGuest } from "../contexts/GuestContext";
+
+/* ── Catppuccin Mocha tokens (inline for component-level use) ── */
+const C = {
+  base:     '#1e1e2e',
+  mantle:   '#181825',
+  crust:    '#11111b',
+  surface0: '#313244',
+  surface1: '#45475a',
+  surface2: '#585b70',
+  overlay0: '#6c7086',
+  overlay1: '#7f849c',
+  subtext0: '#a6adc8',
+  subtext1: '#bac2de',
+  text:     '#cdd6f4',
+  mauve:    '#cba6f7',
+  blue:     '#89b4fa',
+  lavender: '#b4befe',
+  peach:    '#fab387',
+  green:    '#a6e3a1',
+  teal:     '#94e2d5',
+  yellow:   '#f9e2af',
+  red:      '#f38ba8',
+  sky:      '#89dceb',
+  sapphire: '#74c7ec',
+} as const;
+
+/* Accent cycle for sticky note cards */
+const ACCENTS = [C.mauve, C.blue, C.peach, C.teal, C.lavender, C.sky, C.yellow, C.green];
 
 interface Message {
   _id: string;
@@ -29,11 +56,10 @@ interface Message {
 export default function Home() {
   const { user, isAuthenticated: isAdminAuthenticated } = useAuth();
   const { guest, isAuthenticated: isGuestAuthenticated } = useGuest();
-  
-  // Combined authentication state
+
   const isAuthenticated = isAdminAuthenticated || isGuestAuthenticated;
   const currentUser = user || guest;
-  
+
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [displayedMessages, setDisplayedMessages] = useState<Message[]>([]);
@@ -41,323 +67,164 @@ export default function Home() {
   const [showPopup, setShowPopup] = useState(false);
   const [replyText, setReplyText] = useState('');
   const [isSendingReply, setIsSendingReply] = useState(false);
-  
-  // Notification state
+  const [isMounted, setIsMounted] = useState(false);
   const [notification, setNotification] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
-  
-  // Hourly message rotation state
   const [lastRotationTime, setLastRotationTime] = useState<number>(0);
   const [currentHourlyMessages, setCurrentHourlyMessages] = useState<Message[]>([]);
+  const [cardRotations, setCardRotations] = useState<number[]>([]);
 
-  // Debug authentication state
-  useEffect(() => {
-    console.log('Auth state changed:', { 
-      user, 
-      isAdminAuthenticated, 
-      guest, 
-      isGuestAuthenticated,
-      isAuthenticated,
-      currentUser
-    });
-    
-    // Debug localStorage
-    if (typeof window !== 'undefined') {
-      const authTokens = localStorage.getItem('auth_tokens');
-      const guestToken = localStorage.getItem('guestToken');
-      const guestInfo = localStorage.getItem('guestInfo');
-      
-      console.log('LocalStorage auth_tokens:', authTokens);
-      console.log('LocalStorage guestToken:', guestToken);
-      console.log('LocalStorage guestInfo:', guestInfo);
-      
-      if (authTokens) {
-        try {
-          const parsed = JSON.parse(authTokens);
-          console.log('Parsed auth tokens:', parsed);
-        } catch (e) {
-          console.error('Error parsing auth tokens:', e);
-        }
-      }
-      
-      if (guestInfo) {
-        try {
-          const parsed = JSON.parse(guestInfo);
-          console.log('Parsed guest info:', parsed);
-        } catch (e) {
-          console.error('Error parsing guest info:', e);
-        }
-      }
-    }
-  }, [user, isAdminAuthenticated, guest, isGuestAuthenticated, isAuthenticated, currentUser]);
+
 
   useEffect(() => {
-    // Restore hourly message rotation state from localStorage
-    const restoreHourlyState = () => {
-      try {
-        const storedRotationTime = localStorage.getItem('lastRotationTime');
-        const storedHourlyMessages = localStorage.getItem('currentHourlyMessages');
-        
-        if (storedRotationTime && storedHourlyMessages) {
-          const rotationTime = parseInt(storedRotationTime);
-          const hourlyMessages = JSON.parse(storedHourlyMessages);
-          
-          setLastRotationTime(rotationTime);
-          setCurrentHourlyMessages(hourlyMessages);
-          
-          console.log('Restored hourly state from localStorage:', {
-            rotationTime: new Date(rotationTime),
-            messageCount: hourlyMessages.length
-          });
-        }
-      } catch (error) {
-        console.error('Error restoring hourly state from localStorage:', error);
+    setIsMounted(true);
+    try {
+      const storedTime = localStorage.getItem('lastRotationTime');
+      const storedMsgs = localStorage.getItem('currentHourlyMessages');
+      if (storedTime && storedMsgs) {
+        setLastRotationTime(parseInt(storedTime));
+        setCurrentHourlyMessages(JSON.parse(storedMsgs));
       }
-    };
-    
-    restoreHourlyState();
+    } catch (e) { console.error('Error restoring hourly state:', e); }
     loadMessages();
   }, []);
 
   useEffect(() => {
-    if (messages.length > 0) {
-      const now = Date.now();
-      const oneHour = 60 * 60 * 1000; // 1 hour in milliseconds
-      
-      // Check if we need to rotate messages (every hour)
-      if (now - lastRotationTime >= oneHour || currentHourlyMessages.length === 0) {
-        // Shuffle messages randomly for this hour
-        const shuffledMessages = [...messages].sort(() => Math.random() - 0.5);
-        
-        // Determine device type and set appropriate message limits
-        const isMobile = window.innerWidth < 768; // md breakpoint
-        const maxMessages = isMobile ? 6 : 20; // Mobile: 3x2=6, Desktop: 4x5=20
-        
-        const newHourlyMessages = shuffledMessages.slice(0, maxMessages);
-        setCurrentHourlyMessages(newHourlyMessages);
-        setDisplayedMessages(newHourlyMessages);
-        setLastRotationTime(now);
-        
-        // Store in localStorage for persistence across page refreshes
-        localStorage.setItem('lastRotationTime', now.toString());
-        localStorage.setItem('currentHourlyMessages', JSON.stringify(newHourlyMessages));
-        
-        console.log('Messages rotated for new hour:', newHourlyMessages.length, 'messages');
-      } else {
-        // Use existing hourly messages
-        setDisplayedMessages(currentHourlyMessages);
-        console.log('Using existing hourly messages:', currentHourlyMessages.length, 'messages');
-      }
+    if (!isMounted || messages.length === 0) return;
+    const now = Date.now();
+    const oneHour = 3600_000;
+    if (now - lastRotationTime >= oneHour || currentHourlyMessages.length === 0) {
+      const shuffled = [...messages].sort(() => Math.random() - 0.5);
+      const max = window.innerWidth < 768 ? 6 : 20;
+      const next = shuffled.slice(0, max);
+      setCurrentHourlyMessages(next);
+      setDisplayedMessages(next);
+      setCardRotations(next.map(() => Math.random() * 5 - 2.5));
+      setLastRotationTime(now);
+      localStorage.setItem('lastRotationTime', String(now));
+      localStorage.setItem('currentHourlyMessages', JSON.stringify(next));
+    } else {
+      setDisplayedMessages(currentHourlyMessages);
+      setCardRotations(currentHourlyMessages.map(() => Math.random() * 5 - 2.5));
     }
-  }, [messages, lastRotationTime, currentHourlyMessages]);
-  
-  // Auto-rotate messages every hour
+  }, [isMounted, messages]);
+
   useEffect(() => {
-    const checkHourlyRotation = () => {
+    const id = setInterval(() => {
       const now = Date.now();
-      const oneHour = 60 * 60 * 1000;
-      
-      if (now - lastRotationTime >= oneHour && messages.length > 0) {
-        // Force rotation by updating lastRotationTime
-        setLastRotationTime(now);
-        console.log('Auto-rotating messages for new hour');
-      }
-    };
-    
-    // Check every minute
-    const interval = setInterval(checkHourlyRotation, 60 * 1000);
-    
-    return () => clearInterval(interval);
+      if (now - lastRotationTime >= 3600_000 && messages.length > 0) setLastRotationTime(now);
+    }, 60_000);
+    return () => clearInterval(id);
   }, [lastRotationTime, messages.length]);
 
-  // Debug selectedMessage changes
-  useEffect(() => {
-    if (selectedMessage) {
-      console.log('SelectedMessage changed:', selectedMessage);
-      console.log('SelectedMessage guestReplies:', selectedMessage.guestReplies);
-    }
-  }, [selectedMessage]);
-
-  // Auto-update selectedMessage when messages change (e.g., after adding guest reply)
   useEffect(() => {
     if (selectedMessage && messages.length > 0) {
-      const updatedMessage = messages.find(msg => msg._id === selectedMessage._id);
-      if (updatedMessage && JSON.stringify(updatedMessage) !== JSON.stringify(selectedMessage)) {
-        console.log('Auto-updating selectedMessage with fresh data:', updatedMessage);
-        setSelectedMessage(updatedMessage);
-      }
+      const updated = messages.find(m => m._id === selectedMessage._id);
+      if (updated && JSON.stringify(updated) !== JSON.stringify(selectedMessage)) setSelectedMessage(updated);
     }
-  }, [messages, selectedMessage]);
+  }, [messages]);
 
   const loadMessages = async () => {
     try {
       setIsLoading(true);
-      const response = await storyService.getMessages();
-      console.log('Loaded messages:', response.messages);
-      console.log('Messages with guestReplies:', response.messages.filter(msg => msg.guestReplies && msg.guestReplies.length > 0));
-      setMessages(response.messages || []);
-    } catch (err) {
-      console.error('Failed to load messages:', err);
-    } finally {
-      setIsLoading(false);
-    }
+      const res = await storyService.getMessages();
+      setMessages(res.messages || []);
+    } catch (e) { console.error('Failed to load messages:', e); }
+    finally { setIsLoading(false); }
   };
 
-  const getRandomRotation = () => {
-    return Math.random() * 4 - 2; // -2 to 2 degrees (giảm rotation)
-  };
+  const noteIcons = [Heart, Star, Sparkles, Quote, MessageSquare, Feather];
 
-  const getRandomDelay = (index: number) => {
-    return index * 0.1; // Staggered animation
-  };
-
-  const noteColors = [
-    'from-[#D2691E] to-[#C97C4B]',
-    'from-[#D2691E] to-[#F4A460]',
-    'from-[#D2691E] to-[#E9967A]',
-    'from-[#C97C4B] to-[#D2691E]',
-    'from-[#F4A460] to-[#D2691E]',
-    'from-[#E9967A] to-[#D2691E]',
-    'from-[#D2691E] to-[#C97C4B]',
-    'from-[#C97C4B] to-[#F4A460]'
-  ];
-
-  const noteIcons = [Heart, Star, Sparkles, Quote, MessageSquare];
-
-  const handleMessageClick = (message: Message) => {
-    setSelectedMessage(message);
-    setShowPopup(true);
-  };
-
-  const closePopup = () => {
-    setShowPopup(false);
-    setSelectedMessage(null);
-    setReplyText('');
-  };
+  const handleMessageClick = (msg: Message) => { setSelectedMessage(msg); setShowPopup(true); };
+  const closePopup = () => { setShowPopup(false); setSelectedMessage(null); setReplyText(''); };
 
   const handleSendReply = async () => {
     if (!replyText.trim() || !selectedMessage) return;
-    
-    // Check if user is authenticated
     if (!isAuthenticated || !currentUser) {
-      setNotification({
-        type: 'error',
-        message: 'Vui lòng đăng nhập để có thể trả lời tin nhắn!'
-      });
+      setNotification({ type: 'error', message: 'Vui lòng đăng nhập để trả lời tin nhắn!' });
       setTimeout(() => setNotification(null), 5000);
       return;
     }
-    
     try {
       setIsSendingReply(true);
-      
-      // Create guest reply data with current user information
-      const guestReplyData = {
+      const payload = {
         messageId: selectedMessage._id,
         content: replyText,
         guestId: currentUser.id,
         guestName: 'username' in currentUser ? currentUser.username : currentUser.displayName,
         guestEmail: 'email' in currentUser ? currentUser.email : 'guest@example.com',
-        guestPicture: 'picture' in currentUser ? currentUser.picture : undefined
+        guestPicture: 'picture' in currentUser ? currentUser.picture : undefined,
       };
-      
-      // Call API to add guest reply
-      const response = await storyService.addGuestReply(guestReplyData);
-      console.log('Guest reply added successfully:', response);
-      
-      // Reload messages from database to get the updated data
+      await storyService.addGuestReply(payload);
       await loadMessages();
-      
-      // Clear reply text
       setReplyText('');
-      
-      // Show success message
-      setNotification({
-        type: 'success',
-        message: 'Đã thêm câu trả lời thành công!'
-      });
+      setNotification({ type: 'success', message: 'Đã thêm câu trả lời thành công!' });
       setTimeout(() => setNotification(null), 3000);
-      
-    } catch (error) {
-      console.error('Failed to add guest reply:', error);
-      setNotification({
-        type: 'error',
-        message: 'Có lỗi xảy ra khi thêm câu trả lời!'
-      });
+    } catch {
+      setNotification({ type: 'error', message: 'Có lỗi xảy ra khi thêm câu trả lời!' });
       setTimeout(() => setNotification(null), 5000);
-    } finally {
-      setIsSendingReply(false);
-    }
+    } finally { setIsSendingReply(false); }
   };
 
-  // Create grid layout
-  const renderGrid = () => {
-    const isMobile = window.innerWidth < 768;
-    
-    if (isMobile) {
-      // Mobile: 3x2 layout với gap lớn hơn
-      return (
-        <div className="grid grid-cols-2 gap-6">
-          {displayedMessages.map((message, index) => renderMessage(message, index))}
-        </div>
-      );
-    } else {
-      // Desktop: 4x4 layout với gap lớn hơn
-      return (
-        <div className="grid grid-cols-4 gap-8">
-          {displayedMessages.map((message, index) => renderMessage(message, index))}
-        </div>
-      );
-    }
-  };
+  /* ── Sticky Note Card ── */
+  const renderMessage = (msg: Message, idx: number, rotation: number) => {
+    const Icon = noteIcons[idx % noteIcons.length];
+    const accent = ACCENTS[idx % ACCENTS.length];
+    const preview = msg.content.length > 180 ? msg.content.slice(0, 180) + '…' : msg.content;
 
-  const renderMessage = (message: Message, index: number) => {
-    const IconComponent = noteIcons[index % noteIcons.length];
-    const neonColors = ['#D2691E', '#D2691E', '#D2691E', '#D2691E', '#D2691E'];
-    const currentNeonColor = neonColors[index % neonColors.length];
-    const rotation = getRandomRotation();
-    const delay = getRandomDelay(index);
+    return (
+      <div
+        key={msg._id}
+        className="group cursor-pointer relative"
+        style={{ transform: `rotate(${rotation}deg)`, transition: 'transform 0.3s ease, z-index 0s' }}
+        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = `rotate(${rotation * 0.3}deg) translateY(-6px)`; (e.currentTarget as HTMLElement).style.zIndex = '10'; }}
+        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = `rotate(${rotation}deg)`; (e.currentTarget as HTMLElement).style.zIndex = '0'; }}
+        onClick={() => handleMessageClick(msg)}
+      >
+        <div
+          className="relative flex flex-col h-[170px] sm:h-[160px] rounded-2xl overflow-hidden"
+          style={{
+            backgroundColor: C.surface0,
+            border: `1px solid ${C.surface1}`,
+            boxShadow: `0 4px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.04)`,
+          }}
+        >
+          {/* Color top strip */}
+          <div className="h-[3px] flex-shrink-0 w-full" style={{ backgroundColor: accent }} />
 
-    // Truncate content to 255 characters
-    const truncatedContent = message.content.length > 255 
-      ? message.content.substring(0, 255) + '...'
-      : message.content;
+          {/* Pin */}
+          <div
+            className="absolute top-3.5 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full"
+            style={{ backgroundColor: accent, boxShadow: `0 0 6px ${accent}60` }}
+          />
 
-      return (
-    <div
-      key={message._id}
-      className="group cursor-pointer transform hover:scale-105 transition-all duration-300 flex-shrink-0"
-      style={{
-        transform: `rotate(${rotation}deg)`,
-        animationDelay: `${delay}s`
-      }}
-      onClick={() => handleMessageClick(message)}
-    >
-        <div className="bg-[#1E1E1E] p-3 sm:p-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 relative h-[160px] sm:h-[140px] flex flex-col border-2 overflow-hidden" style={{ borderColor: currentNeonColor, boxShadow: `0 0 8px ${currentNeonColor}` }}>
-          {/* Note pin effect */}
-          <div className="absolute -top-1.5 left-1/2 transform -translate-x-1/2 w-2.5 h-2.5 sm:w-2.5 sm:h-2.5 bg-[#D2691E] rounded-full shadow-md border-2 border-white/20"></div>
-          
-          {/* Sender name - small and in corner */}
-          <div className="absolute top-2 left-2 text-[#FFFFFF]/90 text-xs sm:text-xs font-medium bg-[#2A2A2A]/80 px-2 py-1 rounded-full backdrop-blur-sm border-2 border-white/20 max-w-[100px] truncate">
-            {message.name}
-          </div>
-          
-          {/* Message content - main focus with flex-grow to push date to bottom */}
-          <div className="text-center pt-6 sm:pt-6 flex-grow flex items-center justify-center px-2">
-            <p className="text-[#FFFFFF]/95 text-xs sm:text-sm leading-relaxed line-clamp-4 sm:line-clamp-4 break-words">
-              {truncatedContent}
+          {/* Body */}
+          <div className="flex flex-col flex-1 px-3 pt-5 pb-2.5 overflow-hidden">
+            <div className="flex items-center gap-1.5 mb-2">
+              <Icon size={10} style={{ color: accent }} className="flex-shrink-0" />
+              <span className="text-[10px] font-semibold truncate" style={{ color: accent, maxWidth: 84 }}>
+                {msg.name}
+              </span>
+            </div>
+            <p className="flex-1 text-[11px] sm:text-xs leading-relaxed line-clamp-4" style={{ color: C.subtext1 }}>
+              {preview}
+            </p>
+            <p className="text-right text-[9px] mt-1.5" style={{ color: C.overlay0 }}>
+              {new Date(msg.createdAt).toLocaleDateString('vi-VN')}
             </p>
           </div>
-          
-          {/* Date - now positioned at bottom without absolute positioning */}
-          <div className="text-[#B0BEC5]/80 text-xs sm:text-xs text-center mt-2 bg-[#2A2A2A]/80 px-2 py-1 rounded-full backdrop-blur-sm border-2 border-white/20">
-            {new Date(message.createdAt).toLocaleDateString('vi-VN')}
-          </div>
-          
-          {/* Hover effect overlay */}
-          <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl flex items-center justify-center">
-            <div className="bg-[#FFFFFF]/95 text-[#1E1E1E] px-2 py-1 rounded-full text-xs font-medium shadow-lg">
+
+          {/* Hover overlay */}
+          <div
+            className="absolute inset-0 rounded-2xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            style={{ backgroundColor: `${accent}10` }}
+          >
+            <span
+              className="flex items-center gap-1.5 text-[10px] font-bold px-3 py-1.5 rounded-full shadow-lg"
+              style={{ backgroundColor: C.mantle, color: accent, border: `1px solid ${accent}50` }}
+            >
+              <MessageSquare size={10} />
               Xem chi tiết
-            </div>
+            </span>
           </div>
         </div>
       </div>
@@ -365,252 +232,305 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[#121212]">
-      <Navigation />
-      <main className="pt-16 md:pt-24 max-w-5xl mx-auto px-3 sm:px-4 lg:px-6 py-6 sm:py-8">
-        {/* Header Section */}
-        <div className="text-center mb-8 px-3 sm:px-0">
-          <div className="relative mb-4">
-            <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-[#FFFFFF] mb-3 leading-tight">
-              Chào mừng đến với Meo Meo Ký
-            </h1>
-            <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-[#D2691E] rounded-full animate-pulse"></div>
-          </div>
-          <p className="text-xs sm:text-sm text-[#B0BEC5] mb-6 px-3 sm:px-0">
-            Nơi lưu trữ những câu chuyện, suy nghĩ và sáng tác văn học của tôi
-          </p>
-          <div className="flex justify-center px-3 sm:px-0">
-            <Link 
-              href="/stories" 
-              className="w-full sm:w-auto bg-[#D2691E] hover:bg-[#C97C4B] text-white px-6 py-3 rounded-lg text-xs sm:text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:scale-102 flex items-center justify-center gap-2"
-            >
-              <BookOpen size={18} />
-              Đọc Truyện của Tôi
-            </Link>
-          </div>
+    <div className="min-h-screen" style={{ backgroundColor: C.base }}>
+      {/* ─── Hero ─── */}
+      <section className="relative max-w-3xl mx-auto px-4 sm:px-6 pt-12 pb-10 sm:pt-16 sm:pb-12 text-center">
+        {/* Background glow */}
+        <div
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-80 h-64 rounded-full blur-3xl pointer-events-none"
+          style={{ backgroundColor: C.mauve, opacity: 0.06 }}
+        />
+
+        {/* Badge */}
+        <div
+          className="relative inline-flex items-center gap-2 mb-5 px-4 py-1.5 rounded-full text-xs font-medium"
+          style={{ color: C.mauve, backgroundColor: `${C.mauve}12`, border: `1px solid ${C.mauve}30` }}
+        >
+          <Feather size={11} />
+          Nhật ký văn học
         </div>
 
-        {/* Messages Section */}
-        <div className="mb-8 px-3 sm:px-0">
-          <div className="text-center mb-6">
-            <div className="bg-[#1E1E1E] rounded-2xl p-4 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E] mb-4">
-              <h2 className="text-base sm:text-lg font-bold text-[#FFFFFF] mb-3 flex items-center justify-center gap-2">
-                <div className="w-1.5 h-3 bg-[#D2691E] rounded-full"></div>
-                <MessageSquare size={20} className="text-[#D2691E]" />
-                Tin Nhắn từ Độc Giả
-              </h2>
-              <p className="text-xs text-[#B0BEC5] mb-3">
-                Những lời động viên và góp ý quý báu từ các bạn
-              </p>
-              <div className="text-xs text-[#B0BEC5] bg-[#2A2A2A] px-2 py-1 rounded border-2 border-[#D2691E]/30">
-                <span className="hidden md:inline">Layout: 5 hàng × 4 tin (ngẫu nhiên)</span>
-                <span className="md:hidden">Layout: 3 hàng × 2 tin (ngẫu nhiên)</span>
-              </div>
-            </div>
-          </div>
+        <h1
+          className="relative text-3xl sm:text-4xl md:text-5xl font-bold mb-4 leading-tight tracking-tight"
+          style={{ color: C.text }}
+        >
+          Chào mừng đến với
+          <br />
+          <span style={{ color: C.mauve }}>Meo Meo Ký</span>
+        </h1>
 
-          {isLoading ? (
-            <div className="text-center py-8">
-                          <div className="bg-[#1E1E1E] rounded-2xl p-4 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E]">
-              <div className="relative w-12 h-12 md:w-16 md:h-16 mx-auto mb-3">
-                <Image
-                  src="/reading.gif"
-                  alt="Loading messages..."
-                  width={64}
-                  height={64}
-                  className="rounded-md w-full h-full object-cover"
-                />
-              </div>
-              <p className="text-[#B0BEC5] text-xs">Đang tải tin nhắn...</p>
-            </div>
-            </div>
-          ) : displayedMessages.length === 0 ? (
-            <div className="text-center py-8">
-                          <div className="bg-[#1E1E1E] rounded-2xl p-4 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E]">
-              <MessageSquare size={32} className="text-[#D2691E] mx-auto mb-3" />
-              <p className="text-[#B0BEC5] text-xs">Chưa có tin nhắn nào từ độc giả</p>
-              <p className="text-[#B0BEC5] mt-2 text-xs">Hãy là người đầu tiên để lại tin nhắn!</p>
-              <Link
-                href="/contact"
-                className="inline-block mt-3 bg-[#D2691E] hover:bg-[#C97C4B] text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 text-xs shadow-md hover:shadow-lg"
-              >
-                Gửi Tin Nhắn
-              </Link>
-            </div>
-            </div>
-          ) : (
-            <>
-              {renderGrid()}
-              
-              {/* Show more messages info if there are more */}
-              {messages.length > displayedMessages.length && (
-                <div className="text-center mt-6">
-                  <div className="bg-[#1E1E1E] rounded-2xl p-4 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E]">
-                    <div className="flex items-center justify-center gap-2 mb-3">
-                      <div className="w-1.5 h-1.5 bg-[#D2691E] rounded-full animate-pulse"></div>
-                      <p className="text-[#B0BEC5] text-xs">
-                        Còn {messages.length - displayedMessages.length} tin nhắn khác
-                      </p>
-                    </div>
-                    <Link
-                      href="/contact"
-                      className="inline-flex items-center gap-2 bg-[#D2691E] hover:bg-[#C97C4B] text-white px-4 py-2 rounded-lg text-xs font-medium transition-all duration-200 shadow-md hover:shadow-lg"
-                    >
-                      <MessageSquare size={14} />
-                      Gửi Tin Nhắn Mới
-                    </Link>
-                  </div>
-                </div>
-              )}
-            </>
+        <p className="relative text-sm sm:text-base max-w-sm mx-auto mb-10 leading-relaxed" style={{ color: C.overlay1 }}>
+          Nơi lưu trữ những câu chuyện, suy nghĩ và sáng tác văn học của tôi
+        </p>
+
+        <Link
+          href="/stories"
+          className="relative inline-flex items-center gap-2.5 text-sm font-semibold px-7 py-3 rounded-xl transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5"
+          style={{
+            backgroundColor: C.mauve,
+            color: C.crust,
+            boxShadow: `0 0 0 1px ${C.mauve}50, 0 6px 24px ${C.mauve}30`,
+          }}
+        >
+          <BookOpen size={16} />
+          Đọc Truyện của Tôi
+        </Link>
+      </section>
+
+      {/* ─── Messages Section ─── */}
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 pb-16">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-7">
+          <div className="flex items-center gap-3">
+            <div className="w-0.5 h-5 rounded-full" style={{ backgroundColor: C.mauve }} />
+            <h2 className="text-base font-bold" style={{ color: C.text }}>Tin Nhắn từ Độc Giả</h2>
+            <span className="hidden sm:block text-xs" style={{ color: C.overlay0 }}>
+              — Những lời động viên từ các bạn
+            </span>
+          </div>
+          {messages.length > 0 && (
+            <span
+              className="text-[11px] px-2.5 py-1 rounded-full"
+              style={{ color: C.overlay1, backgroundColor: C.surface0, border: `1px solid ${C.surface1}` }}
+            >
+              {messages.length} tin
+            </span>
           )}
         </div>
 
-        {/* Call to Action */}
-        <div className="text-center">
-          <div className="bg-[#1E1E1E] rounded-2xl p-4 sm:p-6 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E]">
-            <div className="flex items-center justify-center gap-2 mb-3">
-              <div className="w-2 h-2 bg-[#D2691E] rounded-full animate-pulse"></div>
-              <h3 className="text-base sm:text-lg font-bold text-[#FFFFFF]">
-                Bạn có muốn để lại tin nhắn không?
-              </h3>
+        {/* Loading */}
+        {isLoading ? (
+          <div className="flex flex-col items-center justify-center py-20 gap-4">
+            <div className="w-14 h-14">
+              <Image src="/reading.gif" alt="Loading..." width={56} height={56} className="rounded-xl object-cover w-full h-full" unoptimized />
             </div>
-            <p className="text-[#B0BEC5] mb-4 text-xs">
+            <p className="text-xs" style={{ color: C.overlay0 }}>Đang tải tin nhắn...</p>
+          </div>
+
+        ) : displayedMessages.length === 0 ? (
+          /* Empty state */
+          <div className="flex flex-col items-center justify-center py-20 gap-5">
+            <div
+              className="w-14 h-14 rounded-2xl flex items-center justify-center"
+              style={{ backgroundColor: `${C.mauve}12`, border: `1px solid ${C.mauve}25` }}
+            >
+              <MessageSquare size={26} style={{ color: C.mauve }} />
+            </div>
+            <div className="text-center">
+              <p className="text-sm font-medium mb-1" style={{ color: C.subtext0 }}>Chưa có tin nhắn nào</p>
+              <p className="text-xs" style={{ color: C.overlay1 }}>Hãy là người đầu tiên để lại tin nhắn!</p>
+            </div>
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 text-sm font-semibold px-5 py-2.5 rounded-xl transition-all duration-200 hover:-translate-y-0.5"
+              style={{ backgroundColor: C.mauve, color: C.crust, boxShadow: `0 4px 16px ${C.mauve}30` }}
+            >
+              <MessageSquare size={14} />
+              Gửi Tin Nhắn
+            </Link>
+          </div>
+
+        ) : (
+          <>
+            {/* Grid — clean responsive CSS, no window.innerWidth */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5">
+              {displayedMessages.map((msg, idx) => renderMessage(msg, idx, cardRotations[idx] ?? 0))}
+            </div>
+
+            {messages.length > displayedMessages.length && (
+              <div className="mt-8 text-center">
+                <div
+                  className="inline-flex items-center gap-3 px-5 py-2.5 rounded-xl text-xs"
+                  style={{ color: C.overlay1, backgroundColor: C.surface0, border: `1px solid ${C.surface1}` }}
+                >
+                  <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: C.mauve }} />
+                  Còn {messages.length - displayedMessages.length} tin nhắn khác ·
+                  <Link href="/contact" className="font-semibold hover:opacity-80 transition-opacity" style={{ color: C.mauve }}>
+                    Gửi tin nhắn →
+                  </Link>
+                </div>
+              </div>
+            )}
+          </>
+        )}
+      </section>
+
+      {/* ─── CTA Section ─── */}
+      <section className="max-w-3xl mx-auto px-4 sm:px-6 pb-16">
+        <div
+          className="relative overflow-hidden rounded-2xl p-8 sm:p-10 text-center"
+          style={{ backgroundColor: C.mantle, border: `1px solid ${C.surface0}` }}
+        >
+          <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 w-56 h-28 blur-3xl rounded-full pointer-events-none" style={{ backgroundColor: C.mauve, opacity: 0.1 }} />
+
+          <div className="relative">
+            <div
+              className="w-11 h-11 rounded-xl mx-auto mb-5 flex items-center justify-center"
+              style={{ backgroundColor: `${C.mauve}15`, border: `1px solid ${C.mauve}25` }}
+            >
+              <MessageSquare size={20} style={{ color: C.mauve }} />
+            </div>
+            <h3 className="text-lg sm:text-xl font-bold mb-3 tracking-tight" style={{ color: C.text }}>
+              Bạn muốn để lại tin nhắn?
+            </h3>
+            <p className="text-sm max-w-xs mx-auto mb-7 leading-relaxed" style={{ color: C.overlay1 }}>
               Chia sẻ cảm nhận, góp ý hoặc đơn giản là lời động viên cho tôi
             </p>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 bg-[#D2691E] hover:bg-[#C97C4B] text-white px-6 py-2.5 rounded-lg font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:scale-102 text-xs"
+              className="inline-flex items-center gap-2 text-sm font-semibold px-7 py-3 rounded-xl transition-all duration-200 hover:-translate-y-0.5 hover:opacity-90"
+              style={{ backgroundColor: C.mauve, color: C.crust, boxShadow: `0 4px 20px ${C.mauve}30` }}
             >
-              <MessageSquare size={16} />
+              <MessageSquare size={14} />
               Gửi Tin Nhắn Ngay
             </Link>
           </div>
         </div>
-      </main>
+      </section>
 
-      {/* Message Popup/Dialog */}
+      {/* ─── Message Detail Modal ─── */}
       {showPopup && selectedMessage && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-3">
-          <div className="bg-[#1E1E1E] rounded-2xl shadow-2xl max-w-md w-full max-h-[80vh] overflow-hidden border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E]">
-            {/* Header */}
-            <div className="bg-[#D2691E] p-3 text-white">
-              <div className="flex items-center justify-between">
-                <h3 className="text-xs font-semibold flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
-                  <MessageSquare size={16} />
-                  Tin Nhắn từ {selectedMessage.name}
-                </h3>
-                <button
-                  onClick={closePopup}
-                  className="text-white/80 hover:text-white transition-colors"
-                >
-                  <X size={20} />
-                </button>
-              </div>
+        <div
+          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4"
+          onClick={closePopup}
+        >
+          {/* Backdrop */}
+          <div className="absolute inset-0 backdrop-blur-sm" style={{ backgroundColor: 'rgba(17,17,27,0.75)' }} />
+
+          {/* Panel */}
+          <div
+            className="relative w-full sm:max-w-md rounded-t-3xl sm:rounded-2xl overflow-hidden max-h-[92vh] flex flex-col shadow-2xl"
+            style={{ backgroundColor: C.mantle, border: `1px solid ${C.surface0}` }}
+            onClick={e => e.stopPropagation()}
+          >
+            {/* Drag handle (mobile) */}
+            <div className="flex justify-center pt-3 pb-1 sm:hidden">
+              <div className="w-9 h-1 rounded-full" style={{ backgroundColor: C.surface1 }} />
             </div>
-            
-            {/* Content */}
-            <div className="p-4">
-              <div className="mb-4">
-                <div className="bg-[#2A2A2A] rounded-lg p-3 border-2 border-[#D2691E]/30">
-                  <p className="text-[#FFFFFF] leading-relaxed text-xs">
-                    {selectedMessage.content}
-                  </p>
+
+            {/* Header */}
+            <div className="flex items-center justify-between px-5 py-4 border-b" style={{ borderColor: C.surface0 }}>
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ backgroundColor: `${C.mauve}15` }}>
+                  <MessageSquare size={15} style={{ color: C.mauve }} />
+                </div>
+                <div>
+                  <p className="text-[9px] font-semibold uppercase tracking-widest" style={{ color: C.overlay0 }}>Tin nhắn từ</p>
+                  <p className="text-sm font-bold" style={{ color: C.text }}>{selectedMessage.name}</p>
                 </div>
               </div>
-              
-              {/* Admin Reply */}
+              <button
+                onClick={closePopup}
+                className="w-8 h-8 rounded-xl flex items-center justify-center transition-colors"
+                style={{ color: C.overlay0 }}
+                onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = C.text}
+                onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = C.overlay0}
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            {/* Scrollable body */}
+            <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
+              {/* Message */}
+              <div className="p-4 rounded-xl" style={{ backgroundColor: C.surface0, border: `1px solid ${C.surface1}` }}>
+                <p className="text-sm leading-relaxed" style={{ color: C.subtext1 }}>{selectedMessage.content}</p>
+              </div>
+
+              {/* Admin reply */}
               {selectedMessage.reply && (
-                <div className="mb-4 p-3 bg-[#F4A460]/10 border-2 border-[#F4A460]/30 rounded-lg">
+                <div className="p-4 rounded-xl border" style={{ backgroundColor: `${C.peach}08`, borderColor: `${C.peach}25` }}>
                   <div className="flex items-center gap-2 mb-2">
-                    <div className="w-1.5 h-1.5 bg-[#F4A460] rounded-full"></div>
-                    <span className="text-xs font-medium text-[#F4A460]">Trả lời của Admin</span>
+                    <div className="w-0.5 h-3 rounded-full" style={{ backgroundColor: C.peach }} />
+                    <span className="text-[10px] font-bold uppercase tracking-wider" style={{ color: C.peach }}>Trả lời của Admin</span>
                   </div>
-                  <p className="text-[#F4A460] leading-relaxed text-xs">
-                    {selectedMessage.reply}
-                  </p>
+                  <p className="text-sm leading-relaxed" style={{ color: C.peach }}>{selectedMessage.reply}</p>
                 </div>
               )}
-              
-              {/* Guest Replies Section */}
+
+              {/* Guest replies */}
               {selectedMessage.guestReplies && selectedMessage.guestReplies.length > 0 && (
-                <div className="mb-4">
-                  <h4 className="text-xs font-medium text-[#B0BEC5] mb-2 flex items-center gap-2">
-                    <div className="w-1 h-1 bg-[#D2691E] rounded-full"></div>
-                    Câu trả lời của guests ({selectedMessage.guestReplies.length}):
-                  </h4>
+                <div>
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="w-0.5 h-3 rounded-full" style={{ backgroundColor: C.mauve }} />
+                    <span className="text-[10px] font-bold uppercase tracking-wider" style={{ color: C.overlay1 }}>
+                      Phản hồi ({selectedMessage.guestReplies.length})
+                    </span>
+                  </div>
                   <div className="space-y-2">
-                    {selectedMessage.guestReplies.map((reply, index) => (
-                      <div key={reply._id || index} className="p-2 bg-[#D2691E]/10 border-2 border-[#D2691E]/30 rounded-lg">
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="text-xs font-medium text-[#D2691E]">{reply.guestName}</span>
-                          <span className="text-xs text-[#D2691E]/80">({reply.guestEmail})</span>
-                          <span className="text-xs text-[#D2691E]/60">
+                    {selectedMessage.guestReplies.map((reply, idx) => (
+                      <div key={reply._id || idx} className="p-3 rounded-xl" style={{ backgroundColor: C.surface0, border: `1px solid ${C.surface1}` }}>
+                        <div className="flex items-center gap-2 mb-2">
+                          <div className="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold flex-shrink-0" style={{ backgroundColor: C.mauve, color: C.crust }}>
+                            {reply.guestName?.charAt(0).toUpperCase()}
+                          </div>
+                          <span className="text-xs font-semibold" style={{ color: C.subtext0 }}>{reply.guestName}</span>
+                          <span className="text-[10px] ml-auto" style={{ color: C.overlay0 }}>
                             {new Date(reply.createdAt).toLocaleDateString('vi-VN')}
                           </span>
                         </div>
-                        <p className="text-xs text-[#D2691E]/90">{reply.content}</p>
+                        <p className="text-xs leading-relaxed pl-8" style={{ color: C.subtext0 }}>{reply.content}</p>
                       </div>
                     ))}
                   </div>
                 </div>
               )}
-              
-              {/* Reply Input Section */}
+
+              {/* Reply input */}
               {!isAuthenticated ? (
-                <div className="mb-4 p-3 bg-[#2A2A2A] border-2 border-[#B0BEC5]/30 rounded-lg">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-1.5 h-1.5 bg-[#B0BEC5] rounded-full"></div>
-                    <span className="text-xs font-medium text-[#B0BEC5]">Đăng nhập để trả lời</span>
-                  </div>
-                  <p className="text-xs text-[#B0BEC5] mb-3">Bạn cần đăng nhập để có thể trả lời tin nhắn này</p>
+                <div className="p-4 rounded-xl text-center" style={{ backgroundColor: C.surface0 }}>
+                  <p className="text-xs mb-3" style={{ color: C.overlay1 }}>Đăng nhập để trả lời tin nhắn này</p>
                   <Link
                     href="/auth"
-                    className="inline-block px-3 py-2 bg-[#D2691E] hover:bg-[#C97C4B] text-white text-xs font-medium rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold px-5 py-2 rounded-lg transition-all hover:opacity-90"
+                    style={{ backgroundColor: C.mauve, color: C.crust }}
                   >
                     Đăng nhập ngay
                   </Link>
                 </div>
               ) : (
-                <div className="mb-4 p-3 bg-[#F4A460]/10 border-2 border-[#F4A460]/30 rounded-lg">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-1.5 h-1.5 bg-[#F4A460] rounded-full"></div>
-                    <span className="text-xs font-medium text-[#F4A460]">Thêm câu trả lời của bạn</span>
+                <div className="space-y-2.5">
+                  <div className="flex items-center gap-2">
+                    <div className="w-0.5 h-3 rounded-full" style={{ backgroundColor: C.blue }} />
+                    <span className="text-[10px] font-bold uppercase tracking-wider" style={{ color: C.overlay1 }}>Thêm câu trả lời</span>
                   </div>
-                  <div className="space-y-2">
-                    <textarea
-                      value={replyText}
-                      onChange={(e) => setReplyText(e.target.value)}
-                      placeholder="Nhập nội dung trả lời..."
-                      className="w-full px-3 py-2 bg-[#2A2A2A] border-2 border-[#F4A460]/50 rounded-lg text-[#FFFFFF] text-xs placeholder-[#B0BEC5] focus:outline-none focus:ring-2 focus:ring-[#F4A460] focus:border-transparent"
-                      rows={3}
-                    />
-                    <div className="flex justify-end">
-                      <button
-                        onClick={handleSendReply}
-                        disabled={!replyText.trim() || isSendingReply}
-                        className="px-3 py-2 bg-[#F4A460] hover:bg-[#F4A460]/90 disabled:bg-[#2A2A2A] disabled:cursor-not-allowed text-[#1E1E1E] text-xs font-medium rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
-                      >
-                        {isSendingReply ? 'Đang thêm...' : 'Thêm câu trả lời'}
-                      </button>
-                    </div>
+                  <textarea
+                    value={replyText}
+                    onChange={e => setReplyText(e.target.value)}
+                    placeholder="Nhập nội dung trả lời..."
+                    className="w-full px-4 py-3 rounded-xl text-sm resize-none focus:outline-none transition-all duration-200"
+                    style={{
+                      backgroundColor: C.surface0,
+                      border: `1px solid ${C.surface1}`,
+                      color: C.text,
+                    }}
+                    rows={3}
+                    onFocus={e => (e.currentTarget as HTMLElement).style.borderColor = C.mauve}
+                    onBlur={e => (e.currentTarget as HTMLElement).style.borderColor = C.surface1}
+                  />
+                  <div className="flex justify-end">
+                    <button
+                      onClick={handleSendReply}
+                      disabled={!replyText.trim() || isSendingReply}
+                      className="px-5 py-2 text-xs font-semibold rounded-xl transition-all duration-200 hover:-translate-y-0.5 disabled:opacity-40 disabled:cursor-not-allowed"
+                      style={{ backgroundColor: C.mauve, color: C.crust }}
+                    >
+                      {isSendingReply ? 'Đang gửi...' : 'Gửi trả lời'}
+                    </button>
                   </div>
                 </div>
               )}
-              
-              {/* Footer */}
-              <div className="flex items-center justify-between text-xs text-[#B0BEC5] border-t-2 border-[#D2691E]/30 pt-3">
-                <span>Ngày gửi: {new Date(selectedMessage.createdAt).toLocaleDateString('vi-VN')}</span>
-                <span>{selectedMessage.content.length}/255 ký tự</span>
-              </div>
             </div>
-            
-            {/* Action buttons */}
-            <div className="bg-[#2A2A2A] px-4 py-3 flex justify-center">
+
+            {/* Footer */}
+            <div className="px-5 py-3 flex items-center justify-between border-t" style={{ borderColor: C.surface0 }}>
+              <span className="text-[10px]" style={{ color: C.overlay0 }}>
+                {new Date(selectedMessage.createdAt).toLocaleDateString('vi-VN')} · {selectedMessage.content.length} ký tự
+              </span>
               <button
                 onClick={closePopup}
-                className="bg-[#2A2A2A] hover:bg-[#1E1E1E] text-[#B0BEC5] py-2 px-6 rounded-lg font-medium transition-all duration-200 text-xs border-2 border-[#D2691E]/30 hover:border-[#D2691E]/50"
+                className="px-4 py-1.5 rounded-lg text-xs font-medium transition-all"
+                style={{ color: C.subtext0, backgroundColor: C.surface0, border: `1px solid ${C.surface1}` }}
               >
                 Đóng
               </button>
@@ -618,50 +538,30 @@ export default function Home() {
           </div>
         </div>
       )}
-      
-      {/* Notification Toast */}
+
+      {/* ─── Toast Notification ─── */}
       {notification && (
-        <div className="fixed top-20 left-3 right-3 z-50 max-w-sm mx-auto">
-          <div className={`rounded-2xl shadow-lg p-3 border-2 ${
-            notification.type === 'success' 
-              ? 'bg-[#F4A460]/10 border-[#F4A460] text-[#F4A460]' 
-              : 'bg-[#D2691E]/10 border-[#D2691E] text-[#D2691E]'
-          }`}>
-            <div className="flex items-start">
-              <div className="flex-shrink-0">
-                {notification.type === 'success' ? (
-                  <div className="w-4 h-4 bg-[#F4A460] rounded-full flex items-center justify-center">
-                    <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                ) : (
-                  <div className="w-4 h-4 bg-[#D2691E] rounded-full flex items-center justify-center">
-                    <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                )}
-              </div>
-              <div className="ml-3 flex-1">
-                <p className="text-xs font-medium">{notification.message}</p>
-              </div>
-              <div className="ml-3 flex-shrink-0">
-                <button
-                  onClick={() => setNotification(null)}
-                  className={`inline-flex rounded-md p-1 ${
-                    notification.type === 'success' 
-                      ? 'text-[#F4A460] hover:bg-[#F4A460]/10' 
-                      : 'text-[#D2691E] hover:bg-[#D2691E]/10'
-                  } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#121212] focus:ring-[#D2691E] transition-all duration-200`}
-                >
-                  <span className="sr-only">Đóng</span>
-                  <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-                  </svg>
-                </button>
-              </div>
+        <div className="fixed bottom-20 md:bottom-6 left-1/2 -translate-x-1/2 z-50 w-max max-w-[calc(100vw-2rem)]">
+          <div
+            className="flex items-center gap-3 px-5 py-3 rounded-2xl shadow-2xl text-sm font-medium"
+            style={notification.type === 'success'
+              ? { backgroundColor: C.surface0, border: `1px solid ${C.green}40`, color: C.green }
+              : { backgroundColor: C.surface0, border: `1px solid ${C.red}40`, color: C.red }
+            }
+          >
+            <div
+              className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"
+              style={{ backgroundColor: notification.type === 'success' ? `${C.green}20` : `${C.red}20` }}
+            >
+              {notification.type === 'success'
+                ? <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
+                : <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
+              }
             </div>
+            <span>{notification.message}</span>
+            <button onClick={() => setNotification(null)} className="ml-1 opacity-50 hover:opacity-80 transition-opacity flex-shrink-0">
+              <X size={13} />
+            </button>
           </div>
         </div>
       )}

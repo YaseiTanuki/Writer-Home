@@ -3,11 +3,9 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
 import { BookOpen, Calendar, FileText, CheckCircle } from 'lucide-react';
 import { storyService } from '../../../services/storyService';
 import { Story, Chapter, Category } from '../../../types/story';
-import Navigation from '../../../component/Navigation';
 
 export default function StoryDetailPage() {
   const params = useParams();
@@ -62,40 +60,29 @@ export default function StoryDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-black">
-        <div className="w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
-          <div className="text-center">
-            <div className="relative w-16 h-16 md:w-20 md:h-20 mx-auto mb-4">
-              <Image
-                src="/reading.gif"
-                alt="Loading..."
-                width={80}
-                height={80}
-                className="rounded-lg w-full h-full object-cover"
-              />
-            </div>
-            <p className="mt-4 text-gray-300 text-xs">Đang tải...</p>
-          </div>
-        </div>
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#1e1e2e' }}>
+        <div className="w-8 h-8 border-2 rounded-full animate-spin" style={{ borderColor: '#cba6f7', borderTopColor: 'transparent' }} />
       </div>
     );
   }
 
   if (error || !story) {
     return (
-      <div className="min-h-screen bg-black">
-        <div className="w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
-          <div className="text-center">
-            <div className="bg-red-900/20 border border-red-700 text-red-400 px-4 py-3 rounded text-xs">
-              {error || 'Không tìm thấy truyện'}
-            </div>
-            <button 
-              onClick={() => router.push('/stories')}
-              className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-xs"
-            >
-              Quay lại danh sách
-            </button>
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#1e1e2e' }}>
+        <div className="text-center">
+          <div
+            className="px-4 py-3 rounded-xl text-xs mb-4"
+            style={{ backgroundColor: 'rgba(243,139,168,0.08)', border: '1px solid rgba(243,139,168,0.2)', color: '#f38ba8' }}
+          >
+            {error || 'Không tìm thấy truyện'}
           </div>
+          <button
+            onClick={() => router.push('/stories')}
+            className="px-4 py-2 rounded-xl text-xs font-semibold"
+            style={{ backgroundColor: '#cba6f7', color: '#11111b' }}
+          >
+            Quay lại danh sách
+          </button>
         </div>
       </div>
     );
@@ -103,82 +90,76 @@ export default function StoryDetailPage() {
 
   if (story.status !== 'public') {
     return (
-      <div className="min-h-screen bg-black">
-        <div className="w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
-          <div className="text-center">
-            <div className="bg-yellow-900/20 border border-yellow-700 text-yellow-400 px-4 py-3 rounded text-xs">
-              Truyện này chưa được xuất bản
-            </div>
-            <button 
-              onClick={() => router.push('/stories')}
-              className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-xs"
-            >
-              Quay lại danh sách
-            </button>
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#1e1e2e' }}>
+        <div className="text-center">
+          <div
+            className="px-4 py-3 rounded-xl text-xs mb-4"
+            style={{ backgroundColor: 'rgba(249,226,175,0.08)', border: '1px solid rgba(249,226,175,0.2)', color: '#f9e2af' }}
+          >
+            Truyện này chưa được xuất bản
           </div>
+          <button
+            onClick={() => router.push('/stories')}
+            className="px-4 py-2 rounded-xl text-xs font-semibold"
+            style={{ backgroundColor: '#cba6f7', color: '#11111b' }}
+          >
+            Quay lại danh sách
+          </button>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-black">
-      <Navigation />
-      
+    <div className="min-h-screen" style={{ backgroundColor: '#1e1e2e' }}>
       {/* Main Content */}
-      <div className="pt-16 md:pt-24 w-full px-3 sm:px-4 lg:px-8 py-4 sm:py-6">
-        {/* Page Title */}
-        <div className="mb-6 sm:mb-8">
-          <div className="flex items-center gap-3 mb-4">
-            <Link
-              href="/stories"
-              className="inline-flex items-center gap-2 px-3 py-2 text-xs font-medium text-gray-300 hover:text-white transition-colors duration-200"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-              Quay lại thư viện
-            </Link>
-          </div>
-          <div className="text-center sm:text-left">
-            <h1 className="text-sm sm:text-2xl lg:text-3xl font-bold text-white mb-2 leading-tight">
-              {story.title}
-            </h1>
-            <p className="text-xs sm:text-base text-gray-300">
-              Khám phá câu chuyện và các chương thú vị
-            </p>
-          </div>
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        {/* Back link */}
+        <div className="mb-5">
+          <Link
+            href="/stories"
+            className="inline-flex items-center gap-1.5 text-xs transition-colors duration-200"
+            style={{ color: '#6c7086' }}
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Quay lại thư viện
+          </Link>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-          {/* Story Info - Left Column */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-6">
+          {/* Story Info */}
           <div className="lg:col-span-1">
-            <div className="bg-gray-900 rounded-lg shadow p-3 sm:p-4 lg:p-6 sticky top-24 border border-gray-800">
+            <div
+              className="rounded-2xl p-4 sm:p-5 lg:sticky lg:top-6"
+              style={{ backgroundColor: '#313244', border: '1px solid #45475a' }}
+            >
               {/* Cover Image */}
-              <div className="mb-4 sm:mb-6">
+              <div className="mb-4">
                 {story.coverImage ? (
                   <img
                     src={story.coverImage}
                     alt={story.title}
-                    className="w-full h-40 sm:h-48 lg:h-64 object-cover rounded-lg"
+                    className="w-full h-44 sm:h-52 object-cover rounded-xl"
                   />
                 ) : (
-                                     <div className="w-full h-40 sm:h-48 lg:h-64 bg-gradient-to-br from-blue-400 to-purple-500 rounded-lg flex items-center justify-center">
-                     <BookOpen size={48} className="text-white" />
-                   </div>
+                  <div className="w-full h-44 sm:h-52 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#181825' }}>
+                    <BookOpen size={40} style={{ color: '#45475a' }} />
+                  </div>
                 )}
               </div>
 
               {/* Story Details */}
-              <div className="space-y-3 sm:space-y-4">
+              <div className="space-y-3">
                 <div>
-                  <h2 className="text-xs sm:text-lg lg:text-xl font-bold text-white mb-2 leading-tight">{story.title}</h2>
-                  <p className="text-gray-300 text-xs leading-relaxed">{story.description}</p>
+                  <h2 className="text-sm sm:text-base font-bold mb-1" style={{ color: '#cdd6f4' }}>{story.title}</h2>
+                  <p className="text-xs leading-relaxed" style={{ color: '#a6adc8' }}>{story.description}</p>
                 </div>
 
                 {/* Categories */}
                 <div>
-                  <h3 className="text-xs font-medium text-gray-300 mb-2">Thể loại</h3>
+                  <h3 className="text-xs font-medium mb-1.5" style={{ color: '#6c7086' }}>Thể loại</h3>
                   <div className="flex flex-wrap gap-1.5 sm:gap-2">
                     {story.category.map((catId) => {
                       const category = categories.find(c => c._id === catId);
@@ -199,105 +180,80 @@ export default function StoryDetailPage() {
                 </div>
 
                 {/* Stats */}
-                <div className="grid grid-cols-2 gap-3 sm:gap-4 pt-3 sm:pt-4 border-t border-gray-800">
+                <div className="grid grid-cols-2 gap-3 pt-3" style={{ borderTop: '1px solid #45475a' }}>
                   <div className="text-center">
-                    <div className="text-sm sm:text-xl lg:text-2xl font-bold text-blue-400">
-                      {chapters.filter(chapter => chapter.status === 'public').length}
+                    <div className="text-lg sm:text-xl font-bold" style={{ color: '#89b4fa' }}>
+                      {chapters.filter(c => c.status === 'public').length}
                     </div>
-                    <div className="text-xs text-gray-300 flex items-center justify-center gap-1">
-                      <FileText size={14} />
+                    <div className="text-xs flex items-center justify-center gap-1" style={{ color: '#6c7086' }}>
+                      <FileText size={12} />
                       Chương
                     </div>
                   </div>
                   <div className="text-center">
-                    <div className="text-sm sm:text-xl lg:text-2xl font-bold text-green-400">
+                    <div className="text-lg sm:text-xl font-bold" style={{ color: '#a6e3a1' }}>
                       {story.description.split(' ').length}
                     </div>
-                    <div className="text-xs text-gray-300 flex items-center justify-center gap-1">
-                      <FileText size={14} />
+                    <div className="text-xs flex items-center justify-center gap-1" style={{ color: '#6c7086' }}>
+                      <FileText size={12} />
                       Từ
                     </div>
                   </div>
                 </div>
 
-                {/* Content Preview */}
-                <div className="pt-3 sm:pt-4 border-t border-gray-800">
-                  <h3 className="text-xs font-medium text-gray-300 mb-2 flex items-center gap-2">
-                    <FileText size={16} />
-                    Nội dung
-                  </h3>
-                  <p className="text-gray-300 text-xs leading-relaxed line-clamp-4">
-                    {story.description}
-                  </p>
-                </div>
-
-                {/* Creation Date */}
-                <div className="pt-3 sm:pt-4 border-t border-gray-800">
-                  <div className="text-xs text-gray-400 flex items-center gap-2">
-                    <Calendar size={14} />
-                    Tạo ngày: {new Date(story.createdAt).toLocaleDateString('vi-VN')}
-                  </div>
+                {/* Date */}
+                <div className="text-xs flex items-center gap-1.5 pt-3" style={{ borderTop: '1px solid #45475a', color: '#6c7086' }}>
+                  <Calendar size={12} />
+                  Tạo ngày: {new Date(story.createdAt).toLocaleDateString('vi-VN')}
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Chapters List - Right Column */}
+          {/* Chapters List */}
           <div className="lg:col-span-2">
-            <div className="bg-gray-900 rounded-lg shadow p-3 sm:p-4 lg:p-6 border border-gray-800">
-              <h2 className="text-sm sm:text-xl font-bold text-white mb-4 sm:mb-6 flex items-center gap-2">
-                <BookOpen size={20} />
-                Danh sách chương ({chapters.filter(chapter => chapter.status === 'public').length})
+            <div
+              className="rounded-2xl p-4 sm:p-5"
+              style={{ backgroundColor: '#313244', border: '1px solid #45475a' }}
+            >
+              <h2 className="text-sm sm:text-base font-bold mb-4 flex items-center gap-2" style={{ color: '#cdd6f4' }}>
+                <BookOpen size={18} style={{ color: '#cba6f7' }} />
+                Danh sách chương ({chapters.filter(c => c.status === 'public').length})
               </h2>
               
               {chapters.length === 0 ? (
-                                 <div className="text-center py-4 sm:py-6">
-                  <div className="text-gray-400 text-xs sm:text-lg">
-                    Chưa có chương nào được xuất bản.
-                  </div>
+                <div className="text-center py-8">
+                  <p className="text-xs" style={{ color: '#6c7086' }}>Chưa có chương nào được xuất bản.</p>
                 </div>
               ) : (
-                <div className="space-y-2 sm:space-y-3">
+                <div className="space-y-2">
                   {chapters
-                    .filter(chapter => (chapter.status || 'public') === 'public')
+                    .filter(c => (c.status || 'public') === 'public')
                     .sort((a, b) => a.chapterNumber - b.chapterNumber)
-                    .map((chapter) => (
+                    .map(chapter => (
                       <Link
                         key={chapter._id}
                         href={`/stories/${storyId}/chapters/${chapter._id}`}
-                        className="block p-3 sm:p-4 border border-gray-700 rounded-lg hover:border-blue-500 hover:bg-blue-900/20 transition-all duration-200 group"
+                        className="flex items-center justify-between p-3 rounded-xl transition-all duration-200 hover:-translate-y-0.5 group"
+                        style={{ backgroundColor: '#181825', border: '1px solid #45475a' }}
                       >
-                        <div className="flex items-center justify-between">
-                          <div className="flex-1 min-w-0">
-                            <h3 className="text-xs sm:text-base font-medium text-white group-hover:text-blue-400 transition-colors duration-200 truncate">
-                              Chương {chapter.chapterNumber}: {chapter.title}
-                            </h3>
-                            {chapter.content && (
-                              <p className="text-xs text-gray-300 mt-1 line-clamp-2">
-                                {chapter.content.length > 100 ? chapter.content.substring(0, 100) + '...' : chapter.content}
-                              </p>
-                            )}
-                          </div>
-                          <div className="ml-3 sm:ml-4 flex-shrink-0">
-                            <span className={`inline-flex items-center gap-1 px-2 sm:px-3 py-1 text-xs font-medium rounded-full border ${
-                              (chapter.status || 'public') === 'public' 
-                                ? 'bg-green-900/20 text-green-400 border-green-700' 
-                                : 'bg-yellow-900/20 text-yellow-400 border-yellow-700'
-                            }`}>
-                              {(chapter.status || 'public') === 'public' ? (
-                                <>
-                                  <CheckCircle size={14} />
-                                  Đã xuất bản
-                                </>
-                              ) : (
-                                <>
-                                  <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
-                                  Bản nháp
-                                </>
-                              )}
-                            </span>
-                          </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-xs sm:text-sm font-medium truncate transition-colors" style={{ color: '#cdd6f4' }}>
+                            Chương {chapter.chapterNumber}: {chapter.title}
+                          </h3>
+                          {chapter.content && (
+                            <p className="text-xs mt-0.5 line-clamp-1" style={{ color: '#6c7086' }}>
+                              {chapter.content.length > 80 ? chapter.content.substring(0, 80) + '…' : chapter.content}
+                            </p>
+                          )}
                         </div>
+                        <span
+                          className="ml-3 flex-shrink-0 inline-flex items-center gap-1 px-2 py-0.5 text-xs rounded-full"
+                          style={{ backgroundColor: 'rgba(166,227,161,0.12)', color: '#a6e3a1' }}
+                        >
+                          <CheckCircle size={10} />
+                          Đã xuất bản
+                        </span>
                       </Link>
                     ))}
                 </div>

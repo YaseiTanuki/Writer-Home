@@ -82,8 +82,8 @@ export default function TiptapEditor({
 
   if (!isMounted) {
     return (
-      <div className={`border border-gray-600 rounded-md overflow-hidden ${className}`}>
-        <div className="p-2 sm:p-3 md:p-4 text-center text-gray-400 text-xs sm:text-sm">
+      <div className={`border border-[#45475a] rounded-md overflow-hidden ${className}`}>
+        <div className="p-2 sm:p-3 md:p-4 text-center text-[#6c7086] text-xs sm:text-sm">
           Đang tải trình soạn thảo...
         </div>
       </div>
@@ -95,7 +95,7 @@ export default function TiptapEditor({
       <TiptapToolbar editor={editor} />
       <EditorContent 
         editor={editor} 
-        className="min-h-[300px] sm:min-h-[350px] md:min-h-[400px] p-0 sm:p-3 md:p-4 focus:outline-none max-w-none bg-black text-white"
+        className="min-h-[300px] sm:min-h-[350px] md:min-h-[400px] p-0 sm:p-3 md:p-4 focus:outline-none max-w-none bg-[#181825] text-[#cdd6f4]"
         style={{
           minHeight: '300px',
           padding: '0', // No padding on mobile
@@ -269,7 +269,7 @@ export default function TiptapEditor({
       `}</style>
       
       {/* Word and Character Count */}
-      <div className="border-t border-gray-800 bg-black px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 text-xs sm:text-sm text-gray-300 flex justify-between">
+      <div className="border-t border-gray-800 bg-[#181825] px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 text-xs sm:text-sm text-[#a6adc8] flex justify-between">
         <span>Từ: {wordCount}</span>
         <span>Ký tự: {charCount}</span>
       </div>

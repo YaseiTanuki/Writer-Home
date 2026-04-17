@@ -7,7 +7,6 @@ import Image from 'next/image';
 import { Calendar, FileText, ChevronLeft, ChevronRight, BookOpen, List, Minus, Plus, ArrowUp, ArrowDown, Settings, Moon, Sun } from 'lucide-react';
 import { storyService } from '../../../../../services/storyService';
 import { Story, Chapter } from '../../../../../types/story';
-import Navigation from '../../../../../component/Navigation';
 
 export default function ChapterReaderPage() {
   const params = useParams();
@@ -82,7 +81,7 @@ export default function ChapterReaderPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-black">
+      <div className="min-h-screen bg-[#181825]">
         <div className="w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
           <div className="text-center">
             <div className="relative w-16 h-16 md:w-20 md:h-20 mx-auto mb-4">
@@ -92,6 +91,7 @@ export default function ChapterReaderPage() {
                 width={80}
                 height={80}
                 className="rounded-lg w-full h-full object-cover"
+                unoptimized
               />
             </div>
             <p className="mt-4 text-gray-300 text-xs">Đang tải...</p>
@@ -103,7 +103,7 @@ export default function ChapterReaderPage() {
 
   if (error || !story || !chapter) {
     return (
-      <div className="min-h-screen bg-black">
+      <div className="min-h-screen bg-[#181825]">
         <div className="w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
           <div className="text-center">
             <div className="bg-red-900/20 border border-red-700 text-red-400 px-4 py-3 rounded text-xs">
@@ -111,7 +111,7 @@ export default function ChapterReaderPage() {
             </div>
             <button 
               onClick={() => router.push(`/stories/${storyId}`)}
-              className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-xs"
+              className="mt-4 bg-blue-600 hover:bg-blue-700 text-[#cdd6f4] px-4 py-2 rounded text-xs"
             >
               Quay lại truyện
             </button>
@@ -123,7 +123,7 @@ export default function ChapterReaderPage() {
 
   if (story.status !== 'public') {
     return (
-      <div className="min-h-screen bg-black">
+      <div className="min-h-screen bg-[#181825]">
         <div className="w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
           <div className="text-center">
             <div className="bg-yellow-900/20 border border-yellow-700 text-yellow-400 px-4 py-3 rounded text-xs">
@@ -131,7 +131,7 @@ export default function ChapterReaderPage() {
             </div>
             <button 
               onClick={() => router.push('/stories')}
-              className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-6"
+              className="mt-4 bg-blue-600 hover:bg-blue-700 text-[#cdd6f4] px-4 py-6"
             >
               Quay lại danh sách
             </button>
@@ -143,7 +143,7 @@ export default function ChapterReaderPage() {
 
   if ((chapter.status || 'public') !== 'public') {
     return (
-      <div className="min-h-screen bg-black">
+      <div className="min-h-screen bg-[#181825]">
         <div className="w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
           <div className="text-center">
             <div className="bg-yellow-900/20 border border-yellow-700 text-yellow-400 px-4 py-3 rounded text-xs">
@@ -151,7 +151,7 @@ export default function ChapterReaderPage() {
             </div>
             <button 
               onClick={() => router.push(`/stories/${storyId}`)}
-              className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-xs"
+              className="mt-4 bg-blue-600 hover:bg-blue-700 text-[#cdd6f4] px-4 py-2 rounded text-xs"
             >
               Quay lại truyện
             </button>
@@ -165,8 +165,7 @@ export default function ChapterReaderPage() {
   const nextChapter = getNextChapter();
 
   return (
-    <div className="min-h-screen bg-black">
-      <Navigation />
+    <div className="min-h-screen bg-[#181825]">
       
       {/* Main Content */}
       <div className="pt-16 md:pt-24 w-full px-0 sm:px-4 lg:px-8 py-0 sm:py-4">
@@ -174,7 +173,7 @@ export default function ChapterReaderPage() {
         <div className="bg-gray-900/50 rounded-md shadow-lg p-3 sm:p-4 lg:p-6 mb-4 sm:mb-6 lg:mb-8 border border-gray-700 backdrop-blur-sm mx-4 sm:mx-0">
           <div className="text-center mb-3 sm:mb-4 lg:mb-6">
             <div className="relative mb-3">
-              <h1 className="text-sm sm:text-2xl lg:text-3xl font-bold text-white mb-2 leading-tight bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              <h1 className="text-sm sm:text-2xl lg:text-3xl font-bold text-[#cdd6f4] mb-2 leading-tight bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                 Chương {chapter.chapterNumber}: {chapter.title}
               </h1>
               <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-yellow-400 rounded-full animate-pulse"></div>
@@ -251,7 +250,7 @@ export default function ChapterReaderPage() {
                    onClick={decreaseFontSize}
                    className={`p-1.5 sm:p-2 rounded transition-colors duration-200 ${
                      isDarkMode 
-                       ? 'text-gray-300 hover:text-white hover:bg-gray-700' 
+                       ? 'text-gray-300 hover:text-[#cdd6f4] hover:bg-gray-700' 
                        : 'text-gray-600 hover:text-gray-800 hover:bg-gray-300'
                    }`}
                    title="Giảm cỡ chữ"
@@ -265,7 +264,7 @@ export default function ChapterReaderPage() {
                    onClick={increaseFontSize}
                    className={`p-1.5 sm:p-2 rounded transition-colors duration-200 ${
                      isDarkMode 
-                       ? 'text-gray-300 hover:text-white hover:bg-gray-700' 
+                       ? 'text-gray-300 hover:text-[#cdd6f4] hover:bg-gray-700' 
                        : 'text-gray-600 hover:text-gray-800 hover:bg-gray-300'
                    }`}
                    title="Tăng cỡ chữ"
@@ -279,7 +278,7 @@ export default function ChapterReaderPage() {
                    onClick={decreaseLineHeight}
                    className={`p-1.5 sm:p-2 rounded transition-colors duration-200 ${
                      isDarkMode 
-                       ? 'text-gray-300 hover:text-white hover:bg-gray-700' 
+                       ? 'text-gray-300 hover:text-[#cdd6f4] hover:bg-gray-700' 
                        : 'text-gray-600 hover:text-gray-800 hover:bg-gray-300'
                    }`}
                    title="Giảm khoảng cách dòng"
@@ -293,7 +292,7 @@ export default function ChapterReaderPage() {
                    onClick={increaseLineHeight}
                    className={`p-1.5 sm:p-2 rounded transition-colors duration-200 ${
                      isDarkMode 
-                       ? 'text-gray-300 hover:text-white hover:bg-gray-700' 
+                       ? 'text-gray-300 hover:text-[#cdd6f4] hover:bg-gray-700' 
                        : 'text-gray-600 hover:text-gray-800 hover:bg-gray-300'
                    }`}
                    title="Tăng khoảng cách dòng"
@@ -336,7 +335,7 @@ export default function ChapterReaderPage() {
           {/* Chapter Text */}
           <div 
             className={`max-w-none chapter-content transition-colors duration-200 ${
-              isDarkMode ? 'text-white' : 'text-black'
+              isDarkMode ? 'text-[#cdd6f4]' : 'text-black'
             }`}
             style={{ 
               fontSize: `${fontSize}px`, 
@@ -349,7 +348,7 @@ export default function ChapterReaderPage() {
               <div 
                 dangerouslySetInnerHTML={{ __html: chapter.content }}
                 className={`chapter-content transition-colors duration-200 ${
-                  isDarkMode ? 'text-white' : 'text-black'
+                  isDarkMode ? 'text-[#cdd6f4]' : 'text-black'
                 }`}
                 style={{ 
                   lineHeight: lineHeight,
@@ -366,7 +365,7 @@ export default function ChapterReaderPage() {
             {previousChapter ? (
               <button
                 onClick={() => navigateToChapter(previousChapter._id)}
-                className="inline-flex items-center gap-2 justify-center px-3 sm:px-4 lg:px-6 py-2 sm:py-3 border border-transparent text-xs font-medium rounded-md text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full sm:w-auto transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105"
+                className="inline-flex items-center gap-2 justify-center px-3 sm:px-4 lg:px-6 py-2 sm:py-3 border border-transparent text-xs font-medium rounded-md text-[#cdd6f4] bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full sm:w-auto transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105"
               >
                 <ChevronLeft size={18} />
                 Chương trước
@@ -388,7 +387,7 @@ export default function ChapterReaderPage() {
             {nextChapter ? (
               <button
                 onClick={() => navigateToChapter(nextChapter._id)}
-                className="inline-flex items-center gap-2 justify-center px-3 sm:px-4 lg:px-6 py-2 sm:py-3 border border-transparent text-xs font-medium rounded-md text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full sm:w-auto transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105"
+                className="inline-flex items-center gap-2 justify-center px-3 sm:px-4 lg:px-6 py-2 sm:py-3 border border-transparent text-xs font-medium rounded-md text-[#cdd6f4] bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full sm:w-auto transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105"
               >
                 Chương tiếp
                 <ChevronRight size={18} />

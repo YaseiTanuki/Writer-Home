@@ -47,10 +47,6 @@ class GoogleAuthService {
         return;
       }
 
-      console.log('Google OAuth: Starting sign-in process');
-      console.log('Google OAuth: Client ID:', GOOGLE_CLIENT_ID);
-      console.log('Google OAuth: Current origin:', window.location.origin);
-
       // Load Google Sign-In script
       const script = document.createElement('script');
       script.src = 'https://accounts.google.com/gsi/client';
@@ -59,7 +55,6 @@ class GoogleAuthService {
       
       script.onload = () => {
         if (window.google) {
-          console.log('Google OAuth: Script loaded successfully');
           
           // Create a temporary container for the button
           const tempContainer = document.createElement('div');
@@ -74,7 +69,6 @@ class GoogleAuthService {
             client_id: GOOGLE_CLIENT_ID,
             callback: async (response: { credential: string }) => {
               try {
-                console.log('Google OAuth: Callback received');
                 
                 // Remove temporary container
                 if (document.body.contains(tempContainer)) {
@@ -99,29 +93,18 @@ class GoogleAuthService {
             use_fedcm_for_prompt: false, // Explicitly disable FedCM
           });
 
-          console.log('Google OAuth: Initialized, rendering button');
-
-          // Render the button to trigger popup
-          window.google.accounts.id.renderButton(tempContainer, {
-            type: 'standard',
-            theme: 'outline',
-            size: 'large',
-            text: 'signin_with',
-            shape: 'rectangular',
-            logo_alignment: 'left',
-          });
-
-          // Programmatically click the button to trigger popup
-          setTimeout(() => {
-            const button = tempContainer.querySelector('div[role="button"]');
-            if (button) {
-              console.log('Google OAuth: Button found, clicking...');
-              (button as HTMLElement).click();
-            } else {
-              console.error('Google OAuth: Button not found');
-              reject(new Error('Google Sign-In button not found'));
+          // Use prompt() so we get the notification callback for cancel/dismiss
+          window.google.accounts.id.prompt((notification: { isNotDisplayed: () => boolean; isSkippedMoment: () => boolean; isDismissedMoment: () => boolean; getDismissedReason: () => string }) => {
+            if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+              if (document.body.contains(tempContainer)) document.body.removeChild(tempContainer);
+              reject(new Error('cancelled'));
+            } else if (notification.isDismissedMoment()) {
+              const reason = notification.getDismissedReason();
+              if (reason === 'credential_returned') return; // success handled by callback
+              if (document.body.contains(tempContainer)) document.body.removeChild(tempContainer);
+              reject(new Error('cancelled'));
             }
-          }, 100);
+          });
 
         } else {
           console.error('Google OAuth: Failed to load Google OAuth');

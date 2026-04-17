@@ -14,13 +14,13 @@ export default function GuestReplies({ message, onDeleteReply, isAdmin = false }
   }
 
   return (
-    <div className="mt-3 border-t border-gray-700 pt-3">
-      <h4 className="text-sm font-medium text-gray-300 mb-2">
+    <div className="mt-3 border-t border-[#45475a] pt-3">
+      <h4 className="text-sm font-medium text-[#a6adc8] mb-2">
         Guest Replies ({message.guestReplies.length})
       </h4>
       <div className="space-y-3">
         {message.guestReplies.map((reply, index) => (
-          <div key={reply._id || index} className="bg-gray-700 rounded-md p-3">
+          <div key={reply._id || index} className="bg-[#313244] rounded-md p-3">
             <div className="flex items-start justify-between gap-2">
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-2">
@@ -37,15 +37,15 @@ export default function GuestReplies({ message, onDeleteReply, isAdmin = false }
                     />
                   ) : null}
                   <div className={`h-6 w-6 rounded-full bg-gradient-to-br from-pink-400 to-rose-600 flex items-center justify-center ${reply.guestPicture ? 'hidden' : ''}`}>
-                    <User size={12} className="text-white" />
+                    <User size={12} className="text-[#cdd6f4]" />
                   </div>
-                  <span className="text-sm font-medium text-pink-400">{reply.guestName}</span>
-                  <span className="text-xs text-gray-500">({reply.guestEmail})</span>
-                  <span className="text-xs text-gray-500">
+                  <span className="text-sm font-medium text-[#f5c2e7]">{reply.guestName}</span>
+                  <span className="text-xs text-[#6c7086]">({reply.guestEmail})</span>
+                  <span className="text-xs text-[#6c7086]">
                     {new Date(reply.createdAt).toLocaleDateString('vi-VN')}
                   </span>
                 </div>
-                <p className="text-sm text-gray-300">{reply.content}</p>
+                <p className="text-sm text-[#a6adc8]">{reply.content}</p>
                 
                 {/* Nested Replies */}
                 {reply.replies && reply.replies.length > 0 && (
@@ -70,15 +70,15 @@ export default function GuestReplies({ message, onDeleteReply, isAdmin = false }
                                   />
                                 ) : null}
                                 <div className={`h-5 w-5 rounded-full bg-gradient-to-br from-pink-300 to-pink-500 flex items-center justify-center ${nestedReply.guestPicture ? 'hidden' : ''}`}>
-                                  <User size={10} className="text-white" />
+                                  <User size={10} className="text-[#cdd6f4]" />
                                 </div>
                                 <span className="text-xs font-medium text-pink-300">{nestedReply.guestName}</span>
-                                <span className="text-xs text-gray-500">({nestedReply.guestEmail})</span>
-                                <span className="text-xs text-gray-500">
+                                <span className="text-xs text-[#6c7086]">({nestedReply.guestEmail})</span>
+                                <span className="text-xs text-[#6c7086]">
                                   {new Date(nestedReply.createdAt).toLocaleDateString('vi-VN')}
                                 </span>
                               </div>
-                              <p className="text-xs text-gray-300">{nestedReply.content}</p>
+                              <p className="text-xs text-[#a6adc8]">{nestedReply.content}</p>
                             </div>
                             {isAdmin && onDeleteReply && (
                               <button

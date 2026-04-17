@@ -101,7 +101,7 @@ const ImageUpload = forwardRef<{ uploadImage: () => Promise<string>; hasNewFile:
 
   return (
     <div className={`space-y-3 ${className}`}>
-      <label className="block text-xs font-medium text-gray-300">
+      <label className="block text-xs font-medium text-[#a6adc8]">
         Ảnh bìa truyện
       </label>
       
@@ -109,7 +109,7 @@ const ImageUpload = forwardRef<{ uploadImage: () => Promise<string>; hasNewFile:
         className={`relative border-2 border-dashed rounded-lg p-4 transition-colors ${
           previewUrl 
             ? 'border-pink-500 bg-pink-50/10' 
-            : 'border-gray-600 hover:border-gray-500 bg-gray-800/50'
+            : 'border-[#45475a] hover:border-gray-500 bg-[#313244]/50'
         }`}
       >
         {previewUrl ? (
@@ -121,7 +121,7 @@ const ImageUpload = forwardRef<{ uploadImage: () => Promise<string>; hasNewFile:
               className="w-full h-48 object-cover rounded-lg"
             />
 
-            <div className="absolute bottom-2 left-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
+            <div className="absolute bottom-2 left-2 bg-[#181825]/70 text-[#cdd6f4] text-xs px-2 py-1 rounded">
               {selectedFile ? 'Ảnh mới' : 'Ảnh hiện tại'}
             </div>
             {selectedFile && currentImageUrl && (
@@ -132,7 +132,7 @@ const ImageUpload = forwardRef<{ uploadImage: () => Promise<string>; hasNewFile:
                   setPreviewUrl(currentImageUrl);
                   setUploadError('');
                 }}
-                className="absolute bottom-2 right-2 bg-pink-600 hover:bg-pink-700 text-white text-xs px-2 py-1 rounded transition-colors"
+                className="absolute bottom-2 right-2 bg-pink-600 hover:bg-pink-700 text-[#cdd6f4] text-xs px-2 py-1 rounded transition-colors"
               >
                 Giữ ảnh cũ
               </button>
@@ -143,21 +143,21 @@ const ImageUpload = forwardRef<{ uploadImage: () => Promise<string>; hasNewFile:
           <div className="text-center">
             <div className="flex flex-col items-center justify-center space-y-2">
               {isUploading ? (
-                <Loader2 size={32} className="animate-spin text-pink-400" />
+                <Loader2 size={32} className="animate-spin text-[#f5c2e7]" />
               ) : (
-                <ImageIcon size={32} className="text-gray-400" />
+                <ImageIcon size={32} className="text-[#6c7086]" />
               )}
-              <div className="text-sm text-gray-300">
+              <div className="text-sm text-[#a6adc8]">
                 {isUploading ? (
                   'Đang upload ảnh...'
                 ) : (
                   <>
-                    <span className="font-medium text-pink-400">Click để chọn ảnh</span>
-                    <span className="text-gray-400"> hoặc kéo thả ảnh vào đây</span>
+                    <span className="font-medium text-[#f5c2e7]">Click để chọn ảnh</span>
+                    <span className="text-[#6c7086]"> hoặc kéo thả ảnh vào đây</span>
                   </>
                 )}
               </div>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-[#6c7086]">
                 PNG, JPG, GIF tối đa 32MB
               </p>
             </div>
@@ -181,7 +181,7 @@ const ImageUpload = forwardRef<{ uploadImage: () => Promise<string>; hasNewFile:
       )}
 
       {previewUrl && (
-        <div className="text-xs text-gray-400 text-center">
+        <div className="text-xs text-[#6c7086] text-center">
           Ảnh đã được upload thành công
         </div>
       )}

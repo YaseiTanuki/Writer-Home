@@ -8,7 +8,6 @@ import { storyService } from '../../../services/storyService';
 import { CreateStoryRequest } from '../../../types/story';
 import TiptapEditor from '../../../component/TiptapEditor';
 import CategorySelector from '../../../component/CategorySelector';
-import Navigation from '../../../component/Navigation';
 import ImageUpload from '../../../component/ImageUpload';
 import { Sparkles, Plus } from 'lucide-react';
 
@@ -112,7 +111,7 @@ export default function NewStoryPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-black">
+      <div className="min-h-screen" style={{ backgroundColor: '#1e1e2e' }}>
         <div className="max-w-4xl mx-auto px-4 py-8">
           <div className="text-center">
             <div className="relative w-16 h-16 mx-auto mb-4">
@@ -122,6 +121,7 @@ export default function NewStoryPage() {
                 width={64}
                 height={64}
                 className="rounded-lg w-full h-full object-cover"
+                unoptimized
               />
             </div>
             <p className="mt-4 text-[#F4E3D2] text-xs">Đang tải...</p>
@@ -221,16 +221,15 @@ export default function NewStoryPage() {
   };
 
   return (
-    <div className="min-h-screen bg-black">
-      <Navigation />
+    <div className="min-h-screen" style={{ backgroundColor: '#1e1e2e' }}>
       
       {/* Main Content */}
-      <div className="pt-16 md:pt-24 max-w-5xl mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-6">
+      <div className="max-w-5xl mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-6">
         {/* Page Header */}
         <div className="mb-6">
           <div className="text-center sm:text-left">
-            <h1 className="text-xl sm:text-2xl font-bold text-[#FFF8F0] mb-2 leading-tight flex items-center justify-center sm:justify-start gap-2">
-              <Sparkles size={22} className="text-[#00E5FF]" />
+            <h1 className="text-xl sm:text-2xl font-bold text-[#cdd6f4] mb-2 leading-tight flex items-center justify-center sm:justify-start gap-2">
+              <Sparkles size={22} className="text-[#89b4fa]" />
               Viết Truyện Mới
             </h1>
             <p className="text-xs sm:text-sm text-[#F4E3D2]">
@@ -240,10 +239,10 @@ export default function NewStoryPage() {
         </div>
 
         {/* Creation Banner */}
-        <div className="mb-6 p-3 sm:p-4 rounded-md bg-gradient-to-r from-[#D2691E]/20 to-[#C97C4B]/20 border border-[#D2691E]/50 backdrop-blur-sm">
+        <div className="mb-6 p-3 sm:p-4 rounded-md bg-gradient-to-r from-[#cba6f7]/10 to-[#b4befe]/10 border border-[#45475a]/50 backdrop-blur-sm">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-[#00E5FF] rounded-full animate-pulse"></div>
+              <div className="w-2 h-2 bg-[#89b4fa] rounded-full animate-pulse"></div>
               <p className="text-xs sm:text-sm font-medium text-[#F4E3D2]">
                 Sẵn sàng tạo truyện mới? Hãy điền đầy đủ thông tin bên dưới
               </p>
@@ -252,7 +251,7 @@ export default function NewStoryPage() {
               <button
                 type="button"
                 onClick={clearDraft}
-                className="text-xs text-[#00E5FF] hover:text-[#00E5FF]/80 underline"
+                className="text-xs text-[#89b4fa] hover:text-[#89b4fa]/80 underline"
               >
                 Xóa bản thảo
               </button>
@@ -262,10 +261,10 @@ export default function NewStoryPage() {
 
         {/* Draft Loaded Banner */}
         {localStorage.getItem('storyDraft') && (
-          <div className="mb-4 p-3 rounded-md bg-[#00E5FF]/10 border border-[#00E5FF]/30 backdrop-blur-sm">
+          <div className="mb-4 p-3 rounded-md bg-[#89b4fa]/10 border border-[#cba6f7]/30 backdrop-blur-sm">
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-[#00E5FF] rounded-full"></div>
-              <p className="text-xs text-[#00E5FF]">
+              <div className="w-2 h-2 bg-[#89b4fa] rounded-full"></div>
+              <p className="text-xs text-[#89b4fa]">
                 📝 Bản thảo đã được tải tự động. Bạn có thể tiếp tục chỉnh sửa hoặc xóa để bắt đầu mới.
               </p>
             </div>
@@ -283,18 +282,18 @@ export default function NewStoryPage() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Basic Information Section */}
-          <div className="bg-[#1E1E1E] shadow-lg rounded-2xl p-4 sm:p-6 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E] backdrop-blur-sm">
-            <h2 className="text-base font-semibold text-[#FFFFFF] mb-4 flex items-center gap-2">
-              <div className="w-1.5 h-1.5 bg-[#00E5FF] rounded-full"></div>
+          <div className="bg-[#313244] shadow-lg rounded-2xl p-4 sm:p-6 border border-[#45475a] backdrop-blur-sm">
+            <h2 className="text-base font-semibold text-[#cdd6f4] mb-4 flex items-center gap-2">
+              <div className="w-1.5 h-1.5 bg-[#89b4fa] rounded-full"></div>
               Thông Tin Cơ Bản
             </h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Title */}
               <div className="md:col-span-2">
-                <label htmlFor="title" className="block text-xs font-medium text-[#B0BEC5] mb-2 flex items-center gap-2">
-                  <div className="w-1 h-1 bg-[#00E5FF] rounded-full"></div>
-                  Tiêu đề truyện <span className="text-[#00E5FF]">*</span>
+                <label htmlFor="title" className="block text-xs font-medium text-[#a6adc8] mb-2 flex items-center gap-2">
+                  <div className="w-1 h-1 bg-[#89b4fa] rounded-full"></div>
+                  Tiêu đề truyện <span className="text-[#89b4fa]">*</span>
                 </label>
                 <input
                   type="text"
@@ -303,20 +302,20 @@ export default function NewStoryPage() {
                   value={formData.title}
                   onChange={handleInputChange}
                   onBlur={() => handleBlur('title')}
-                  className="w-full px-3 py-2 border-2 border-[#00E5FF]/30 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#00E5FF] focus:border-[#00E5FF] text-xs bg-[#2A2A2A] text-[#FFFFFF] placeholder-[#B0BEC5] transition-all duration-200"
+                  className="w-full px-3 py-2 border-2 border-[#cba6f7]/30 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#cba6f7] focus:border-[#cba6f7] text-xs bg-[#181825] text-[#cdd6f4] placeholder-[#B0BEC5] transition-all duration-200"
                   placeholder="Nhập tiêu đề truyện..."
                   required
                 />
                 {getFieldError('title') && (
-                  <p className="text-[#D2691E] text-xs mt-1">{getFieldError('title')}</p>
+                  <p className="text-[#cba6f7] text-xs mt-1">{getFieldError('title')}</p>
                 )}
               </div>
 
               {/* Description */}
               <div className="md:col-span-2">
-                <label htmlFor="description" className="block text-xs font-medium text-[#B0BEC5] mb-2 flex items-center gap-2">
-                  <div className="w-1 h-1 bg-[#00E5FF] rounded-full"></div>
-                  Mô tả truyện <span className="text-[#00E5FF]">*</span>
+                <label htmlFor="description" className="block text-xs font-medium text-[#a6adc8] mb-2 flex items-center gap-2">
+                  <div className="w-1 h-1 bg-[#89b4fa] rounded-full"></div>
+                  Mô tả truyện <span className="text-[#89b4fa]">*</span>
                 </label>
                 <textarea
                   id="description"
@@ -325,19 +324,19 @@ export default function NewStoryPage() {
                   onChange={handleInputChange}
                   onBlur={() => handleBlur('description')}
                   rows={2}
-                  className="w-full px-3 py-2 border-2 border-[#00E5FF]/30 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#00E5FF] focus:border-[#00E5FF] text-xs bg-[#2A2A2A] text-[#FFFFFF] placeholder-[#B0BEC5] resize-none transition-all duration-200"
+                  className="w-full px-3 py-2 border-2 border-[#cba6f7]/30 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#cba6f7] focus:border-[#cba6f7] text-xs bg-[#181825] text-[#cdd6f4] placeholder-[#B0BEC5] resize-none transition-all duration-200"
                   placeholder="Nhập mô tả ngắn gọn về truyện..."
                   required
                 />
                 {getFieldError('description') && (
-                  <p className="text-[#D2691E] text-xs mt-1">{getFieldError('description')}</p>
+                  <p className="text-[#cba6f7] text-xs mt-1">{getFieldError('description')}</p>
                 )}
               </div>
 
               {/* Status */}
               <div>
-                <label htmlFor="status" className="block text-xs font-medium text-[#B0BEC5] mb-2 flex items-center gap-2">
-                  <div className="w-1 h-1 bg-[#00E5FF] rounded-full"></div>
+                <label htmlFor="status" className="block text-xs font-medium text-[#a6adc8] mb-2 flex items-center gap-2">
+                  <div className="w-1 h-1 bg-[#89b4fa] rounded-full"></div>
                   Trạng thái
                 </label>
                 <select
@@ -345,7 +344,7 @@ export default function NewStoryPage() {
                   name="status"
                   value={formData.status}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border-2 border-[#00E5FF]/30 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#00E5FF] focus:border-[#00E5FF] text-xs bg-[#2A2A2A] text-[#FFFFFF] transition-all duration-200"
+                  className="w-full px-3 py-2 border-2 border-[#cba6f7]/30 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#cba6f7] focus:border-[#cba6f7] text-xs bg-[#181825] text-[#cdd6f4] transition-all duration-200"
                 >
                   <option value="draft">Bản thảo</option>
                   <option value="public">Xuất bản</option>
@@ -355,9 +354,9 @@ export default function NewStoryPage() {
           </div>
 
           {/* Categories Section */}
-          <div className="bg-[#1E1E1E] shadow-lg rounded-2xl p-4 sm:p-6 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E] backdrop-blur-sm">
-            <h2 className="text-base font-semibold text-[#FFFFFF] mb-4 flex items-center gap-2">
-              <div className="w-1.5 h-1.5 bg-[#F4A460] rounded-full"></div>
+          <div className="bg-[#313244] shadow-lg rounded-2xl p-4 sm:p-6 border border-[#45475a] backdrop-blur-sm">
+            <h2 className="text-base font-semibold text-[#cdd6f4] mb-4 flex items-center gap-2">
+              <div className="w-1.5 h-1.5 bg-[#fab387] rounded-full"></div>
               Thể Loại Truyện
             </h2>
             <CategorySelector
@@ -368,13 +367,13 @@ export default function NewStoryPage() {
               }}
             />
             {getFieldError('category') && (
-              <p className="text-[#D2691E] text-xs mt-1">{getFieldError('category')}</p>
+              <p className="text-[#cba6f7] text-xs mt-1">{getFieldError('category')}</p>
             )}
           </div>
 
           {/* Cover Image Section */}
-          <div className="bg-[#1E1E1E] shadow-lg rounded-2xl p-4 sm:p-6 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E] backdrop-blur-sm">
-            <h2 className="text-base font-semibold text-[#FFFFFF] mb-4 flex items-center gap-2">
+          <div className="bg-[#313244] shadow-lg rounded-2xl p-4 sm:p-6 border border-[#45475a] backdrop-blur-sm">
+            <h2 className="text-base font-semibold text-[#cdd6f4] mb-4 flex items-center gap-2">
               <div className="w-1.5 h-1.5 bg-[#E9967A] rounded-full"></div>
               Ảnh Bìa Truyện
             </h2>
@@ -387,17 +386,17 @@ export default function NewStoryPage() {
               }}
             />
             {getFieldError('coverImage') && (
-              <p className="text-[#D2691E] text-xs mt-1">{getFieldError('coverImage')}</p>
+              <p className="text-[#cba6f7] text-xs mt-1">{getFieldError('coverImage')}</p>
             )}
           </div>
 
           {/* Story Content Section */}
-          <div className="bg-[#1E1E1E] shadow-lg rounded-2xl p-4 sm:p-6 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E] backdrop-blur-sm">
-            <h2 className="text-base font-semibold text-[#FFFFFF] mb-4 flex items-center gap-2">
-              <div className="w-1.5 h-1.5 bg-[#C97C4B] rounded-full"></div>
+          <div className="bg-[#313244] shadow-lg rounded-2xl p-4 sm:p-6 border border-[#45475a] backdrop-blur-sm">
+            <h2 className="text-base font-semibold text-[#cdd6f4] mb-4 flex items-center gap-2">
+              <div className="w-1.5 h-1.5 bg-[#cba6f7] rounded-full"></div>
               Nội Dung Truyện
             </h2>
-            <div className="border-2 border-[#00E5FF]/30 rounded-lg overflow-hidden">
+            <div className="border-2 border-[#cba6f7]/30 rounded-lg overflow-hidden">
               <TiptapEditor
                 content={storyContent}
                 onChange={(content) => {
@@ -408,17 +407,17 @@ export default function NewStoryPage() {
               />
             </div>
             {getFieldError('content') && (
-              <p className="text-[#D2691E] text-xs mt-1">{getFieldError('content')}</p>
+              <p className="text-[#cba6f7] text-xs mt-1">{getFieldError('content')}</p>
             )}
           </div>
 
           {/* Action Buttons */}
-          <div className="bg-[#1E1E1E] shadow-lg rounded-2xl p-4 sm:p-6 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E] backdrop-blur-sm">
+          <div className="bg-[#313244] shadow-lg rounded-2xl p-4 sm:p-6 border border-[#45475a] backdrop-blur-sm">
             <div className="flex flex-col sm:flex-row gap-3">
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex-1 bg-[#00E5FF] hover:bg-[#00E5FF]/90 text-[#1E1E1E] px-6 py-3 rounded-lg text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-md hover:shadow-lg hover:scale-105"
+                className="flex-1 bg-[#89b4fa] hover:bg-[#89b4fa]/90 text-[#11111b] px-6 py-3 rounded-lg text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-md hover:shadow-lg hover:scale-105"
               >
                 {isSubmitting ? (
                   <>
@@ -429,6 +428,7 @@ export default function NewStoryPage() {
                         width={16}
                         height={16}
                         className="rounded w-full h-full object-cover"
+                        unoptimized
                       />
                     </div>
                     <span className="text-sm">Đang tạo...</span>
@@ -444,7 +444,7 @@ export default function NewStoryPage() {
               <button
                 type="button"
                 onClick={() => router.push('/admin/stories')}
-                className="flex-1 sm:flex-none bg-[#2A2A2A] hover:bg-[#2A2A2A]/80 text-[#B0BEC5] px-6 py-3 rounded-lg font-medium transition-all duration-300 text-center text-sm border-2 border-[#D2691E] hover:border-[#C97C4B] hover:scale-105"
+                className="flex-1 sm:flex-none bg-[#181825] hover:bg-[#181825]/80 text-[#a6adc8] px-6 py-3 rounded-lg font-medium transition-all duration-300 text-center text-sm border border-[#45475a] hover:border-[#585b70] hover:scale-105"
               >
                 Hủy Bỏ
               </button>

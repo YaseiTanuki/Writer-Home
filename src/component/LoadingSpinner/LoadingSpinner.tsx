@@ -32,6 +32,7 @@ export default function LoadingSpinner({
           width={imageSizes[size]}
           height={imageSizes[size]}
           className="rounded-lg w-full h-full object-cover"
+          unoptimized
         />
       </div>
       {text && (

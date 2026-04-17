@@ -16,21 +16,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="vi">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link 
-          href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" 
-          rel="stylesheet" 
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
         />
       </head>
-      <body className="antialiased">
+      <body className="antialiased" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
         <AuthProvider>
           <GuestProvider>
             <Navigation />
             <MobileBottomNav />
-            <main className="pt-16 md:pt-16 pb-20 md:pb-0">
+            <main className="pt-14 pb-16 md:pt-14 md:pb-0">
               {children}
             </main>
           </GuestProvider>

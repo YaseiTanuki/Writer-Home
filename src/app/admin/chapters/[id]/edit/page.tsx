@@ -8,7 +8,6 @@ import { useAuth } from '../../../../../contexts/AuthContext';
 import { storyService } from '../../../../../services/storyService';
 import { Chapter, UpdateChapterRequest } from '../../../../../types/story';
 import TiptapEditor from '../../../../../component/TiptapEditor';
-import Navigation from '../../../../../component/Navigation';
 import { Edit3 } from 'lucide-react';
 
 export default function EditChapterPage() {
@@ -128,8 +127,7 @@ export default function EditChapterPage() {
 
   if (isLoading || isLoadingChapter) {
     return (
-      <div className="min-h-screen bg-black">
-        <Navigation />
+      <div className="min-h-screen bg-[#181825]">
         <div className="pt-16 md:pt-24 lg:pt-32 w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
           <div className="text-center">
             <div className="relative w-16 h-16 md:w-20 md:h-20 mx-auto mb-4">
@@ -139,6 +137,7 @@ export default function EditChapterPage() {
                 width={80}
                 height={80}
                 className="rounded-lg w-full h-full object-cover"
+                unoptimized
               />
             </div>
             <p className="mt-4 text-gray-300">Đang tải...</p>
@@ -150,8 +149,7 @@ export default function EditChapterPage() {
 
   if (!chapter) {
     return (
-      <div className="min-h-screen bg-black">
-        <Navigation />
+      <div className="min-h-screen bg-[#181825]">
         <div className="pt-16 md:pt-24 lg:pt-32 w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
           <div className="text-center">
             <p className="text-red-400">Không tìm thấy chương</p>
@@ -200,8 +198,7 @@ export default function EditChapterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-black">
-      <Navigation />
+    <div className="min-h-screen bg-[#181825]">
       
       {/* Page Title */}
       <div className="mb-4 sm:mb-6 md:mb-8 px-4 sm:px-6 lg:px-8">
@@ -271,7 +268,7 @@ export default function EditChapterPage() {
               value={formData.chapterNumber}
               onChange={handleInputChange}
               min="1"
-              className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm bg-gray-800/50 text-white backdrop-blur-sm transition-all duration-200"
+              className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm bg-gray-800/50 text-[#cdd6f4] backdrop-blur-sm transition-all duration-200"
               required
             />
           </div>
@@ -288,7 +285,7 @@ export default function EditChapterPage() {
               name="title"
               value={formData.title}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm bg-gray-800/50 text-white placeholder-gray-400 backdrop-blur-sm transition-all duration-200"
+              className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm bg-gray-800/50 text-[#cdd6f4] placeholder-gray-400 backdrop-blur-sm transition-all duration-200"
               placeholder="Nhập tiêu đề chương..."
               required
             />
@@ -305,7 +302,7 @@ export default function EditChapterPage() {
               name="status"
               value={formData.status}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 text-sm bg-gray-800/50 text-white backdrop-blur-sm transition-all duration-200"
+              className="w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 text-sm bg-gray-800/50 text-[#cdd6f4] backdrop-blur-sm transition-all duration-200"
               required
             >
               <option value="draft">Bản nháp</option>
@@ -340,7 +337,7 @@ export default function EditChapterPage() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-md text-sm sm:text-base font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 sm:gap-3 shadow-md hover:shadow-lg hover:scale-105"
+            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-[#cdd6f4] px-4 sm:px-6 py-2.5 sm:py-3 rounded-md text-sm sm:text-base font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 sm:gap-3 shadow-md hover:shadow-lg hover:scale-105"
             onClick={handleSubmit}
           >
             {isSubmitting ? (
@@ -352,6 +349,7 @@ export default function EditChapterPage() {
                     width={20}
                     height={20}
                     className="rounded w-full h-full object-cover"
+                    unoptimized
                   />
                 </div>
                 <span className="text-sm sm:text-base">Đang cập nhật...</span>
@@ -365,7 +363,7 @@ export default function EditChapterPage() {
           </button>
           <Link
             href="/admin/chapters"
-            className="flex-1 sm:flex-none bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-md font-medium transition-all duration-300 text-center text-sm sm:text-base shadow-md hover:shadow-lg hover:scale-105"
+            className="flex-1 sm:flex-none bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-[#cdd6f4] px-4 sm:px-6 py-2.5 sm:py-3 rounded-md font-medium transition-all duration-300 text-center text-sm sm:text-base shadow-md hover:shadow-lg hover:scale-105"
           >
             Hủy
           </Link>

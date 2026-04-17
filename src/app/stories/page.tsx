@@ -2,9 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { BookOpen, Search, Trash2, CheckCircle, Eye, Heart, MessageCircle } from 'lucide-react';
-import Navigation from '../../component/Navigation';
 import { storyService } from '../../services/storyService';
 import { Story, Category } from '../../types/story';
 
@@ -56,11 +54,7 @@ export default function StoriesPage() {
         search: searchTerm.trim() || undefined
       };
       
-      console.log('API call params:', searchParams);
-      
       const response = await storyService.getStories(searchParams);
-      
-      console.log('API response:', response);
       
       if (append) {
         // Append new stories to existing ones
@@ -94,7 +88,6 @@ export default function StoriesPage() {
   };
 
   const handleSearch = async () => {
-    console.log('Searching for:', searchTerm);
     setCurrentPage(1);
     await loadData(1, false);
   };
@@ -114,66 +107,59 @@ export default function StoriesPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#121212] pt-16 md:pt-24">
-        <Navigation />
-        <div className="w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
-          <div className="text-center">
-            <div className="relative w-16 h-16 md:w-20 md:h-20 mx-auto mb-4">
-              <Image
-                src="/reading.gif"
-                alt="Loading..."
-                width={80}
-                height={80}
-                className="rounded-lg w-full h-full object-cover"
-              />
-            </div>
-            <p className="mt-4 text-[#B0BEC5] text-xs">Đang tải...</p>
-          </div>
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#1e1e2e' }}>
+        <div className="text-center">
+          <div className="w-8 h-8 border-2 rounded-full animate-spin mx-auto mb-4" style={{ borderColor: '#cba6f7', borderTopColor: 'transparent' }} />
+          <p className="text-xs" style={{ color: '#a6adc8' }}>Đang tải...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#121212] pt-16 md:pt-24">
-      <Navigation />
-      
+    <div className="min-h-screen" style={{ backgroundColor: '#1e1e2e' }}>
       {/* Hero Section */}
-      <div className="bg-[#1E1E1E] rounded-2xl shadow-lg p-4 sm:p-6 mb-6 sm:mb-8 mx-4 sm:mx-0 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E] backdrop-blur-sm">
+      <div
+        className="rounded-2xl p-4 sm:p-6 mb-6 mx-4 sm:mx-6 lg:mx-8 mt-6"
+        style={{ backgroundColor: '#313244', border: '1px solid #45475a' }}
+      >
         <div className="text-center">
-          <div className="relative mb-3">
-            <h1 className="text-lg sm:text-2xl font-bold text-[#FFFFFF] mb-2">
-              Thư Viện Truyện
-            </h1>
-            <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-[#D2691E] rounded-full animate-pulse"></div>
+          <div
+            className="inline-flex items-center gap-2 mb-3 px-4 py-1.5 rounded-full text-xs font-medium"
+            style={{ color: '#cba6f7', backgroundColor: 'rgba(203,166,247,0.10)', border: '1px solid rgba(203,166,247,0.25)' }}
+          >
+            <BookOpen size={12} />
+            Thư Viện
           </div>
-          <p className="text-xs sm:text-sm text-[#B0BEC5]">
-            Khám phá những câu chuyện thú vị từ các tác giả tài năng
-          </p>
+          <h1 className="text-xl sm:text-2xl font-bold mb-2" style={{ color: '#cdd6f4' }}>Thư Viện Truyện</h1>
+          <p className="text-xs sm:text-sm" style={{ color: '#6c7086' }}>Khám phá những câu chuyện thú vị</p>
         </div>
       </div>
 
       {/* Main Content */}
-              <div className="w-full px-0 sm:px-4 lg:px-8 py-0 sm:py-4">
-        {/* Enhanced Filters - Simplified Layout */}
-        <div className="bg-[#1E1E1E] rounded-2xl shadow-lg p-3 sm:p-4 mb-4 sm:mb-6 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E] backdrop-blur-sm mx-4 sm:mx-0">
+      <div className="w-full px-4 sm:px-6 lg:px-8 py-0 sm:py-4">
+        {/* Filters */}
+        <div
+          className="rounded-2xl p-3 sm:p-4 mb-4 sm:mb-6"
+          style={{ backgroundColor: '#313244', border: '1px solid #45475a' }}
+        >
           {/* Main Search Bar - Always Visible */}
           <div className="mb-3">
             <form onSubmit={(e) => { e.preventDefault(); handleSearch(); }}>
               <div className="relative">
-                <div className="w-1 h-1 bg-[#D2691E] rounded-full absolute left-2 top-1/2 transform -translate-y-1/2"></div>
-                <Search size={14} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#B0BEC5]" />
+                <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: '#6c7086' }} />
                 <input
                   type="text"
                   id="search"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="Tìm kiếm theo tên truyện, mô tả, tác giả, thể loại..."
-                  className="w-full pl-8 pr-3 py-1.5 border-2 border-[#D2691E]/30 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#D2691E] focus:border-[#D2691E] text-xs bg-[#2A2A2A] text-[#FFFFFF] placeholder-[#B0BEC5] transition-all duration-200"
+                  placeholder="Tìm kiếm theo tên truyện, mô tả, tác giả..."
+                  className="w-full pl-9 pr-3 py-2 rounded-lg text-xs outline-none transition-all duration-200"
+                  style={{ backgroundColor: '#181825', color: '#cdd6f4', border: '1px solid #45475a', caretColor: '#cba6f7' }}
                 />
               </div>
             </form>
-            <p className="text-xs text-[#B0BEC5]/80 mt-1">
+            <p className="text-xs mt-1" style={{ color: '#6c7086' }}>
               Tìm kiếm trong tên truyện, mô tả, tác giả và thể loại
             </p>
           </div>
@@ -182,24 +168,22 @@ export default function StoriesPage() {
           <div className="flex items-center justify-between gap-3">
             {/* View Mode Toggle */}
             <div className="flex items-center gap-2">
-              <div className="flex bg-[#2A2A2A] rounded-lg p-0.5 backdrop-blur-sm">
+              <div className="flex rounded-lg overflow-hidden p-0.5" style={{ backgroundColor: '#181825' }}>
                 <button
                   onClick={() => setViewMode('grid')}
-                  className={`px-2 py-1 rounded text-xs font-medium transition-all duration-200 ${
-                    viewMode === 'grid' 
-                      ? 'bg-[#D2691E] text-white shadow-md' 
-                      : 'text-[#B0BEC5] hover:text-[#FFFFFF] hover:bg-[#2A2A2A]'
-                  }`}
+                  className={`px-2.5 py-1 rounded text-xs font-medium transition-all duration-200`}
+                  style={viewMode === 'grid'
+                    ? { backgroundColor: '#cba6f7', color: '#11111b' }
+                    : { color: '#6c7086' }}
                 >
                   Grid
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
-                  className={`px-2 py-1 rounded text-xs font-medium transition-all duration-200 ${
-                    viewMode === 'list' 
-                      ? 'bg-[#D2691E] text-white shadow-md' 
-                      : 'text-[#B0BEC5] hover:text-[#FFFFFF] hover:bg-[#2A2A2A]'
-                  }`}
+                  className={`px-2.5 py-1 rounded text-xs font-medium transition-all duration-200`}
+                  style={viewMode === 'list'
+                    ? { backgroundColor: '#cba6f7', color: '#11111b' }
+                    : { color: '#6c7086' }}
                 >
                   List
                 </button>
@@ -209,13 +193,13 @@ export default function StoriesPage() {
             {/* Results Summary and Clear Filters */}
             {searchTerm.trim() && (
               <div className="flex items-center gap-2">
-                <div className="w-1 h-1 bg-[#D2691E] rounded-full animate-pulse"></div>
-                <span className="text-xs text-[#D2691E]">
+                <span className="text-xs" style={{ color: '#cba6f7' }}>
                   {totalStories} truyện
                 </span>
                 <button
                   onClick={clearFilters}
-                  className="inline-flex items-center gap-1 text-[#D2691E] hover:text-[#D2691E]/80 text-xs font-medium transition-all duration-200 bg-[#D2691E]/10 hover:bg-[#D2691E]/20 px-1.5 py-0.5 rounded hover:scale-105"
+                  className="inline-flex items-center gap-1 text-xs font-medium transition-all duration-200 px-1.5 py-0.5 rounded"
+                  style={{ color: '#cba6f7', backgroundColor: 'rgba(203,166,247,0.1)' }}
                 >
                   <Trash2 size={12} />
                   Xóa bộ lọc
@@ -226,27 +210,29 @@ export default function StoriesPage() {
         </div>
 
         {/* Stories Display */}
-                 {isLoading ? (
-           <div className="text-center py-6 sm:py-8 px-4 sm:px-0">
-            <div className="bg-[#1E1E1E] rounded-2xl p-8 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E]">
-              <div className="text-[#B0BEC5] text-sm mb-2">Đang tải...</div>
+         {isLoading ? (
+           <div className="text-center py-8 px-4">
+            <div className="rounded-2xl p-8" style={{ backgroundColor: '#313244', border: '1px solid #45475a' }}>
+              <div className="w-6 h-6 border-2 rounded-full animate-spin mx-auto mb-3" style={{ borderColor: '#cba6f7', borderTopColor: 'transparent' }} />
+              <div className="text-xs" style={{ color: '#a6adc8' }}>Đang tải...</div>
             </div>
           </div>
                  ) : filteredStories.length === 0 ? (
-           <div className="text-center py-6 sm:py-8 px-4 sm:px-0">
-            <div className="bg-[#1E1E1E] rounded-2xl p-8 border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E]">
-              <BookOpen size={48} className="text-[#D2691E] mx-auto mb-4" />
-              <div className="text-[#B0BEC5] text-sm mb-2">
-                {stories.length === 0 ? 'Chưa có truyện nào được xuất bản.' : 'Không tìm thấy truyện phù hợp với bộ lọc.'}
+           <div className="text-center py-8 px-4">
+            <div className="rounded-2xl p-8" style={{ backgroundColor: '#313244', border: '1px solid #45475a' }}>
+              <BookOpen size={40} className="mx-auto mb-4" style={{ color: '#cba6f7' }} />
+              <div className="text-sm mb-2" style={{ color: '#a6adc8' }}>
+                {stories.length === 0 ? 'Chưa có truyện nào được xuất bản.' : 'Không tìm thấy truyện phù hợp.'}
               </div>
               {searchTerm.trim() && (
-                <div className="text-[#B0BEC5]/80 text-xs mb-4">
-                  Hãy thử điều chỉnh bộ lọc hoặc xóa một số điều kiện tìm kiếm.
+                <div className="text-xs mb-4" style={{ color: '#6c7086' }}>
+                  Hãy thử điều chỉnh từ khóa tìm kiếm.
                 </div>
               )}
               <button
                 onClick={clearFilters}
-                className="inline-flex items-center gap-2 bg-[#D2691E] hover:bg-[#C97C4B] text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 text-xs shadow-md hover:shadow-lg"
+                className="inline-flex items-center gap-2 px-5 py-2 rounded-xl text-xs font-semibold transition-all duration-200 hover:opacity-90"
+                style={{ backgroundColor: '#cba6f7', color: '#11111b' }}
               >
                 <Trash2 size={16} />
                 Xóa bộ lọc
@@ -257,18 +243,10 @@ export default function StoriesPage() {
           <>
             {/* Search Loading Overlay */}
             {isSearching && (
-              <div className="absolute inset-0 bg-black/50 flex items-center justify-center z-10 rounded-2xl">
-                <div className="bg-[#1E1E1E] p-4 rounded-2xl border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E]">
-                  <div className="relative w-12 h-12 mx-auto mb-2">
-                    <Image
-                      src="/reading.gif"
-                      alt="Loading..."
-                      width={48}
-                      height={48}
-                      className="rounded-lg w-full h-full object-cover"
-                    />
-                  </div>
-                  <p className="text-[#FFFFFF] text-xs">Đang tìm kiếm...</p>
+              <div className="absolute inset-0 flex items-center justify-center z-10 rounded-2xl" style={{ backgroundColor: 'rgba(30,30,46,0.7)' }}>
+                <div className="px-5 py-4 rounded-2xl flex items-center gap-3" style={{ backgroundColor: '#313244', border: '1px solid #45475a' }}>
+                  <div className="w-5 h-5 border-2 rounded-full animate-spin" style={{ borderColor: '#cba6f7', borderTopColor: 'transparent' }} />
+                  <p className="text-xs" style={{ color: '#cdd6f4' }}>Đang tìm kiếm...</p>
                 </div>
               </div>
             )}
@@ -279,58 +257,43 @@ export default function StoriesPage() {
                  : 'space-y-3'
              } relative px-4 sm:px-6 lg:px-8`}>
               {filteredStories.map((story, index) => {
-                const neonColors = ['#D2691E', '#D2691E', '#D2691E', '#D2691E', '#D2691E'];
+                const neonColors = ['#cba6f7', '#89b4fa', '#94e2d5', '#f5c2e7', '#b4befe'];
                 const currentNeonColor = neonColors[index % neonColors.length];
                 
                 return (
                   <Link
                     key={story._id}
                     href={`/stories/${story._id}`}
-                    className={`bg-[#1E1E1E] rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group border-2 backdrop-blur-sm hover:scale-105 ${
-                      viewMode === 'list' ? 'flex items-start gap-4' : 'block'
+                    className={`rounded-2xl overflow-hidden transition-all duration-300 group hover:-translate-y-1 ${
+                      viewMode === 'list' ? 'flex items-start gap-0' : 'block'
                     }`}
-                    style={{ borderColor: currentNeonColor, boxShadow: `0 0 8px ${currentNeonColor}` }}
+                    style={{ backgroundColor: '#313244', border: '1px solid #45475a' }}
                   >
-                                                               {/* Cover Image with Cat Illustration */}
+                       {/* Cover Image */}
                       <div className={`${
                         viewMode === 'list' 
-                          ? 'w-20 h-28 flex-shrink-0 rounded-l-2xl' 
-                          : 'w-full h-28 lg:h-32 xl:h-36'
-                      } bg-gradient-to-b from-blue-300 to-amber-200 rounded-t-2xl flex items-center justify-center`}>
+                          ? 'w-20 h-28 flex-shrink-0' 
+                          : 'w-full h-28 lg:h-36'
+                      } overflow-hidden`} style={{ backgroundColor: '#181825' }}>
                        {story.coverImage ? (
                          <img
                            src={story.coverImage}
                            alt={story.title}
-                           className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ${
-                             viewMode === 'list' ? 'rounded-l-2xl' : 'rounded-t-2xl'
-                           }`}
+                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                          />
                        ) : (
-                         <div className={`w-full h-full flex items-center justify-center ${
-                           viewMode === 'list' ? 'rounded-l-2xl' : 'rounded-t-2xl'
-                         }`}
-                         >
-                           {/* Cat Illustration Placeholder */}
-                           <div className="text-center">
-                             <div className="w-16 h-16 bg-gray-300 rounded-full mx-auto mb-2 flex items-center justify-center">
-                               <span className="text-2xl">🐱</span>
-                             </div>
-                           </div>
+                         <div className="w-full h-full flex items-center justify-center">
+                           <BookOpen size={28} style={{ color: '#45475a' }} />
                          </div>
                        )}
                      </div>
 
-                                           {/* Story Info */}
-                      <div className={`${viewMode === 'list' ? 'flex-1 py-3 pr-3' : 'p-3 lg:p-4'}`}>
-                                               <h3 className={`font-semibold text-[#D2691E] mb-1.5 group-hover:text-[#C97C4B] transition-colors duration-200 leading-tight ${
-                          viewMode === 'list' ? 'text-xs' : 'text-xs lg:text-sm'
-                        }`}>
+                      {/* Story Info */}
+                      <div className={`${viewMode === 'list' ? 'flex-1 py-3 px-3' : 'p-3'}`}>
+                        <h3 className="font-semibold text-xs sm:text-sm mb-1.5 leading-tight group-hover:opacity-80 transition-opacity" style={{ color: '#cba6f7' }}>
                           {story.title}
                         </h3>
-                        
-                        <p className={`text-[#B0BEC5] mb-1.5 line-clamp-1 leading-relaxed ${
-                          viewMode === 'list' ? 'text-xs' : 'text-xs lg:text-sm'
-                        }`}>
+                        <p className="text-xs mb-1.5 line-clamp-2" style={{ color: '#6c7086' }}>
                           {story.description}
                         </p>
 
@@ -358,79 +321,58 @@ export default function StoriesPage() {
                          )}
                        </div>
 
-                                               {/* Stats and Status */}
-                        <div className={`flex flex-col gap-2 mb-3 ${
-                          viewMode === 'list' ? 'text-xs' : 'text-xs'
-                        }`}>
-                          <div className="flex items-center gap-2 text-[#B0BEC5]">
+                        <div className="flex items-center gap-2 mb-2 text-xs" style={{ color: '#a6adc8' }}>
                             {story.likeCount !== undefined && (
-                              <span className="flex items-center gap-1">
-                                <Heart size={10} />
-                                {story.likeCount}
-                              </span>
-                            )}
-                            {story.commentCount !== undefined && (
-                              <span className="flex items-center gap-1">
-                                <MessageCircle size={10} />
-                                {story.commentCount}
-                              </span>
+                              <span className="flex items-center gap-0.5"><Heart size={10} />{story.likeCount}</span>
                             )}
                             {story.viewCount !== undefined && (
-                              <span className="flex items-center gap-1">
-                                <Eye size={10} />
-                                {story.viewCount}
-                              </span>
+                              <span className="flex items-center gap-0.5"><Eye size={10} />{story.viewCount}</span>
                             )}
                           </div>
-                          
-                          <div className="flex flex-col gap-1">
-                            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 text-xs font-semibold rounded-full bg-[#F4A460]/20 text-[#F4A460] border-2 border-[#F4A460]/50 whitespace-nowrap w-fit">
-                              <CheckCircle size={10} />
+                          <div className="flex flex-col gap-1 mb-2">
+                            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 text-xs rounded-full w-fit" style={{ backgroundColor: 'rgba(166,227,161,0.12)', color: '#a6e3a1' }}>
+                              <CheckCircle size={9} />
                               {story.status === 'public' ? 'Đã xuất bản' : 'Bản thảo'}
                             </span>
-                            <span className="text-[#B0BEC5] text-xs">
+                            <span className="text-xs" style={{ color: '#45475a' }}>
                               {new Date(story.createdAt).toLocaleDateString('vi-VN')}
                             </span>
                           </div>
-                        </div>
 
-                                               {/* Read Now Button */}
-                        <button className="w-full bg-[#D2691E] hover:bg-[#C97C4B] text-white py-2 px-3 rounded-lg font-medium transition-all duration-200 text-xs shadow-md hover:shadow-lg">
-                         Đọc ngay
-                       </button>
+                        {/* Read Now Button */}
+                        <button
+                          className="w-full py-1.5 px-3 rounded-lg text-xs font-semibold transition-all duration-200 hover:opacity-90"
+                          style={{ backgroundColor: '#cba6f7', color: '#11111b' }}
+                        >
+                          Đọc ngay
+                        </button>
                      </div>
                   </Link>
                 );
               })}
             </div>
 
-            {/* Load More Button */}
+            {/* Load More */}
             {hasMore && (
               <div className="text-center mt-8">
                 <button
                   onClick={loadMoreStories}
                   disabled={isLoadingMore}
-                  className="inline-flex items-center gap-2 bg-[#D2691E] hover:bg-[#C97C4B] disabled:bg-[#2A2A2A] disabled:cursor-not-allowed text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 text-xs"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
+                  style={{ backgroundColor: '#cba6f7', color: '#11111b' }}
                 >
                   {isLoadingMore ? (
-                    <>
-                      <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></div>
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                      Đang tải...
-                    </>
+                    <><div className="w-3.5 h-3.5 border-2 border-[#11111b] border-t-transparent rounded-full animate-spin" />Đang tải...</>
                   ) : (
-                    <>
-                      <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
-                      Tải thêm truyện ({currentPage * ITEMS_PER_PAGE}/{totalStories})
-                    </>
+                    <>Tải thêm ({currentPage * ITEMS_PER_PAGE}/{totalStories})</>
                   )}
                 </button>
               </div>
             )}
 
             {/* Pagination Info */}
-            <div className="text-center mt-4 text-xs text-[#B0BEC5]">
-              Trang {currentPage} / {totalPages} • Hiển thị {filteredStories.length} / {totalStories} truyện
+            <div className="text-center mt-4 text-xs" style={{ color: '#6c7086' }}>
+              Trang {currentPage} / {totalPages} · {filteredStories.length} / {totalStories} truyện
             </div>
           </>
         )}

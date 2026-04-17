@@ -3,12 +3,10 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
-import { Home, BookOpen, FileText, CheckCircle, Edit3, Trash2, AlertTriangle, Tag, Plus, Settings, Mail, Users, BarChart3 } from 'lucide-react';
+import { BookOpen, FileText, CheckCircle, Tag, Plus, Settings, Mail, Users } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { storyService } from '../../services/storyService';
 import { Story, Chapter, Category } from '../../types/story';
-import Navigation from '../../component/Navigation';
 
 export default function AdminDashboard() {
   const { user, isAuthenticated, isLoading } = useAuth();
@@ -57,235 +55,89 @@ export default function AdminDashboard() {
 
   if (isLoading || !isAuthenticated) {
     return (
-      <div className="min-h-screen bg-[#121212]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:8 py-12">
-          <div className="text-center">
-            <div className="relative w-16 h-16 mx-auto mb-4">
-              <Image
-                src="/reading.gif"
-                alt="Loading..."
-                width={64}
-                height={64}
-                className="rounded-lg w-full h-full object-cover"
-              />
-            </div>
-            <p className="mt-4 text-[#B0BEC5] text-xs">Đang tải...</p>
-          </div>
-        </div>
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#1e1e2e' }}>
+        <div className="w-8 h-8 border-2 rounded-full animate-spin" style={{ borderColor: '#cba6f7', borderTopColor: 'transparent' }} />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#121212]">
-      <Navigation />
-      
-      {/* Main Content */}
-      <div className="pt-16 md:pt-24 max-w-7xl mx-auto px-4 py-6">
+    <div className="min-h-screen" style={{ backgroundColor: '#1e1e2e' }}>
+      <div className="max-w-5xl mx-auto px-4 py-6">
         {/* Page Title */}
-        <div className="mb-6 px-3 sm:px-4">
-          <div className="text-center">
-            <div className="relative mb-3">
-              <h1 className="text-xl sm:text-2xl font-bold text-[#FFFFFF] mb-2 leading-tight flex items-center justify-center gap-2">
-                <div className="w-1.5 h-3 bg-[#D2691E] rounded-full"></div>
-                <Settings size={24} className="text-[#D2691E] w-6 h-6" />
-                Bảng Điều Khiển Quản Trị
-              </h1>
-              <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-[#D2691E] rounded-full animate-pulse"></div>
-            </div>
-            <p className="text-xs sm:text-sm text-[#B0BEC5]">
-              Quản lý toàn bộ hệ thống truyện và người dùng
-            </p>
+        <div className="mb-6 text-center">
+          <div className="inline-flex items-center gap-2 mb-2 px-4 py-1.5 rounded-full text-xs" style={{ color: '#cba6f7', backgroundColor: 'rgba(203,166,247,0.1)', border: '1px solid rgba(203,166,247,0.2)' }}>
+            <Settings size={12} />
+            Quản Trị
           </div>
+          <h1 className="text-xl sm:text-2xl font-bold" style={{ color: '#cdd6f4' }}>Bảng Điều Khiển</h1>
+          <p className="text-xs mt-1" style={{ color: '#6c7086' }}>Quản lý toàn bộ hệ thống truyện và người dùng</p>
         </div>
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6 px-3 sm:px-4">
-          <div className="bg-[#1E1E1E] rounded-2xl p-3 text-center border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E]">
-            <div className="flex items-center justify-center w-10 h-10 mx-auto mb-2 bg-[#00E5FF]/20 rounded-md shadow-md">
-              <BookOpen size={20} className="text-[#00E5FF]" />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+          {[
+            { icon: <BookOpen size={18} />, value: stories.length, label: 'Truyện', color: '#89b4fa' },
+            { icon: <FileText size={18} />, value: chapters.filter(c => (c.status || 'public') === 'public').length, label: 'Chương', color: '#a6e3a1' },
+            { icon: <Tag size={18} />, value: categories.length, label: 'Thể Loại', color: '#fab387' },
+            { icon: <CheckCircle size={18} />, value: stories.filter(s => s.status === 'public').length, label: 'Đã Xuất Bản', color: '#94e2d5' },
+          ].map((stat, i) => (
+            <div key={i} className="rounded-2xl p-3 text-center" style={{ backgroundColor: '#313244', border: '1px solid #45475a' }}>
+              <div className="flex items-center justify-center w-9 h-9 mx-auto mb-2 rounded-lg" style={{ backgroundColor: `${stat.color}18` }}>
+                <span style={{ color: stat.color }}>{stat.icon}</span>
+              </div>
+              <p className="text-xl font-bold" style={{ color: '#cdd6f4' }}>{stat.value}</p>
+              <p className="text-xs" style={{ color: stat.color }}>{stat.label}</p>
             </div>
-            <p className="text-xl font-bold text-[#FFFFFF] mb-1">{stories.length}</p>
-            <p className="text-xs text-[#00E5FF]">Truyện</p>
-          </div>
-          <div className="bg-[#1E1E1E] rounded-2xl p-3 text-center border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E]">
-            <div className="flex items-center justify-center w-10 h-10 mx-auto mb-2 bg-[#00E5FF]/20 rounded-md shadow-md">
-              <FileText size={20} className="text-[#00E5FF]" />
-            </div>
-            <p className="text-xl font-bold text-[#FFFFFF] mb-1">{chapters.filter(c => (c.status || 'public') === 'public').length}</p>
-            <p className="text-xs text-[#00E5FF]">Chương</p>
-          </div>
-          <div className="bg-[#1E1E1E] rounded-2xl p-3 text-center border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E]">
-            <div className="flex items-center justify-center w-10 h-10 mx-auto mb-2 bg-[#00E5FF]/20 rounded-md shadow-md">
-              <Tag size={20} className="text-[#00E5FF]" />
-            </div>
-            <p className="text-xl font-bold text-[#FFFFFF] mb-1">{categories.length}</p>
-            <p className="text-xs text-[#00E5FF]">Thể Loại</p>
-          </div>
-          <div className="bg-[#1E1E1E] rounded-2xl p-3 text-center border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E]">
-            <div className="flex items-center justify-center w-10 h-10 mx-auto mb-2 bg-[#00E5FF]/20 rounded-md shadow-md">
-              <CheckCircle size={20} className="text-[#00E5FF]" />
-            </div>
-            <p className="text-xl font-bold text-[#FFFFFF] mb-1">
-              {stories.filter(s => s.status === 'public').length}
-            </p>
-            <p className="text-xs text-[#00E5FF]">Đã Xuất Bản</p>
-          </div>
+          ))}
         </div>
 
         {/* Navigation Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-3 sm:px-4">
-          {/* Stories Management */}
-          <Link 
-            href="/admin/stories"
-            className="group bg-[#1E1E1E] rounded-2xl p-6 border-2 border-[#D2691E] hover:border-[#C97C4B] transition-all duration-300 hover:shadow-[0_0_8px_#D2691E]"
-          >
-            <div className="flex items-center justify-between mb-3">
-              <div className="p-2 bg-[#00E5FF]/20 rounded-md group-hover:bg-[#00E5FF]/30 transition-colors duration-300">
-                <BookOpen size={20} className="text-[#00E5FF]" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+          {[
+            { href: '/admin/stories', icon: <BookOpen size={20} />, count: stories.length, unit: 'truyện', title: 'Quản Lý Truyện', desc: 'Xem, thêm, sửa và xóa truyện', color: '#89b4fa' },
+            { href: '/admin/chapters', icon: <FileText size={20} />, count: chapters.filter(c => (c.status || 'public') === 'public').length, unit: 'chương', title: 'Quản Lý Chương', desc: 'Xem, thêm, sửa và xóa chương', color: '#a6e3a1' },
+            { href: '/admin/categories', icon: <Tag size={20} />, count: categories.length, unit: 'thể loại', title: 'Quản Lý Thể Loại', desc: 'Xem, thêm và xóa thể loại truyện', color: '#fab387' },
+            { href: '/admin/messages', icon: <Mail size={20} />, count: messagesCount, unit: 'tin nhắn', title: 'Quản Lý Tin Nhắn', desc: 'Xem và quản lý tin nhắn từ người dùng', color: '#f5c2e7' },
+            { href: '/admin/users', icon: <Users size={20} />, count: usersCount, unit: 'người dùng', title: 'Quản Lý Người Dùng', desc: 'Xem và quản lý tài khoản người dùng', color: '#94e2d5' },
+          ].map((nav, i) => (
+            <Link
+              key={i}
+              href={nav.href}
+              className="group rounded-2xl p-5 transition-all duration-200 hover:-translate-y-0.5"
+              style={{ backgroundColor: '#313244', border: '1px solid #45475a' }}
+            >
+              <div className="flex items-center justify-between mb-3">
+                <div className="p-2 rounded-lg" style={{ backgroundColor: `${nav.color}18` }}>
+                  <span style={{ color: nav.color }}>{nav.icon}</span>
+                </div>
+                <div className="text-right">
+                  <div className="text-xl font-bold" style={{ color: nav.color }}>{nav.count}</div>
+                  <div className="text-xs" style={{ color: '#6c7086' }}>{nav.unit}</div>
+                </div>
               </div>
-              <div className="text-right">
-                <div className="text-xl font-bold text-[#00E5FF]">{stories.length}</div>
-                <div className="text-xs text-[#B0BEC5]">truyện</div>
-              </div>
-            </div>
-            <h3 className="text-base font-semibold text-[#FFFFFF] mb-2">Quản Lý Truyện</h3>
-            <p className="text-xs text-[#B0BEC5] mb-3">Xem, thêm, sửa và xóa truyện</p>
-            <div className="flex items-center text-[#00E5FF] text-xs group-hover:text-[#00E5FF]/80 transition-colors duration-300">
-              Xem chi tiết
-              <svg className="w-3 h-3 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </div>
-          </Link>
-
-          {/* Chapters Management */}
-          <Link 
-            href="/admin/chapters"
-            className="group bg-[#1E1E1E] rounded-2xl p-6 border-2 border-[#D2691E] hover:border-[#C97C4B] transition-all duration-300 hover:shadow-[0_0_8px_#D2691E]"
-          >
-            <div className="flex items-center justify-between mb-4">
-              <div className="p-3 bg-[#00E5FF]/20 rounded-lg group-hover:bg-[#00E5FF]/30 transition-colors duration-300">
-                <FileText size={24} className="text-[#00E5FF]" />
-              </div>
-              <div className="text-right">
-                <div className="text-2xl font-bold text-[#00E5FF]">{chapters.filter(c => (c.status || 'public') === 'public').length}</div>
-                <div className="text-xs text-[#B0BEC5]">chương</div>
-              </div>
-            </div>
-            <h3 className="text-lg font-semibold text-[#FFFFFF] mb-2">Quản Lý Chương</h3>
-            <p className="text-sm text-[#B0BEC5] mb-4">Xem, thêm, sửa và xóa chương</p>
-            <div className="flex items-center text-[#00E5FF] text-sm group-hover:text-[#00E5FF]/80 transition-colors duration-300">
-              Xem chi tiết
-              <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </div>
-          </Link>
-
-          {/* Categories Management */}
-          <Link 
-            href="/admin/categories"
-            className="group bg-[#1E1E1E] rounded-2xl p-6 border-2 border-[#D2691E] hover:border-[#C97C4B] transition-all duration-300 hover:shadow-[0_0_8px_#D2691E]"
-          >
-            <div className="flex items-center justify-between mb-4">
-              <div className="p-3 bg-[#00E5FF]/20 rounded-lg group-hover:bg-[#00E5FF]/30 transition-colors duration-300">
-                <Tag size={24} className="text-[#00E5FF]" />
-              </div>
-              <div className="text-right">
-                <div className="text-2xl font-bold text-[#00E5FF]">{categories.length}</div>
-                <div className="text-xs text-[#B0BEC5]">thể loại</div>
-              </div>
-            </div>
-            <h3 className="text-lg font-semibold text-[#FFFFFF] mb-2">Quản Lý Thể Loại</h3>
-            <p className="text-sm text-[#B0BEC5] mb-4">Xem, thêm và xóa thể loại truyện</p>
-            <div className="flex items-center text-[#00E5FF] text-sm group-hover:text-[#00E5FF]/80 transition-colors duration-300">
-              Xem chi tiết
-              <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </div>
-          </Link>
-
-          {/* Messages Management */}
-          <Link 
-            href="/admin/messages"
-            className="group bg-[#1E1E1E] rounded-2xl p-6 border-2 border-[#D2691E] hover:border-[#C97C4B] transition-all duration-300 hover:shadow-[0_0_8px_#D2691E]"
-          >
-            <div className="flex items-center justify-between mb-4">
-              <div className="p-3 bg-[#00E5FF]/20 rounded-lg group-hover:bg-[#00E5FF]/30 transition-colors duration-300">
-                <Mail size={24} className="text-[#00E5FF]" />
-              </div>
-              <div className="text-right">
-                <div className="text-2xl font-bold text-[#00E5FF]">{messagesCount}</div>
-                <div className="text-xs text-[#B0BEC5]">tin nhắn</div>
-              </div>
-            </div>
-            <h3 className="text-lg font-semibold text-[#FFFFFF] mb-2">Quản Lý Tin Nhắn</h3>
-            <p className="text-sm text-[#B0BEC5] mb-4">Xem và quản lý tin nhắn từ người dùng</p>
-            <div className="flex items-center text-[#00E5FF] text-sm group-hover:text-[#00E5FF]/80 transition-colors duration-300">
-              Xem chi tiết
-              <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </div>
-          </Link>
-
-          {/* Users Management */}
-          <Link 
-            href="/admin/users"
-            className="group bg-[#1E1E1E] rounded-2xl p-6 border-2 border-[#D2691E] hover:border-[#C97C4B] transition-all duration-300 hover:shadow-[0_0_8px_#D2691E]"
-          >
-            <div className="flex items-center justify-between mb-4">
-              <div className="p-3 bg-[#00E5FF]/20 rounded-lg group-hover:bg-[#00E5FF]/30 transition-colors duration-300">
-                <Users size={24} className="text-[#00E5FF]" />
-              </div>
-              <div className="text-right">
-                <div className="text-2xl font-bold text-[#00E5FF]">{usersCount}</div>
-                <div className="text-xs text-[#B0BEC5]">người dùng</div>
-              </div>
-            </div>
-            <h3 className="text-lg font-semibold text-[#FFFFFF] mb-2">Quản Lý Người Dùng</h3>
-            <p className="text-sm text-[#B0BEC5] mb-4">Xem và quản lý tài khoản người dùng</p>
-            <div className="flex items-center text-[#00E5FF] text-sm group-hover:text-[#00E5FF]/80 transition-colors duration-300">
-              Xem chi tiết
-              <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </div>
-          </Link>
+              <h3 className="text-sm font-semibold mb-1" style={{ color: '#cdd6f4' }}>{nav.title}</h3>
+              <p className="text-xs" style={{ color: '#6c7086' }}>{nav.desc}</p>
+            </Link>
+          ))}
         </div>
 
         {/* Quick Actions */}
-        <div className="mt-8 px-4">
-          <div className="bg-[#1E1E1E] rounded-2xl shadow-lg border-2 border-[#D2691E] shadow-[0_0_8px_#D2691E]">
-            <div className="px-6 py-4 border-b-2 border-[#D2691E]/30">
-              <h2 className="text-lg font-medium text-[#FFFFFF]">Thao Tác Nhanh</h2>
+        <div className="mt-6">
+          <div className="rounded-2xl" style={{ backgroundColor: '#313244', border: '1px solid #45475a' }}>
+            <div className="px-5 py-3" style={{ borderBottom: '1px solid #45475a' }}>
+              <h2 className="text-sm font-semibold" style={{ color: '#cdd6f4' }}>Thao Tác Nhanh</h2>
             </div>
-            <div className="p-6">
-              <div className="flex flex-wrap gap-4">
-                <Link 
-                  href="/admin/new-story"
-                  className="bg-[#00E5FF] hover:bg-[#00E5FF]/90 text-[#1E1E1E] px-6 py-3 rounded-lg font-medium transition-all duration-200 text-sm flex items-center gap-2 shadow-md hover:shadow-lg"
-                >
-                  <Plus size={18} />
-                  Tạo Truyện Mới
-                </Link>
-                <Link 
-                  href="/admin/new-chapter"
-                  className="bg-[#00E5FF] hover:bg-[#00E5FF]/90 text-[#1E1E1E] px-6 py-3 rounded-lg font-medium transition-all duration-200 text-sm flex items-center gap-2 shadow-md hover:shadow-lg"
-                >
-                  <Plus size={18} />
-                  Tạo Chương Mới
-                </Link>
-                <Link
-                  href="/stories"
-                  className="bg-[#00E5FF] hover:bg-[#00E5FF]/90 text-[#1E1E1E] px-6 py-3 rounded-lg font-medium transition-all duration-200 text-sm flex items-center gap-2 shadow-md hover:shadow-lg"
-                >
-                  <BookOpen size={18} />
-                  Xem Trang Công Khai
-                </Link>
-              </div>
+            <div className="p-5 flex flex-wrap gap-3">
+              <Link href="/admin/new-story" className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition-all hover:opacity-90" style={{ backgroundColor: '#cba6f7', color: '#11111b' }}>
+                <Plus size={14} /> Tạo Truyện Mới
+              </Link>
+              <Link href="/admin/new-chapter" className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition-all hover:opacity-90" style={{ backgroundColor: '#89b4fa', color: '#11111b' }}>
+                <Plus size={14} /> Tạo Chương Mới
+              </Link>
+              <Link href="/stories" className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition-all hover:opacity-90" style={{ backgroundColor: '#a6e3a1', color: '#11111b' }}>
+                <BookOpen size={14} /> Xem Trang Công Khai
+              </Link>
             </div>
           </div>
         </div>
