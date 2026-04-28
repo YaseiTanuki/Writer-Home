@@ -52,10 +52,10 @@ class GoogleAuthService {
       script.src = 'https://accounts.google.com/gsi/client';
       script.async = true;
       script.defer = true;
-      
+
       script.onload = () => {
         if (window.google) {
-          
+
           // Create a temporary container for the button
           const tempContainer = document.createElement('div');
           tempContainer.id = 'google-signin-container';
@@ -69,17 +69,17 @@ class GoogleAuthService {
             client_id: GOOGLE_CLIENT_ID,
             callback: async (response: { credential: string }) => {
               try {
-                
+
                 // Remove temporary container
                 if (document.body.contains(tempContainer)) {
                   document.body.removeChild(tempContainer);
                 }
-                
+
                 const result = await this.authenticateWithBackend(response.credential);
                 resolve(result);
               } catch (error) {
                 console.error('Google OAuth: Callback error:', error);
-                
+
                 // Remove temporary container on error too
                 if (document.body.contains(tempContainer)) {
                   document.body.removeChild(tempContainer);
@@ -208,17 +208,23 @@ declare global {
     google: {
       accounts: {
         id: {
-          initialize: (config: { 
-            client_id: string; 
+          initialize: (config: {
+            client_id: string;
             callback: (response: { credential: string }) => void;
             auto_select?: boolean;
             cancel_on_tap_outside?: boolean;
             prompt_parent_id?: string;
             use_fedcm_for_prompt?: boolean;
           }) => void;
-          renderButton: (element: HTMLElement, options: { 
-            theme?: string; 
-            size?: string; 
+          prompt: (momentListener?: (notification: {
+            isNotDisplayed: () => boolean;
+            isSkippedMoment: () => boolean;
+            isDismissedMoment: () => boolean;
+            getDismissedReason: () => string;
+          }) => void) => void;
+          renderButton: (element: HTMLElement, options: {
+            theme?: string;
+            size?: string;
             type?: string;
             text?: string;
             shape?: string;

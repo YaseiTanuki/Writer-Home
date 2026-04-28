@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useAuth } from '../../../contexts/AuthContext';
 import { storyService } from '../../../services/storyService';
 import { CreateChapterRequest, Story } from '../../../types/story';

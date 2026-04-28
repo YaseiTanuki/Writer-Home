@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { FileText, Edit3, Trash2, Plus, ArrowLeft, BookOpen, Calendar, Hash } from 'lucide-react';
-import { useAuth } from '../../../contexts/AuthContext';
-import { storyService } from '../../../services/storyService';
-import { Chapter, Story } from '../../../types/story';
+import { useAuth } from '../../../../contexts/AuthContext';
+import { storyService } from '../../../../services/storyService';
+import { Chapter, Story } from '../../../../types/story';
 
 export default function AdminChapters() {
   const { user, isAuthenticated, isLoading } = useAuth();
