@@ -1,4 +1,4 @@
-Xin chào, mình là **[Mèo mướp]**.
+Xin chào, mình là **Mèo Mướp**.
 
 Mình viết truyện như một cách lưu giữ những xúc cảm khó nói thành lời. Ở đây, mỗi con chữ là một nhịp thở, mỗi câu chuyện là một miền mơ nơi trái tim có thể an trú.
 

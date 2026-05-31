@@ -37,7 +37,7 @@ export default async function AboutPage() {
           <div className="flex items-center gap-3 mb-6">
             <div className="w-1 h-6 rounded-full" style={{ backgroundColor: '#cba6f7' }} />
             <BookOpen size={18} style={{ color: '#cba6f7' }} />
-            <h2 className="text-base sm:text-lg font-bold" style={{ color: '#cdd6f4' }}>Về [Mèo mướp]</h2>
+            <h2 className="text-base sm:text-lg font-bold" style={{ color: '#cdd6f4' }}>Về [Mèo Mướp]</h2>
           </div>
 
           <MarkdownRenderer content={aboutContent} />
