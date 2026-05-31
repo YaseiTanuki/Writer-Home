@@ -7,6 +7,14 @@ import { BookOpen, Calendar, FileText, CheckCircle } from 'lucide-react';
 import { storyService } from '../../../services/storyService';
 import { Story, Chapter, Category } from '../../../types/story';
 
+const stripHtmlTags = (html: string) =>
+  html
+    .replace(/<br\s*\/?>/gi, ' ')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
 export default function StoryDetailPage() {
   const params = useParams();
   const router = useRouter();
@@ -243,7 +251,9 @@ export default function StoryDetailPage() {
                           </h3>
                           {chapter.content && (
                             <p className="text-xs mt-0.5 line-clamp-1" style={{ color: '#6c7086' }}>
-                              {chapter.content.length > 80 ? chapter.content.substring(0, 80) + '…' : chapter.content}
+                              {stripHtmlTags(chapter.content).length > 80
+                                ? stripHtmlTags(chapter.content).substring(0, 80) + '…'
+                                : stripHtmlTags(chapter.content)}
                             </p>
                           )}
                         </div>
