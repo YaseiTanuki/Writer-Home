@@ -77,6 +77,16 @@ export default function TiptapEditor({
     immediatelyRender: false,
   });
 
+  useEffect(() => {
+    if (!editor) return;
+    const editorHTML = editor.getHTML();
+    if (content && content !== editorHTML) {
+      editor.commands.setContent(content, {
+        emitUpdate: false,
+      });
+    }
+  }, [content, editor]);
+
   const wordCount = editor ? editor.getText().split(/\s+/).filter(word => word.length > 0).length : 0;
   const charCount = editor ? editor.getText().length : 0;
 
