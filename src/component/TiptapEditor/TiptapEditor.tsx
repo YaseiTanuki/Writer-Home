@@ -79,10 +79,17 @@ export default function TiptapEditor({
 
   useEffect(() => {
     if (!editor) return;
+
     const editorHTML = editor.getHTML();
-    if (content && content !== editorHTML) {
-      editor.commands.setContent(content, {
+    const editorText = editor.getText();
+    const normalizedContent = content || '';
+
+    if (normalizedContent !== editorHTML || (normalizedContent && !editorText.trim())) {
+      editor.commands.setContent(normalizedContent, {
         emitUpdate: false,
+        parseOptions: {
+          preserveWhitespace: true,
+        },
       });
     }
   }, [content, editor]);
