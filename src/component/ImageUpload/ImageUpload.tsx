@@ -118,7 +118,7 @@ const ImageUpload = forwardRef<{ uploadImage: () => Promise<string>; hasNewFile:
             <img
               src={previewUrl}
               alt="Preview"
-              className="w-full h-48 object-cover rounded-lg"
+              className="w-full aspect-[9/16] object-cover rounded-lg"
             />
 
             <div className="absolute bottom-2 left-2 bg-[#181825]/70 text-[#cdd6f4] text-xs px-2 py-1 rounded">

@@ -272,8 +272,8 @@ export default function StoriesPage() {
                        {/* Cover Image */}
                       <div className={`${
                         viewMode === 'list' 
-                          ? 'w-20 h-28 flex-shrink-0' 
-                          : 'w-full h-28 lg:h-36'
+                          ? 'w-20 aspect-[9/16] flex-shrink-0' 
+                          : 'w-full aspect-[9/16]'
                       } overflow-hidden`} style={{ backgroundColor: '#181825' }}>
                        {story.coverImage ? (
                          <img

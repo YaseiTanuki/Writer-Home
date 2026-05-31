@@ -141,10 +141,10 @@ export default function StoryDetailPage() {
                   <img
                     src={story.coverImage}
                     alt={story.title}
-                    className="w-full h-44 sm:h-52 object-cover rounded-xl"
+                    className="w-full aspect-[9/16] object-cover rounded-xl"
                   />
                 ) : (
-                  <div className="w-full h-44 sm:h-52 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#181825' }}>
+                  <div className="w-full aspect-[9/16] rounded-xl flex items-center justify-center" style={{ backgroundColor: '#181825' }}>
                     <BookOpen size={40} style={{ color: '#45475a' }} />
                   </div>
                 )}
